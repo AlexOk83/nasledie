@@ -23,15 +23,18 @@
                         // Добавим панель маршрутизации.
                         controls: ['default']
                     });
-
+                    var pointList = [];
+                    pointList.push(from)
+                    for(let point of points)
+                    {
+                        console.log(point)
+                        pointList.push(point)
+                    }
+                    pointList.push(to)
                     var multiRoute = new ymaps.multiRouter.MultiRoute({
                         multiRoute: true,
                         // Точки маршрута. Точки могут быть заданы как координатами, так и адресом.
-                        referencePoints: [
-                            from,
-
-                            to, // улица Льва Толстого.
-                        ],
+                        referencePoints: pointList,
                         params: {
                             routingMode: 'masstransit' //— маршрутизация с использованием общественного транспорта. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
                             //routingMode: 'auto' автомобильная маршрутизация;
