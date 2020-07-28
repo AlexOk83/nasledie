@@ -30,6 +30,11 @@
             Map,
             Field,
         },
+        data() {
+            return {
+
+            }
+        },
         created() {
 
         }
