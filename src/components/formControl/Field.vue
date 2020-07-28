@@ -5,12 +5,14 @@
         <textarea class="field__control field__control--long-text" v-if="type === 'longtext'" v-model="value" :name="name" :placeholder="placeholder" >{{ value }}</textarea>
         <DatePicker v-if="type === 'date'" :name="name" :value="value" :placeholder="placeholder" />
         <TimePicker v-if="type === 'time'" :name="name" :value="value" :placeholder="placeholder" />
+        <SearchField v-if="type === 'search'" :name="name" :value="value" :placeholder="placeholder" />
     </div>
 </template>
 
 <script>
     import DatePicker from "./DatePicker";
     import TimePicker from "./TimePicker";
+    import SearchField from "./SearchField";
     export default {
         name: "Field",
         props: ['name', 'type', 'title', 'value', 'placeholder'],
@@ -21,7 +23,8 @@
         },
         components: {
             DatePicker,
-            TimePicker
+            TimePicker,
+            SearchField
         }
     }
 </script>

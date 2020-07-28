@@ -1,7 +1,7 @@
 <template>
     <div class="time-picker">
         <div class="up-arrow" @click="up" />
-        <input type="time" class="field__control" step="1800" v-model="timeValue">
+        <input type="time" class="field__control" step="1800" v-model="value">
         <div class="down-arrow" @click="down" />
     </div>
 </template>
@@ -10,14 +10,9 @@
     export default {
         name: "TimePicker",
         props: ['value'],
-        data() {
-            return {
-                timeValue: 0
-            }
-        },
         methods: {
             up() {
-                let { hour, minutes } = this.getTime(this.timeValue);
+                let { hour, minutes } = this.getTime(this.value);
                 const currentHour = Number(hour);
                 if (minutes === '00') {
                     minutes = '30';
@@ -33,10 +28,10 @@
                         hour = '00'
                     }
                 }
-                this.timeValue = `${hour}:${minutes}`;
+                this.value = `${hour}:${minutes}`;
             },
             down() {
-                let { hour, minutes } = this.getTime(this.timeValue);
+                let { hour, minutes } = this.getTime(this.value);
                 const currentHour = Number(hour);
                 if (minutes === '00') {
                     minutes = '30';
@@ -52,7 +47,7 @@
                 } else {
                     minutes = '00';
                 }
-                this.timeValue = `${hour}:${minutes}`;
+                this.value = `${hour}:${minutes}`;
             },
             getTime(time) {
                 if (!time) {
@@ -69,9 +64,6 @@
                 }
             }
         },
-        created() {
-            this.timeValue = this.value;
-        }
     }
 </script>
 
@@ -80,30 +72,13 @@
 
     .time-picker {
         position: relative;
+        max-width: 220px;
         .no_select();
         .up-arrow {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            width: 0;
-            height: 0;
-            z-index: 2;
-            border-bottom: 10px solid blue;
-            border-left: 7px solid transparent;
-            border-right:  7px solid transparent;
-            cursor: pointer;
+            .arrow(9px, 15px, 'up');
         }
         .down-arrow {
-            position: absolute;
-            bottom: 10px;
-            right: 15px;
-            width: 0;
-            height: 0;
-            z-index: 2;
-            border-top: 10px solid blue;
-            border-left: 7px solid transparent;
-            border-right:  7px solid transparent;
-            cursor: pointer;
+            .arrow(22px, 15px, 'down');
         }
     }
 </style>

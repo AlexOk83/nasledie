@@ -2,10 +2,10 @@
 
 .form-control-style {
   width: 100%;
-  border-radius: 20px;
-  border: 1px solid grey;
-  padding-left: 15px;
-  line-height: 40px;
+  border-radius: 18px;
+  border: 1px solid @greyBorder;
+  padding-left: 20px;
+  line-height: 36px;
 }
 
 // обрезание строки с многоточием
@@ -83,8 +83,7 @@
   }
 }
 
-.bg(@img, @size: contain, @pos: center, @repeat: no-repeat) {
-  background-image: url('@{pathImages}@{img}');
+.bg(@size: contain, @pos: center, @repeat: no-repeat) {
   background-size: @size;
   background-position: @pos;
   background-repeat: @repeat;
@@ -311,4 +310,31 @@
   image-rendering: -moz-crisp-edges; /* Firefox */
   -ms-interpolation-mode: nearest-neighbor;  /* IE */
   image-rendering: crisp-edges; /* Стандартное свойство */
+}
+
+/** миксины стилизации **/
+.arrowBase(@top: 0, @right: 15px) {
+  position: absolute;
+  top: @top;
+  right: @right;
+  width: 0;
+  height: 0;
+  z-index: 2;
+  border-left: 5px solid transparent;
+  border-right:  5px solid transparent;
+  cursor: pointer;
+  transition: transform 0.3s ease-out;
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.arrow(@top: 0, @right: 15px, @direction: 'up') when (@direction = 'up') {
+  border-bottom: 9px solid @base;
+  .arrowBase(@top, @right);
+}
+
+.arrow(@top: 0, @right: 15px, @direction: 'up') when not (@direction = 'up') {
+  .arrowBase(@top, @right);
+  border-top: 9px solid @base;
 }

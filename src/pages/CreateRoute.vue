@@ -6,9 +6,9 @@
                 <form>
                     <Field name="name" type="text" title="Название маршрута" placeholder="Название маршрута" />
                     <Field name="description" type="longtext" title="Описание маршрута" placeholder="Описание маршрута" />
-                    <Field name="start-point" type="text" title="Точка старта" placeholder="Поиск мест и адресов" />
-                    <Field name="end-point" type="text" title="Точка назначения" placeholder="Поиск мест и адресов" />
-                    <Field name="date-start" type="date" title="Дата старта" placeholder="00.00.0000" />
+                    <Field name="start-point" type="search" title="Точка старта" placeholder="Поиск мест и адресов" />
+                    <Field name="end-point" type="search" title="Точка назначения" placeholder="Поиск мест и адресов" />
+                    <Field name="date-start" type="date" title="Дата старта" placeholder="Дата" />
                     <Field name="time-start" type="time" title="Время старта" value="22:30" />
                 </form>
             </div>
@@ -35,12 +35,13 @@
     @import "../styles/mixins";
 
     .left-form {
-        .column(4, 4);
+        .column(4, 3);
         .column_padding();
     }
     .right-container {
-        .column(8, 8);
+        .column(8, 9);
         .column_padding();
+
     }
     #map {
         .img_wrapper(100%);
