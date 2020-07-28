@@ -11,10 +11,10 @@
         components: {
             Field,
         },
-        props: ['from', 'to'],
+        props: ['from', 'to', 'points'],
         methods: {
             render: function() {
-                const {from, to} = this;
+                const { from, to, points } = this;
 
                 ymaps.ready(function () {
                     var myMap = new ymaps.Map('map', {
@@ -31,15 +31,14 @@
                         // Тип маршрутизации.
                         type: 'masstransit',
                         // Выключим возможность задавать пункт отправления в поле ввода.
-                        fromEnabled: true,
+                        fromEnabled: false,
                         // Адрес или координаты пункта отправления.
                         from,
 
-                        toEnabled: true,
+                        toEnabled: false,
                         // Адрес или координаты пункта назначения.
                         to
                     });
-                    console.log(this.from)
                     // Зададим опции панели для построения машрутов.
                     control.routePanel.options.set({
                         // Запрещаем показ кнопки, позволяющей менять местами начальную и конечную точки маршрута.
@@ -52,7 +51,7 @@
                     });
 
 
-                    myMap.controls.add(switchPointsButton);
+                    // myMap.controls.add(switchPointsButton);
                 });
             }
         },
