@@ -36,9 +36,10 @@
                         // Точки маршрута. Точки могут быть заданы как координатами, так и адресом.
                         referencePoints: pointList,
                         params: {
-                            routingMode: 'masstransit' //— маршрутизация с использованием общественного транспорта. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
+                            routingMode: 'masstransit', //— маршрутизация с использованием общественного транспорта. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
                             //routingMode: 'auto' автомобильная маршрутизация;
                             //routingMode: 'pedestrian'  — пешеходная маршрутизация. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
+                            results: 3
                         },
 
                     }, {
@@ -89,7 +90,16 @@
 
                         boundsAutoApply: true
                     });
-
+                    multiRoute.model.events.add('requestsuccess', function() {
+                        // Получение ссылки на активный маршрут.
+                        var activeRoute = multiRoute.getActiveRoute();
+                        var activeRoutePaths = activeRoute.getPaths();
+// Проход по коллекции путей.
+                        activeRoutePaths.each(function(path) {
+                            console.log("Длина пути: " + path.properties.get("distance").text);
+                            console.log("Время прохождения пути: " + path.properties.get("duration").text);
+                        });
+                    });
 // Добавление маршрута на карту.
                     myMap.geoObjects.add(multiRoute);
 
