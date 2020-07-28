@@ -25,6 +25,7 @@
                     });
 
                     var multiRoute = new ymaps.multiRouter.MultiRoute({
+                        multiRoute: true,
                         // Точки маршрута. Точки могут быть заданы как координатами, так и адресом.
                         referencePoints: [
                             from,
