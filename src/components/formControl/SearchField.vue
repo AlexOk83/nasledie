@@ -1,8 +1,13 @@
 <template>
-    <div class="search-field">
-        <input type="text" class="field_control" v-model="value" :placeholder="placeholder" @change="search">
+    <div class="search-field" :class="{'selected': findedPoints.length > 0 }">
+        <input type="text" class="field_control" v-model="value" :placeholder="placeholder" @input="search" @blur="close" @focus="search">
         <div class="search-button" @click="search"/>
         <div class="clear-button" @click="clear"/>
+        <div class="search-list" :class="{'show': findedPoints.length > 0 }">
+            <div class="search-list__item" v-for="point in findedPoints" @click="() => select(point)">
+                {{ point.name}}, {{point.description }}
+            </div>
+        </div>
     </div>
 
 </template>
@@ -13,54 +18,49 @@
         props: ['value', 'name', 'placeholder'],
         data() {
             return {
-                findedPoints: [
-                    {
-
-                        coordinates: [55.753994, 37.622093],
-                        title: 'г. Москва, Мтищи'
-                    }
-                ],
+                findedPoints: [],
             }
         },
         methods: {
             clear() {
-                this.value = ''
+                this.value = '';
+                this.findedPoints = [];
+            },
+            close() {
+                // задержка нужна, чтобы успеть выбрать нужный пункт меню
+                setTimeout(() => {
+                    this.findedPoints = [];
+                }, 200);
+
             },
             search() {
-
-                if (this.value.length > 3) {
-                     const address = this.value;
-                    var geocoder = ymaps.geocode(address);
+                if (this.value.length > 5) {
+                    const geocoder = ymaps.geocode(this.value);
+                    let pointList = [];
 
                     // После того, как поиск вернул результат, вызывается callback-функция
                     geocoder.then(
                         function (res) {
-
-                            // координаты объекта
-
-                            var coordinates = res.geoObjects.get(0).geometry.getCoordinates();
-                            //(0).geometry.getCoordinates();
-
                             res.geoObjects.each(function(el) {
-                                //object = {coordinates: el.geometry.getCoordinates(), title: el.properties.get('name')}
-                                console.log(el.geometry.getCoordinates())
-                                console.log(el.properties.get('name'))
-
-
-
-                            })
-
-
+                                console.log(el.properties)
+                                let point = {
+                                    coordinates: el.geometry.getCoordinates(),
+                                    name: el.properties.get('name'),
+                                    description: el.properties.get('description'),
+                                }
+                                pointList.push(point);
+                            });
                         }
                     );
-
-
-
-
-
-
+                    this.findedPoints = pointList
                 }
-                return this.findedPoints
+                else {
+                    this.findedPoints = [];
+                }
+            },
+            select(point) {
+                console.log(point);
+                this.value = point.name;
             }
         }
     }
@@ -72,6 +72,9 @@
     .search-field {
         position: relative;
         width: 100%;
+        &.selected {
+            z-index: 100;
+        }
         &:before {
             content: '';
             display: block;
@@ -81,9 +84,13 @@
             height: 20px;
             top: 8px;
             right: 38px;
+            z-index: 4;
         }
         .field_control {
             .form-control-style();
+            padding-right: 80px;
+            z-index: 3;
+            position: relative;
         }
     }
     .clear-button {
@@ -94,7 +101,7 @@
         height: 12px;
         .bg(12px);
         background-image: url('../../assets/images/icons/close.svg');
-        z-index: 2;
+        z-index: 4;
         cursor: pointer;
     }
     .search-button {
@@ -105,8 +112,37 @@
         height: 18px;
         .bg(18px);
         background-image: url('../../assets/images/icons/search.svg');
-        z-index: 2;
+        z-index: 4;
         cursor: pointer;
+    }
+    .search-list {
+        opacity: 0;
+        position: absolute;
+        background-color: white;
+        top: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 18px;
+        border: 1px solid @greyBorder;
+        transition: all 0.3s ease-out;
+        z-index: 2;
+        padding: 40px 20px 10px;
+
+        &.show {
+            opacity: 1;
+        }
+        &__item {
+            line-height: 30px;
+            border-bottom: 1px solid @greyBorder;
+            cursor: pointer;
+            &:last-child {
+                border-bottom: none;
+            }
+            &:hover {
+                color: @base;
+                font-weight: bold;
+            }
+        }
     }
 
 </style>

@@ -29,6 +29,11 @@
         components: {
             Map,
             Field,
+        },
+        data() {
+            return {
+
+            }
         }
     }
 </script>
