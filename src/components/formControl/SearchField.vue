@@ -15,7 +15,7 @@
             return {
                 findedPoints: [
                     {
-                        id: 1,
+
                         coordinates: [55.753994, 37.622093],
                         title: 'г. Москва, Мтищи'
                     }
@@ -27,10 +27,40 @@
                 this.value = ''
             },
             search() {
-                if (this.value.length > 3) {
-                    return this.findedPoints.push()
-                }
 
+                if (this.value.length > 3) {
+                     const address = this.value;
+                    var geocoder = ymaps.geocode(address);
+
+                    // После того, как поиск вернул результат, вызывается callback-функция
+                    geocoder.then(
+                        function (res) {
+
+                            // координаты объекта
+
+                            var coordinates = res.geoObjects.get(0).geometry.getCoordinates();
+                            //(0).geometry.getCoordinates();
+
+                            res.geoObjects.each(function(el) {
+                                //object = {coordinates: el.geometry.getCoordinates(), title: el.properties.get('name')}
+                                console.log(el.geometry.getCoordinates())
+                                console.log(el.properties.get('name'))
+
+
+
+                            })
+
+
+                        }
+                    );
+
+
+
+
+
+
+                }
+                return this.findedPoints
             }
         }
     }
