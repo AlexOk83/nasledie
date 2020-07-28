@@ -13,7 +13,7 @@
                 </form>
             </div>
             <div class="right-container">
-                <div id="map" />
+                <Map :from="[53.537850, 49.362708]" :to="[53.537850, 49.352708]"></Map>
             </div>
         </div>
     </div>
@@ -22,10 +22,12 @@
 <script>
 
     import Field from "../components/formControl/Field";
+    import Map from "../map/Map";
 
     export default {
         name: "CreateRoute",
         components: {
+            Map,
             Field,
         }
     }
