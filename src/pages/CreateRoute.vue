@@ -29,6 +29,9 @@
         components: {
             Map,
             Field,
+        },
+        created() {
+
         }
     }
 </script>

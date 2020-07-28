@@ -3,6 +3,11 @@
         <input type="text" class="field_control" v-model="value" :placeholder="placeholder" @change="search">
         <div class="search-button" @click="search"/>
         <div class="clear-button" @click="clear"/>
+        <div class="search-list" :class="{'show': findedPoints.length > 0 }">
+            <div class="search-list__item" v-for="point in findedPoints">
+                {{ point.title }}
+            </div>
+        </div>
     </div>
 
 </template>
@@ -14,21 +19,24 @@
         data() {
             return {
                 findedPoints: [
-                    {
-                        id: 1,
-                        coordinates: [55.753994, 37.622093],
-                        title: 'г. Москва, Мтищи'
-                    }
+
                 ],
+                m: {
+                    id: 1,
+                    coordinates: [55.753994, 37.622093],
+                    title: 'г. Москва, Мтищи'
+                }
             }
         },
         methods: {
             clear() {
-                this.value = ''
+                this.value = '';
+                this.findedPoints = [];
+
             },
             search() {
                 if (this.value.length > 3) {
-                    return this.findedPoints.push()
+                    return this.findedPoints.push(this.m)
                 }
 
             }
