@@ -21,34 +21,29 @@
                         center: [55.753994, 37.622093],
                         zoom: 9,
                         // Добавим панель маршрутизации.
-                        controls: ['routePanelControl']
+                        controls: ['default']
                     });
 
-                    var control = myMap.controls.get('routePanelControl');
+                    var multiRoute = new ymaps.multiRouter.MultiRoute({
+                        // Точки маршрута. Точки могут быть заданы как координатами, так и адресом.
+                        referencePoints: [
+                            from,
 
-                    // Зададим состояние панели для построения машрутов.
-                    control.routePanel.state.set({
-                        // Тип маршрутизации.
-                        type: 'masstransit',
-                        // Выключим возможность задавать пункт отправления в поле ввода.
-                        fromEnabled: false,
-                        // Адрес или координаты пункта отправления.
-                        from,
+                            to, // улица Льва Толстого.
+                        ],
+                        params: {
+                            routingMode: 'masstransit' //— маршрутизация с использованием общественного транспорта. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
+                            //routingMode: 'auto' автомобильная маршрутизация;
+                            //routingMode: 'pedestrian'  — пешеходная маршрутизация. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
+                        }
+                    }, {
+                        // Автоматически устанавливать границы карты так,
+                        // чтобы маршрут был виден целиком.
+                        boundsAutoApply: true
+                    });
 
-                        toEnabled: false,
-                        // Адрес или координаты пункта назначения.
-                        to
-                    });
-                    // Зададим опции панели для построения машрутов.
-                    control.routePanel.options.set({
-                        // Запрещаем показ кнопки, позволяющей менять местами начальную и конечную точки маршрута.
-                        allowSwitch: false,
-                        // Включим определение адреса по координатам клика.
-                        // Адрес будет автоматически подставляться в поле ввода на панели, а также в подпись метки маршрута.
-                        reverseGeocoding: false,
-                        // Зададим виды маршрутизации, которые будут доступны пользователям для выбора.
-                        types: { masstransit: true, pedestrian: true, taxi: true }
-                    });
+// Добавление маршрута на карту.
+                    myMap.geoObjects.add(multiRoute);
 
 
                     // myMap.controls.add(switchPointsButton);
