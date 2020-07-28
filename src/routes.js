@@ -1,5 +1,6 @@
 import VueRouter from 'vue-router'
 import CreateRoute from './pages/CreateRoute'
+import Map from './map/Map'
 import EditRoute from './pages/EditRoute'
 import CreateRecommendedRoute from './pages/CreateRecommendedRoute'
 import RecommendedRoutesList from './pages/RecommendedRoutesList'
@@ -8,6 +9,11 @@ import MyRoutes from './pages/MyRoutes'
 
 export default new VueRouter({
     routes: [
+        {
+            name: 'Open map',
+            path: '/map',
+            component: Map,
+        },
         {
             name: 'Создание маршрута',
             path: '/',
