@@ -4,12 +4,13 @@
         <div class="row">
             <div class="left-form">
                 <form>
-                    <Field name="name" type="text" title="Название маршрута" placeholder="Название маршрута" />
-                    <Field name="description" type="longtext" title="Описание маршрута" placeholder="Описание маршрута" />
-                    <Field name="start-point" type="search" title="Точка старта" placeholder="Поиск мест и адресов" />
-                    <Field name="end-point" type="search" title="Точка назначения" placeholder="Поиск мест и адресов" />
-                    <Field name="date-start" type="date" title="Дата старта" placeholder="Дата" />
-                    <Field name="time-start" type="time" title="Время старта" value="22:30" />
+                    <Field name="name" type="text" title="Название маршрута" placeholder="Название маршрута" :value="name" />
+                    <Field name="description" type="longtext" title="Описание маршрута" placeholder="Описание маршрута" :value="description" />
+                    <Field name="start-point" type="search" title="Точка старта" placeholder="Поиск мест и адресов" :value="startPoint" />
+                    <Field name="end-point" type="search" title="Точка назначения" placeholder="Поиск мест и адресов" :value="endPoint" />
+                    <Field name="date-start" type="date" title="Дата старта" placeholder="Дата" :value="dateStart" />
+                    <Field name="time-start" type="time" title="Время старта" :value="timeStart" />
+                    <button class="button button--shadow" @click="" >Составить маршрут</button>
                 </form>
             </div>
             <div class="right-container">
@@ -20,7 +21,6 @@
 </template>
 
 <script>
-
     import Field from "../components/formControl/Field";
     import Map from "../map/Map";
 
@@ -32,7 +32,20 @@
         },
         data() {
             return {
-
+                name: 'Тестовый маршрут',
+                description: 'Описание маршрута',
+                startPoint: {
+                    coordinates: '',
+                    name: '',
+                    description: ''
+                },
+                endPoint: {
+                    coordinates: '',
+                    name: '',
+                    description: ''
+                },
+                dateStart: '',
+                timeStart: '',
             }
         },
         created() {

@@ -1,11 +1,11 @@
 <template>
     <div class="search-field" :class="{'selected': findedPoints.length > 0 }">
-        <input type="text" class="field_control" v-model="value" :placeholder="placeholder" @input="search" @blur="close" @focus="search">
+        <input type="text" class="field_control" v-model="searchText" :placeholder="placeholder" @input="search" @blur="close" @focus="search">
         <div class="search-button" @click="search"/>
         <div class="clear-button" @click="clear"/>
         <div class="search-list" :class="{'show': findedPoints.length > 0 }">
             <div class="search-list__item" v-for="point in findedPoints" @click="() => select(point)">
-                {{ point.name}}, {{point.description }}
+                {{ point.name }}, {{point.description }}
             </div>
         </div>
     </div>
@@ -18,12 +18,21 @@
         props: ['value', 'name', 'placeholder'],
         data() {
             return {
+                searchText: '',
                 findedPoints: [],
             }
         },
+        created() {
+            this.searchText = this.value.name;
+        },
         methods: {
             clear() {
-                this.value = '';
+                this.searchText = '';
+                this.value = {
+                    coordinates: '',
+                    name: '',
+                    description: ''
+                }
                 this.findedPoints = [];
             },
             close() {
@@ -34,8 +43,8 @@
 
             },
             search() {
-                if (this.value.length > 5) {
-                    const geocoder = ymaps.geocode(this.value);
+                if (this.searchText.length > 5) {
+                    const geocoder = ymaps.geocode(this.searchText);
                     let pointList = [];
 
                     // После того, как поиск вернул результат, вызывается callback-функция
@@ -60,7 +69,8 @@
             },
             select(point) {
                 console.log(point);
-                this.value = point.name;
+                this.value = point;
+                this.searchText = point.name;
             }
         }
     }
