@@ -94,17 +94,15 @@
                         // Получение ссылки на активный маршрут.
                         var activeRoute = multiRoute.getActiveRoute();
                         var activeRoutePaths = activeRoute.getPaths();
-// Проход по коллекции путей.
                         activeRoutePaths.each(function(path) {
                             console.log("Длина пути: " + path.properties.get("distance").text);
                             console.log("Время прохождения пути: " + path.properties.get("duration").text);
                         });
                     });
-// Добавление маршрута на карту.
+                    //https://tech.yandex.ru/maps/jsapi/doc/2.1/dg/concepts/router/multiRouter-docpage/#multiRouter__get-active-route
                     myMap.geoObjects.add(multiRoute);
 
 
-                    // myMap.controls.add(switchPointsButton);
                 });
             }
         },
