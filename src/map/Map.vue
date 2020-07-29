@@ -21,37 +21,88 @@
                         center: [55.753994, 37.622093],
                         zoom: 9,
                         // Добавим панель маршрутизации.
-                        controls: ['routePanelControl']
+                        controls: ['default']
                     });
+                    var pointList = [];
+                    pointList.push(from)
+                    for(let point of points)
+                    {
+                        console.log(point)
+                        pointList.push(point)
+                    }
+                    pointList.push(to)
+                    var multiRoute = new ymaps.multiRouter.MultiRoute({
+                        multiRoute: true,
+                        // Точки маршрута. Точки могут быть заданы как координатами, так и адресом.
+                        referencePoints: pointList,
+                        params: {
+                            routingMode: 'masstransit', //— маршрутизация с использованием общественного транспорта. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
+                            //routingMode: 'auto' автомобильная маршрутизация;
+                            //routingMode: 'pedestrian'  — пешеходная маршрутизация. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
+                            results: 3
+                        },
 
-                    var control = myMap.controls.get('routePanelControl');
+                    }, {
+                        // Внешний вид путевых точек.
+                        wayPointStartIconLayout: "default#image",
+                        wayPointStartIconImageHref: "/src/assets/images/icons/flag_blue.svg",
+                        wayPointStartIconImageSize: [30, 30],
+                        wayPointStartIconImageOffset: [-5, -25],
+                        // Задаем собственную картинку для последней путевой точки.
+                        wayPointFinishIconLayout: "default#image",
+                        wayPointFinishIconImageHref: "/src/assets/images/icons/flag_blue.svg",
+                        wayPointFinishIconImageSize: [30, 30],
+                        wayPointFinishIconImageOffset: [-5, -25],
 
-                    // Зададим состояние панели для построения машрутов.
-                    control.routePanel.state.set({
-                        // Тип маршрутизации.
-                        type: 'masstransit',
-                        // Выключим возможность задавать пункт отправления в поле ввода.
-                        fromEnabled: false,
-                        // Адрес или координаты пункта отправления.
-                        from,
+                        wayPointIconLayout: "default#image",
+                        wayPointIconImageHref: "/src/assets/images/icons/flag_yellow.svg",
+                        wayPointIconImageSize: [30, 30],
+                        wayPointIconImageOffset: [-2, -25],
+                        // Позволяет скрыть иконки путевых точек маршрута.
+                        // wayPointVisible:false,
 
-                        toEnabled: false,
-                        // Адрес или координаты пункта назначения.
-                        to
+                        // Внешний вид транзитных точек.
+
+                        viaPointIconLayout: "default#image",
+                        viaPointIconImageHref: "/src/assets/images/icons/flag_blue.svg",
+                        viaPointIconImageSize: [30, 30],
+                        viaPointIconImageOffset: [-5, -25],
+                        viaPointDraggable: false,
+                        // Позволяет скрыть иконки транзитных точек маршрута.
+                        // viaPointVisible:false,
+
+                        // Внешний вид точечных маркеров под путевыми точками.
+                        pinIconLayout: "default#image",
+                        pinIconImageHref: "/src/assets/images/icons/flag_blue.svg",
+                        pinIconImageSize: [30, 30],
+                        pinIconImageOffset: [-5, -25],
+
+                        // Позволяет скрыть точечные маркеры путевых точек.
+                        // pinVisible:false,
+
+                        // Внешний вид линии маршрута.
+                        routeActiveStrokeWidth: [3, 3],
+                        routeActiveStrokeColor: ["#ff0000","#00ff00"],
+
+                        // Внешний вид линии пешеходного маршрута.
+                        routeActivePedestrianSegmentStrokeStyle: "solid",
+                        routeActivePedestrianSegmentStrokeColor: "#00CDCD",
+
+                        boundsAutoApply: true
                     });
-                    // Зададим опции панели для построения машрутов.
-                    control.routePanel.options.set({
-                        // Запрещаем показ кнопки, позволяющей менять местами начальную и конечную точки маршрута.
-                        allowSwitch: false,
-                        // Включим определение адреса по координатам клика.
-                        // Адрес будет автоматически подставляться в поле ввода на панели, а также в подпись метки маршрута.
-                        reverseGeocoding: false,
-                        // Зададим виды маршрутизации, которые будут доступны пользователям для выбора.
-                        types: { masstransit: true, pedestrian: true, taxi: true }
+                    multiRoute.model.events.add('requestsuccess', function() {
+                        // Получение ссылки на активный маршрут.
+                        var activeRoute = multiRoute.getActiveRoute();
+                        var activeRoutePaths = activeRoute.getPaths();
+                        activeRoutePaths.each(function(path) {
+                            console.log("Длина пути: " + path.properties.get("distance").text);
+                            console.log("Время прохождения пути: " + path.properties.get("duration").text);
+                        });
                     });
+                    //https://tech.yandex.ru/maps/jsapi/doc/2.1/dg/concepts/router/multiRouter-docpage/#multiRouter__get-active-route
+                    myMap.geoObjects.add(multiRoute);
 
 
-                    // myMap.controls.add(switchPointsButton);
                 });
             }
         },
