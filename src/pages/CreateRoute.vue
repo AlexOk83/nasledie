@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1>Составить маршрут пользователя</h1>
+
         <div class="row">
             <div class="left-form">
                 <form>
@@ -10,7 +11,7 @@
                     <Field name="end-point" type="search" title="Точка назначения" placeholder="Поиск мест и адресов" :value="endPoint" />
                     <Field name="date-start" type="date" title="Дата старта" placeholder="Дата" :value="dateStart" />
                     <Field name="time-start" type="time" title="Время старта" :value="timeStart" />
-                    <button class="button button--shadow" @click="" >Составить маршрут</button>
+                    <Button text="Составить маршрут" :on-click="submitForm" is-shadow />
                 </form>
             </div>
             <div class="right-container">
@@ -21,14 +22,16 @@
 </template>
 
 <script>
-    import Field from "../components/formControl/Field";
-    import Map from "../map/Map";
+    import Field from "../components/form-control/Field";
+    import Map from "../components/map/index";
+    import Button from "../components/form-control/Button";
 
     export default {
         name: "CreateRoute",
         components: {
             Map,
             Field,
+            Button,
         },
         data() {
             return {
@@ -46,6 +49,11 @@
                 },
                 dateStart: '',
                 timeStart: '',
+            }
+        },
+        methods: {
+            submitForm() {
+                console.log('is work...')
             }
         },
         created() {

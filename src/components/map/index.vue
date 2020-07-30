@@ -4,7 +4,7 @@
 
 <script>
 
-    import Field from "../components/formControl/Field";
+    import Field from "../form-control/Field";
 
     export default {
         name: "Map",
@@ -115,7 +115,7 @@
 </script>
 
 <style lang="less">
-    @import "../styles/mixins";
+    @import "../../styles/mixins";
 
     .left-form {
         .column(4, 4);

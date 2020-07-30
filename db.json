@@ -1,3 +1,83 @@
 {
-
+  "objects": [],
+  "myRoutes": [
+    {
+      "title": "Северная Осетия",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.",
+      "way": 21000,
+      "hours": 5,
+      "typesOfMovement": [
+        {
+          "title": "Пеший",
+          "icon": "people"
+        },
+        {
+          "title": "автомобильный",
+          "icon": "car"
+        }
+      ],
+      "pointStart": {
+        "coordinates": [50, 40],
+        "name": "Владикавказ"
+      },
+      "pointEnd": {
+        "coordinates": [50, 40],
+        "name": "Гора Казбек"
+      },
+      "objects": [
+        {
+          "coordinates": [50, 40],
+          "name": "Термальный Источник"
+        },
+        {
+          "coordinates": [50, 40],
+          "name": "Музей 'Горы кавказа'"
+        },
+        {
+          "coordinates": [50, 40],
+          "name": "Кавказкие дольмены"
+        }
+      ]
+    }
+  ],
+  "recomendRoutes": [
+    {
+      "title": "Северная Осетия",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.",
+      "way": 21000,
+      "hours": 5,
+      "typesOfMovement": [
+        {
+          "title": "Пеший",
+          "icon": "people"
+        },
+        {
+          "title": "автомобильный",
+          "icon": "car"
+        }
+      ],
+      "pointStart": {
+        "coordinates": [50, 40],
+        "name": "Владикавказ"
+      },
+      "pointEnd": {
+        "coordinates": [50, 40],
+        "name": "Гора Казбек"
+      },
+      "objects": [
+        {
+          "coordinates": [50, 40],
+          "name": "Термальный Источник"
+        },
+        {
+          "coordinates": [50, 40],
+          "name": "Музей 'Горы кавказа'"
+        },
+        {
+          "coordinates": [50, 40],
+          "name": "Кавказкие дольмены"
+        }
+      ]
+    }
+  ]
 }

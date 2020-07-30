@@ -1,6 +1,6 @@
 import VueRouter from 'vue-router'
 import CreateRoute from './pages/CreateRoute'
-import Map from './map/Map'
+import Map from './components/map/index'
 import EditRoute from './pages/EditRoute'
 import CreateRecommendedRoute from './pages/CreateRecommendedRoute'
 import RecommendedRoutesList from './pages/RecommendedRoutesList'
@@ -9,11 +9,6 @@ import MyRoutes from './pages/MyRoutes'
 
 export default new VueRouter({
     routes: [
-        {
-            name: 'Open map',
-            path: '/map',
-            component: Map,
-        },
         {
             name: 'Создание маршрута',
             path: '/',
@@ -26,12 +21,12 @@ export default new VueRouter({
         },
         {
             name: 'Создание рекомендованных маршрутов',
-            path: '/edit-recommended-route/:id',
+            path: '/create-recommended-route',
             component: CreateRecommendedRoute,
         },
         {
             name: 'Рекомендованные маршруты',
-            path: '/create-recommended-route',
+            path: '/recommended-routes',
             component: RecommendedRoutesList,
         },
         {
