@@ -1,7 +1,7 @@
 <template>
     <div class="list">
-        <div class="list__row">
-            <div class="list__item" :class="{}" v-for="item in data">
+        <div class="row">
+            <div class="list__item" :class="itemClasses" v-for="item in data">
                 <RecomendedRoute v-if="isRecomended" :data="item" />
                 <MyRoute v-else :data="item" />
             </div>
@@ -27,6 +27,17 @@
                 colTablet: Number
             },
             isRecomended: Boolean
+        },
+        computed: {
+            itemClasses() {
+                const { colDesktop, colTablet } = this.config;
+                const desktop = colDesktop ? `col-xl-${12 / colDesktop}` : 'col-xl-12';
+                const tablet = colTablet ? `col-l-${12 / colTablet}` : 'col-l-12';
+                return [
+                    desktop,
+                    tablet
+                ]
+            }
         }
     }
 </script>

@@ -1,1 +1,36 @@
 @import "../../styles/mixins";
+
+.list {
+  &__item {
+    .column_padding();
+    display: block;
+    float: left;
+    .clearfix();
+    width: 100%;
+    margin-bottom: 20px;
+    &.col-xl-12 {
+      .width_desktop(12);
+    }
+    &.col-xl-6 {
+      .width_desktop(6);
+    }
+    &.col-xl-4 {
+      .width_desktop(4);
+    }
+    &.col-xl-3 {
+      .width_desktop(3);
+    }
+    &.col-l-12 {
+      .width_tablet(12);
+    }
+    &.col-l-6 {
+      .width_tablet(6);
+    }
+    &.col-l-4 {
+      .width_tablet(4);
+    }
+    &.col-l-3 {
+      .width_tablet(3);
+    }
+  }
+}

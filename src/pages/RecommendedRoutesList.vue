@@ -20,7 +20,8 @@
         data() {
             return {
                 config: {
-
+                    colDesktop: 2,
+                    colTablet: 2,
                 },
                 routesList: [],
             }
