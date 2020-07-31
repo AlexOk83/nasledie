@@ -37,6 +37,9 @@
 </template>
 
 <script>
+    import {Presenter} from "../../presenter";
+
+    const presenter = new Presenter();
     export default {
         name: "index",
         props: {
@@ -62,26 +65,10 @@
         },
         computed: {
             getWay() {
-                const way = this.data.way / 1000;
-                if (way < 1) {
-                    return `${this.data.way} м`
-                }
-
-                return `${way} км`
+                return presenter.getWay(this.data.way);
             },
             getHour() {
-                const { hours } = this.data;
-                const stringHour = String(hours);
-                const lastSimbol = stringHour[stringHour.length - 1];
-                const balance = Number(lastSimbol);
-
-                if (balance === 1) {
-                    return `${hours} час`
-                }
-                if (balance < 5 && balance !== 0) {
-                    return `${hours} часа`
-                }
-                return `${hours} часов`
+                return presenter.getDeclinedRemainder(this.data.hours, ['час', 'часа', 'часов'])
             }
         }
     }
