@@ -1,23 +1,19 @@
 @import "../../styles/mixins";
 
-.route:hover {
-
-    -webkit-box-shadow: 9px 0px 37px -15px rgba(82,98,159,1);
-    -moz-box-shadow: 9px 0px 37px -15px rgba(82,98,159,1);
-    box-shadow: 9px 0px 37px -15px rgba(82,98,159,1);
-
-}
 .route {
   width: 100%;
   overflow: hidden;
   border: 1px solid @base;
   border-radius: 20px;
-  overflow: hidden;
+  &:hover {
+    .box-shadow(9px, 0, 37px, -15px, rgba(82,98,159,1));
+  }
   &__image {
-    .column(6,6,6,12);
+    .column(6,6,6);
     .img_wrapper(100%);
     height: 100%;
     min-height: 400px;
+    position: relative;
     .like {
       position: absolute;
       right: 20px;
@@ -25,8 +21,7 @@
       width: 50px;
       height: 50px;
       background-image: url("/src/assets/images/icons/heart.svg");
-      background-repeat: no-repeat;
-      background-size: 50px 50px;
+      .bg(50px 50px);
       cursor: pointer;
       &.active {
         background-image: url("/src/assets/images/icons/heart_selected.svg");
@@ -34,7 +29,7 @@
     }
   }
   &__body {
-    .column(6,6,6,12);
+    .column(6,6,6);
     padding-left: 24px;
     padding-right: 15px;
     padding-bottom: 20px;
@@ -53,11 +48,10 @@
         position: absolute;
         width: 20px;
         height: 80px;
-        left: 0px;
+        left: 0;
         top: -3px;
         background: url("/src/assets/images/icons/way.svg");
-        background-size: 100%;
-        background-repeat: no-repeat;
+        .bg(100%);
       }
       padding-left: 30px;
       .label {
@@ -91,14 +85,6 @@
           span {
             .text();
           }
-          &__icon {
-            &.people {
-
-            }
-            &.car {
-
-            }
-          }
         }
       }
       .route__types {
@@ -119,6 +105,4 @@
 
     }
   }
-
-
 }

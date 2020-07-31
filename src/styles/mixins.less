@@ -1,43 +1,29 @@
 @import "vars";
 
 .objectTitle() {
-  font-family: Roboto;
-  font-style: normal;
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
-
   color: @colorText;
 }
-.boxTitle()
-{
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
+.boxTitle() {
   font-size: 18px;
   line-height: 21px;
   color: @colorText;
 }
-.text()
-{
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
+.text() {
   display: block;
   font-size: 12px;
   line-height: 14px;
   color: @colorText;
 }
-.link()
-{
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
+.link() {
   font-size: 12px;
   line-height: 14px;
   color: @colorLink;
 }
-.form-control-style {
+
+.form-control-style() {
   width: 100%;
   border-radius: 18px;
   border: 1px solid @greyBorder;
@@ -46,13 +32,13 @@
 }
 
 // обрезание строки с многоточием
-.text_overflow {
+.text_overflow() {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 
-.clearfix {
+.clearfix() {
   &:after, &:before {
     content: '';
     display: table;
@@ -61,7 +47,7 @@
 }
 
 // центруем элементы, высота и ширина которых не статична
-.center {
+.center() {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -78,7 +64,7 @@
 }
 
 // запрещаем у данного элемента выделять текст (у активных элементов двойным нажатием выделяется)
-.no_select {
+.no_select() {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
@@ -339,8 +325,10 @@
   })
 }
 
-.box-shadow(@x: 0, @y: 5px, @size: 15px, @opacy: 0.2, @color) {
-  box-shadow: @x @y @size rgba(@color, @opacy);
+.box-shadow(@x: 0, @y: 5px, @size: 15px, @size2: 0, @color) {
+  -webkit-box-shadow: @x @y @size @size2 @color;
+  -moz-box-shadow: @x @y @size @size2 @color;
+  box-shadow: @x @y @size @size2 @color;
 }
 
 .image_render() {
