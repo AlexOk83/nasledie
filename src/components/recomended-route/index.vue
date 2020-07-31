@@ -70,7 +70,18 @@
                 return `${way} км`
             },
             getHour() {
-                return `${this.data.hours} часов`
+                const { hours } = this.data;
+                const stringHour = String(hours);
+                const lastSimbol = stringHour[stringHour.length - 1];
+                const balance = Number(lastSimbol);
+
+                if (balance === 1) {
+                    return `${hours} час`
+                }
+                if (balance < 5 && balance !== 0) {
+                    return `${hours} часа`
+                }
+                return `${hours} часов`
             }
         }
     }
