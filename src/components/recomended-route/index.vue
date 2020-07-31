@@ -14,17 +14,21 @@
                 <span class="point-value">{{ data.pointEnd.name }}</span>
             </div>
             <div class="route__params">
-                <div class="way"> {{ getWay }}</div>
-                <div class="route__hour"> {{ getHour }}</div>
+                <div class="way">
+                    <span class="icon " :class="data.wayIcon" />
+                    {{ getWay }}</div>
+                <div class="route__hour">
+                    <span class="icon " :class="data.hoursIcon" />
+                    {{ getHour }}</div>
                 <div class="route__movement">
                     <div class="item" v-for="item in data.typesOfMovement">
-                        <span class="item-icon" :class="item.icon" />
+                        <span class="icon " :class="item.icon" />
                         <span>{{ item.title }}</span>
                     </div>
                 </div>
                 <div class="route__types">
                     <div class="item" v-for="item in data.routeTypes">
-                        {{ `#${item}` }}
+                        {{ `#${item.title}` }}
                     </div>
                 </div>
             </div>
