@@ -50,7 +50,7 @@
 </template>
 
 <script>
-    import Button from "../form-control/button/index";
+    import Button from "../form-control/button";
     import {Presenter} from "../../presenter";
 
     const presenter = new Presenter();
