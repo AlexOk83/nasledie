@@ -100,46 +100,76 @@ body {
 }
 .icon {
   position: absolute;
-  left: -30px;
+
   top: -2px;
   width: 20px;
   height: 20px;
 }
-.icon-time {
+.myRoute {
+  .icon {
+    left: 0px;
+  }
+}
+.route {
+  .icon {
+    left: -30px;
+  }
+}
+.button {
+  .icon {
+    left: 15px;
+    top: 10px;
+    .media_mobile({
+      top: 5px;
+      left: 8px;
+    });
+    .media_tablet({
+      top: 5px;
+      left: 5px;
+    });
+  }
+}
+.icon--time {
   background-image: url("/src/assets/images/icons/clock.svg");
   background-repeat: no-repeat;
   background-size: 16px 17px;
 }
 
-.icon-place {
+.icon--place {
   background-image: url("/src/assets/images/icons/marker.svg");
   background-repeat: no-repeat;
   background-size: 12px 17px;
 }
-.icon-people {
+.icon--people {
   background-image: url("/src/assets/images/icons/man_base.svg");
   background-repeat: no-repeat;
   background-size: 14px 18px;
 }
-.icon-object {
+.icon--object {
   background-image: url("/src/assets/images/icons/object.svg");
   background-repeat: no-repeat;
   background-size: 18px 19px;
 
 }
-.icon-car {
+.icon--car {
   background-image: url("/src/assets/images/icons/car_base.svg");
   background-repeat: no-repeat;
   background-size: 17px 14px;
 }
-.icon-way {
+.icon--way {
   background-image: url("/src/assets/images/icons/marker.svg");
   background-repeat: no-repeat;
   background-size: 17px 14px;
 }
-.icon-delete {
+.icon--delete {
   background-image: url("/src/assets/images/icons/trash.svg");
   background-repeat: no-repeat;
   background-size: 37px 37px;
-
+  width: 37px;
+  height: 37px;
+}
+.shadow() {
+  -webkit-box-shadow: 9px 0px 37px -15px rgba(82,98,159,1);
+  -moz-box-shadow: 9px 0px 37px -15px rgba(82,98,159,1);
+  box-shadow: 9px 0px 37px -15px rgba(82,98,159,1);
 }

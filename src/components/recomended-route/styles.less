@@ -5,6 +5,8 @@
   overflow: hidden;
   border: 1px solid @base;
   border-radius: 20px;
+  display: flex;
+  flex-wrap: wrap;
   &:hover {
     .box-shadow(9px, 0, 37px, -15px, rgba(82,98,159,1));
   }
@@ -14,6 +16,10 @@
     height: 100%;
     min-height: 400px;
     position: relative;
+    .media_mobile({
+      height: 100%;
+      min-height: 250px;
+    });
     .like {
       position: absolute;
       right: 20px;
