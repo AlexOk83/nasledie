@@ -24,7 +24,7 @@
 <script>
     import Field from "../components/form-control/Field";
     import Map from "../components/map/index";
-    import Button from "../components/form-control/Button";
+    import Button from "../components/form-control/button/index";
 
     export default {
         name: "CreateRoute",

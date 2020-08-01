@@ -1,5 +1,5 @@
 <template>
-    <div class="myRoute">
+    <router-link tag="div" :to="link" class="myRoute">
         <div class="myRoute__image">
             <img :src="data.image" :alt="data.title" >
             <div class="like" @click="handleAddToMymyRoute" :class="{ 'active': data.isActive }"/>
@@ -39,18 +39,21 @@
                 </div>
             </div>
             <div class="myRoute__buttons">
-                <Button text="Редактировать маршрут" isShadow=true color="blue" ></Button>
+                <Button text="Редактировать маршрут" is-shadow color="blue" />
                 <div class="button_space"></div>
-                <Button text="Редактировать маршрут"  color="grey" icon="delete"></Button>
+                <Button text="Редактировать маршрут"  is-shadow color="grey" icon-right icon="delete" />
 
             </div>
 
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script>
-    import Button from "../form-control/Button";
+    import Button from "../form-control/button/index";
+    import {Presenter} from "../../presenter";
+
+    const presenter = new Presenter();
     export default {
         name: "my-myRoute",
         components: {Button},
@@ -77,15 +80,13 @@
         },
         computed: {
             getWay() {
-                const way = this.data.way / 1000;
-                if (way < 1) {
-                    return `${this.data.way} м`
-                }
-
-                return `${way} км`
+                return presenter.getWay(this.data.way);
             },
             getHour() {
-                return `${this.data.hours} часов`
+                return presenter.getDeclinedRemainder(this.data.hours, ['час', 'часа', 'часов'])
+            },
+            link() {
+                return `/view-route/my/${this.data.id}`
             }
         }
     }

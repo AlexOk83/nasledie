@@ -1,9 +1,6 @@
 @import "../../styles/mixins";
 @import "../../styles/layout";
 
-.myRoute:hover {
-  .shadow();
-}
 .myRoute {
   width: 100%;
   overflow: hidden;
@@ -12,6 +9,9 @@
   overflow: hidden;
   display: flex;
   flex-wrap: wrap;
+  &:hover {
+    .box-shadow(9px, 0px, 37px, -15px, rgba(82,98,159,1));
+  }
   &__image {
     .column(4,4,12,12);
     .img_wrapper(100%);

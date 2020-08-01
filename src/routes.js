@@ -30,14 +30,14 @@ export default new VueRouter({
             component: RecommendedRoutesList,
         },
         {
-            name: 'Просмотр рекомендованного маршрута',
-            path: '/recommended-route/:id',
-            component: ViewRecommendedRoute,
-        },
-        {
             name: 'Мои маршруты',
             path: '/my-routes',
             component: MyRoutes,
+        },
+        {
+            name: 'Просмотр маршрута',
+            path: '/view-route/:type/:id',
+            component: ViewRecommendedRoute,
         },
     ],
 })

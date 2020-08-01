@@ -21,8 +21,9 @@
             color: String,
         },
         methods: {
-            handleClick() {
-                this.onClick();
+            handleClick(e) {
+                e.stopPropagation();
+                this.onClick && this.onClick();
             }
         },
         computed: {
@@ -45,39 +46,7 @@
 </script>
 
 <style lang="less">
-    @import "../../styles/vars";
-    @import "../../styles/layout";
-    .button {
-        text-align: center;
-        padding: 20px 30px;
-        border-radius: 80px;
-        cursor: pointer;
-        font-size: 14px;
-        color: white;
-        text-transform: uppercase;
-        position: relative;
-        .media_mobile({
-            padding: 15px 20px;
-            font-size: 12px;
-        });
-        .media_tablet({
-            padding: 15px 25px;
-            font-size: 12px;
-        });
-        &--color-green {
-            background: @greenButton;
-            color: @colorWhite;
-        }
-        &--color-grey {
-            background: @greyButton;
-            color: @colorLink;
-        }
-        &--color-blue {
-            background: @colorLink;
-            color: @colorWhite;
-        }
-        &--shadow {
-            .shadow();
-        }
-    }
+    @import "./styles";
+    @import "../../../styles/layout";
+
 </style>

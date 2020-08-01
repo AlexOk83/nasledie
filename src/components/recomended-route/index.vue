@@ -1,5 +1,5 @@
 <template>
-    <div class="route">
+    <router-link tag="div" :to="link" class="route">
         <div class="route__image">
             <img :src="data.image" :alt="data.title" >
             <div class="like" @click="handleAddToMyRoute" :class="{ 'active': data.isActive }"/>
@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script>
@@ -69,6 +69,9 @@
             },
             getHour() {
                 return presenter.getDeclinedRemainder(this.data.hours, ['час', 'часа', 'часов'])
+            },
+            link() {
+                return `/view-route/recomend/${this.data.id}`
             }
         }
     }

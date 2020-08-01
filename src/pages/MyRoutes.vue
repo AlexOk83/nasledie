@@ -26,7 +26,6 @@
             }
         },
         created() {
-
             this.getData();
         },
         methods: {
@@ -34,6 +33,7 @@
                 this.$resource('myRoutes').get()
                     .then(response => response.json())
                     .then(routes => {
+                        console.log(routes);
                         this.routesList = routes;
                     })
             }
