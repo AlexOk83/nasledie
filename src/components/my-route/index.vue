@@ -33,13 +33,18 @@
             <div class="myRoute__objects">
                 <div class="title__sub">Объекты для посещения</div>
                 <div class="item" v-for="item in data.objects">
-                    <span class="icon icon-object"  />
+                    <span class="icon icon--object"  />
                     {{ item.name }}
 
                 </div>
             </div>
-            <Button  ></Button>
-            <Button  ></Button>
+            <div class="myRoute__buttons">
+                <Button text="Редактировать маршрут" isShadow=true color="blue" ></Button>
+                <div class="button_space"></div>
+                <Button text="Редактировать маршрут"  color="grey" icon="delete"></Button>
+
+            </div>
+
         </div>
     </div>
 </template>

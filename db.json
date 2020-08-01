@@ -5,18 +5,18 @@
       "title": "Северная Осетия",
       "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.",
       "way": 21000,
-      "wayIcon": "icon-way",
+      "wayIcon": "icon--way",
       "hours": 5,
-      "hoursIcon": "icon-time",
+      "hoursIcon": "icon--time",
       "image": "/src/assets/images/slide.jpg",
       "typesOfMovement": [
         {
           "title": "Пеший",
-          "icon": "icon-people"
+          "icon": "icon--people"
         },
         {
           "title": "автомобильный",
-          "icon": "icon-car"
+          "icon": "icon--car"
         }
       ],
       "pointStart": {
@@ -60,18 +60,18 @@
       "title": "Северная Осетия",
       "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.",
       "way": 21000,
-      "wayIcon": "icon-way",
+      "wayIcon": "icon--way",
       "hours": 5,
-      "hoursIcon": "icon-time",
+      "hoursIcon": "icon--time",
       "image": "/src/assets/images/slide.jpg",
       "typesOfMovement": [
         {
           "title": "Пеший",
-          "icon": "icon-people"
+          "icon": "icon--people"
         },
         {
           "title": "автомобильный",
-          "icon": "icon-car"
+          "icon": "icon--car"
         }
       ],
       "pointStart": {
@@ -114,18 +114,18 @@
       "title": "Северная Осетия",
       "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.",
       "way": 21000,
-      "wayIcon": "icon-way",
+      "wayIcon": "icon--way",
       "hours": 5,
-      "hoursIcon": "icon-time",
+      "hoursIcon": "icon--time",
       "image": "/src/assets/images/slide.jpg",
       "typesOfMovement": [
         {
           "title": "Пеший",
-          "icon": "icon-people"
+          "icon": "icon--people"
         },
         {
           "title": "автомобильный",
-          "icon": "icon-car"
+          "icon": "icon--car"
         }
       ],
       "pointStart": {
