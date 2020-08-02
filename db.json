@@ -75,39 +75,54 @@
         }
       ],
       "pointStart": {
-        "coordinates": [50, 40],
+        "coordinates": [
+          50,
+          40
+        ],
         "name": "Владикавказ"
       },
       "pointEnd": {
-        "coordinates": [50, 40],
+        "coordinates": [
+          50,
+          40
+        ],
         "name": "Гора Казбек"
       },
       "objects": [
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Термальный Источник"
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Музей 'Горы кавказа'"
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Кавказкие дольмены"
         }
       ],
       "routeTypes": [
         {
-          "title" : "Тип маршрута"
+          "title": "Тип маршрута"
         },
         {
-          "title" : "Тип маршрута"
+          "title": "Тип маршрута"
         },
         {
-          "title" : "Тип маршрута"
+          "title": "Тип маршрута"
         },
         {
-          "title" : "Тип маршрута"
+          "title": "Тип маршрута"
         }
       ]
     },
@@ -131,40 +146,54 @@
         }
       ],
       "pointStart": {
-        "coordinates": [50, 40],
+        "coordinates": [
+          50,
+          40
+        ],
         "name": "Владикавказ"
       },
       "pointEnd": {
-        "coordinates": [50, 40],
+        "coordinates": [
+          50,
+          40
+        ],
         "name": "Гора Казбек"
       },
       "objects": [
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Термальный Источник"
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Музей 'Горы кавказа'"
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Кавказкие дольмены"
         }
       ],
-
       "routeTypes": [
         {
-          "title" : "Тип маршрута"
+          "title": "Тип маршрута"
         },
         {
-          "title" : "Тип маршрута"
+          "title": "Тип маршрута"
         },
         {
-          "title" : "Тип маршрута"
+          "title": "Тип маршрута"
         },
         {
-          "title" : "Тип маршрута"
+          "title": "Тип маршрута"
         }
       ]
     }

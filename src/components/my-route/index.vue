@@ -38,8 +38,8 @@
                 </div>
             </div>
             <div class="myRoute__buttons">
-                <Button text="Редактировать маршрут" is-shadow />
-                <Button text="Удалить маршрут"  is-shadow color="grey" icon="delete" />
+                <Button text="Редактировать маршрут" is-shadow :on-click="moveToEdit" />
+                <Button text="Удалить маршрут"  is-shadow color="grey" icon="delete" :on-click="deleteRoute" />
             </div>
 
         </div>
@@ -68,11 +68,19 @@
                 },
                 typesOfMovement: Array,
                 myRouteTypes: Array,
-            }
+            },
+            onRefresh: Function,
         },
         methods: {
             handleAddToMymyRoute() {
 
+            },
+            moveToEdit() {
+                this.$router.push(`/edit-route/${this.data.id}`)
+            },
+            deleteRoute() {
+                this.$resource('myRoutes/' + this.data.id).remove()
+                    .then(this.onRefresh)
             }
         },
         computed: {

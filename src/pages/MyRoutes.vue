@@ -4,6 +4,7 @@
         <List
                 :data="routesList"
                 :config="config"
+                :on-refresh="getData"
         />
     </div>
 </template>
