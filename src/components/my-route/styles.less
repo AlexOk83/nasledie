@@ -13,9 +13,9 @@
     .box-shadow(9px, 0px, 37px, -15px, rgba(82,98,159,1));
   }
   &__image {
-    .column(4,4,12,12);
+    .column(4,12,12,12);
     .img_wrapper(100%);
-    .media_mobile({
+    .media_device({
       height: 100%;
       min-height: 250px;
     });
@@ -35,46 +35,67 @@
     }
   }
   &__body {
-    .column(8,8,12,12);
-    padding-left: 24px;
-    padding-right: 15px;
-    padding-bottom: 20px;
+    .column(8,12,12,12);
+    padding: 34px 38px 38px;
+    display: flex;
+    flex-wrap: wrap;
     .media_mobile({
-      padding-left: 14px;
+      padding: 20px;
 
     });
     .title {
-      margin-top: 27px;
+      width: 100%;
       .boxTitle();
     }
     .text {
       margin-top: 15px;
       .text();
+      width: 100%;
     }
+
 
     .myRoute__params {
       display: flex;
       flex-wrap: wrap;
       margin-top: 20px;
-
+      width: 100%;
+      .icon {
+        position: absolute;
+        top: -5px;
+        left: 0;
+        display: block;
+        .bg();
+      }
       .way {
         margin-top: 20px;
         padding-left: 30px;
         position: relative;
         .text();
-        .column(4, 4, 4, 4);
+        .column(4, 4, 4, 6);
+        .icon{
+          &--way {
+            background-image: url("../../assets/images/icons/marker.svg");
+            width: 13px;
+            height: 20px;
+          }
+        }
       }
 
-      .myRoute__hour {
+      .hour {
         position: relative;
         margin-top: 20px;
         padding-left: 30px;
         .text();
-        .column(4, 4, 4, 4);
+        .column(4, 4, 4, 6);
+        .icon--time {
+          background-image: url("../../assets/images/icons/clock.svg");
+          width: 20px;
+          height: 20px;
+        }
       }
 
       .myRoute__movement {
-        .column(4, 4, 4, 4);
+        .column(4, 4, 4, 6);
 
         .item {
           position: relative;
@@ -83,17 +104,19 @@
 
           span {
             .text();
-            margin-top: 0px;
+            margin-top: 0;
           }
 
-          &__icon {
-            &.people {
+          .icon--people {
+            background-image: url("../../assets/images/icons/man_base.svg");
+            width: 20px;
+            height: 20px;
+          }
 
-            }
-
-            &.car {
-
-            }
+          .icon--car {
+            background-image: url("../../assets/images/icons/car_base.svg");
+            width: 20px;
+            height: 20px;
           }
         }
       }
@@ -101,7 +124,7 @@
     .points {
         position: relative;
         margin-top: 20px;
-        .column(2,2,3,12);
+        .column(4,4,12,12);
         &:before {
           content: "";
           position: absolute;
@@ -126,15 +149,22 @@
         }
       }
     .myRoute__objects {
-        .column(9,9,9,12);
+        .column(8,8,12,12);
         position: relative;
         display: flex;
         flex-wrap: wrap;
         margin-top: 20px;
+      .icon {
+        position: absolute;
+        top: -5px;
+        left: 0;
+        display: block;
+        .bg();
+      }
         .title__sub {
           .text();
           width: 100%;
-          margin-top: 0px;
+          margin-top: 0;
           margin-bottom: 20px;
         }
         .item {
@@ -145,29 +175,29 @@
           font-weight: bold;
           margin-bottom: 20px;
           padding-left: 30px;
+          .icon--object {
+            background-image: url("/src/assets/images/icons/object.svg");
+            width: 20px;
+            height: 20px;
+          }
         }
       }
 
-      .myRoute__buttons {
-        .column();
-
-        margin-top: 20px;
-        .button {
-          .media_tablet({
-            margin-bottom: 20px;
-          });
-          .media_mobile({
-            margin-bottom: 20px;
-          });
-          .column(5,5,12,12);
-        }
-        .button_space {
-          width: 20px;
-          float: left;
-          height: 20px;
-          .hide_mobile();
-        }
+    .myRoute__buttons {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      .button:first-child {
+        margin-right: 20px;
+        .media_mobile({
+          margin-right: 0;
+        })
       }
+      margin-top: 20px;
     }
+  }
+  .icon {
+
+  }
   }
 

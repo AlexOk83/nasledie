@@ -1,9 +1,12 @@
 <template>
     <div class="container">
         <h1>{{ route.title }}</h1>
-        <Button text="редактировать маршрут" />
-        <Button text="посмотреть маршрут" icon-right icon="arrow-right" is-shadow color="green" />
-        <Button text="удалить маршрут" icon="remove" is-shadow color="grey" />
+        <div class="cont">
+            <Button text="редактировать маршрут" is-shadow />
+            <Button text="посмотреть маршрут" icon="arrow-right" is-shadow color="green" icon-right />
+            <Button text="удалить маршрут" icon="delete" color="grey" is-full />
+        </div>
+
     </div>
 </template>
 
@@ -40,5 +43,7 @@
 </script>
 
 <style scoped>
-
+    .cont {
+        width: 400px;
+    }
 </style>

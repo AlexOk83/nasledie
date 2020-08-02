@@ -5,7 +5,7 @@
             :class="buttonClasses"
     >
         <div class="icon" :class="iconClasses"  v-if="icon" />
-        {{ text }}
+        <span>{{ text }}</span>
     </div>
 </template>
 
@@ -16,6 +16,7 @@
             text: String,
             onClick: Function,
             isShadow: Boolean,
+            isFull: Boolean,
             icon: String,
             iconRight: Boolean,
             color: String,
@@ -35,11 +36,19 @@
                 if (this.isShadow) {
                     classes.push('button--shadow');
                 }
+                if (this.isFull) {
+                    classes.push('button--full');
+                }
+                if (this.icon) {
+                    classes.push('button--with-icon');
+                }
+                if (this.iconRight) {
+                    classes.push('button--right');
+                }
                 return classes;
             },
             iconClasses() {
-                const isRight = this.iconRight ? 'icon--right' : '';
-                return `icon--${this.icon} ${isRight}`;
+                return `icon--${this.icon}`;
             }
         }
     }
@@ -47,6 +56,4 @@
 
 <style lang="less">
     @import "./styles";
-    @import "../../../styles/layout";
-
 </style>

@@ -1,37 +1,104 @@
 @import "../../../styles/mixins";
 
+.buttonColor(@color, @colorText: white) {
+  background-color: @color;
+  color: @colorText;
+  &.button--shadow {
+    .box-shadow(0, 0, 10px, 0px, rgba(@color, 0.7))
+  }
+  &:hover {
+    background-color: darken(@color, 10);
+  }
+}
+
 .button {
   display: inline-block;
+  text-transform: uppercase;
+  position: relative;
   height: 35px;
+  margin-bottom: 20px;
   line-height: 35px;
   max-width: 100%;
   text-align: center;
-  padding: 0 60px;
+  padding: 0 38px;
   border-radius: 35px / 2;
   cursor: pointer;
   font-size: 14px;
-  color: white;
-  text-transform: uppercase;
-  position: relative;
-  .media_tablet({
-    font-size: 12px;
-  });
+  .buttonColor(@base, white);
   .media_mobile({
     font-size: 12px;
+    padding: 0 20px;
+    width: 100%;
   });
+  &--shadow {
+    height: 47px;
+    border-radius: 47px / 2;
+    line-height: 47px;
+  }
   &--color-green {
-    background: @greenButton;
-    color: @colorWhite;
+    .buttonColor(@greenButton, white);
   }
   &--color-grey {
-    background: @greyButton;
-    color: @colorLink;
+    .buttonColor(@greyButton, @base);
   }
-  &--color-blue {
-    background: @colorLink;
-    color: @colorWhite;
+  &--full {
+    width: 100%;
+    padding: 0;
   }
-  &--shadow {
-    .shadow();
+}
+.button--with-icon {
+  padding-left: 90px;
+  .icon {
+    position: absolute;
+    top: 7px;
+    left: 50px;
+    width: 20px;
+    height: 20px;
+    .bg();
+    &--delete {
+      background-image: url("/src/assets/images/icons/delete.svg");
+    }
+    &--arrow-right {
+      background-image: url("/src/assets/images/icons/arrow_right.svg");
+    }
+  }
+
+  &.button{
+    &--right {
+      padding-left: 50px;
+      padding-right: 90px;
+    }
+    &--shadow {
+      .icon {
+        top: 12px;
+      }
+    }
+    &--full {
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .icon {
+        position: static;
+        display: inline-block;
+        margin-right: 20px;
+
+      }
+      span {
+        display: inline-block;
+      }
+      &.button--right {
+        flex-direction: row-reverse;
+        .icon {
+          margin-left: 20px;
+        }
+      }
+    }
+    &--right {
+      .icon {
+        left: auto;
+        right: 50px;
+      }
+    }
   }
 }

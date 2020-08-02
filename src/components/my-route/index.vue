@@ -5,19 +5,19 @@
             <div class="like" @click="handleAddToMymyRoute" :class="{ 'active': data.isActive }"/>
         </div>
         <div class="myRoute__body">
-            <div class="title">{{ data.title }}</div>
+            <div class="title">Маршрут «{{ data.title }}»</div>
             <div class="text">{{ data.description }}</div>
 
             <div class="myRoute__params">
                 <div class="way">
-                    <span class="icon " :class="data.wayIcon" />
+                    <span class="icon icon--way" />
                     {{ getWay }}</div>
-                <div class="myRoute__hour">
-                    <span class="icon " :class="data.hoursIcon" />
+                <div class="hour">
+                    <span class="icon icon--time" />
                     {{ getHour }}</div>
                 <div class="myRoute__movement">
-                    <div class="item" v-for="item in data.typesOfMovement">
-                        <span class="icon " :class="item.icon" />
+                    <div class="item" v-for="item in data.typesOfMovement" :data="item.type">
+                        <span class="icon " :class="'icon--' + item.type" />
                         <span>{{ item.title }}</span>
                     </div>
                 </div>
@@ -35,14 +35,11 @@
                 <div class="item" v-for="item in data.objects">
                     <span class="icon icon--object"  />
                     {{ item.name }}
-
                 </div>
             </div>
             <div class="myRoute__buttons">
-                <Button text="Редактировать маршрут" is-shadow color="blue" />
-                <div class="button_space"></div>
-                <Button text="Редактировать маршрут"  is-shadow color="grey" icon-right icon="delete" />
-
+                <Button text="Редактировать маршрут" is-shadow />
+                <Button text="Удалить маршрут"  is-shadow color="grey" icon="delete" />
             </div>
 
         </div>
