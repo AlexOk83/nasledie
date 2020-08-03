@@ -3,6 +3,7 @@
         <div class="row">
             <div class="list__item" :class="itemClasses" v-for="item in data">
                 <RecomendedRoute v-if="isRecomended" :data="item" />
+                <ObjectRoute v-else-if="isObject" :data="item" />
                 <MyRoute v-else :data="item" />
             </div>
         </div>
@@ -12,12 +13,14 @@
 <script>
     import RecomendedRoute from '../recomended-route'
     import MyRoute from '../my-route'
+    import ObjectRoute from '../object-route'
 
     export default {
         name: "List",
         components: {
             RecomendedRoute,
-            MyRoute
+            MyRoute,
+            ObjectRoute
         },
         props: {
             data: Array,
@@ -26,7 +29,8 @@
                 colDesktop: Number,
                 colTablet: Number
             },
-            isRecomended: Boolean
+            isRecomended: Boolean,
+            isObject: Boolean
         },
         computed: {
             itemClasses() {

@@ -1,10 +1,12 @@
 {
   "objects": [],
+
   "myRoutes": [
     {
       "id": 1,
       "title": "Северная Осетия1",
       "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.",
       "way": 21000,
       "wayIcon": "icon--way",
       "hours": 5,
@@ -31,27 +33,487 @@
       "objects": [
         {
           "coordinates": [50, 40],
-          "name": "Музей 'Горы кавказа"
+          "name": "Музей 'Горы кавказа",
+          "image": "/src/assets/images/slide.jpg",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
+
         },
         {
           "coordinates": [50, 40],
-          "name": "Музей 'Горы кавказа"
+          "name": "Музей 'Горы кавказа",
+          "image": "/src/assets/images/slide.jpg",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
+
         },
         {
           "coordinates": [50, 40],
-          "name": "Кавказкие дольмены"
+          "name": "Кавказкие дольмены",
+          "image": "/src/assets/images/slide.jpg",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
+
         },
         {
           "coordinates": [50, 40],
-          "name": "Кавказкие дольмены"
+          "name": "Кавказкие дольмены",
+          "image": "/src/assets/images/slide.jpg",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
+
         },
         {
           "coordinates": [50, 40],
-          "name": "Кавказкие дольмены"
+          "name": "Кавказкие дольмены",
+          "image": "/src/assets/images/slide.jpg",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
+
         },
         {
           "coordinates": [50, 40],
-          "name": "Кавказкие дольмены"
+          "name": "Кавказкие дольмены",
+          "image": "/src/assets/images/slide.jpg",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
+
+        }
+      ],
+      "days": [
+        {
+          "title": "День номер 1",
+          "pointStart": {
+            "coordinates": [50, 40],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [50, 40],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            }
+          ]
+        },
+        {
+          "title": "День номер 2",
+          "pointStart": {
+            "coordinates": [50, 40],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [50, 40],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            }
+          ]
+        },
+        {
+          "title": "День номер 3",
+          "pointStart": {
+            "coordinates": [50, 40],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [50, 40],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            }
+          ]
         }
       ]
     }
@@ -61,6 +523,7 @@
       "id": 1,
       "title": "Северная Осетия2",
       "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.",
       "way": 21000,
       "wayIcon": "icon--way",
       "hours": 5,
@@ -87,15 +550,24 @@
       "objects": [
         {
           "coordinates": [50, 40],
-          "name": "Термальный Источник"
+          "name": "Термальный Источник",
+          "image": "/src/assets/images/slide.jpg",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
+
         },
         {
           "coordinates": [50, 40],
-          "name": "Музей 'Горы кавказа'"
+          "name": "Музей 'Горы кавказа'",
+          "image": "/src/assets/images/slide.jpg",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
+
         },
         {
           "coordinates": [50, 40],
-          "name": "Кавказкие дольмены"
+          "name": "Кавказкие дольмены",
+          "image": "/src/assets/images/slide.jpg",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
+
         }
       ],
       "routeTypes": [
@@ -111,12 +583,473 @@
         {
           "title" : "Тип маршрута"
         }
+      ],
+      "routeSliders": [
+        {
+            "url" : "https://www.youtube.com/watch?v=zuKNn3ZTUYc",
+            "type": "video"
+        },
+        {
+            "url" : "https://asiamountains.net/upload/slide/slide-1960x857-07.jpg",
+            "type": "image"
+        },
+        {
+            "url" : "https://asiamountains.net/upload/slide/slide-1960x857-07.jpg",
+            "type": "image"
+        }
+      ],
+      "days": [
+        {
+          "title": "День номер 1",
+          "class": "blue",
+          "pointStart": {
+            "coordinates": [50, 40],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [50, 40],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              }
+            ]
+            }
+          ]
+        },
+        {
+          "title": "День номер 2",
+          "class": "green",
+          "pointStart": {
+            "coordinates": [50, 40],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [50, 40],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              }
+            ]
+            }
+          ]
+        },
+        {
+          "title": "День номер 3",
+          "class": "yellow last",
+          "pointStart": {
+            "coordinates": [50, 40],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [50, 40],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "icon--man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "icon--time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "icon--time"
+                  }
+                ]
+              }
+            ]
+            }
+          ]
+        }
       ]
     },
     {
       "id": 2,
       "title": "Северная Осетия3",
       "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.",
       "way": 21000,
       "wayIcon": "icon--way",
       "hours": 5,
@@ -143,15 +1076,23 @@
       "objects": [
         {
           "coordinates": [50, 40],
-          "name": "Термальный Источник"
+          "name": "Термальный Источник",
+          "image": "/src/assets/images/slide.jpg",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
         },
         {
           "coordinates": [50, 40],
-          "name": "Музей 'Горы кавказа'"
+          "name": "Музей 'Горы кавказа'",
+          "image": "/src/assets/images/slide.jpg",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
+
         },
         {
           "coordinates": [50, 40],
-          "name": "Кавказкие дольмены"
+          "name": "Кавказкие дольмены",
+          "image": "/src/assets/images/slide.jpg",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
+
         }
       ],
 
@@ -167,6 +1108,448 @@
         },
         {
           "title" : "Тип маршрута"
+        }
+      ],
+      "days": [
+        {
+          "title": "День номер 1",
+          "pointStart": {
+            "coordinates": [50, 40],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [50, 40],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            }
+          ]
+        },
+        {
+          "title": "День номер 2",
+          "pointStart": {
+            "coordinates": [50, 40],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [50, 40],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            }
+          ]
+        },
+        {
+          "title": "День номер 3",
+          "pointStart": {
+            "coordinates": [50, 40],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [50, 40],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            },
+            { "params": [
+              {
+                "title": "Путь до Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "marker"
+                  },
+                  {
+                    "title": "45 мин.",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "21 км",
+                    "icon": "man_base"
+                  }
+                ]
+              },
+              {
+                "title": "",
+                "attributes": [
+                  {
+                    "title": "1ч ",
+                    "icon": "time"
+                  }
+                ]
+              },
+              {
+                "title": "Музей 'Горы кавказа",
+                "attributes": [
+                  {
+                    "title": "1ч 30 мин.",
+                    "icon": "time"
+                  }
+                ]
+              }
+            ]
+            }
+          ]
         }
       ]
     }
