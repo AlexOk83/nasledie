@@ -11,6 +11,7 @@
                     <Field name="end-point" type="search" title="Точка назначения" placeholder="Поиск мест и адресов" :value="endPoint" />
                     <Field name="date-start" type="date" title="Дата старта" placeholder="Дата" :value="dateStart" />
                     <Field name="time-start" type="time" title="Время старта" :value="timeStart" />
+                    <Field name="isGeoRoute" type="radio" title="Сформировать маршрут по географической близости объектов" :value="isGeo" :list-value="[{ name: 'Да', value: 'yes' }, { name: 'Нет', value: 'no' }]" />
                     <Button text="Составить маршрут" :on-click="submitForm" is-shadow />
                 </form>
             </div>

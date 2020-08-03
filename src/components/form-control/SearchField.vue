@@ -15,7 +15,15 @@
 <script>
     export default {
         name: "SearchField",
-        props: ['value', 'name', 'placeholder'],
+        props: {
+            name: String,
+            placeholder: String,
+            value: {
+                coordinates: Array,
+                name: String,
+                description: String
+            }
+        },
         data() {
             return {
                 searchText: '',

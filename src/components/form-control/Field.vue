@@ -6,6 +6,7 @@
         <DatePicker v-if="type === 'date'" :name="name" :value="value" :placeholder="placeholder" />
         <TimePicker v-if="type === 'time'" :name="name" :value="value" :placeholder="placeholder" />
         <SearchField v-if="type === 'search'" :name="name" :value="value" :placeholder="placeholder" />
+        <Radio v-if="type === 'radio'" :name="geoRoute" :variant-list="listValue" />
     </div>
 </template>
 
@@ -13,9 +14,10 @@
     import DatePicker from "./DatePicker";
     import TimePicker from "./TimePicker";
     import SearchField from "./SearchField";
+    import Radio from "./radio-buttons";
     export default {
         name: "Field",
-        props: ['name', 'type', 'title', 'value', 'placeholder'],
+        props: ['name', 'type', 'title', 'value', 'placeholder', 'listValue'],
         data() {
             return {
                 inputTypes: ['text', 'password'],
@@ -24,7 +26,8 @@
         components: {
             DatePicker,
             TimePicker,
-            SearchField
+            SearchField,
+            Radio
         }
     }
 </script>
@@ -37,9 +40,9 @@
         padding-top: 10px;
         margin-bottom: 15px;
         &__label {
-            font-weight: bold;
             display: block;
-            line-height: 40px;
+            margin-bottom: 12px;
+
 
         }
         &__control {
