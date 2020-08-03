@@ -1,8 +1,8 @@
 <template>
     <div class="radio-buttons">
         <div class="radio-item" v-for="item in variantList">
-            <label :for="item.value">{{ item.name }}</label>
             <input type="radio"  v-model="value" :id="item.value" :value="item.value" :name="name">
+            <label :for="item.value">{{ item.name }}</label>
         </div>
     </div>
 </template>
@@ -25,10 +25,45 @@
         align-items: center;
         .radio-item {
             display: block;
+            margin-right: 40px;
+
             input {
                 display: none;
-                &+label {
-                    color: @base;
+                & ~ label {
+                    padding-left: 17px;
+                    position: relative;
+                    cursor: pointer;
+                    &:before {
+                        position: absolute;
+                        content: '';
+                        width: 10px;
+                        height: 10px;
+                        display: block;
+                        border-radius: 50%;
+                        border: 1px solid @base;
+                        left: 0;
+                        top: 5px;
+                    }
+                    &:after {
+                        position: absolute;
+                        content: '';
+                        width: 6px;
+                        height: 6px;
+                        display: block;
+                        border-radius: 50%;
+                        background: @base;
+                        left: 3px;
+                        top: 8px;
+                        transform: scale(0);
+                        transition: all 0.3s ease-out;
+                    }
+                }
+                &:checked {
+                    & ~ label {
+                        &:after {
+                            transform: scale(1);
+                        }
+                    }
                 }
             }
         }
