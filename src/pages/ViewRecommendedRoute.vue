@@ -34,22 +34,6 @@
                 {{ route.content }}
             </div>
             <div class="detailRouter--title">Объекты в маршруте:</div>
-            <div class="detailRouter__objects " v-if="1 == 2">
-                <div class="row">
-                    <div class="list__item col-xl-6 col-l-6 " v-for="object in route.objects">
-                        <div class="route">
-                            <div class="route__image">
-                                <img :src="object.image" :alt="object.name" >
-                            </div>
-                            <div class="route__body">
-                                <div class="title">{{ object.name }}</div>
-                                <div class="text">{{ object.description }}</div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
             <List is-object :data="route.objects" :config="config" />
             <div class="detailRouter--title">Подробный маршрут: {{ route.title }}</div>
             <Map :from="[53.537850, 49.362708]" :to="[53.537850, 49.352708]" :points="[[53.537055, 49.352733], [53.537055, 49.351733]]"></Map>
@@ -63,7 +47,7 @@
                     <th>Посещение объекта</th>
                 </thead>
                 <tbody>
-                    <template  v-for="day in route.days" >
+                    <template  v-for="day, index in route.days" >
                         <tr class="day" :class="day.class">
                             <td class="day__desc" :rowspan="day.objects.length + 1">
                                 <div class="title blue">{{ day.title }}</div>
@@ -98,9 +82,7 @@
                 </tbody>
             </table>
 
-            <Button text="редактировать маршрут" color="green"/>
-            <Button text="посмотреть маршрут" icon-right icon="arrow-right" is-shadow color="green" />
-            <Button text="удалить маршрут" icon="remove" is-shadow color="grey" />
+            <Button text="В мои маршруты" icon-right icon="arrow-right" is-shadow color="green" :on-click="moveBack" />
         </div>
 
     </div>
@@ -123,6 +105,7 @@
         },
         data() {
             return {
+                classColors: ['yellow', 'green', 'blue'],
                 resource: null,
                 id: null,
                 route: {},
@@ -141,6 +124,9 @@
             }
         },
         methods: {
+            moveBack() {
+                this.$router.push('/my-routes')
+            },
             getData() {
                 this.resource.get({id: this.id})
                     .then(response => response.json())
@@ -273,22 +259,23 @@
                         }
                     }
                 }
-                &.blue {
-                    .day__desc {
+                &:nth-child(3n + 1) {
+                    td {
                         border-left: 10px solid @base;
                     }
                 }
-                &.green {
-                    .day__desc {
+                &:nth-child(3n + 2) {
+                    td {
                         border-left: 10px solid @greenButton;
                     }
                 }
-                &.yellow {
-                    .day__desc {
+                &:nth-child(3n + 3) {
+                    td {
                         border-left: 10px solid @colorYellow;
                     }
 
                 }
+
                 &.last {
                     td {
                         border-bottom-left-radius: 20px;
