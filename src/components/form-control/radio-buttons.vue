@@ -18,6 +18,19 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="less">
+    @import "../../styles/mixins";
+    .radio-buttons {
+        display: flex;
+        align-items: center;
+        .radio-item {
+            display: block;
+            input {
+                display: none;
+                &+label {
+                    color: @base;
+                }
+            }
+        }
+    }
 </style>

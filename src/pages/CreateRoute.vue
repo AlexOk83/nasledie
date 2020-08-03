@@ -11,7 +11,8 @@
                     <Field name="end-point" type="search" title="Точка назначения" placeholder="Поиск мест и адресов" :value="endPoint" />
                     <Field name="date-start" type="date" title="Дата старта" placeholder="Дата" :value="dateStart" />
                     <Field name="time-start" type="time" title="Время старта" :value="timeStart" />
-                    <Field name="isGeoRoute" type="radio" title="Сформировать маршрут по географической близости объектов" :value="isGeo" :list-value="[{ name: 'Да', value: 'yes' }, { name: 'Нет', value: 'no' }]" />
+                    <Field name="is-geo-route" type="radio" title="Сформировать маршрут по географической близости объектов" :value="isGeoRoute" :list-value="[{ name: 'Да', value: 'yes' }, { name: 'Нет', value: 'no' }]" />
+                    <Field name="type-movement" type="select" title="Способ передвижения" :value="typeMovement" :list-value="[{ name: 'Пеший', value: 'people', icon: 'people' }, { name: 'Автомобильный', value: 'car', icon: 'car' }]" />
                     <Button text="Составить маршрут" :on-click="submitForm" is-shadow />
                 </form>
             </div>
@@ -50,11 +51,16 @@
                 },
                 dateStart: '',
                 timeStart: '',
+                isGeoRoute: 'yes',
+                typeMovement: 'car'
             }
         },
         methods: {
             submitForm() {
+                console.clear()
                 console.log('is work...')
+                console.log(this.dateStart)
+                console.log(this._data)
             }
         },
         created() {

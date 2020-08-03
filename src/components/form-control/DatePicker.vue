@@ -6,6 +6,7 @@
                 format="dd.MM.yyyy"
                 monday-first
                 :placeholder="placeholder"
+                :value="value"
                 calendar-class="date-picker__calendar"
                 input-class="date-picker__input"
                 wrapper-class="date-picker__wrap"
