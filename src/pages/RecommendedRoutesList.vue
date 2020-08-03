@@ -42,6 +42,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="less">
+
 
 </style>
