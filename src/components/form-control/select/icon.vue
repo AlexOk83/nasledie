@@ -14,16 +14,17 @@
 <style scoped lang="less">
     @import "../../../styles/mixins";
     .mask(@image) {
-        -webkit-mask: url("/src/assets/images/icons/@{image}.svg") no-repeat 100% 100%;
-        mask: url("/src/assets/images/icons/car.svg") no-repeat 100% 100%;
+        -webkit-mask-image: url("/src/assets/images/icons/@{image}.svg");
+        mask-image: url("/src/assets/images/icons/@{image}.svg");
+        mask-repeat: no-repeat;
         -webkit-mask-size: contain;
-        mask-size: cover;
+        mask-size: contain;
         background: @greyIcon;
     }
 
     .icon {
         position: absolute;
-        top: 7px;
+        top: 8px;
         left: 0;
         width: 20px;
         height: 20px;
