@@ -1,10 +1,13 @@
 <template>
-    <div class="select">
-        <select :name="name" :id="name" @change="onChange" @blur="onBlur">
+    <div class="select" >
+        <select :name="name" :id="name" v-model="currentValue">
+            <option value="" v-if="placeholder">{{ placeholder }}</option>
             <option :value="option.value" v-for="option in list" :disabled="option.disabled">{{ option.name }}</option>
         </select>
-        <div class="select__field"></div>
-        <div class="options-list" :class="{'active': active }"></div>
+        <div class="select__field" @click="open">{{ getValue }}</div>
+        <div class="options-list" :class="{'active': active }">
+            <div class="option" v-for="option in list" @click="() => select(option)">{{ option.name }}</div>
+        </div>
     </div>
 </template>
 
@@ -22,7 +25,37 @@
         data() {
             return {
                 active: false,
+                currentValue: ""
             }
+        },
+        methods: {
+            select(option) {
+                console.log(option)
+                this.currentValue = option.value
+            }
+        },
+        computed: {
+            getValue() {
+                let val = this.placeholder;
+                console.log(this.value);
+                console.log(this.list);
+
+                this.list.forEach(option => {
+                    if (option.value === this.currentValue) {
+                        val = option.name
+                    }
+                });
+
+                return val;
+            }
+        },
+        watch: {
+            currentValue() {
+
+            }
+        },
+        created() {
+            this.currentValue = this.value
         }
 
     }

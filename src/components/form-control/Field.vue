@@ -1,7 +1,7 @@
 <template>
     <div class="field">
         <label class="field__label">{{ title }}</label>
-        <input class="field__control" v-if="inputTypes.includes(type)" :type="type" :name="name" :placeholder="placeholder" :value="value" autocomplete="off" />
+        <input class="field__control" v-if="inputTypes.includes(type)" :type="type" :name="name" :placeholder="placeholder" v-model="value" autocomplete="off" />
         <textarea class="field__control field__control--long-text" v-if="type === 'longtext'" v-model="value" :name="name" :placeholder="placeholder" >{{ value }}</textarea>
         <DatePicker v-if="type === 'date'" :name="name" :value="value" :placeholder="placeholder" />
         <TimePicker v-if="type === 'time'" :name="name" :value="value" :placeholder="placeholder" />
