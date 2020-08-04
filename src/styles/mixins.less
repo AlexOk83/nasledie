@@ -42,7 +42,7 @@
   width: 100%;
   border-radius: 18px;
   border: 1px solid @greyBorder;
-  padding-left: 20px;
+  padding: 0 16px;
   line-height: 36px;
 }
 
@@ -370,11 +370,11 @@
 }
 
 .arrow(@top: 0, @right: 15px, @direction: 'up') when (@direction = 'up') {
-  border-bottom: 9px solid @base;
+  border-bottom: 7px solid @base;
   .arrowBase(@top, @right);
 }
 
 .arrow(@top: 0, @right: 15px, @direction: 'up') when not (@direction = 'up') {
   .arrowBase(@top, @right);
-  border-top: 9px solid @base;
+  border-top: 7px solid @base;
 }

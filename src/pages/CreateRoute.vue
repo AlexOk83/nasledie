@@ -13,7 +13,7 @@
                     <Field name="time-start" type="time" title="Время старта" :value="timeStart" />
                     <Field name="is-geo-route" type="radio" title="Сформировать маршрут по географической близости объектов" :value="isGeoRoute" :list-value="[{ name: 'Да', value: 'yes' }, { name: 'Нет', value: 'no' }]" />
                     <Field name="type-movement" type="select" title="Способ передвижения" placeholder="способ передвижения" :value="typeMovement" :list-value="[{ name: 'Пеший', value: 'people', icon: 'people' }, { name: 'Автомобильный', value: 'car', icon: 'car' }]" />
-                    <Button text="Составить маршрут" :on-click="submitForm" is-shadow />
+                    <Button text="Составить маршрут" :on-click="submitForm" is-shadow is-full />
                 </form>
             </div>
             <div class="right-container">

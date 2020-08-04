@@ -1,0 +1,88 @@
+@import '../../../styles/mixins';
+
+@keyframes optionListOpen {
+  0% {
+    opacity: 0;
+
+  }
+  30% {
+    height: 40px;
+  }
+  60% {
+    height: 80px;
+  }
+  100% {
+    opacity: 1;
+    height: auto;
+  }
+}
+
+.select {
+  position: relative;
+  select {
+    display: none;
+  }
+  &__field {
+    position: relative;
+    .form-control-style();
+    height: 40px;
+    cursor: pointer;
+
+    &:after {
+      content: '';
+      display: block;
+      .arrow(7px, 15px, 'up');
+      z-index: 0;
+    }
+    &:before {
+      content: '';
+      display: block;
+      .arrow(22px, 15px, 'down');
+      z-index: 100;
+    }
+  }
+
+  .options-list {
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid @greyBorder;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    transform-origin: top center;
+    opacity: 0;
+    height: 40px;
+    padding: 5px 16px;
+    background-color: white;
+    &.active {
+      .animate(optionListOpen, 0.2s);
+      z-index: 2;
+      opacity: 1;
+    }
+    .option {
+      .no_select();
+      width: 100%;
+      line-height: 36px;
+      cursor: pointer;
+      padding-bottom: 5px;
+      margin-bottom: 5px;
+      border-bottom: 1px solid @greyBorder;
+      &:last-child {
+        border-bottom: 0;
+      }
+      &:hover,
+      &--active {
+        color: @base;
+        .icon {
+          background-color: @base;
+        }
+      }
+      &--with-icon {
+        position: relative;
+        padding-left: 30px;
+      }
+    }
+  }
+}

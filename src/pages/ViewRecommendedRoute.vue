@@ -5,31 +5,10 @@
             <div class="detailRouter--text">{{ route.description }}</div>
             <div class="detailRouter--tags">
                 <div class="item" v-for="item in route.routeTypes">
-
                     <span>#{{ item.title }}</span>
                 </div>
             </div>
 
-
-
-
-            <div class="detailRouter__sliders" v-if="1 == 2">
-                <swiper ref="mySwiper" class="swiper" :options="swiperOptions">
-                    <swiper-slide v-for="slide in route.routeSliders">
-                        <img :src="slide.url" v-if="slide.type == 'image'" />
-                    </swiper-slide>
-                    <div class="swiper-pagination" slot="pagination"></div>
-                </swiper>
-
-
-            </div>
-            <div class="row" v-if="1 == 2">
-                <div class="sound">
-                    <span class="icon icon--sound"> </span>
-                    <span class="sound--title">Шум водопада </span>
-                    <span class="sound--time">03:30</span>
-                </div>
-            </div>
             <div class="detailRouter__content">
                 {{ route.content }}
             </div>

@@ -60,6 +60,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
+    compress: true,
     noInfo: true,
     overlay: true
   },
