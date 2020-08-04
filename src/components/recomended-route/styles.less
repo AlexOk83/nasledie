@@ -73,21 +73,21 @@
       margin-top: 20px;
       .way {
         margin-top: 20px;
-        margin-left: 30px;
+        padding-left: 30px;
         position: relative;
         .text();
       }
       .route__hour {
         position: relative;
         margin-top: 20px;
-        margin-left: 30px;
+        padding-left: 30px;
         .text();
       }
       .route__movement {
         .item {
           position: relative;
           margin-top: 20px;
-          margin-left: 30px;
+          padding-left: 30px;
           span {
             .text();
           }
@@ -99,7 +99,7 @@
           margin-top: 50px;
         });
         margin-top: 20px;
-        margin-left: 30px;
+        padding-left: 30px;
         display: flex;
         flex-wrap: wrap;
         .item {
@@ -108,7 +108,38 @@
           padding-right: 10px;
         }
       }
-
+      .icon--way {
+        background-image: url("/src/assets/images/icons/marker.svg");
+        background-repeat: no-repeat;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        left: 0px;
+      }
+      .icon--time {
+        background-image: url("/src/assets/images/icons/clock.svg");
+        background-repeat: no-repeat;
+        position: absolute;
+        width: 16px;
+        height: 17px;
+        left: 0px;
+      }
+      .icon--people {
+        background-image: url("/src/assets/images/icons/man_base.svg");
+        background-repeat: no-repeat;
+        position: absolute;
+        width: 12px;
+        height: 17px;
+        left: 0px;
+      }
+      .icon--car {
+        background-image: url("/src/assets/images/icons/car_base.svg");
+        background-repeat: no-repeat;
+        position: absolute;
+        width: 17px;
+        height: 14px;
+        left: 0px;
+      }
     }
   }
 }

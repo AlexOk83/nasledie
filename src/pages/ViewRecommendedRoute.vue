@@ -147,6 +147,27 @@
             .h1();
             margin-bottom: 20px;
         }
+        .icon--man_base {
+            background-image: url("../assets/images/icons/man_base.svg");
+            background-repeat: no-repeat;
+            position: absolute;
+            width: 20px;
+            height: 20px;
+        }
+        .icon--time {
+            background-image: url("../assets/images/icons/clock.svg");
+            background-repeat: no-repeat;
+            position: absolute;
+            width: 16px;
+            height: 17px;
+        }
+        .icon--marker {
+            background-image: url("../assets/images/icons/marker.svg");
+            background-repeat: no-repeat;
+            position: absolute;
+            width: 12px;
+            height: 17px;
+        }
 
     }
 </style>
