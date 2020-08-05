@@ -34,7 +34,7 @@
             .mask('car');
         }
         &--people {
-        .mask('man_def');
+            .mask('man_def');
         }
     }
 </style>

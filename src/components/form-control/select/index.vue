@@ -1,6 +1,6 @@
 <template>
-    <div class="select" @blur="close">
-        <select :name="name" :id="name" v-model="currentValue">
+    <div class="select" @blur="close" tabindex="0" ref="select">
+        <select :name="name" :id="name" v-model="currentValue" >
             <option value="" v-if="placeholder">{{ placeholder }}</option>
             <option :value="option.value" v-for="option in list" :disabled="option.disabled">{{ option.name }}</option>
         </select>
@@ -44,7 +44,8 @@
                 this.active = false
             },
             open() {
-                this.active = true
+                this.active = true;
+                this.$refs.select.focus();
             },
             close() {
                 this.active = false
