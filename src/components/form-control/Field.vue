@@ -1,9 +1,31 @@
 <template>
     <div class="field">
         <label class="field__label">{{ title }}</label>
-        <input class="field__control" v-if="inputTypes.includes(type)" :type="type" :name="name" :placeholder="placeholder" v-model="value" autocomplete="off" />
-        <textarea class="field__control field__control--long-text" v-if="type === 'longtext'" v-model="value" :name="name" :placeholder="placeholder" >{{ value }}</textarea>
-        <DatePicker v-if="type === 'date'" :name="name" :value="value" :placeholder="placeholder" />
+
+        <input v-if="inputTypes.includes(type)"
+               class="field__control"
+               :type="type"
+               :name="name"
+               :placeholder="placeholder"
+               v-model="currentValue"
+               @input="changeValue"
+               autocomplete="off"
+        />
+        <textarea v-if="type === 'longtext'"
+                  class="field__control field__control--long-text"
+                  v-model="currentValue"
+                  :name="name"
+                  :placeholder="placeholder"
+                  @input="changeValue"
+        >
+            {{ currentValue }}
+        </textarea>
+        <DatePicker v-if="type === 'date'"
+                    :name="name"
+                    :value="currentValue"
+                    :placeholder="placeholder"
+                    @change="changeValue"
+        />
         <TimePicker v-if="type === 'time'" :name="name" :value="value" :placeholder="placeholder" />
         <SearchField v-if="type === 'search'" :name="name" :value="value" :placeholder="placeholder" />
         <Radio v-if="type === 'radio'" :name="name" :variant-list="listValue" :value="value" />
@@ -23,6 +45,7 @@
         data() {
             return {
                 inputTypes: ['text', 'password'],
+                currentValue: null,
             }
         },
         components: {
@@ -31,6 +54,14 @@
             SearchField,
             Radio,
             Select
+        },
+        created() {
+            this.currentValue = this.value
+        },
+        methods: {
+            changeValue(e) {
+                this.$emit('change', e || this.currentValue);
+            }
         }
     }
 </script>
@@ -40,11 +71,11 @@
 
     .field {
         width: 100%;
-        padding-top: 10px;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         &__label {
             display: block;
-            margin-bottom: 12px;
+            font-weight: 500;
+            margin-bottom: 15px;
 
 
         }

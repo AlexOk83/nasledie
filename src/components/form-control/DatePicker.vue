@@ -6,10 +6,12 @@
                 format="dd.MM.yyyy"
                 monday-first
                 :placeholder="placeholder"
-                :value="value"
+                :value="currentDate"
+                v-model="currentDate"
                 calendar-class="date-picker__calendar"
                 input-class="date-picker__input"
                 wrapper-class="date-picker__wrap"
+                @input="changeDate"
         />
     </div>
 </template>
@@ -24,10 +26,19 @@
         data() {
           return {
               ru,
+              currentDate: this.value,
           }
         },
         components: {
             vuejsDatepicker
+        },
+        methods:{
+            changeDate(e) {
+                console.log(this.currentDate)
+                console.log(e)
+                // this.currentDate
+                this.$emit('change', this.currentDate);
+            }
         }
 
     }
