@@ -20,11 +20,12 @@
             icon: String,
             iconRight: Boolean,
             color: String,
+            disabled: Boolean,
         },
         methods: {
             handleClick(e) {
                 e.stopPropagation();
-                this.onClick && this.onClick();
+                !this.disabled && this.onClick && this.onClick();
             }
         },
         computed: {
@@ -44,6 +45,9 @@
                 }
                 if (this.iconRight) {
                     classes.push('button--right');
+                }
+                if (this.disabled) {
+                    classes.push('button--disabled');
                 }
                 return classes;
             },

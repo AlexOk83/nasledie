@@ -4,15 +4,18 @@
         <div class="search-button" @click="search"/>
         <div class="clear-button" @click="clear"/>
         <div class="search-list" :class="{'show': findedPoints.length > 0 }">
-            <div class="search-list__item" v-for="point in findedPoints" @click="() => select(point)">
-                {{ point.name }}, {{point.description }}
-            </div>
+            <vue-custom-scrollbar class="scroll-area">
+                <div class="search-list__item" v-for="point in findedPoints" @click="() => select(point)">
+                    {{point.description }} {{ point.name }}
+                </div>
+            </vue-custom-scrollbar>
         </div>
     </div>
 
 </template>
 
 <script>
+    import vueCustomScrollbar from 'vue-custom-scrollbar'
     export default {
         name: "SearchField",
         props: {
@@ -24,24 +27,37 @@
                 description: String
             }
         },
+        components: {
+            vueCustomScrollbar
+        },
         data() {
             return {
-                searchText: '',
+                searchText: "",
+                currentValue: {},
                 findedPoints: [],
             }
         },
         created() {
-            this.searchText = this.value.name;
+            this.currentValue = this.value || {};
+            this.searchText = this.value.name || "";
+        },
+        watch: {
+            value: function () {
+                if (!this.value.name && this.currentValue.name) {
+                    this.currentValue = this.value;
+                    this.searchText = "";
+                }
+                if (this.value.name && !this.searchText) {
+                    this.searchText = this.value.name
+                }
+            }
         },
         methods: {
             clear() {
                 this.searchText = '';
-                this.value = {
-                    coordinates: '',
-                    name: '',
-                    description: ''
-                }
+                this.currentValue = {};
                 this.findedPoints = [];
+                this.$emit('change', this.currentValue)
             },
             close() {
                 // задержка нужна, чтобы успеть выбрать нужный пункт меню
@@ -51,8 +67,9 @@
 
             },
             search() {
-                if (this.searchText.length > 5) {
-                    const geocoder = ymaps.geocode(this.searchText);
+                console.log(this.searchText);
+                if (this.searchText.length > 3) {
+                    const geocoder = ymaps.geocode(this.searchText + ', ' + this.currentValue.description);
                     let pointList = [];
 
                     // После того, как поиск вернул результат, вызывается callback-функция
@@ -77,15 +94,16 @@
             },
             select(point) {
                 console.log(point);
-                this.value = point;
-                this.searchText = point.name;
+                this.currentValue = point;
+                this.searchText = point.name || '';
+                this.$emit('change', this.currentValue)
             }
         }
     }
 </script>
 
 <style lang="less">
-    @import '../../styles/mixins';
+    @import '../../../styles/mixins';
 
     .search-field {
         position: relative;
@@ -118,7 +136,7 @@
         width: 12px;
         height: 12px;
         .bg(12px);
-        background-image: url('../../assets/images/icons/close.svg');
+        background-image: url('../../../assets/images/icons/close.svg');
         z-index: 4;
         cursor: pointer;
     }
@@ -129,7 +147,7 @@
         width: 18px;
         height: 18px;
         .bg(18px);
-        background-image: url('../../assets/images/icons/search.svg');
+        background-image: url('../../../assets/images/icons/search.svg');
         z-index: 4;
         cursor: pointer;
     }

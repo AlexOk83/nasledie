@@ -29,14 +29,14 @@
         <TimePicker v-if="type === 'time'" :name="name" :value="value" :placeholder="placeholder" />
         <SearchField v-if="type === 'search'" :name="name" :value="value" :placeholder="placeholder" />
         <Radio v-if="type === 'radio'" :name="name" :variant-list="listValue" :value="value" />
-        <Select v-if="type === 'select'" :name="name" :list="listValue" :value="value" />
+        <Select v-if="type === 'select'" :name="name" :list="listValue" :value="value" :placeholder="placeholder" />
     </div>
 </template>
 
 <script>
     import DatePicker from "./DatePicker";
     import TimePicker from "./TimePicker";
-    import SearchField from "./SearchField";
+    import SearchField from "./search/SearchField";
     import Radio from "./radio-buttons";
     import Select from "./select";
     export default {

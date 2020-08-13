@@ -51,19 +51,8 @@
     export default {
         name: "Table",
         props: {
-
             days : [],
-            classColors: ['yellow', 'green', 'blue'],
         },
-        created() {
-
-            this.getData();
-        },
-        methods: {
-            getData() {
-
-            }
-        }
     }
 </script>
 <style lang="less">

@@ -24,14 +24,14 @@
                            title="Точка старта"
                            placeholder="Поиск мест и адресов"
                            :value="startPoint"
-                           @change="changeValue('start-point', $event)"
+                           @change="changeValue('startPoint', $event)"
                     />
                     <Field name="end-point"
                            type="search"
                            title="Точка назначения"
                            placeholder="Поиск мест и адресов"
                            :value="endPoint"
-                           @change="changeValue('end-point', $event)"
+                           @change="changeValue('endPoint', $event)"
                     />
                     <Field name="date-start"
                            type="date"
@@ -46,13 +46,6 @@
                            :value="timeStart"
                            @change="changeValue('time-start', $event)"
                     />
-                    <Field name="is-geo-route"
-                           type="radio"
-                           title="Сформировать маршрут по географической близости объектов"
-                           :value="isGeoRoute"
-                           :list-value="listParams"
-                           @change="changeValue('is-geo-route', $event)"
-                    />
                     <Field name="type-movement"
                            type="select"
                            title="Способ передвижения"
@@ -60,6 +53,17 @@
                            :value="typeMovement"
                            :list-value="listTypesMovement"
                            @change="changeValue('type-movement', $event)"
+                    />
+                    <Objects
+                        :objects="objects"
+                        @change="changeValue('objects', $event)"
+                    />
+                    <Field name="is-geo-route"
+                           type="radio"
+                           title="Сформировать маршрут по географической близости объектов"
+                           :value="isGeoRoute"
+                           :list-value="listParams"
+                           @change="changeValue('is-geo-route', $event)"
                     />
                     <Button text="Составить маршрут"
                             :on-click="submitForm"
@@ -80,12 +84,14 @@
     import Field from "../components/form-control/Field";
     import Map from "../components/map/index";
     import Button from "../components/form-control/button/index";
+    import Objects from "../components/added-objects";
 
     export default {
         name: "CreateRoute",
         components: {
             Map,
             Field,
+            Objects,
             Button,
         },
         data() {
@@ -112,7 +118,8 @@
                 listTypesMovement: [
                     {name: 'Пеший', value: 'people', icon: 'people'},
                     {name: 'Автомобильный', value: 'car', icon: 'car'}
-                ]
+                ],
+                objects: [],
             }
         },
         methods: {
@@ -145,7 +152,7 @@
         .column(4, 3);
         .column_padding();
 
-        .button {
+        form > .button {
             margin-top: 50px;
         }
     }

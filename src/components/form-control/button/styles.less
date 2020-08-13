@@ -24,6 +24,7 @@
   border-radius: 35px / 2;
   cursor: pointer;
   font-size: 14px;
+  .no_select();
   .buttonColor(@base, white);
   .media_mobile({
     font-size: 12px;
@@ -40,6 +41,14 @@
   }
   &--color-grey {
     .buttonColor(@greyButton, @base);
+  }
+  &--disabled {
+    cursor: default;
+    opacity: 0.6;
+    background-color: @greyButton;
+    &:hover {
+      background-color: @greyButton;
+    }
   }
   &--full {
     width: 100%;
