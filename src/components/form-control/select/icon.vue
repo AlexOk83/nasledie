@@ -16,9 +16,13 @@
     .mask(@image) {
         -webkit-mask-image: url("/src/assets/images/icons/@{image}.svg");
         mask-image: url("/src/assets/images/icons/@{image}.svg");
+
+        -webkit-mask-repeat: no-repeat;
         mask-repeat: no-repeat;
+
         -webkit-mask-size: contain;
         mask-size: contain;
+
         background: @greyIcon;
     }
 
