@@ -2,17 +2,13 @@
 
     <table class="tableDays">
         <thead>
-        <th>День/старт/финиш</th>
-        <th>Путь до объекта</th>
-        <th>Способ передвижения</th>
-        <th>Остановка</th>
-        <th>Посещение объекта</th>
+            <th v-for="item in columns">{{item}}</th>
         </thead>
         <tbody>
-        <template  v-for="day, index in days" >
-            <tr class="day" :class="day.class">
-                <td class="day__desc" :rowspan="day.objects.length + 1">
-                    <div class="title blue">{{ day.title }}</div>
+        <template  v-for="(day, index) in days" >
+            <tr class="day" :class="getClasses(index)">
+                <td class="day__desc" :rowspan="day.objects.length">
+                    <div class="day__name">{{ day.title }}</div>
 
                     <div class="title--sub">Точка старта</div>
                     <div class="title">{{ day.pointStart.name }}</div>
@@ -28,14 +24,67 @@
                     <div class="title--sub">Время старта</div>
                     <div class="title">{{ day.pointEnd.time }}</div>
                 </td>
-            </tr>
-            <tr v-for="object in day.objects">
+                <td  class="day__object">
+                    <div class="title">Путь до "{{day.objects[0].name}}"</div>
+                    <div class="icon__wrap">
+                        <Icon icon="time" />
+                        <div class="title">{{getTime(day.objects[0].timeInWay)}}</div>
+                    </div>
+                    <div class="icon__wrap">
+                        <Icon icon="way" />
+                        <div class="title">{{getWay(day.objects[0].way)}}</div>
+                    </div>
+                </td>
+                <td  class="day__object">
+                    <div class="icon__wrap">
+                        <Icon :icon="day.objects[0].typeMovement" />
+                        <div class="title">{{getNameMovement(day.objects[0].typeMovement)}}</div>
+                    </div>
 
-                <td  class="day__object" v-for="param in object.params" >
-                    <div class="title" v-if="param.title != ''">{{ param.title }}</div>
-                    <div class="day__object--Param" v-for="attribute in param.attributes">
-                        <span class="icon " :class="attribute.icon" />
-                        <span>{{ attribute.title }}</span>
+                </td>
+                <td  class="day__object">
+                    <div class="icon__wrap">
+                        <Icon icon="time" />
+                        <div class="title">{{getTime(day.objects[0].stopTime)}}</div>
+                    </div>
+                </td>
+                <td  class="day__object">
+                    <div class="title">{{day.objects[0].name}}</div>
+                    <div class="icon__wrap">
+                        <Icon icon="time" />
+                        <div class="title">{{getTime(day.objects[0].time)}}</div>
+                    </div>
+                </td>
+            </tr>
+            <tr :class="getClasses(index)" v-for="object in getNextObjects(day.objects)">
+                <td  class="day__object">
+                    <div class="title">Путь до "{{object.name}}"</div>
+                    <div class="icon__wrap">
+                        <Icon icon="time" />
+                        <div class="title">{{getTime(object.timeInWay)}}</div>
+                    </div>
+                    <div class="icon__wrap">
+                        <Icon icon="way" />
+                        <div class="title">{{getWay(object.way)}}</div>
+                    </div>
+                </td>
+                <td  class="day__object">
+                    <div class="icon__wrap">
+                        <Icon :icon="object.typeMovement" />
+                        <div class="title">{{getNameMovement(object.typeMovement)}}</div>
+                    </div>
+                </td>
+                <td  class="day__object">
+                    <div class="icon__wrap">
+                        <Icon icon="time" />
+                        <div class="title">{{getTime(object.stopTime)}}</div>
+                    </div>
+                </td>
+                <td  class="day__object">
+                    <div class="title">{{object.name}}</div>
+                    <div class="icon__wrap">
+                        <Icon icon="time" />
+                        <div class="title">{{getTime(object.time)}}</div>
                     </div>
                 </td>
             </tr>
@@ -47,114 +96,55 @@
 
 
 <script>
+    import {Presenter} from "../../presenter";
+    import Icon from "../icon";
+
+    const presenter = new Presenter();
 
     export default {
         name: "Table",
         props: {
+            columns: [],
             days : [],
         },
-    }
-</script>
-<style lang="less">
-    @import "../../styles/mixins";
-
-    .detailRouter {
-
-        .tableDays {
-            margin: 20px 0px;
-            border-collapse: separate;
-            width: 100%;
-            thead {
-                th {
-                    padding: 20px;
-                    color: @colorWhite;
+        components: {
+            Icon,
+        },
+        methods: {
+            getNextObjects(objects) {
+                return objects.slice(1);
+            },
+            getClasses(index) {
+                const base = index === 0 || index / 3 === 1;
+                const two = index === 1 || (index - 1) / 3 === 1;
+                const three = index === 2 || (index - 2) / 3 === 1;
+                const classes = [];
+                if (base) {
+                    classes.push('day--base');
                 }
-                th:first-child {
-                    border-top-left-radius: 20px;
+                if (two) {
+                    classes.push('day--two');
                 }
-                th:last-child {
-                    border-top-right-radius: 20px;
+                if (three) {
+                    classes.push('day--three');
                 }
-                background: @base;
-
-            }
-
-            tr:last-child {
-                td:last-child {
-                    border-bottom-right-radius: 20px;
+                if (this.days.length === index + 1) {
+                    classes.push('last');
                 }
-
-            }
-            tr {
-                width: 100%;
-
-            }
-            td {
-                padding: 30px 20px;
-                min-width: 150px;
-
-            }
-
-            .day {
-                &__desc {
-                    border-bottom: 1px solid @greyBorder;
-                    border-right: 1px solid @greyBorder;
-                    .title {
-                        .tableTitle();
-                        font-weight: bold;
-                        margin-top: 3px;
-                        &.blue {
-                            color: @colorLink;
-                            font-weight: normal;
-                        }
-                    }
-                    .title--sub {
-                        .text();
-                        color: @greyBorder;
-                    }
-                }
-                &__object {
-                    border-bottom: 1px solid @greyBorder;
-                    border-right: 1px solid @greyBorder;
-                    .title {
-                        .tableTitle();
-                    }
-                    &--Param {
-                        padding-left: 30px;
-                        position: relative;
-                        margin-bottom: 10px;
-                        .icon {
-                            left: 0px;
-                        }
-                        span {
-                            .text();
-                            line-height: 17px;
-                        }
-                    }
-                }
-                &:nth-child(3n + 1) {
-                    td {
-                        border-left: 10px solid @base;
-                    }
-                }
-                &:nth-child(3n + 2) {
-                    td {
-                        border-left: 10px solid @greenButton;
-                    }
-                }
-                &:nth-child(3n + 3) {
-                    td {
-                        border-left: 10px solid @colorYellow;
-                    }
-
-                }
-
-                &.last {
-                    td {
-                        border-bottom-left-radius: 20px;
-                    }
-                }
+                return classes;
+            },
+            getNameMovement(type) {
+                return presenter.getNameMovement(type)
+            },
+            getTime(time) {
+                return presenter.getTime(time);
+            },
+            getWay(way) {
+                return presenter.getWay(way);
             }
         }
     }
+</script>
+<style lang="less">
+    @import "./styles";
 </style>

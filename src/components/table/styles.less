@@ -1,0 +1,131 @@
+@import "../../styles/mixins";
+
+.tableDays {
+  margin: 20px 0;
+  border-collapse: separate;
+  width: 100%;
+  thead {
+    th {
+      padding: 20px;
+      color: @colorWhite;
+    }
+    th:first-child {
+      border-top-left-radius: 20px;
+    }
+    th:last-child {
+      border-top-right-radius: 20px;
+    }
+    background: @base;
+
+  }
+  tbody {
+    tr:last-child {
+      td:last-child {
+        border-bottom-right-radius: 20px;
+      }
+    }
+    .icon__wrap {
+      position: relative;
+      padding-left: 30px;
+      .icon {
+        top: 0;
+      }
+    }
+  }
+
+  tr {
+    width: 100%;
+
+  }
+  td {
+    padding: 30px 20px;
+    min-width: 150px;
+
+  }
+
+  .day {
+    &__name {
+      .tableTitle();
+    }
+    &__desc {
+      border-bottom: 1px solid @greyBorder;
+      border-right: 1px solid @greyBorder;
+      .title {
+        .tableTitle();
+        font-weight: bold;
+        margin-top: 3px;
+      }
+      .title--sub {
+        .text();
+        color: @greyBorder;
+      }
+    }
+    &__object {
+      border-bottom: 1px solid @greyBorder;
+      border-right: 1px solid @greyBorder;
+      .title {
+        .tableTitle();
+      }
+      &--Param {
+        padding-left: 30px;
+        position: relative;
+        margin-bottom: 10px;
+        .icon {
+          left: 0px;
+        }
+        span {
+          .text();
+          line-height: 17px;
+        }
+      }
+    }
+    &.day--base {
+      td:first-child {
+        border-left: 10px solid @base;
+      }
+      .day__name {
+        color: @base;
+      }
+    }
+    &.day--two {
+      td:first-child {
+        border-left: 10px solid @greenButton;
+      }
+      .day__name {
+        color: @greenButton;
+      }
+    }
+    &.day--three {
+      td:first-child {
+        border-left: 10px solid @colorYellow;
+      }
+
+      .day__name {
+        color: @colorYellow;
+      }
+
+    }
+    &--base {
+      .icon {
+        background-color: @base;
+      }
+    }
+    &--two {
+      .icon {
+        background-color: @greenButton;
+      }
+    }
+    &--three {
+      .icon {
+        background-color: @colorYellow;
+      }
+    }
+
+    &.last {
+      td:first-child {
+        border-bottom-left-radius: 20px;
+      }
+    }
+  }
+}
+

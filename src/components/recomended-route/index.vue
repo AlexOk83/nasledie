@@ -16,15 +16,15 @@
             </div>
             <div class="route__params">
                 <div class="way">
-                    <span class="icon " :class="data.wayIcon" />
+                    <Icon icon="way" />
                     {{ getWay }}</div>
                 <div class="route__hour">
-                    <span class="icon " :class="data.hoursIcon" />
+                    <Icon icon="time" />
                     {{ getHour }}</div>
                 <div class="route__movement">
                     <div class="item" v-for="item in data.typesOfMovement">
-                        <span class="icon " :class="item.icon" />
-                        <span>{{ item.title }}</span>
+                        <Icon :icon="item" />
+                        <span>{{ getMovement(item) }}</span>
                     </div>
                 </div>
                 <div class="route__types">
@@ -39,10 +39,14 @@
 
 <script>
     import {Presenter} from "../../presenter";
+    import Icon from "../icon"
 
     const presenter = new Presenter();
     export default {
         name: "index",
+        components: {
+            Icon,
+        },
         props: {
             data: {
                 title: String,
@@ -62,6 +66,9 @@
         methods: {
             handleAddToMyRoute() {
 
+            },
+            getMovement(movement) {
+                return presenter.getNameMovement(movement);
             }
         },
         computed: {
@@ -73,7 +80,8 @@
             },
             link() {
                 return `/view-route/recomend/${this.data.id}`
-            }
+            },
+
         }
     }
 </script>

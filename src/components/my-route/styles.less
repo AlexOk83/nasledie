@@ -6,7 +6,6 @@
   overflow: hidden;
   border: 1px solid @base;
   border-radius: 20px;
-  overflow: hidden;
   display: flex;
   flex-wrap: wrap;
   &:hover {
@@ -72,12 +71,8 @@
         position: relative;
         .text();
         .column(4, 4, 4, 6);
-        .icon{
-          &--way {
-            background-image: url("../../assets/images/icons/marker.svg");
-            width: 13px;
-            height: 20px;
-          }
+        .icon {
+          background-color: @base;
         }
       }
 
@@ -87,10 +82,8 @@
         padding-left: 30px;
         .text();
         .column(4, 4, 4, 6);
-        .icon--time {
-          background-image: url("../../assets/images/icons/clock.svg");
-          width: 20px;
-          height: 20px;
+        .icon {
+          background-color: @base;
         }
       }
 
@@ -107,16 +100,12 @@
             margin-top: 0;
           }
 
-          .icon--people {
-            background-image: url("../../assets/images/icons/man_base.svg");
-            width: 20px;
-            height: 20px;
+          .icon {
+            background-color: @base;
           }
 
-          .icon--car {
-            background-image: url("../../assets/images/icons/car_base.svg");
-            width: 20px;
-            height: 20px;
+          .icon {
+            background-color: @base;
           }
         }
       }
@@ -176,9 +165,7 @@
           margin-bottom: 20px;
           padding-left: 30px;
           .icon--object {
-            background-image: url("/src/assets/images/icons/object.svg");
-            width: 20px;
-            height: 20px;
+            background-color: @base;
           }
         }
       }

@@ -10,15 +10,15 @@
 
             <div class="myRoute__params">
                 <div class="way">
-                    <span class="icon icon--way" />
+                    <Icon icon="way" />
                     {{ getWay }}</div>
                 <div class="hour">
-                    <span class="icon icon--time" />
+                    <Icon icon="time" />
                     {{ getHour }}</div>
                 <div class="myRoute__movement">
-                    <div class="item" v-for="item in data.typesOfMovement" :data="item.type">
-                        <span class="icon " :class="'icon--' + item.type" />
-                        <span>{{ item.title }}</span>
+                    <div class="item" v-for="item in data.typesOfMovement">
+                        <Icon :icon="item" />
+                        <span>{{ getNameMovement(item) }}</span>
                     </div>
                 </div>
 
@@ -33,7 +33,7 @@
             <div class="myRoute__objects">
                 <div class="title__sub">Объекты для посещения</div>
                 <div class="item" v-for="item in data.objects">
-                    <span class="icon icon--object"  />
+                    <Icon icon="object" />
                     {{ item.name }}
                 </div>
             </div>
@@ -48,12 +48,13 @@
 
 <script>
     import Button from "../form-control/button";
+    import Icon from "../icon";
     import {Presenter} from "../../presenter";
 
     const presenter = new Presenter();
     export default {
         name: "my-myRoute",
-        components: {Button},
+        components: {Button, Icon},
         props: {
             data: {
                 title: String,
@@ -81,6 +82,9 @@
             deleteRoute() {
                 this.$resource('myRoutes/' + this.data.id).remove()
                     .then(this.onRefresh)
+            },
+            getNameMovement(movement) {
+                return presenter.getNameMovement(movement);
             }
         },
         computed: {

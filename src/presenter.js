@@ -7,6 +7,15 @@ export class Presenter {
 
         return `${w} км`
     }
+    getTime(time) {
+        const t = time / 60;
+        if (t < 1) {
+            return `${time} минут`
+        }
+        const dec = this.getDeclinedRemainder(Math.floor(t), ['час', 'часа', 'часов'])
+
+        return `${dec} ${time % 60} минут`
+    }
     getDeclinedRemainder(number, declensions) {
         const stringNumber = String(number);
         const [one, two, other] = declensions;
@@ -20,5 +29,12 @@ export class Presenter {
             return `${number} ${two}`
         }
         return `${number} ${other}`
+    }
+    getNameMovement(movement) {
+        switch (movement) {
+            case('people'): return "Пеший";
+            case('car'): return "Автомобильный";
+            default: return "";
+        }
     }
 }

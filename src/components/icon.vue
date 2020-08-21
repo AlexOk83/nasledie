@@ -6,13 +6,13 @@
     export default {
         name: "icon",
         props: {
-            icon: String
+            icon: String,
         }
     }
 </script>
 
 <style scoped lang="less">
-    @import "../../../styles/mixins";
+    @import "../styles/mixins";
     .mask(@image) {
         -webkit-mask-image: url("/src/assets/images/icons/@{image}.svg");
         mask-image: url("/src/assets/images/icons/@{image}.svg");
@@ -22,6 +22,9 @@
 
         -webkit-mask-size: contain;
         mask-size: contain;
+
+        -webkit-mask-position: center;
+        mask-position: center;
 
         background: @greyIcon;
     }
@@ -39,6 +42,15 @@
         }
         &--people {
             .mask('man_def');
+        }
+        &--time {
+            .mask('clock');
+        }
+        &--way {
+            .mask('marker');
+        }
+        &--object {
+            .mask('object');
         }
     }
 </style>
