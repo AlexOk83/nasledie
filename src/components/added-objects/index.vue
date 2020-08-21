@@ -47,5 +47,8 @@
 </script>
 
 <style lang="less">
-    @import "./styles";
+    @import "../../styles/vars";
+
+
+
 </style>

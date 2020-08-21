@@ -167,4 +167,5 @@
         .img_wrapper(100%);
         background-color: grey;
     }
+
 </style>
