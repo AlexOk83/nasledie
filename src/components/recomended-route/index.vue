@@ -1,4 +1,5 @@
 <template>
+
     <router-link tag="div" :to="link" class="route">
         <div class="route__image">
             <img :src="data.image" :alt="data.title" >
