@@ -148,24 +148,6 @@
 <style lang="less">
     @import "../styles/mixins";
 
-    .left-form {
-        .column(4, 3);
-        .column_padding();
 
-        form > .button {
-            margin-top: 50px;
-        }
-    }
-
-    .right-container {
-        .column(8, 9);
-        .column_padding();
-
-    }
-
-    #map {
-        .img_wrapper(100%);
-        background-color: grey;
-    }
 
 </style>

@@ -52,5 +52,11 @@
         &--object {
             .mask('object');
         }
+        &--edit {
+            .mask('edit');
+        }
+        &--check {
+            .mask('check');
+        }
     }
 </style>

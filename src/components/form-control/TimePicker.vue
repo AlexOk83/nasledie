@@ -1,15 +1,19 @@
 <template>
     <div class="time-picker">
         <div class="up-arrow" @click="up" />
-        <input type="time" class="field__control" step="1800" v-model="value">
+        <MaskedInput type="text" class="field__control" mask="11:11" v-model="value" @input="validate" @blur="validate" />
         <div class="down-arrow" @click="down" />
     </div>
 </template>
 
 <script>
+    import MaskedInput from 'vue-masked-input'
     export default {
         name: "TimePicker",
         props: ['value'],
+        components: {
+            MaskedInput
+        },
         methods: {
             up() {
                 let { hour, minutes } = this.getTime(this.value);
@@ -62,6 +66,14 @@
                     hour,
                     minutes
                 }
+            },
+            validate(event) {
+                console.log(event);
+                const { hour, minutes } = this.getTime(event);
+                if (hour > 23 || minutes > 59) {
+                    this.value = "00:00"
+                }
+
             }
         },
     }

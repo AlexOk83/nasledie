@@ -4,32 +4,43 @@
 
         <input v-if="inputTypes.includes(type)"
                class="field__control"
+               :class="{'disabled': localDisabled}"
                :type="type"
                :name="name"
                :placeholder="placeholder"
-               v-model="currentValue"
+               v-model="localValue"
                @input="changeValue"
                autocomplete="off"
+               :readonly="localDisabled"
         />
         <textarea v-if="type === 'longtext'"
                   class="field__control field__control--long-text"
-                  v-model="currentValue"
+                  :class="{'disabled': localDisabled}"
+                  v-model="localValue"
                   :name="name"
+                  :rows="rows || 4"
                   :placeholder="placeholder"
                   @input="changeValue"
+                  :readonly="localDisabled"
         >
-            {{ currentValue }}
         </textarea>
         <DatePicker v-if="type === 'date'"
                     :name="name"
-                    :value="currentValue"
+                    :value="localValue"
                     :placeholder="placeholder"
                     @change="changeValue"
         />
-        <TimePicker v-if="type === 'time'" :name="name" :value="value" :placeholder="placeholder" />
-        <SearchField v-if="type === 'search'" :name="name" :value="value" :placeholder="placeholder" />
-        <Radio v-if="type === 'radio'" :name="name" :variant-list="listValue" :value="value" />
-        <Select v-if="type === 'select'" :name="name" :list="listValue" :value="value" :placeholder="placeholder" />
+        <TimePicker v-if="type === 'time'" :name="name" :value="localValue" :placeholder="placeholder" />
+        <SearchField v-if="type === 'search'" :name="name" :value="localValue" :placeholder="placeholder" />
+        <Radio v-if="type === 'radio'" :name="name" :variant-list="listValue" :value="localValue" />
+        <Select v-if="type === 'select'" :name="name" :list="listValue" :value="localValue" :placeholder="placeholder" />
+        <div class="field__footer" v-if="save">
+            <div class="btn" @click="offDisabled"><Icon icon="edit" />Редактировать</div>
+            <div class="btn" @click="saveData">
+                <Icon icon="check" />
+                Сохранить
+            </div>
+        </div>
     </div>
 </template>
 
@@ -39,13 +50,16 @@
     import SearchField from "./search/SearchField";
     import Radio from "./radio-buttons";
     import Select from "./select";
+    import Icon from "../icon";
+
     export default {
         name: "Field",
-        props: ['name', 'type', 'title', 'value', 'placeholder', 'listValue'],
+        props: ['name', 'type', 'title', 'value', 'placeholder', 'listValue', 'save', 'rows'],
         data() {
             return {
                 inputTypes: ['text', 'password'],
-                currentValue: null,
+                localValue: this.value,
+                localDisabled: this.disabled || Boolean(this.save)
             }
         },
         components: {
@@ -53,14 +67,24 @@
             TimePicker,
             SearchField,
             Radio,
-            Select
+            Select,
+            Icon
         },
-        created() {
-            this.currentValue = this.value
+        watch: {
+            value: function () {
+                this.localValue = this.value;
+            }
         },
         methods: {
             changeValue(e) {
-                this.$emit('change', e || this.currentValue);
+                this.$emit('change', this.localValue);
+            },
+            offDisabled() {
+                this.localDisabled = false;
+            },
+            saveData() {
+                this.localDisabled = true;
+                this.save();
             }
         }
     }
@@ -87,5 +111,27 @@
                 padding: 10px 15px;
             }
         }
+        &__footer {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            padding-top: 10px;
+            .btn {
+                position: relative;
+                margin-right: 20px;
+                line-height: 20px;
+                padding-left: 30px;
+                color: @base;
+                margin-bottom: 10px;
+                .no_select();
+                cursor: pointer;
+                font-size: 12px;
+                .icon {
+                    top: 0;
+                    background-color: @base;
+                }
+            }
+        }
     }
+
 </style>

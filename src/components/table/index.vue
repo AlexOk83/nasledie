@@ -115,9 +115,9 @@
                 return objects.slice(1);
             },
             getClasses(index) {
-                const base = index === 0 || index / 3 === 1;
-                const two = index === 1 || (index - 1) / 3 === 1;
-                const three = index === 2 || (index - 2) / 3 === 1;
+                const base = index === 0 || index % 3 === 0;
+                const two = index === 1 || (index - 1) % 3 === 0;
+                const three = index === 2 || (index - 2) % 3 === 0;
                 const classes = [];
                 if (base) {
                     classes.push('day--base');

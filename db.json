@@ -1,79 +1,106 @@
 {
   "objects": [],
-
   "myRoutes": [
     {
       "id": 1,
-      "title": "Северная Осетия1",
+      "title": "Северная осетия",
+      "shortDescription": "Многодневный пеший переход по горам кавказа",
       "description": "Северная Осетия — Алания — это республика с уникальной древней культурой, изумительной живописной природой и непередаваемо гостеприимными жителями. Половину территории республики занимают горы, включая знаменитый величественный Казбек (более 5000 м высотой). С гор спускаются красивые, полноводные и чистые реки, в ущельях поджидают изумительной красоты озёра, в низинах — цветущие альпийские луга. Древние селения, традиционные деревушки и монастыри в горах — это тоже Северная Осетия. И горнолыжные курорты — вспомним знаменитый Цей и гору Монах, о которой пел Юрий Визбор. И даже бальнеологические лечебницы на многочисленных минеральных источниках, которых в Алании ничуть не меньше, чем, к примеру, в Кавминводах. Одним словом — в Северной Осетии найдётся всё и почти для всех, кто только готов смириться с весьма слабой туристической инфраструктурой ради отдыха простого, в изрядной мере самостоятельного, зато экономичного и душевного.Северная Осетия — Алания — это республика с уникальной древней культурой, изумительной живописной природой и непередаваемо гостеприимными жителями. Половину территории республики занимают горы, включая знаменитый величественный Казбек (более 5000 м высотой). С гор спускаются красивые, полноводные и чистые реки, в ущельях поджидают изумительной красоты озёра, в низинах — цветущие альпийские луга. Древние селения, традиционные деревушки и монастыри в горах — это тоже Северная Осетия. И горнолыжные курорты — вспомним знаменитый Цей и гору Монах, о которой пел Юрий Визбор. И даже бальнеологические лечебницы на многочисленных минеральных источниках, которых в Алании ничуть не меньше, чем, к примеру, в Кавминводах. Одним словом — в Северной Осетии найдётся всё и почти для всех, кто только готов смириться с весьма слабой туристической инфраструктурой ради отдыха простого, в изрядной мере самостоятельного, зато экономичного и душевного.Столица республики — Владикавказ.",
       "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore.",
       "way": 21000,
       "hours": 5,
       "image": "/src/assets/images/slide.jpg",
-      "typesOfMovement": ["people", "car"],
+      "typesOfMovement": [
+        "people",
+        "car"
+      ],
       "pointStart": {
-        "coordinates": [50, 40],
+        "coordinates": [
+          50,
+          40
+        ],
         "name": "Владикавказ"
       },
       "pointEnd": {
-        "coordinates": [50, 40],
+        "coordinates": [
+          50,
+          40
+        ],
         "name": "Гора Казбек"
       },
       "objects": [
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Музей 'Горы кавказа",
           "image": "/src/assets/images/slide.jpg",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
-
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Музей 'Горы кавказа",
           "image": "/src/assets/images/slide.jpg",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
-
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Кавказкие дольмены",
           "image": "/src/assets/images/slide.jpg",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
-
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Кавказкие дольмены",
           "image": "/src/assets/images/slide.jpg",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
-
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Кавказкие дольмены",
           "image": "/src/assets/images/slide.jpg",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
-
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Кавказкие дольмены",
           "image": "/src/assets/images/slide.jpg",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
-
         }
       ],
       "days": [
         {
           "title": "День номер 1",
           "pointStart": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Владикавказ",
             "date": "01.01.2020",
             "time": "10:00"
           },
           "pointEnd": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Гора Казбек",
             "date": "01.01.2020",
             "time": "10:00"
@@ -81,11 +108,11 @@
           "objects": [
             {
               "name": "Музей 'Горы кавказа",
-              "timeInWay": 90,
+              "timeInWay": 330,
               "way": 5000,
               "stopTime": 30,
               "time": 90,
-              "typeMovement": "people"
+              "typeMovement": "car"
             },
             {
               "name": "Заповедник Северного кавказа",
@@ -108,13 +135,19 @@
         {
           "title": "День номер 2",
           "pointStart": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Владикавказ",
             "date": "01.01.2020",
             "time": "10:00"
           },
           "pointEnd": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Гора Казбек",
             "date": "01.01.2020",
             "time": "10:00"
@@ -149,13 +182,348 @@
         {
           "title": "День номер 3",
           "pointStart": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Владикавказ",
             "date": "01.01.2020",
             "time": "10:00"
           },
           "pointEnd": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 4",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 5",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 6",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 330,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 7",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 8",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 9",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 10",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Гора Казбек",
             "date": "01.01.2020",
             "time": "10:00"
@@ -199,54 +567,81 @@
       "way": 21000,
       "hours": 5,
       "image": "/src/assets/images/slide.jpg",
-      "typesOfMovement": ["people", "car"],
+      "typesOfMovement": [
+        "people",
+        "car"
+      ],
       "pointStart": {
-        "coordinates": [50, 40],
+        "coordinates": [
+          50,
+          40
+        ],
         "name": "Владикавказ"
       },
       "pointEnd": {
-        "coordinates": [50, 40],
+        "coordinates": [
+          50,
+          40
+        ],
         "name": "Гора Казбек"
       },
       "objects": [
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Термальный Источник",
           "image": "/src/assets/images/slide.jpg",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
-
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Музей 'Горы кавказа'",
           "image": "/src/assets/images/slide.jpg",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
-
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Кавказкие дольмены",
           "image": "/src/assets/images/slide.jpg",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
-
         }
       ],
       "routeTypes": [
-        { "title" : "Тип маршрута" },
-        { "title" : "Тип маршрута" },
-        { "title" : "Тип маршрута" }
+        {
+          "title": "Тип маршрута"
+        },
+        {
+          "title": "Тип маршрута"
+        },
+        {
+          "title": "Тип маршрута"
+        }
       ],
       "days": [
         {
           "title": "День номер 1",
           "pointStart": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Владикавказ",
             "date": "01.01.2020",
             "time": "10:00"
           },
           "pointEnd": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Гора Казбек",
             "date": "01.01.2020",
             "time": "10:00"
@@ -281,13 +676,19 @@
         {
           "title": "День номер 2",
           "pointStart": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Владикавказ",
             "date": "01.01.2020",
             "time": "10:00"
           },
           "pointEnd": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Гора Казбек",
             "date": "01.01.2020",
             "time": "10:00"
@@ -322,13 +723,348 @@
         {
           "title": "День номер 3",
           "pointStart": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Владикавказ",
             "date": "01.01.2020",
             "time": "10:00"
           },
           "pointEnd": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 4",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 5",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 1",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 330,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 2",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 3",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 4",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Гора Казбек",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "objects": [
+            {
+              "name": "Музей 'Горы кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            },
+            {
+              "name": "Заповедник Северного кавказа",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 45,
+              "time": 90,
+              "typeMovement": "car"
+            },
+            {
+              "name": "Термальный источник",
+              "timeInWay": 90,
+              "way": 5000,
+              "stopTime": 30,
+              "time": 90,
+              "typeMovement": "people"
+            }
+          ]
+        },
+        {
+          "title": "День номер 5",
+          "pointStart": {
+            "coordinates": [
+              50,
+              40
+            ],
+            "name": "Владикавказ",
+            "date": "01.01.2020",
+            "time": "10:00"
+          },
+          "pointEnd": {
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Гора Казбек",
             "date": "01.01.2020",
             "time": "10:00"
@@ -370,53 +1106,81 @@
       "way": 21000,
       "hours": 5,
       "image": "/src/assets/images/slide.jpg",
-      "typesOfMovement": ["people", "car"],
+      "typesOfMovement": [
+        "people",
+        "car"
+      ],
       "pointStart": {
-        "coordinates": [50, 40],
+        "coordinates": [
+          50,
+          40
+        ],
         "name": "Владикавказ"
       },
       "pointEnd": {
-        "coordinates": [50, 40],
+        "coordinates": [
+          50,
+          40
+        ],
         "name": "Гора Казбек"
       },
       "objects": [
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Термальный Источник",
           "image": "/src/assets/images/slide.jpg",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Музей 'Горы кавказа'",
           "image": "/src/assets/images/slide.jpg",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
-
         },
         {
-          "coordinates": [50, 40],
+          "coordinates": [
+            50,
+            40
+          ],
           "name": "Кавказкие дольмены",
           "image": "/src/assets/images/slide.jpg",
           "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi, eius iusto quis quos rerum veritatis? Accusantium blanditiis consequuntur ea eum libero nobis porro quae quidem. Enim quibusdam sunt tempore."
-
         }
       ],
       "routeTypes": [
-        { "title" : "Тип маршрута" },
-        { "title" : "Тип маршрута" },
-        { "title" : "Тип маршрута" }
+        {
+          "title": "Тип маршрута"
+        },
+        {
+          "title": "Тип маршрута"
+        },
+        {
+          "title": "Тип маршрута"
+        }
       ],
       "days": [
         {
           "title": "День номер 1",
           "pointStart": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Владикавказ",
             "date": "01.01.2020",
             "time": "10:00"
           },
           "pointEnd": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Гора Казбек",
             "date": "01.01.2020",
             "time": "10:00"
@@ -451,13 +1215,19 @@
         {
           "title": "День номер 2",
           "pointStart": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Владикавказ",
             "date": "01.01.2020",
             "time": "10:00"
           },
           "pointEnd": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Гора Казбек",
             "date": "01.01.2020",
             "time": "10:00"
@@ -492,13 +1262,19 @@
         {
           "title": "День номер 3",
           "pointStart": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Владикавказ",
             "date": "01.01.2020",
             "time": "10:00"
           },
           "pointEnd": {
-            "coordinates": [50, 40],
+            "coordinates": [
+              50,
+              40
+            ],
             "name": "Гора Казбек",
             "date": "01.01.2020",
             "time": "10:00"
