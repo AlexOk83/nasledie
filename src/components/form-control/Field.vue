@@ -35,10 +35,14 @@
         <Radio v-if="type === 'radio'" :name="name" :variant-list="listValue" :value="localValue" />
         <Select v-if="type === 'select'" :name="name" :list="listValue" :value="localValue" :placeholder="placeholder" />
         <div class="field__footer" v-if="save">
-            <div class="btn" @click="offDisabled"><Icon icon="edit" />Редактировать</div>
+            <div class="btn" @click="offDisabled"><Icon icon="edit" />
+                <span>Редактировать описание</span>
+            </div>
             <div class="btn" @click="saveData">
                 <Icon icon="check" />
-                Сохранить
+                <span>
+                    Сохранить
+                </span>
             </div>
         </div>
     </div>
@@ -129,6 +133,10 @@
                 .icon {
                     top: 0;
                     background-color: @base;
+                }
+                span {
+                    display: inline-block;
+                    border-bottom: 1px dashed @base;
                 }
             }
         }

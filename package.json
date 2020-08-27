@@ -19,6 +19,7 @@
     "vue-cli": "^2.9.6",
     "vue-custom-scrollbar": "^1.2.0",
     "vue-masked-input": "^0.5.2",
+    "vue-resize-directive": "^1.2.0",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.1.2",
     "vue-template-compiler": "^2.6.11",

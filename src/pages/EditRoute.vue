@@ -20,15 +20,27 @@
                            :value="route.shortDescription"
                            :save="setData"
                            rows="3"
-                           @change="changeValue('title', $event)"
+                           @change="changeValue('shortDescription', $event)"
+                    />
+                    <Field name="description"
+                           type="longtext"
+                           title="Полное описание маршрута"
+                           placeholder="Описание маршрута"
+                           :value="route.description"
+                           :save="setData"
+                           rows="15"
+                           @change="changeValue('description', $event)"
                     />
                     <Tabs
                         :data="route.days"
                     />
-                    <Tabs
-                        :data="[{ title: '1 День'},{ title: '2 День'},{ title: '3 День'},]"
+                    <Field name="is-geo-route"
+                           type="radio"
+                           title="Сформировать маршрут по географической близости объектов"
+                           :value="isGeoRoute"
+                           :list-value="listParams"
+                           @change="changeValue('is-geo-route', $event)"
                     />
-
 
                 </form>
             </div>
@@ -58,7 +70,11 @@
             return {
                 route: {},
                 resource: null,
-                id: null
+                id: null,
+                isGeoRoute: 'yes',
+                listParams: [
+                    {name: 'Да', value: 'yes'}, {name: 'Нет', value: 'no'}
+                ],
             }
         },
         computed: {

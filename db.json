@@ -86,7 +86,7 @@
       ],
       "days": [
         {
-          "title": "День номер 1",
+          "id": "День номер 1",
           "pointStart": {
             "coordinates": [
               50,
@@ -133,7 +133,7 @@
           ]
         },
         {
-          "title": "День номер 2",
+          "id": "День номер 2",
           "pointStart": {
             "coordinates": [
               50,
@@ -180,7 +180,7 @@
           ]
         },
         {
-          "title": "День номер 3",
+          "id": "День номер 3",
           "pointStart": {
             "coordinates": [
               50,
@@ -227,7 +227,7 @@
           ]
         },
         {
-          "title": "День номер 4",
+          "id": "День номер 4",
           "pointStart": {
             "coordinates": [
               50,
@@ -274,7 +274,7 @@
           ]
         },
         {
-          "title": "День номер 5",
+          "id": "День номер 5",
           "pointStart": {
             "coordinates": [
               50,
@@ -321,7 +321,7 @@
           ]
         },
         {
-          "title": "День номер 6",
+          "id": "День номер 6",
           "pointStart": {
             "coordinates": [
               50,
@@ -368,7 +368,7 @@
           ]
         },
         {
-          "title": "День номер 7",
+          "id": "День номер 7",
           "pointStart": {
             "coordinates": [
               50,
@@ -415,7 +415,7 @@
           ]
         },
         {
-          "title": "День номер 8",
+          "id": "День номер 8",
           "pointStart": {
             "coordinates": [
               50,
@@ -462,7 +462,7 @@
           ]
         },
         {
-          "title": "День номер 9",
+          "id": "День номер 9",
           "pointStart": {
             "coordinates": [
               50,
@@ -509,7 +509,7 @@
           ]
         },
         {
-          "title": "День номер 10",
+          "id": "День номер 10",
           "pointStart": {
             "coordinates": [
               50,
@@ -627,7 +627,7 @@
       ],
       "days": [
         {
-          "title": "День номер 1",
+          "id": "День номер 1",
           "pointStart": {
             "coordinates": [
               50,
@@ -674,7 +674,7 @@
           ]
         },
         {
-          "title": "День номер 2",
+          "id": "День номер 2",
           "pointStart": {
             "coordinates": [
               50,
@@ -721,7 +721,7 @@
           ]
         },
         {
-          "title": "День номер 3",
+          "id": "День номер 3",
           "pointStart": {
             "coordinates": [
               50,
@@ -768,7 +768,7 @@
           ]
         },
         {
-          "title": "День номер 4",
+          "id": "День номер 4",
           "pointStart": {
             "coordinates": [
               50,
@@ -815,7 +815,7 @@
           ]
         },
         {
-          "title": "День номер 5",
+          "id": "День номер 5",
           "pointStart": {
             "coordinates": [
               50,
@@ -862,7 +862,7 @@
           ]
         },
         {
-          "title": "День номер 1",
+          "id": "День номер 1",
           "pointStart": {
             "coordinates": [
               50,
@@ -909,7 +909,7 @@
           ]
         },
         {
-          "title": "День номер 2",
+          "id": "День номер 2",
           "pointStart": {
             "coordinates": [
               50,
@@ -956,7 +956,7 @@
           ]
         },
         {
-          "title": "День номер 3",
+          "id": "День номер 3",
           "pointStart": {
             "coordinates": [
               50,
@@ -1003,7 +1003,7 @@
           ]
         },
         {
-          "title": "День номер 4",
+          "id": "День номер 4",
           "pointStart": {
             "coordinates": [
               50,
@@ -1050,7 +1050,7 @@
           ]
         },
         {
-          "title": "День номер 5",
+          "id": "День номер 5",
           "pointStart": {
             "coordinates": [
               50,
@@ -1166,7 +1166,7 @@
       ],
       "days": [
         {
-          "title": "День номер 1",
+          "id": "День номер 1",
           "pointStart": {
             "coordinates": [
               50,
@@ -1213,7 +1213,7 @@
           ]
         },
         {
-          "title": "День номер 2",
+          "id": "День номер 2",
           "pointStart": {
             "coordinates": [
               50,
@@ -1260,7 +1260,7 @@
           ]
         },
         {
-          "title": "День номер 3",
+          "id": "День номер 3",
           "pointStart": {
             "coordinates": [
               50,
