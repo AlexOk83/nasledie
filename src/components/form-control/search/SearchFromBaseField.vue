@@ -16,6 +16,9 @@
 
 <script>
     import vueCustomScrollbar from 'vue-custom-scrollbar'
+    import Repository from "../../../repository";
+
+    const repository = new Repository();
 
     export default {
         name: "SearchField",
@@ -35,12 +38,10 @@
                 searchText: '',
                 currentValue: {},
                 objects: [],
-                allObjects: [],
                 menuVisible: false,
             }
         },
         created() {
-            this.getData();
             this.currentValue = this.value || {};
             this.searchText = this.value.name || "";
         },
@@ -68,39 +69,15 @@
 
             },
             search() {
-                const allObjects = this.allObjects.filter(o => {
-                    let flag = true;
-                    this.addedObjects.forEach(o2 => {
-
-                        if (o2.name === o.name) {
-                            flag = false;
-                        }
-                    });
-
-                    return flag;
-                });
-
-                if (this.searchText.length > 3) {
-                    this.objects = allObjects.filter(object => {
-                        const name = object.name.toLowerCase()
-                        const text = this.searchText.toLowerCase()
-                        return name.match(text);
-                    });
-                } else {
-                    this.objects = allObjects.filter(object => {
-                        const region = this.region && this.region.name;
-                        return (object.region === region && object.category === this.category)
+                repository.getObjects(this.currentCategory.value, this.currentRegion.value, this.searchText)
+                    .then(response => {
+                        this.objects = JSON.parse(response.data);
+                        console.clear();
+                        console.log(this.currentRegion, this.currentCategory);
+                        console.log(this.objects);
+                        this.menuVisible = true;
                     })
-                }
-                this.menuVisible = true;
-            },
-            getData() {
-               /* this.$resource('objectsFromBase').get()
-                    .then(response => response.json())
-                    .then(objects => {
-                        this.allObjects = objects;
-                    })*/
-                this.allObjects = this.objects
+
             },
             select(object) {
                 this.currentValue = object;

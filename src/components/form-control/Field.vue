@@ -55,6 +55,8 @@
     import Radio from "./radio-buttons";
     import Select from "./select";
     import Icon from "../icon";
+    import Repository from "../../repository";
+    const repository = new Repository();
 
     export default {
         name: "Field",

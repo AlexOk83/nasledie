@@ -71,7 +71,6 @@
                 return classes;
             },
             resize() {
-                console.log(this.$refs.header.clientWidth);
                 this.widthHeader = this.$refs.header.clientWidth;
             },
             setActiveDay(day) {

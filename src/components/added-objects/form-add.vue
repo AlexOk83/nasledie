@@ -34,8 +34,8 @@
     import Select from '../form-control/select';
     import Button from '../form-control/button';
     import SearchFromBaseField from "../form-control/search/SearchFromBaseField";
-    import axios from 'axios'
-    import VueAxios from 'vue-axios'
+    import Repository from '../../repository';
+    const repository = new Repository();
 
     export default {
         name: "form-add",
@@ -47,8 +47,6 @@
             Select,
             SearchFromBaseField,
             Button,
-            axios,
-            VueAxios
         },
         data() {
             return {
@@ -83,19 +81,10 @@
                 this.currentName =  {};
             },
             changeRegion(event) {
-                this.currentRegion = event;
+                this.currentRegion = this.regions.find(region => region.value === event);
             },
             changeCategory(event) {
-                this.currentCategory = event;
-                axios.get("https://api.zhivoe-nasledie.ga/object?type="+this.currentCategory + '&region='+ this.currentRegion)
-                    .then(response => {
-                        this.objects = JSON.parse(response.data)
-
-
-                    })
-                    .catch(function(e){
-
-                    });
+                this.currentCategory = this.categories.find(region => region.value === event);
             },
             changeName(event) {
 
@@ -104,29 +93,19 @@
                 this.currentRegion.name = this.currentRegion.value || event.region;
             },
             getData() {
-
-                    axios.get("https://api.zhivoe-nasledie.ga/region")
+                    repository.getRegion()
                         .then(response => {
-                            // this.allArticles = response.data;
                             this.regions = JSON.parse(response.data)
-
-                        })
-                        .catch(function(e){
-
+                            console.log(this.regions);
                         });
-                    axios.get("https://api.zhivoe-nasledie.ga/type")
+                    repository.getType()
                         .then(response => {
-                            // this.allArticles = response.data;
                             this.categories = JSON.parse(response.data)
-
-                        })
-                        .catch(function(e){
-
                         });
 
             },
         },
-        created() {
+        mounted() {
             this.getData();
         },
 
