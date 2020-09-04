@@ -85,6 +85,7 @@
     import Map from "../components/map/index";
     import Button from "../components/form-control/button/index";
     import Objects from "../components/added-objects";
+    import axios from 'axios'
 
     export default {
         name: "CreateRoute",
@@ -93,6 +94,7 @@
             Field,
             Objects,
             Button,
+            axios
         },
         data() {
             return {
@@ -125,6 +127,32 @@
         methods: {
             submitForm() {
                 console.clear()
+                const formData = new FormData();
+                formData.append('ZRouter', JSON.stringify({
+                    id: null,
+                    name : this.name,
+                    description : this.description,
+                    startPoint : this.startPoint.name,
+                    startPointCoord: this.startPoint.coordinates,
+                    endPoint : this.endPoint.name,
+                    endPointCoord: this.endPoint.coordinates,
+                    dateStart : this.dateStart,
+                    timeStart : this.timeStart,
+                    isGeoRoute : this.isGeoRoute,
+                    typeMovement : this.typeMovement,
+                    objects : this.objects,
+                    user_id : 1,
+                }));
+                formData.append('sessionId', 1);
+
+                axios.post("https://api.zhivoe-nasledie.ga/router", formData)
+                    .then(response => {
+                        console.log(response.data)
+
+                    })
+                    .catch(function(e){
+
+                    });
                 console.log('is work...')
                 console.log(this.name)
                 console.log(this.description);

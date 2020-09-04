@@ -87,7 +87,6 @@
             },
             changeCategory(event) {
                 this.currentCategory = event;
-                console.log("https://api.zhivoe-nasledie.ga/object?type="+this.currentCategory + '&region='+ this.currentRegion )
                 axios.get("https://api.zhivoe-nasledie.ga/object?type="+this.currentCategory + '&region='+ this.currentRegion)
                     .then(response => {
                         this.objects = JSON.parse(response.data)
