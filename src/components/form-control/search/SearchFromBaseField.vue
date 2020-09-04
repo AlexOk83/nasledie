@@ -95,11 +95,12 @@
                 this.menuVisible = true;
             },
             getData() {
-                this.$resource('objectsFromBase').get()
+               /* this.$resource('objectsFromBase').get()
                     .then(response => response.json())
                     .then(objects => {
                         this.allObjects = objects;
-                    })
+                    })*/
+                this.allObjects = this.objects
             },
             select(object) {
                 this.currentValue = object;

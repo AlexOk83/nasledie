@@ -2,10 +2,10 @@
     <div class="objects__add-form">
         <div class="label">Объекты для посещения:</div>
         <div class="form__field">
-            <SearchField :value="currentRegion" placeholder="Регион" @change="changeRegion"/>
+            <Select :list="regions" :value="currentRegion"   placeholder="Регион" @change="changeRegion"/>
         </div>
         <div class="form__field">
-            <Select :list="categories" :value="currentCategory" placeholder="Категория" @change="changeCategory" />
+            <Select :list="categories" :value="currentCategory"  placeholder="Категория" @change="changeCategory" />
         </div>
         <div class="form__field">
             <SearchFromBaseField
@@ -15,6 +15,7 @@
                     :category="currentCategory"
                     :region="currentRegion"
                     :addedObjects="objects"
+
             />
         </div>
         <Button
@@ -33,72 +34,39 @@
     import Select from '../form-control/select';
     import Button from '../form-control/button';
     import SearchFromBaseField from "../form-control/search/SearchFromBaseField";
+    import axios from 'axios'
+    import VueAxios from 'vue-axios'
+
     export default {
         name: "form-add",
         props: {
-            objects: Array,
+                //objects: Array,
         },
         components: {
             SearchField,
             Select,
             SearchFromBaseField,
-            Button
+            Button,
+            axios,
+            VueAxios
         },
         data() {
             return {
-                categories: [
-                    {
-                        "name": "Поселения",
-                        "value": "Location"
-                    },
-                    {
-                        "name": "Сооружения",
-                        "value": "Construction"
-                    },
-                    {
-                        "name": "Природа",
-                        "value": "Nature"
-                    },
-                    {
-                        "name": "Традиции и промыслы",
-                        "value": "Social"
-                    },
-                    {
-                        "name": "Даты и события",
-                        "value": "Event"
-                    },
-                    {
-                        "name": "Персоны",
-                        "value": "People"
-                    },
-                    {
-                        "name": "Гастрономия",
-                        "value": "Gastronomy"
-                    },
-                    {
-                        "name": "Образы",
-                        "value": "Images"
-                    },
-                    {
-                        "name": "Арт-кластеры",
-                        "value": "Creative"
-                    }
-                ],
-                currentRegion: {},
+                categories: [],
+                regions: [],
+                currentRegion: "",
                 currentCategory: "",
-                currentName: {}
-
+                currentName: {},
+                objects: []
             }
         },
         computed: {
             disabledForm() {
-                if (!this.currentRegion.coordinates) {
-                    return true
-                }
+
                 if (!this.currentCategory) {
                     return true;
                 }
-                if (!this.currentName.name) {
+                if (!this.currentName) {
                     return true;
                 }
                 return false;
@@ -110,7 +78,7 @@
                 this.clearAll();
             },
             clearAll() {
-                this.currentRegion = {};
+                this.currentRegion = "";
                 this.currentCategory = "";
                 this.currentName =  {};
             },
@@ -119,13 +87,50 @@
             },
             changeCategory(event) {
                 this.currentCategory = event;
+                console.log("https://api.zhivoe-nasledie.ga/object?type="+this.currentCategory + '&region='+ this.currentRegion )
+                axios.get("https://api.zhivoe-nasledie.ga/object?type="+this.currentCategory + '&region='+ this.currentRegion)
+                    .then(response => {
+                        this.objects = JSON.parse(response.data)
+
+
+                    })
+                    .catch(function(e){
+
+                    });
             },
             changeName(event) {
+
                 this.currentName = event;
-                this.currentCategory = this.currentCategory || event.category;
-                this.currentRegion.name = this.currentRegion.name || event.region;
-            }
-        }
+                this.currentCategory = this.currentCategory.value || event.category;
+                this.currentRegion.name = this.currentRegion.value || event.region;
+            },
+            getData() {
+
+                    axios.get("https://api.zhivoe-nasledie.ga/region")
+                        .then(response => {
+                            // this.allArticles = response.data;
+                            this.regions = JSON.parse(response.data)
+
+                        })
+                        .catch(function(e){
+
+                        });
+                    axios.get("https://api.zhivoe-nasledie.ga/type")
+                        .then(response => {
+                            // this.allArticles = response.data;
+                            this.categories = JSON.parse(response.data)
+
+                        })
+                        .catch(function(e){
+
+                        });
+
+            },
+        },
+        created() {
+            this.getData();
+        },
+
     }
 </script>
 
