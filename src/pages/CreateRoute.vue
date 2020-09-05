@@ -85,7 +85,9 @@
     import Map from "../components/map/index";
     import Button from "../components/form-control/button/index";
     import Objects from "../components/added-objects";
-    import axios from 'axios'
+    import Repository from '../repository';
+    import { radioButtonOptions, typesOfMovement } from '../constants';
+    const repository = new Repository();
 
     export default {
         name: "CreateRoute",
@@ -94,7 +96,6 @@
             Field,
             Objects,
             Button,
-            axios
         },
         data() {
             return {
@@ -114,13 +115,8 @@
                 timeStart: '10:30',
                 isGeoRoute: 'yes',
                 typeMovement: '',
-                listParams: [
-                    {name: 'Да', value: 'yes'}, {name: 'Нет', value: 'no'}
-                ],
-                listTypesMovement: [
-                    {name: 'Пеший', value: 'people', icon: 'people'},
-                    {name: 'Автомобильный', value: 'car', icon: 'car'}
-                ],
+                listParams: radioButtonOptions,
+                listTypesMovement: typesOfMovement,
                 objects: [],
             }
         },
@@ -139,43 +135,24 @@
                     dateStart : this.dateStart,
                     timeStart : this.timeStart,
                     isGeoRoute : this.isGeoRoute,
-                    typeMovement : this.typeMovement,
+                    typeMovement : [this.typeMovement],
                     objects : this.objects,
                     user_id : 1,
                 }));
                 formData.append('sessionId', 1);
 
-                axios.post("https://api.zhivoe-nasledie.ga/router", formData)
+                repository.createRouter(formData)
                     .then(response => {
                         console.log(response.data)
-
-                    })
-                    .catch(function(e){
-
                     });
-                console.log('is work...')
-                console.log(this.name)
-                console.log(this.description);
-                console.log(this.startPoint);
-                console.log(this.endPoint);
-                console.log(this.dateStart);
-                console.log(this.timeStart);
-                console.log(this.isGeoRoute);
-                console.log(this.typeMovement);
             },
             changeValue(field, value) {
                 this.$data[field] = value
             }
         },
-        created() {
-
-        }
     }
 </script>
 
 <style lang="less">
     @import "../styles/mixins";
-
-
-
 </style>

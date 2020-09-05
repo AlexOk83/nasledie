@@ -8,13 +8,13 @@
             {{ getValue }}
         </div>
         <div class="options-list" :class="{'active': active }">
-            <vue-custom-scrollbar class="scroll-area"  :settings="{ maxScrollbarLength: 200 }">
+            <vue-custom-scrollbar class="scroll-area"  :settings="settings">
                 <div class="option"
-                     :class="{'option--with-icon': option.icon, 'option--active': option.value === currentValue}"
+                     :class="{'option--with-icon': option.icon, 'option--active': option.value === currentValue, 'option--disabled': option.disabled}"
                      v-for="option in list"
-                     @click="() => select(option)"
+                     @click="!option.disabled && select(option)"
                 >
-                    <Icon :icon="option.icon" v-if="option.icon"/>
+                    <Icon :icon="option.icon" v-if="option.icon" />
                     {{ option.name }}
                 </div>
             </vue-custom-scrollbar>
@@ -26,6 +26,7 @@
 <script>
     import vueCustomScrollbar from 'vue-custom-scrollbar'
     import Icon from '../../icon';
+    import { settingsScroll } from '../../../constants';
     export default {
         name: "index",
         props: {
@@ -71,6 +72,9 @@
                 });
 
                 return val;
+            },
+            settings() {
+                return settingsScroll;
             }
         },
         created() {

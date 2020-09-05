@@ -58,5 +58,14 @@
         &--check {
             .mask('check');
         }
+        &--ship {
+            .mask('ship');
+        }
+        &--plane {
+            .mask('plane');
+        }
+        &--train {
+            .mask('train');
+        }
     }
 </style>

@@ -34,6 +34,7 @@ export class Presenter {
         switch (movement) {
             case('people'): return "Пеший";
             case('car'): return "Автомобильный";
+            case('ship'): return "По воде";
             default: return "";
         }
     }

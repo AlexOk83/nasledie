@@ -19,7 +19,10 @@ const API = {
         return `${API.BASE()}/object${params}`
     },
     GET_REGION: () => `${API.BASE()}/region`,
-    GET_TYPE: () => `${API.BASE()}/type`
+    GET_TYPE: () => `${API.BASE()}/type`,
+    GET_MY_ROUTES: (userId) => `${API.BASE()}/routerlist?user_id=${userId}`,
+
+    CREATE_ROUTER: () => `${API.BASE()}/router`,
 };
 
 export default class Repository {
@@ -35,6 +38,14 @@ export default class Repository {
 
     getType() {
         return axios.get(API.GET_TYPE());
+    }
+
+    getMyRoutes(userId) {
+        return axios.get(API.GET_MY_ROUTES(userId));
+    }
+
+    createRouter(data) {
+        return axios.post(API.CREATE_ROUTER(), data);
     }
 
 }

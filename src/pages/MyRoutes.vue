@@ -11,6 +11,9 @@
 
 <script>
     import List from "../components/route-list/index";
+    import Repository from "../repository";
+
+    const repository = new Repository();
 
     export default {
         name: "MyRoutes",
@@ -26,16 +29,15 @@
                 routesList: [],
             }
         },
-        created() {
+        mounted() {
             this.getData();
         },
         methods: {
             getData() {
-                this.$resource('myRoutes').get()
-                    .then(response => response.json())
-                    .then(routes => {
-                        console.log(routes);
-                        this.routesList = routes;
+                repository.getMyRoutes(1)
+                    .then(response => {
+                        this.routesList = JSON.parse(response.data);
+                        console.log('routes', this.routesList)
                     })
             }
         }

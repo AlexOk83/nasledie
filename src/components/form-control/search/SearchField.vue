@@ -4,7 +4,7 @@
         <div class="search-button" @click="search"/>
         <div class="clear-button" @click="clear"/>
         <div class="search-list" :class="{'show': findedPoints.length > 0 }">
-            <vue-custom-scrollbar class="scroll-area">
+            <vue-custom-scrollbar class="scroll-area" :settings="settings">
                 <div class="search-list__item" v-for="point in findedPoints" @click="() => select(point)">
                     {{point.description }} {{ point.name }}
                 </div>
@@ -16,6 +16,8 @@
 
 <script>
     import vueCustomScrollbar from 'vue-custom-scrollbar'
+    import { settingsScroll } from "../../../constants";
+
     export default {
         name: "SearchField",
         props: {
@@ -35,6 +37,11 @@
                 searchText: "",
                 currentValue: {},
                 findedPoints: [],
+            }
+        },
+        computed: {
+            settings() {
+                return settingsScroll
             }
         },
         created() {

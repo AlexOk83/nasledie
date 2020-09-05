@@ -4,7 +4,7 @@
         <div class="search-button" @click="search"/>
         <div class="clear-button" @click="clear"/>
         <div class="search-list" :class="{'show': menuVisible && objects.length > 0 }">
-            <vue-custom-scrollbar class="scroll-area">
+            <vue-custom-scrollbar class="scroll-area" :settings="settings">
                 <div class="search-list__item" v-for="object in objects" @click="select(object)">
                     {{ object.name }}
                 </div>
@@ -17,6 +17,7 @@
 <script>
     import vueCustomScrollbar from 'vue-custom-scrollbar'
     import Repository from "../../../repository";
+    import {settingsScroll} from "../../../constants";
 
     const repository = new Repository();
 
@@ -39,6 +40,11 @@
                 currentValue: {},
                 objects: [],
                 menuVisible: false,
+            }
+        },
+        computed: {
+            settings() {
+                return settingsScroll
             }
         },
         created() {

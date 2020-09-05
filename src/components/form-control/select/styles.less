@@ -61,7 +61,6 @@
     height: 40px;
     padding: 5px 16px;
     background-color: white;
-    //max-height: 200px;
     &.active {
       .animate(optionListOpen, 0.2s);
       z-index: 20;
@@ -89,6 +88,19 @@
       &--with-icon {
         position: relative;
         padding-left: 30px;
+      }
+      &--disabled {
+        color: @greyBorder;
+        cursor: not-allowed;
+        .icon {
+          background-color: @greyButton;
+        }
+        &:hover {
+          color: @greyBorder;
+          .icon {
+            background-color: @greyButton;
+          }
+        }
       }
     }
   }

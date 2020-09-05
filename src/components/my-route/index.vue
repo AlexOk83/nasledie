@@ -1,7 +1,7 @@
 <template>
     <router-link tag="div" :to="link" class="myRoute">
         <div class="myRoute__image">
-            <img :src="data.image" :alt="data.title" >
+            <img :src="data.image" :alt="data.name" >
             <div class="like" @click="handleAddToMymyRoute" :class="{ 'active': data.isActive }"/>
         </div>
         <div class="myRoute__body">
@@ -57,7 +57,7 @@
         components: {Button, Icon},
         props: {
             data: {
-                title: String,
+                name: String,
                 description: String,
                 pointStart: {
                     coordinates: Array,
