@@ -26,7 +26,6 @@
             }
         },
         created() {
-            console.log(this.data)
             this.getData();
         },
         methods: {

@@ -37,7 +37,6 @@
                 repository.getMyRoutes(1)
                     .then(response => {
                         this.routesList = JSON.parse(response.data);
-                        console.log('routes', this.routesList)
                     })
             }
         }

@@ -21,7 +21,6 @@
                     pointList.push(from)
                     for(let point of points)
                     {
-                        console.log(point)
                         pointList.push(point)
                     }
                     pointList.push(to)

@@ -75,7 +75,6 @@
                 }
             },
             validate(event) {
-                console.log(event);
                 const { hour, minutes } = this.getTime(event);
                 const timeIsFull = !hour.includes('_') && !minutes.includes('_')
                 if (timeIsFull) {

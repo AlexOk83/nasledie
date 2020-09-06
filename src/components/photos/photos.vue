@@ -51,7 +51,6 @@
             addButton() {
                 const l = this.files && this.files.length || 0;
                 const o = l % 3;
-                console.log(o); // 1, 2 ,0
                 if (o === 1) {
                     return 1 + 3;
                 }

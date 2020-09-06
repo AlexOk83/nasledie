@@ -51,7 +51,6 @@
             select(option) {
                 this.currentValue = option.value;
                 this.active = false;
-                console.log(this.currentValue)
                 this.$emit('change', this.currentValue);
             },
             open() {

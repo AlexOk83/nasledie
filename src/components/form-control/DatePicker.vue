@@ -33,10 +33,7 @@
             vuejsDatepicker
         },
         methods:{
-            changeDate(e) {
-                console.log(this.currentDate)
-                console.log(e)
-                // this.currentDate
+            changeDate() {
                 this.$emit('change', this.currentDate);
             }
         }

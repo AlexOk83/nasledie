@@ -85,11 +85,7 @@
                             region: String(o.region),
                             position: o.position.split(', ')
                         }))
-                        console.clear();
-                        console.log(this.region, this.category);
-                        console.log(this.objects);
                         this.menuVisible = true;
-                        console.log(this.menuVisible, this.objects.length);
                     })
 
             },

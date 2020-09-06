@@ -22,7 +22,6 @@
         },
         methods: {
             changeValue() {
-                console.log(this.localValue)
                 this.$emit('change', this.localValue)
             }
         }

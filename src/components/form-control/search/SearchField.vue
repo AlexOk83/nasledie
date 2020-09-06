@@ -74,7 +74,6 @@
 
             },
             search() {
-                console.log(this.searchText);
                 if (this.searchText.length > 3) {
                     const geocoder = ymaps.geocode(this.searchText + ', ' + this.currentValue.description);
                     let pointList = [];
@@ -83,7 +82,6 @@
                     geocoder.then(
                         function (res) {
                             res.geoObjects.each(function(el) {
-                                console.log(el.properties)
                                 let point = {
                                     coordinates: el.geometry.getCoordinates(),
                                     name: el.properties.get('name'),
@@ -100,7 +98,6 @@
                 }
             },
             select(point) {
-                console.log(point);
                 this.currentValue = point;
                 this.searchText = point.name || '';
                 this.$emit('change', this.currentValue)

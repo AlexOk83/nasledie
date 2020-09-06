@@ -83,7 +83,6 @@
         },
         methods: {
             changeValue(e) {
-                console.log(e)
                 this.$emit('change', e);
             },
             changeLocalValue() {

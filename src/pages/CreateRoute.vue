@@ -140,15 +140,12 @@
                     user_id : 1,
                 }));
                 formData.append('sessionId', 1);
-                console.log(formData);
                 repository.createRouter(formData)
                     .then(response => {
                         console.log(response.data)
                     });
             },
             changeValue(field, value) {
-                // console.clear();
-                console.log(field, value)
                 this.$data[field] = value
             }
         },

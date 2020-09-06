@@ -78,11 +78,9 @@
             },
             changeRegion(event) {
                 this.currentRegion = this.regions.find(region => region.value === event);
-                console.log(this.currentRegion);
             },
             changeCategory(event) {
                 this.currentCategory = this.categories.find(region => region.value === event);
-                console.log(this.currentCategory);
             },
             changeName(event) {
                 this.currentName = event;
@@ -94,12 +92,10 @@
                         .then(response => {
                             let regions = JSON.parse(response.data);
                             this.regions = regions.map(region => ({ ...region, value: String(region.value)}))
-                            console.log(this.regions);
                         });
                     repository.getTypes()
                         .then(response => {
                             this.categories = JSON.parse(response.data);
-                            console.log(this.categories);
                         });
 
             },
