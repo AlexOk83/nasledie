@@ -102,12 +102,12 @@
                 name: 'Тестовый маршрут',
                 description: 'Описание маршрута',
                 startPoint: {
-                    coordinates: '',
+                    coordinates: [],
                     name: '',
                     description: ''
                 },
                 endPoint: {
-                    coordinates: '',
+                    coordinates: [],
                     name: '',
                     description: ''
                 },

@@ -2,16 +2,17 @@
     <div class="objects__add-form">
         <div class="label">Объекты для посещения:</div>
         <div class="form__field">
-            <Select :list="regions" :value="currentRegion"   placeholder="Регион" @change="changeRegion"/>
+            <SelectControl :list="regions" :value="currentRegion && currentRegion.value"   placeholder="Регион" @change="changeRegion"/>
         </div>
         <div class="form__field">
-            <Select :list="categories" :value="currentCategory"  placeholder="Категория" @change="changeCategory" />
+            <SelectControl :list="categories" :value="currentCategory && currentCategory.value"  placeholder="Категория" @change="changeCategory" />
         </div>
         <div class="form__field">
             <SearchFromBaseField
-                    v-model="currentName"
+                    :value="currentName"
                     placeholder="Название"
                     @change="changeName"
+                    @clear="clearAll"
                     :category="currentCategory"
                     :region="currentRegion"
                     :addedObjects="objects"
@@ -31,7 +32,7 @@
 
 <script>
     import SearchField from "../form-control/search/SearchField";
-    import Select from '../form-control/select';
+    import SelectControl from '../form-control/select';
     import Button from '../form-control/button';
     import SearchFromBaseField from "../form-control/search/SearchFromBaseField";
     import Repository from '../../repository';
@@ -40,11 +41,14 @@
     export default {
         name: "form-add",
         props: {
-                //objects: Array,
+                objects: {
+                    type: Array,
+                    default: [],
+                },
         },
         components: {
             SearchField,
-            Select,
+            SelectControl,
             SearchFromBaseField,
             Button,
         },
@@ -52,22 +56,14 @@
             return {
                 categories: [],
                 regions: [],
-                currentRegion: "",
-                currentCategory: "",
+                currentRegion: {},
+                currentCategory: {},
                 currentName: {},
-                objects: []
             }
         },
         computed: {
             disabledForm() {
-
-                if (!this.currentCategory) {
-                    return true;
-                }
-                if (!this.currentName) {
-                    return true;
-                }
-                return false;
+                return !this.currentCategory || !this.currentRegion || !this.currentName;
             }
         },
         methods: {
@@ -76,31 +72,34 @@
                 this.clearAll();
             },
             clearAll() {
-                this.currentRegion = "";
-                this.currentCategory = "";
+                this.currentRegion = {};
+                this.currentCategory = {};
                 this.currentName =  {};
             },
             changeRegion(event) {
                 this.currentRegion = this.regions.find(region => region.value === event);
+                console.log(this.currentRegion);
             },
             changeCategory(event) {
                 this.currentCategory = this.categories.find(region => region.value === event);
+                console.log(this.currentCategory);
             },
             changeName(event) {
-
                 this.currentName = event;
-                this.currentCategory = this.currentCategory.value || event.category;
-                this.currentRegion.name = this.currentRegion.value || event.region;
+                this.currentCategory = this.categories.find(category => category.value === event.type);
+                this.currentRegion = this.regions.find(region => region.value === event.region);
             },
             getData() {
-                    repository.getRegion()
+                    repository.getRegions()
                         .then(response => {
-                            this.regions = JSON.parse(response.data)
+                            let regions = JSON.parse(response.data);
+                            this.regions = regions.map(region => ({ ...region, value: String(region.value)}))
                             console.log(this.regions);
                         });
-                    repository.getType()
+                    repository.getTypes()
                         .then(response => {
-                            this.categories = JSON.parse(response.data)
+                            this.categories = JSON.parse(response.data);
+                            console.log(this.categories);
                         });
 
             },

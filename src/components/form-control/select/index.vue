@@ -28,7 +28,7 @@
     import Icon from '../../icon';
     import { settingsScroll } from '../../../constants';
     export default {
-        name: "index",
+        name: "Select-control",
         props: {
             value: String,
             list: Array,
@@ -82,7 +82,7 @@
         },
         watch: {
             value: function () {
-                if (!this.value && this.currentValue) {
+                if (this.value !== this.currentValue) {
                     this.currentValue = this.value;
                 }
             }

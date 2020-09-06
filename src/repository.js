@@ -23,6 +23,8 @@ const API = {
     GET_MY_ROUTES: (userId) => `${API.BASE()}/routerlist?user_id=${userId}`,
 
     CREATE_ROUTER: () => `${API.BASE()}/router`,
+
+    LOAD_IMAGE: () => `${API.BASE()}/image`,
 };
 
 export default class Repository {
@@ -32,11 +34,11 @@ export default class Repository {
         return axios.get(API.GET_OBJECTS(category, region, query));
     }
 
-    getRegion() {
+    getRegions() {
         return axios.get(API.GET_REGION());
     }
 
-    getType() {
+    getTypes() {
         return axios.get(API.GET_TYPE());
     }
 
@@ -46,6 +48,10 @@ export default class Repository {
 
     createRouter(data) {
         return axios.post(API.CREATE_ROUTER(), data);
+    }
+
+    loadImage(image) {
+        return axios.post(API.LOAD_IMAGE(), image);
     }
 
 }

@@ -3,14 +3,8 @@
 </template>
 
 <script>
-
-    import Field from "../form-control/Field";
-
     export default {
         name: "Map",
-        components: {
-            Field,
-        },
         props: ['from', 'to', 'points'],
         methods: {
             render: function() {

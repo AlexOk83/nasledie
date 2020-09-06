@@ -1,6 +1,6 @@
 <template>
     <div class="objects">
-        <Form
+        <Form-add
                 :objects="currentObjects"
                 @add="add"
         />
@@ -12,11 +12,11 @@
 </template>
 
 <script>
-    import Form from './form-add';
+    import FormAdd from './form-add';
     import List from './objects-list';
 
     export default {
-        name: "index",
+        name: "added-objects",
         props: {
             objects: Array,
         },
@@ -26,7 +26,7 @@
             }
         },
         components: {
-            Form,
+            FormAdd,
             List
         },
         created() {

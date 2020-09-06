@@ -67,5 +67,8 @@
         &--train {
             .mask('train');
         }
+        &--load {
+            .mask('load');
+        }
     }
 </style>

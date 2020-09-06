@@ -22,13 +22,13 @@
     const repository = new Repository();
 
     export default {
-        name: "SearchField",
+        name: "SearchFromBaseField",
         props: {
             name: String,
             placeholder: String,
             value: Object,
             region: Object,
-            category: String,
+            category: Object,
             addedObjects: Array,
         },
         components: {
@@ -55,7 +55,7 @@
             value: function () {
                 if (!this.value.name && this.currentValue.name) {
                     this.currentValue = this.value;
-                    this.searchText = "";
+                    this.searchText = '';
                 }
             }
         },
@@ -65,7 +65,7 @@
                 this.currentValue = {};
                 this.objects = [];
                 this.menuVisible = false;
-                this.$emit('change', this.currentValue)
+                this.$emit('clear', true)
             },
             close() {
                 // задержка нужна, чтобы успеть выбрать нужный пункт меню
@@ -75,13 +75,21 @@
 
             },
             search() {
-                repository.getObjects(this.currentCategory.value, this.currentRegion.value, this.searchText)
+                const category = this.category && this.category.value;
+                const region = this.region && this.region.value;
+                repository.getObjects(category, region, this.searchText)
                     .then(response => {
-                        this.objects = JSON.parse(response.data);
+                        let objects = JSON.parse(response.data);
+                        this.objects = objects.map(o => ({
+                            ...o,
+                            region: String(o.region),
+                            position: o.position.split(', ')
+                        }))
                         console.clear();
-                        console.log(this.currentRegion, this.currentCategory);
+                        console.log(this.region, this.category);
                         console.log(this.objects);
                         this.menuVisible = true;
+                        console.log(this.menuVisible, this.objects.length);
                     })
 
             },
