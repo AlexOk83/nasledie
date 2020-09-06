@@ -28,41 +28,41 @@
                            rows="15"
                            @change="changeValue('description', $event)"
                     />
-                    <Field name="start-point"
+                    <Field name="startPoint"
                            type="search"
                            title="Точка старта"
                            placeholder="Поиск мест и адресов"
                            :value="startPoint"
                            @change="changeValue('startPoint', $event)"
                     />
-                    <Field name="end-point"
+                    <Field name="endPoint"
                            type="search"
                            title="Точка назначения"
                            placeholder="Поиск мест и адресов"
                            :value="endPoint"
                            @change="changeValue('endPoint', $event)"
                     />
-                    <Field name="date-start"
+                    <Field name="dateStart"
                            type="date"
                            title="Дата старта"
                            placeholder="Дата"
                            :value="dateStart"
-                           @change="changeValue('date-start', $event)"
+                           @change="changeValue('dateStart', $event)"
                     />
-                    <Field name="time-start"
+                    <Field name="timeStart"
                            type="time"
                            title="Время старта"
                            :value="timeStart"
-                           @change="changeValue('time-start', $event)"
+                           @change="changeValue('timeStart', $event)"
                     />
-                    <Photos />
-                    <Field name="type-movement"
+                    <Photos @change="changeValue('files', $event)" :photos="files" />
+                    <Field name="typeMovement"
                            type="select"
                            title="Способ передвижения"
                            placeholder="способ передвижения"
                            :value="typeMovement"
                            :list-value="listTypesMovement"
-                           @change="changeValue('type-movement', $event)"
+                           @change="changeValue('typeMovement', $event)"
                     />
                     <Added-objects
                             :objects="objects"
@@ -125,6 +125,7 @@
                 },
                 dateStart: '2020-08-05',
                 timeStart: '10:30',
+                files: [],
                 isGeoRoute: 'yes',
                 typeMovement: 'car',
                 listParams: radioButtonOptions,

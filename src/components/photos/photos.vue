@@ -7,12 +7,11 @@
             <span>Загрузить с компьютера</span>
         </label>
         <div class="photos-list">
-            <!-- загруженные фотографии ранее -->
-            <draggable v-model="files" draggable=".photos__item">
-                <transition-group class='list'>
-                    <div class="photos__item" v-for="(photo, index) in files" :key="photo.file.name">
+            <draggable v-model="files" draggable=".photos__item" @change="drag">
+                <transition-group class='list' :duration="1000" >
+                    <div class="photos__item" v-for="photo in files" :key="photo.file.name">
                         <div class="wrapper">
-                            <img :src="photo.base64" alt="">
+                            <img :src="photo.base64" :alt="photo.file.name">
                         </div>
                     </div>
                     <div class="other-wrapper" v-for="item in addButton" :key="item">
@@ -33,15 +32,17 @@
     import draggable from 'vuedraggable'
 
     export default {
-        name: "Fotos",
-        props: {},
+        name: "Photos",
+        props: {
+            photos: Array,
+        },
         components: {
             Icon,
             draggable
         },
         data() {
             return {
-                files: [],
+                files: this.photos,
                 content: '',
                 file: null,
 
@@ -69,9 +70,6 @@
                 if ( /\.(jpe?g|png|gif)$/i.test( this.file.name ) ) {
                     reader.readAsDataURL( this.file );
                 }
-
-
-
             },
             readImage(e) {
                 this.content = e.target.result;
@@ -80,10 +78,15 @@
                     base64: this.content,
                     file: this.file
                 });
+                this.$emit('change', this.files)
             },
             remove() {
                 const index = this.files.length - 1;
                 this.files.splice(index, 1);
+                this.$emit('change', this.files)
+            },
+            drag() {
+                this.$emit('change', this.files)
             }
         },
     }
