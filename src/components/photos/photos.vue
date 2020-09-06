@@ -20,7 +20,6 @@
                     <div class="other-wrapper" key="remove" v-if="files.length > 0">
                         <div class="remove" @click="remove"/>
                     </div>
-
                 </transition-group>
             </draggable>
         </div>
@@ -45,7 +44,6 @@
                 files: this.photos,
                 content: '',
                 file: null,
-
             }
         },
         computed: {
