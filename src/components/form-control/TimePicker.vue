@@ -14,9 +14,14 @@
         components: {
             MaskedInput
         },
+        data() {
+            return {
+                localValue: this.value
+            }
+        },
         methods: {
             up() {
-                let { hour, minutes } = this.getTime(this.value);
+                let { hour, minutes } = this.getTime(this.localValue);
                 const currentHour = Number(hour);
                 if (minutes === '00') {
                     minutes = '30';
@@ -32,10 +37,11 @@
                         hour = '00'
                     }
                 }
-                this.value = `${hour}:${minutes}`;
+                this.localValue = `${hour}:${minutes}`;
+                this.$emit('change', this.localValue)
             },
             down() {
-                let { hour, minutes } = this.getTime(this.value);
+                let { hour, minutes } = this.getTime(this.localValue);
                 const currentHour = Number(hour);
                 if (minutes === '00') {
                     minutes = '30';
@@ -51,7 +57,8 @@
                 } else {
                     minutes = '00';
                 }
-                this.value = `${hour}:${minutes}`;
+                this.localValue = `${hour}:${minutes}`;
+                this.$emit('change', this.localValue);
             },
             getTime(time) {
                 if (!time) {
@@ -70,9 +77,20 @@
             validate(event) {
                 console.log(event);
                 const { hour, minutes } = this.getTime(event);
-                if (hour > 23 || minutes > 59) {
-                    this.value = "00:00"
+                const timeIsFull = !hour.includes('_') && !minutes.includes('_')
+                if (timeIsFull) {
+                    if (Number(hour) > 23 || Number(minutes) > 59) {
+                        this.localValue = "00:00"
+                        this.$emit('change', this.localValue)
+                        return;
+                    }
+
+                        this.localValue = `${hour}:${minutes}`;
+                        this.$emit('change', this.localValue)
+
                 }
+
+
 
             }
         },

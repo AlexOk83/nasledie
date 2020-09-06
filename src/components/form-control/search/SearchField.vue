@@ -6,7 +6,7 @@
         <div class="search-list" :class="{'show': findedPoints.length > 0 }">
             <vue-custom-scrollbar class="scroll-area" :settings="settings">
                 <div class="search-list__item" v-for="point in findedPoints" @click="() => select(point)">
-                    {{point.description }} {{ point.name }}
+                    {{ point.name }} {{point.description }}
                 </div>
             </vue-custom-scrollbar>
         </div>

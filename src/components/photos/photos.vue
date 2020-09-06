@@ -83,7 +83,7 @@
                 });
             },
             remove() {
-                const index = this.files.length - 1
+                const index = this.files.length - 1;
                 this.files.splice(index, 1);
             }
         },
@@ -142,7 +142,7 @@
                     background-image: url("../../assets/images/icons/plus.svg");
                     background-repeat: no-repeat;
                     background-position: center;
-                    background-size: 20px;
+                    background-size: 14px;
                     border-radius: 10px;
                     cursor: pointer;
                 }

@@ -1,7 +1,7 @@
 <template>
     <div class="radio-buttons">
         <div class="radio-item" v-for="item in variantList">
-            <input type="radio"  v-model="value" :id="item.value" :value="item.value" :name="name">
+            <input type="radio"  v-model="localValue" :id="item.value" :value="item.value" :name="name" @change="changeValue">
             <label :for="item.value">{{ item.name }}</label>
         </div>
     </div>
@@ -14,6 +14,17 @@
             name: String,
             value: String,
             variantList: Array,
+        },
+        data() {
+            return {
+                localValue: this.value
+            }
+        },
+        methods: {
+            changeValue() {
+                console.log(this.localValue)
+                this.$emit('change', this.localValue)
+            }
         }
     }
 </script>

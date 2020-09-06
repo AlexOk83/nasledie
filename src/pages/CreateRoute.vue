@@ -19,51 +19,51 @@
                            :value="description"
                            @change="changeValue('description', $event)"
                     />
-                    <Field name="start-point"
+                    <Field name="startPoint"
                            type="search"
                            title="Точка старта"
                            placeholder="Поиск мест и адресов"
                            :value="startPoint"
                            @change="changeValue('startPoint', $event)"
                     />
-                    <Field name="end-point"
+                    <Field name="endPoint"
                            type="search"
                            title="Точка назначения"
                            placeholder="Поиск мест и адресов"
                            :value="endPoint"
                            @change="changeValue('endPoint', $event)"
                     />
-                    <Field name="date-start"
+                    <Field name="dateStart"
                            type="date"
                            title="Дата старта"
                            placeholder="Дата"
                            :value="dateStart"
-                           @change="changeValue('date-start', $event)"
+                           @change="changeValue('dateStart', $event)"
                     />
-                    <Field name="time-start"
+                    <Field name="timeStart"
                            type="time"
                            title="Время старта"
                            :value="timeStart"
-                           @change="changeValue('time-start', $event)"
+                           @change="changeValue('timeStart', $event)"
                     />
-                    <Field name="type-movement"
+                    <Field name="typeMovement"
                            type="select"
                            title="Способ передвижения"
                            placeholder="способ передвижения"
                            :value="typeMovement"
                            :list-value="listTypesMovement"
-                           @change="changeValue('type-movement', $event)"
+                           @change="changeValue('typeMovement', $event)"
                     />
                     <Objects
                         :objects="objects"
                         @change="changeValue('objects', $event)"
                     />
-                    <Field name="is-geo-route"
+                    <Field name="isGeoRoute"
                            type="radio"
                            title="Сформировать маршрут по географической близости объектов"
                            :value="isGeoRoute"
                            :list-value="listParams"
-                           @change="changeValue('is-geo-route', $event)"
+                           @change="changeValue('isGeoRoute', $event)"
                     />
                     <Button text="Составить маршрут"
                             :on-click="submitForm"
@@ -140,13 +140,15 @@
                     user_id : 1,
                 }));
                 formData.append('sessionId', 1);
-
+                console.log(formData);
                 repository.createRouter(formData)
                     .then(response => {
                         console.log(response.data)
                     });
             },
             changeValue(field, value) {
+                // console.clear();
+                console.log(field, value)
                 this.$data[field] = value
             }
         },

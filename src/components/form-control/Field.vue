@@ -9,7 +9,7 @@
                :name="name"
                :placeholder="placeholder"
                v-model="localValue"
-               @input="changeValue"
+               @input="changeLocalValue"
                autocomplete="off"
                :readonly="localDisabled"
         />
@@ -20,7 +20,7 @@
                   :name="name"
                   :rows="rows || 4"
                   :placeholder="placeholder"
-                  @input="changeValue"
+                  @input="changeLocalValue"
                   :readonly="localDisabled"
         >
         </textarea>
@@ -30,10 +30,10 @@
                     :placeholder="placeholder"
                     @change="changeValue"
         />
-        <TimePicker v-if="type === 'time'" :name="name" :value="localValue" :placeholder="placeholder" />
-        <SearchField v-if="type === 'search'" :name="name" :value="localValue" :placeholder="placeholder" />
-        <Radio v-if="type === 'radio'" :name="name" :variant-list="listValue" :value="localValue" />
-        <Select v-if="type === 'select'" :name="name" :list="listValue" :value="localValue" :placeholder="placeholder" />
+        <TimePicker v-if="type === 'time'" :name="name" :value="localValue" :placeholder="placeholder"  @change="changeValue" />
+        <SearchField v-if="type === 'search'" :name="name" :value="localValue" :placeholder="placeholder" @change="changeValue" />
+        <Radio v-if="type === 'radio'" :name="name" :variant-list="listValue" :value="localValue"  @change="changeValue" />
+        <Select v-if="type === 'select'" :name="name" :list="listValue" :value="localValue" :placeholder="placeholder"  @change="changeValue" />
         <div class="field__footer" v-if="save">
             <div class="btn" @click="offDisabled"><Icon icon="edit" />
                 <span>Редактировать описание</span>
@@ -83,6 +83,10 @@
         },
         methods: {
             changeValue(e) {
+                console.log(e)
+                this.$emit('change', e);
+            },
+            changeLocalValue() {
                 this.$emit('change', this.localValue);
             },
             offDisabled() {
