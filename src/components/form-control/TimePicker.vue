@@ -1,7 +1,7 @@
 <template>
     <div class="time-picker">
         <div class="up-arrow" @click="up" />
-        <MaskedInput type="text" class="field__control" mask="11:11" v-model="value" @input="validate" @blur="validate" />
+        <MaskedInput type="text" class="field__control" mask="11:11" v-model="localValue" @input="validate" @blur="validate" :disabled="disabled" />
         <div class="down-arrow" @click="down" />
     </div>
 </template>
@@ -10,7 +10,7 @@
     import MaskedInput from 'vue-masked-input'
     export default {
         name: "TimePicker",
-        props: ['value'],
+        props: ['value', 'disabled'],
         components: {
             MaskedInput
         },
@@ -19,8 +19,16 @@
                 localValue: this.value
             }
         },
+        watch: {
+            value: function() {
+                this.localValue = this.value;
+            }
+        },
         methods: {
             up() {
+                if (this.disabled) {
+                    return;
+                }
                 let { hour, minutes } = this.getTime(this.localValue);
                 const currentHour = Number(hour);
                 if (minutes === '00') {
@@ -41,6 +49,9 @@
                 this.$emit('change', this.localValue)
             },
             down() {
+                if (this.disabled) {
+                    return;
+                }
                 let { hour, minutes } = this.getTime(this.localValue);
                 const currentHour = Number(hour);
                 if (minutes === '00') {

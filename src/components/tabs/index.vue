@@ -6,14 +6,34 @@
         </div>
         <div class="tabs__header" ref="header" >
             <div class="tabs__list" ref="tabList" :style="styleList">
-                <div class="tab" :class="getClasses(index, day)" :style="{ width: widthTab + 'px' }"  v-for="(day, index) in data" @click="setActiveDay(day)">
+                <div class="tab" :class="getClasses(index, day)" :style="{ width: widthTab + 'px' }"  v-for="(day, index) in localData" @click="setActiveDay(day)">
                     <span class="text">{{ index + 1 }} День</span>
                 </div>
             </div>
 
         </div>
         <div class="tabs__body">
-
+            <Field name="date"
+                   type="date"
+                   title="Дата"
+                   :value="activeDay && activeDay.date"
+                   :save="config"
+            />
+            <div class="times">
+                <Field name="timeStart"
+                       type="time"
+                       title="Время старта"
+                       :value="activeDay && activeDay.timeStart"
+                       :save="config"
+                />
+                <Field name="timeEnd"
+                       type="time"
+                       title="Время финиша"
+                       :value="activeDay && activeDay.timeEnd"
+                       :save="config"
+                />
+                <objects-in-day :list="activeDay && activeDay.objects" @change="changeObjects" />
+            </div>
         </div>
     </div>
 
@@ -36,20 +56,21 @@
             Field,
             ObjectsInDay,
         },
-
         data() {
             return {
+                localData: this.data,
                 activeDay: this.getData,
                 left: 0,
                 widthHeader: null,
             }
         },
-        watch: {
-            data: function () {
-                this.activeDay = this.getData;
-            }
-        },
         methods: {
+            sendLocalData() {
+                  this.$emit('change', this.localData)
+            },
+            updateLocalData() {
+
+            },
             getClasses(index, day) {
                 const base = index === 0 || index % 3 === 0;
                 const two = index === 1 || (index - 1) % 3 === 0;
@@ -75,6 +96,7 @@
             },
             setActiveDay(day) {
                 this.activeDay = day;
+                this.$forceUpdate();
             },
             prev() {
                 if (this.left > 0)
@@ -83,12 +105,15 @@
             next() {
                 if (this.left < this.data.length - 3)
                     this.left++;
+            },
+        },
+        watch: {
+            data: function () {
+                this.localData = this.data;
+                this.activeDay = this.localData[0];
             }
         },
         computed: {
-            getData() {
-                return this.data && this.data[0];
-            },
             widthTab() {
                 return Math.round(this.widthHeader / 3) + 1;
             },
@@ -108,10 +133,21 @@
             isLong() {
                 return this.data && this.data.length > 3;
             },
+            config() {
+                return {
+                    editTitle: 'Изменить',
+                    viewSaveButton: false,
+                    method: this.changeActiveDay
+                }
+            }
         },
         mounted() {
             this.resize();
         },
+        created() {
+            this.localData = this.data || [];
+            this.activeDay = this.localData[0];
+        }
     }
 </script>
 

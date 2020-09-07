@@ -2,11 +2,12 @@
     <div id="app">
         <div class="container">
             <div class="menu">
-                <router-link tag="a" to="/" >Создание маршрута</router-link>
-                <router-link tag="a" to="/edit-route/1" >Редактирование маршрута</router-link>
-                <router-link tag="a" to="/create-recommended-route" >Создание рекомендованного маршрута</router-link>
-                <router-link tag="a" to="/recommended-routes" >Рекомендованные маршруты</router-link>
-                <router-link tag="a" to="/my-routes" >Мои маршруты</router-link>
+                <router-link tag="a" to="/" >Составить маршрут пользователя</router-link>
+                <router-link tag="a" to="/edit-my-route/14" >Редактирование маршрута пользователя</router-link>
+                <router-link tag="a" to="/create-recommended-route" >Составить рекомендованный маршрут</router-link>
+                <router-link tag="a" to="/edit-recommended-route/1" >Редактирование рекомендованного маршрута</router-link>
+                <router-link tag="a" to="/list-recommended-routes" >Рекомендованные маршруты</router-link>
+                <router-link tag="a" to="/list-my-routes" >Мои маршруты</router-link>
             </div>
 
             <router-view />

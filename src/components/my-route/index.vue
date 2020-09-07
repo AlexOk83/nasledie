@@ -77,7 +77,7 @@
 
             },
             moveToEdit() {
-                this.$router.push(`/edit-route/${this.data.id}`)
+                this.$router.push(`/edit-my-route/${this.data.id}`)
             },
             deleteRoute() {
                 this.$resource('myRoutes/' + this.data.id).remove()

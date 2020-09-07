@@ -20,16 +20,22 @@ const API = {
     },
     GET_REGION: () => `${API.BASE()}/region`,
     GET_TYPE: () => `${API.BASE()}/type`,
+
     GET_MY_ROUTES: (userId) => `${API.BASE()}/routerlist?user_id=${userId}`,
+    GET_MY_ROUTE: (id) => `${API.BASE()}/routerget?id=${id}`, // 14
+    EDIT_MY_ROUTE: (id) => `${API.BASE()}/routeredit?id=${id}`,
+    REMOVE_MY_ROUTE: (id) => `${API.BASE()}/routerdelete?id=${id}`,
 
-    CREATE_ROUTER: () => `${API.BASE()}/router`,
+    GET_RECOMMENDED_ROUTES: () => `${API.BASE()}/routerreclist`,
+    GET_RECOMMENDED_ROUTE: (id) => `${API.BASE()}/routerrecget?id=${id}`,
+    EDIT_RECOMMENDED_ROUTE: (id) => `${API.BASE()}/routerrecedit?id=${id}`,
+    REMOVE_RECOMMENDED_ROUTE: (id) => `${API.BASE()}/routerrecdelete?id=${id}`,
 
-    LOAD_IMAGE: () => `${API.BASE()}/image`,
+    CREATE_ROUTE: () => `${API.BASE()}/router`,
+    CREATE_RECOMMENDED_ROUTE: () => `${API.BASE()}/routerrec`,
 };
 
 export default class Repository {
-    
-
     getObjects(category, region, query) {
         return axios.get(API.GET_OBJECTS(category, region, query));
     }
@@ -46,12 +52,43 @@ export default class Repository {
         return axios.get(API.GET_MY_ROUTES(userId));
     }
 
-    createRouter(data) {
-        return axios.post(API.CREATE_ROUTER(), data);
+    createMyRoute(data) {
+        return axios.post(API.CREATE_RECOMMENDED_ROUTE(), data);
     }
 
-    loadImage(image) {
-        return axios.post(API.LOAD_IMAGE(), image);
+    getMyRoute(routeId) {
+        return axios.get(API.GET_MY_ROUTE(routeId));
     }
+
+    editMyRoute(routeId, data) {
+        return axios.post(API.EDIT_MY_ROUTE(routeId), data);
+    }
+
+    deleteMyRoute(routeId) {
+        return axios.get(API.REMOVE_MY_ROUTE(routeId));
+    }
+
+    createRecommendedRoute(data) {
+        return axios.post(API.CREATE_ROUTE(), data);
+    }
+
+    getRecommendedRoutes() {
+        return axios.get(API.GET_RECOMMENDED_ROUTES());
+    }
+
+    getRecommendedRoute(routeId) {
+        return axios.get(API.GET_RECOMMENDED_ROUTE(routeId));
+    }
+
+    editRecommendedRoute(routeId, data) {
+        return axios.post(API.EDIT_RECOMMENDED_ROUTE(routeId), data);
+    }
+
+    deleteRecommendedRoute(routeId) {
+        return axios.get(API.REMOVE_RECOMMENDED_ROUTE(routeId));
+    }
+
+
+
 
 }

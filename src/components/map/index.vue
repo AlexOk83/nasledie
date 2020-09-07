@@ -5,33 +5,46 @@
 <script>
     export default {
         name: "Map",
-        props: ['from', 'to', 'points'],
+        props: ['from', 'to', 'points', 'typeMovement'],
+        data() {
+            return {
+                myMap: null,
+            }
+        },
+        computed: {
+            getPoints() {
+                const {from, points, } = this;
+                return [from, ...points, to];
+            },
+            getMovement() {
+                switch(this.typeMovement) {
+                    case "car": return 'auto';
+                    case "people": return 'pedestrian';
+                    default: return 'auto';
+                }
+            },
+        },
         methods: {
             render: function() {
-                const { from, to, points } = this;
+                const { from, to, points, getMovement } = this;
 
                 ymaps.ready(function () {
-                    var myMap = new ymaps.Map('map', {
-                        center: [55.753994, 37.622093],
+                    this.myMap = new ymaps.Map('map', {
+                        center: from,
                         zoom: 9,
                         // Добавим панель маршрутизации.
                         controls: ['default']
                     });
-                    var pointList = [];
-                    pointList.push(from)
-                    for(let point of points)
-                    {
-                        pointList.push(point)
-                    }
-                    pointList.push(to)
+
                     var multiRoute = new ymaps.multiRouter.MultiRoute({
                         multiRoute: true,
                         // Точки маршрута. Точки могут быть заданы как координатами, так и адресом.
                         referencePoints: pointList,
                         params: {
-                            routingMode: 'masstransit', //— маршрутизация с использованием общественного транспорта. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
+                            // routingMode: 'masstransit', //— маршрутизация с использованием общественного транспорта. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
                             //routingMode: 'auto' автомобильная маршрутизация;
                             //routingMode: 'pedestrian'  — пешеходная маршрутизация. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
+                            routingMode: getMovement,
                             results: 3
                         },
 
@@ -39,7 +52,7 @@
                         // Внешний вид путевых точек.
                         wayPointStartIconLayout: "default#image",
                         wayPointStartIconImageHref: "/src/assets/images/icons/flag_blue.svg",
-                        wayPointStartIconImageSize: [30, 30],
+                        wayPointStartIconImageSize: [40, 40],
                         wayPointStartIconImageOffset: [-5, -25],
                         // Задаем собственную картинку для последней путевой точки.
                         wayPointFinishIconLayout: "default#image",
@@ -86,11 +99,14 @@
                     multiRoute.model.events.add('requestsuccess', function() {
                         // Получение ссылки на активный маршрут.
                         var activeRoute = multiRoute.getActiveRoute();
-                        var activeRoutePaths = activeRoute.getPaths();
-                        activeRoutePaths.each(function(path) {
-                            console.log("Длина пути: " + path.properties.get("distance").text);
-                            console.log("Время прохождения пути: " + path.properties.get("duration").text);
-                        });
+                        var activeRoutePaths = activeRoute && activeRoute.getPaths();
+                        if (activeRoutePaths) {
+                            activeRoutePaths.each(function(path) {
+                                console.log("Длина пути: " + path.properties.get("distance").text);
+                                console.log("Время прохождения пути: " + path.properties.get("duration").text);
+                            });
+                        }
+
                     });
                     //https://tech.yandex.ru/maps/jsapi/doc/2.1/dg/concepts/router/multiRouter-docpage/#multiRouter__get-active-route
                     myMap.geoObjects.add(multiRoute);
@@ -101,6 +117,11 @@
         },
         created() {
             this.render()
+        },
+        watch: {
+            points: function () {
+                this.$forceUpdate();
+            }
         }
     }
 

@@ -1,10 +1,36 @@
 <template>
-    
+    <div class="object-list-in-day">
+        <Item v-for="item in localList" :data="item" />
+    </div>
 </template>
 
 <script>
+    import Item from './item';
+
     export default {
-        name: "ObjectsInDay"
+        name: "ObjectsInDay",
+        components: {
+            Item
+        },
+        props: {
+            list: Array,
+        },
+        data() {
+            return {
+                localList: this.list
+            }
+        },
+        watch: {
+            list: function () {
+                this.localList = this.list;
+            }
+        },
+        computed: {
+
+        },
+        methods: {
+
+        }
     }
 </script>
 

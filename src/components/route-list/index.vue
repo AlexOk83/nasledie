@@ -13,7 +13,7 @@
 <script>
     import RecomendedRoute from '../recomended-route'
     import MyRoute from '../my-route'
-    import ObjectRoute from '../object-route'
+    import ObjectRoute from '../object-route/index'
 
     export default {
         name: "List",

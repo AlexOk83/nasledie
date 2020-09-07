@@ -91,6 +91,7 @@ body {
 .menu {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   margin-bottom: 20px;
   a {
@@ -116,7 +117,7 @@ h1 {
   .column(4, 5);
   .column_padding();
 
-  form > .button {
+  .buttons-container {
     margin-top: 50px;
   }
 }
@@ -128,6 +129,5 @@ h1 {
 }
 
 #map {
-  .img_wrapper(100%);
   background-color: grey;
 }

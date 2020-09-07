@@ -6,6 +6,7 @@
                 format="dd.MM.yyyy"
                 monday-first
                 :placeholder="placeholder"
+                :disabled="disabled"
                 :value="currentDate"
                 v-model="currentDate"
                 calendar-class="date-picker__calendar"
@@ -22,12 +23,17 @@
 
     export default {
         name: "DatePicker",
-        props: ['name', 'value', 'placeholder'],
+        props: ['name', 'value', 'placeholder', 'disabled'],
         data() {
           return {
               ru,
               currentDate: this.value,
           }
+        },
+        watch: {
+            value: function () {
+                this.currentDate = this.value;
+            }
         },
         components: {
             vuejsDatepicker

@@ -11,7 +11,7 @@
                v-model="localValue"
                @input="changeLocalValue"
                autocomplete="off"
-               :readonly="localDisabled"
+               :disabled="localDisabled"
         />
         <textarea v-if="type === 'longtext'"
                   class="field__control field__control--long-text"
@@ -21,7 +21,7 @@
                   :rows="rows || 4"
                   :placeholder="placeholder"
                   @input="changeLocalValue"
-                  :readonly="localDisabled"
+                  :disabled="localDisabled"
         >
         </textarea>
         <DatePicker v-if="type === 'date'"
@@ -29,16 +29,18 @@
                     :value="localValue"
                     :placeholder="placeholder"
                     @change="changeValue"
+                    :disabled="localDisabled"
         />
-        <TimePicker v-if="type === 'time'" :name="name" :value="localValue" :placeholder="placeholder"  @change="changeValue" />
+        <TimePicker v-if="type === 'time'" :name="name" :value="localValue" :placeholder="placeholder"  @change="changeValue" :disabled="localDisabled" />
         <SearchField v-if="type === 'search'" :name="name" :value="localValue" :placeholder="placeholder" @change="changeValue" />
         <Radio v-if="type === 'radio'" :name="name" :variant-list="listValue" :value="localValue"  @change="changeValue" />
         <Select v-if="type === 'select'" :name="name" :list="listValue" :value="localValue" :placeholder="placeholder"  @change="changeValue" />
         <div class="field__footer" v-if="save">
-            <div class="btn" @click="offDisabled"><Icon icon="edit" />
-                <span>Редактировать описание</span>
+            <div class="btn" @click="offDisabled" v-if="showEditButton">
+                <Icon icon="edit" />
+                <span>{{ save.editTitle }}</span>
             </div>
-            <div class="btn" @click="saveData">
+            <div class="btn" @click="saveData" v-if="showSaveButton">
                 <Icon icon="check" />
                 <span>
                     Сохранить
@@ -55,8 +57,6 @@
     import Radio from "./radio-buttons";
     import Select from "./select";
     import Icon from "../icon";
-    import Repository from "../../repository";
-    const repository = new Repository();
 
     export default {
         name: "Field",
@@ -79,6 +79,15 @@
         watch: {
             value: function () {
                 this.localValue = this.value;
+                console.log(this.localValue);
+            }
+        },
+        computed: {
+            showEditButton() {
+                return this.save.viewSaveButton || this.localDisabled
+            },
+            showSaveButton() {
+                return this.save.viewSaveButton || !this.localDisabled
             }
         },
         methods: {
@@ -93,7 +102,7 @@
             },
             saveData() {
                 this.localDisabled = true;
-                this.save();
+                this.save.method();
             }
         }
     }

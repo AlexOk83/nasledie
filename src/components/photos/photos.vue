@@ -1,14 +1,14 @@
 <template>
     <div class="photos">
         <div class="photos__label">Загрузить фото к маршруту</div>
-        <input class="file" type="file" id="photo" @change="load">
-        <label for="photo" class="button button--color-white button--full button--with-icon button--shadow">
+        <input class="file" type="file" id="photo" @change="load" :disabled="maxCount && files && maxCount === files.length">
+        <label for="photo" class="button button--color-white button--full button--with-icon button--shadow" :class="{'button--disabled': maxCount && files && maxCount === files.length}">
             <Icon icon="load" />
             <span>Загрузить с компьютера</span>
         </label>
         <div class="photos-list">
             <draggable v-model="files" draggable=".photos__item" @change="drag">
-                <transition-group class='list' :duration="1000" >
+                <transition-group class='list' >
                     <div class="photos__item" v-for="photo in files" :key="photo.file.name">
                         <div class="wrapper">
                             <img :src="photo.base64" :alt="photo.file.name">
@@ -34,6 +34,7 @@
         name: "Photos",
         props: {
             photos: Array,
+            maxCount: Number
         },
         components: {
             Icon,
@@ -48,15 +49,19 @@
         },
         computed: {
             addButton() {
+
                 const l = this.files && this.files.length || 0;
+                if (this.maxCount) {
+                    return this.maxCount - l
+                }
                 const o = l % 3;
                 if (o === 1) {
-                    return 1 + 3;
+                    return 4;
                 }
                 if (o === 2) {
                     return 3
                 }
-                return 2 + 3;
+                return 2;
             }
         },
         methods: {
