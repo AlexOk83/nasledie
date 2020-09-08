@@ -1,3 +1,4 @@
+<!-- Добавление объекта - готово! -->
 <template>
     <div class="objects">
         <Form-add

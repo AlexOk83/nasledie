@@ -1,3 +1,4 @@
+<!-- форма добавления объекта - готово! -->
 <template>
     <div class="objects__add-form">
         <div class="label">Объекты для посещения:</div>
@@ -47,8 +48,8 @@
                 },
         },
         components: {
-            SearchField,
             SelectControl,
+            SearchField,
             SearchFromBaseField,
             Button,
         },

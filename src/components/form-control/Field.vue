@@ -1,10 +1,10 @@
+<!-- общий для всех полей компонент - готово! -->
 <template>
     <div class="field">
         <label class="field__label">{{ title }}</label>
 
         <input v-if="inputTypes.includes(type)"
                class="field__control"
-               :class="{'disabled': localDisabled}"
                :type="type"
                :name="name"
                :placeholder="placeholder"
@@ -15,9 +15,8 @@
         />
         <textarea v-if="type === 'longtext'"
                   class="field__control field__control--long-text"
-                  :class="{'disabled': localDisabled}"
-                  v-model="localValue"
                   :name="name"
+                  v-model="localValue"
                   :rows="rows || 4"
                   :placeholder="placeholder"
                   @input="changeLocalValue"
@@ -31,10 +30,32 @@
                     @change="changeValue"
                     :disabled="localDisabled"
         />
-        <TimePicker v-if="type === 'time'" :name="name" :value="localValue" :placeholder="placeholder"  @change="changeValue" :disabled="localDisabled" />
-        <SearchField v-if="type === 'search'" :name="name" :value="localValue" :placeholder="placeholder" @change="changeValue" />
-        <Radio v-if="type === 'radio'" :name="name" :variant-list="listValue" :value="localValue"  @change="changeValue" />
-        <Select v-if="type === 'select'" :name="name" :list="listValue" :value="localValue" :placeholder="placeholder"  @change="changeValue" />
+        <TimePicker v-if="type === 'time'"
+                    :name="name"
+                    :value="localValue"
+                    :placeholder="placeholder"
+                    @change="changeValue"
+                    :disabled="localDisabled"
+        />
+        <SearchField v-if="type === 'search'"
+                     :name="name"
+                     :value="localValue"
+                     :placeholder="placeholder"
+                     @change="changeValue"
+        />
+        <Radio v-if="type === 'radio'"
+               :name="name"
+               :variant-list="listValue"
+               :value="localValue"
+               @change="changeValue"
+        />
+        <Select v-if="type === 'select'"
+                :name="name"
+                :list="listValue"
+                :value="localValue"
+                :placeholder="placeholder"
+                @change="changeValue"
+        />
         <div class="field__footer" v-if="save">
             <div class="btn" @click="offDisabled" v-if="showEditButton">
                 <Icon icon="edit" />
@@ -61,13 +82,6 @@
     export default {
         name: "Field",
         props: ['name', 'type', 'title', 'value', 'placeholder', 'listValue', 'save', 'rows'],
-        data() {
-            return {
-                inputTypes: ['text', 'password'],
-                localValue: this.value,
-                localDisabled: this.disabled || Boolean(this.save)
-            }
-        },
         components: {
             DatePicker,
             TimePicker,
@@ -76,17 +90,24 @@
             Select,
             Icon
         },
-        watch: {
-            value: function () {
-                this.localValue = this.value;
-                console.log(this.localValue);
+        data() {
+            return {
+                inputTypes: ['text', 'password'],
+                localValue: this.value,
+                localDisabled: this.disabled || Boolean(this.save)
             }
         },
         computed: {
             showEditButton() {
+                if (!this.save) {
+                    return true;
+                }
                 return this.save.viewSaveButton || this.localDisabled
             },
             showSaveButton() {
+                if (!this.save) {
+                    return true;
+                }
                 return this.save.viewSaveButton || !this.localDisabled
             }
         },
@@ -103,6 +124,11 @@
             saveData() {
                 this.localDisabled = true;
                 this.save.method();
+            }
+        },
+        watch: {
+            value: function () {
+                this.localValue = this.value;
             }
         }
     }

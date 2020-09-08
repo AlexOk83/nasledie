@@ -1,3 +1,5 @@
+<!-- вывод объектов в днях - не готово! -->
+<!-- только предстоит написать этот компонент  -->
 <template>
     <div class="object-list-in-day">
         <Item v-for="item in localList" :data="item" />

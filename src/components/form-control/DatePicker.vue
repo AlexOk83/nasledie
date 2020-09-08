@@ -1,3 +1,4 @@
+<!-- выбор даты - готово! -->
 <template>
     <div class="date-picker">
         <vuejs-datepicker
@@ -7,7 +8,6 @@
                 monday-first
                 :placeholder="placeholder"
                 :disabled="disabled"
-                :value="currentDate"
                 v-model="currentDate"
                 calendar-class="date-picker__calendar"
                 input-class="date-picker__input"
@@ -23,27 +23,31 @@
 
     export default {
         name: "DatePicker",
-        props: ['name', 'value', 'placeholder', 'disabled'],
+        props: {
+            name: String,
+            value: String,
+            placeholder: String,
+            disabled: Boolean
+        },
+        components: {
+            vuejsDatepicker
+        },
         data() {
           return {
               ru,
               currentDate: this.value,
           }
         },
-        watch: {
-            value: function () {
-                this.currentDate = this.value;
-            }
-        },
-        components: {
-            vuejsDatepicker
-        },
         methods:{
             changeDate() {
                 this.$emit('change', this.currentDate);
             }
+        },
+        watch: {
+            value: function () {
+                this.currentDate = this.value;
+            }
         }
-
     }
 </script>
 

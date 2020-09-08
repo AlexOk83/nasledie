@@ -1,9 +1,6 @@
+<!-- кнопки - готово! -->
 <template>
-    <div
-            class="button"
-            @click="handleClick"
-            :class="buttonClasses"
-    >
+    <div class="button" :class="buttonClasses" @click="handleClick">
         <div class="icon" :class="iconClasses"  v-if="icon" />
         <span>{{ text }}</span>
     </div>
@@ -21,12 +18,6 @@
             iconRight: Boolean,
             color: String,
             disabled: Boolean,
-        },
-        methods: {
-            handleClick(e) {
-                e.stopPropagation();
-                !this.disabled && this.onClick && this.onClick();
-            }
         },
         computed: {
             buttonClasses() {
@@ -54,7 +45,13 @@
             iconClasses() {
                 return `icon--${this.icon}`;
             }
-        }
+        },
+        methods: {
+            handleClick(e) {
+                e.stopPropagation();
+                !this.disabled && this.onClick && this.onClick();
+            }
+        },
     }
 </script>
 

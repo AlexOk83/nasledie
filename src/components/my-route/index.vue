@@ -1,11 +1,16 @@
+<!-- плашка моего маршрута - не готово! -->
+<!--
+    нужно после того как отладим сохранение и редактирование моего маршрута - убедиться, что тут все хорошо
+    не проработано добавление в мои маршруты, каким образом мы понимаем что данный маршрут есть в моих маршрутах.. надо подумать
+-->
 <template>
     <router-link tag="div" :to="link" class="myRoute">
         <div class="myRoute__image">
-            <img :src="data.image" :alt="data.name" >
-            <div class="like" @click="handleAddToMymyRoute" :class="{ 'active': data.isActive }"/>
+            <img :src="image" :alt="data.name" v-if="image">
+            <div class="like" @click="handleAddToMyRoute" :class="{ 'active': data.isActive }"/>
         </div>
         <div class="myRoute__body">
-            <div class="title">Маршрут «{{ data.title }}»</div>
+            <div class="title">Маршрут «{{ data.name }}»</div>
             <div class="text">{{ data.description }}</div>
 
             <div class="myRoute__params">
@@ -25,10 +30,10 @@
             </div>
             <div class="points">
                 <span class="label">Точка старта</span>
-                <span class="point-value">{{ data.pointStart.name }}</span>
+                <span class="point-value">{{ data.startPoint.name }}</span>
 
                 <span class="label">Точка назначения</span>
-                <span class="point-value">{{ data.pointEnd.name }}</span>
+                <span class="point-value">{{ data.endPoint.name }}</span>
             </div>
             <div class="myRoute__objects">
                 <div class="title__sub">Объекты для посещения</div>
@@ -50,8 +55,10 @@
     import Button from "../form-control/button";
     import Icon from "../icon";
     import {Presenter} from "../../presenter";
+    import Repository from "../../repository";
 
     const presenter = new Presenter();
+    const repository = new Repository();
     export default {
         name: "my-myRoute",
         components: {Button, Icon},
@@ -59,28 +66,29 @@
             data: {
                 name: String,
                 description: String,
-                pointStart: {
+                startPoint: {
                     coordinates: Array,
                     name: String
                 },
-                pointEnd: {
+                endPoint: {
                     coordinates: Array,
                     name: String
                 },
                 typesOfMovement: Array,
-                myRouteTypes: Array,
+                totalWay: Number,
+                totalTime: Number,
             },
             onRefresh: Function,
         },
         methods: {
-            handleAddToMymyRoute() {
-
+            handleAddToMyRoute() {
+                repository.createMyRoute()
             },
             moveToEdit() {
                 this.$router.push(`/edit-my-route/${this.data.id}`)
             },
             deleteRoute() {
-                this.$resource('myRoutes/' + this.data.id).remove()
+                repository.deleteMyRoute(this.data.id)
                     .then(this.onRefresh)
             },
             getNameMovement(movement) {
@@ -88,11 +96,20 @@
             }
         },
         computed: {
+            image() {
+                return data.files ? data.files[0].base64 : null;
+            },
             getWay() {
+                if (!this.data.totalWay) {
+                    return null;
+                }
                 return presenter.getWay(this.data.way);
             },
             getHour() {
-                return presenter.getDeclinedRemainder(this.data.hours, ['час', 'часа', 'часов'])
+                if (!this.data.totalTime) {
+                    return null;
+                }
+                return presenter.getDeclinedRemainder(this.data.totalTime, ['час', 'часа', 'часов'])
             },
             link() {
                 return `/view-route/my/${this.data.id}`

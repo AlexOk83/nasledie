@@ -1,8 +1,8 @@
+<!-- вывод объектов в просмотре - готово! -->
 <template>
     <div class="route">
         <div class="route__image">
-            <img :src="data.image" :alt="data.title" >
-
+            <img :src="data.image" :alt="data.name" >
         </div>
         <div class="route__body">
             <div class="title">{{ data.name }}</div>
@@ -13,30 +13,25 @@
 </template>
 
 <script>
-    import {Presenter} from "../../presenter";
-
-    const presenter = new Presenter();
     export default {
         name: "ObjectRoute",
         props: {
             data: {
-                title: String,
+                name: String,
+                image: String,
                 description: String,
-
-            }
-        },
-        created() {
-            this.getData();
-        },
-        methods: {
-            getData() {
-
             }
         }
     }
 </script>
 
 <style lang="less">
-    @import 'styles';
+    @import "../recomended-route/styles";
+
+    .text-description {
+        .text();
+        margin-top: 30px;
+    }
+
 
 </style>

@@ -250,7 +250,7 @@
             updateState(data) {
                 this.name = data.name;
                 this.description = data.description;
-                this.days = data.days || MockDays;
+                this.days = MockDays;
                 this.isGeoRoute = data.isGeoRoute;
                 this.otherData = data; // для того, чтобы не потерять данные
             }

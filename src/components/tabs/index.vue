@@ -1,3 +1,5 @@
+<!-- табы - не готово! -->
+<!-- не отображаются объекты, добавление и изменение порядка объектов -->
 <template>
     <div class="tabs" v-resize="resize">
         <div class="tabs__nav" v-if="isLong">

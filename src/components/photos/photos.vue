@@ -1,3 +1,4 @@
+<!-- добавление изображений - готово! -->
 <template>
     <div class="photos">
         <div class="photos__label">Загрузить фото к маршруту</div>
@@ -49,7 +50,6 @@
         },
         computed: {
             addButton() {
-
                 const l = this.files && this.files.length || 0;
                 if (this.maxCount) {
                     return this.maxCount - l

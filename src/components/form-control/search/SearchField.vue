@@ -1,11 +1,12 @@
+<!-- поиск через yandex API - готово! -->
 <template>
     <div class="search-field" :class="{'selected': findedPoints.length > 0 }">
         <input type="text" class="field_control" v-model="searchText" :placeholder="placeholder" @input="search" @blur="close" @focus="search">
-        <div class="search-button" @click="search"/>
-        <div class="clear-button" @click="clear"/>
-        <div class="search-list" :class="{'show': findedPoints.length > 0 }">
-            <vue-custom-scrollbar class="scroll-area" :settings="settings">
-                <div class="search-list__item" v-for="point in findedPoints" @click="() => select(point)">
+        <div class="search-button" @click="search" />
+        <div class="clear-button" @click="clear" />
+        <div class="search-list" :class="{'show': findedPoints.length > 0 }" >
+            <vue-custom-scrollbar class="scroll-area" :settings="settings" >
+                <div class="search-list__item" v-for="point in findedPoints" @click="() => select(point)" >
                     {{ point.name }} {{point.description }}
                 </div>
             </vue-custom-scrollbar>
@@ -42,21 +43,6 @@
         computed: {
             settings() {
                 return settingsScroll
-            }
-        },
-        created() {
-            this.currentValue = this.value || {};
-            this.searchText = this.value.name || "";
-        },
-        watch: {
-            value: function () {
-                if (!this.value.name && this.currentValue.name) {
-                    this.currentValue = this.value;
-                    this.searchText = "";
-                }
-                if (this.value.name && !this.searchText) {
-                    this.searchText = this.value.name
-                }
             }
         },
         methods: {
@@ -102,6 +88,21 @@
                 this.searchText = point.name || '';
                 this.$emit('change', this.currentValue)
             }
+        },
+        watch: {
+            value: function () {
+                if (!this.value.name && this.currentValue.name) {
+                    this.currentValue = this.value;
+                    this.searchText = "";
+                }
+                if (this.value.name && !this.searchText) {
+                    this.searchText = this.value.name
+                }
+            }
+        },
+        created() {
+            this.currentValue = this.value || {};
+            this.searchText = this.value.name || "";
         }
     }
 </script>

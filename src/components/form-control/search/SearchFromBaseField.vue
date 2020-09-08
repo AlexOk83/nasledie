@@ -1,3 +1,4 @@
+<!-- поиск объектов из БД, используется в form-add - готово! -->
 <template>
     <div class="search-field" :class="{'selected': menuVisible }">
         <input type="text" class="field_control" v-model="searchText" :placeholder="placeholder" @input="search" @blur="close" @focus="search">
@@ -47,18 +48,6 @@
                 return settingsScroll
             }
         },
-        created() {
-            this.currentValue = this.value || {};
-            this.searchText = this.value.name || "";
-        },
-        watch: {
-            value: function () {
-                if (!this.value.name && this.currentValue.name) {
-                    this.currentValue = this.value;
-                    this.searchText = '';
-                }
-            }
-        },
         methods: {
             clear() {
                 this.searchText = '';
@@ -72,7 +61,6 @@
                 setTimeout(() => {
                     this.menuVisible = false;
                 }, 200);
-
             },
             search() {
                 const category = this.category && this.category.value;
@@ -85,6 +73,7 @@
                             region: String(o.region),
                             position: o.position.split(', ')
                         }))
+                        console.log(this.objects)
                         this.menuVisible = true;
                     })
 
@@ -94,6 +83,18 @@
                 this.searchText = object.name;
                 this.$emit('change', this.currentValue)
             }
+        },
+        watch: {
+            value: function () {
+                if (!this.value.name && this.currentValue.name) {
+                    this.currentValue = this.value;
+                    this.searchText = '';
+                }
+            }
+        },
+        created() {
+            this.currentValue = this.value || {};
+            this.searchText = this.value.name || "";
         }
     }
 </script>

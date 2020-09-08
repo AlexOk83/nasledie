@@ -1,3 +1,4 @@
+<!-- radio - кнопки - готово! -->
 <template>
     <div class="radio-buttons">
         <div class="radio-item" v-for="item in variantList">

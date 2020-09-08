@@ -1,3 +1,4 @@
+<!-- поле ввода времени - готово! -->
 <template>
     <div class="time-picker">
         <div class="up-arrow" @click="up" />
@@ -10,18 +11,16 @@
     import MaskedInput from 'vue-masked-input'
     export default {
         name: "TimePicker",
-        props: ['value', 'disabled'],
+        props: {
+            value: String,
+            disabled:Boolean,
+        },
         components: {
             MaskedInput
         },
         data() {
             return {
                 localValue: this.value
-            }
-        },
-        watch: {
-            value: function() {
-                this.localValue = this.value;
             }
         },
         methods: {
@@ -90,7 +89,7 @@
                 const timeIsFull = !hour.includes('_') && !minutes.includes('_')
                 if (timeIsFull) {
                     if (Number(hour) > 23 || Number(minutes) > 59) {
-                        this.localValue = "00:00"
+                        this.localValue = "09:00";
                         this.$emit('change', this.localValue)
                         return;
                     }
@@ -102,6 +101,11 @@
 
 
 
+            }
+        },
+        watch: {
+            value: function() {
+                this.localValue = this.value;
             }
         },
     }
