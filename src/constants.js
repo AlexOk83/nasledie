@@ -19,120 +19,150 @@ export const settingsScroll = {
 export const MockDays = [
     {
         id: 1,
-        date: '2020-09-07', // получаем из даты старта
+        name: "1 День",
+        dateStart: '2020-09-07', // получаем из даты старта
+        dateEnd: '2020-09-07', // получаем из даты старта
         timeStart: '09:00', // получаем из время старта
         timeEnd: '20:00',   // расчитывается скриптом
+        startPoint: 'Владикавказ',
+        startPointCoordLat: 50,
+        startPointCoordLong: 40,
+        endPoint: 'Владикавказ',
+        endPointCoordLat: 50,
+        endPointCoordLong: 40,
         objects: [
             {
+                object_id: 407,
                 name: "Владикавказ",
-                coordinates: [50, 40]
-            },
-            {
-                name: "Музей 'Горы кавказа",
-                coordinates: [50, 40],
+                startPointCoordLat: 50,
+                startPointCoordLong: 40,
                 timeInWay: 330,
                 way: 5000,
                 stopTime: 30,
                 time: 90,
-                typeMovement: "car"
+                typeMovement: ["car"]
             },
             {
+                object_id: 408,
+                name: "Музей 'Горы кавказа",
+                startPointCoordLat: 50,
+                startPointCoordLong: 40,
+                timeInWay: 330,
+                way: 5000,
+                stopTime: 30,
+                time: 90,
+                typeMovement: ["car"]
+            },
+            {
+                object_id: 409,
                 name: "Заповедник Северного кавказа",
-                coordinates: [50, 40],
+                startPointCoordLat: 50,
+                startPointCoordLong: 40,
                 timeInWay: 90,
                 way: 5000,
                 stopTime: 45,
                 time: 90,
-                typeMovement: "car"
-            },
-            {
-                name: "Термальный источник",
-                coordinates: [50, 40],
-                timeInWay: 90,
-                way: 5000,
-                stopTime: 30,
-                time: 90,
-                typeMovement: "people"
+                typeMovement: ["car"]
             }
         ],
 
     },
     {
         id: 2,
-        date: '2020-09-08', // получаем из даты старта
-        timeStart: '08:00', // получаем из время старта
+        name: "2 День",
+        dateStart: '2020-09-08', // получаем из даты старта
+        dateEnd: '2020-09-08', // получаем из даты старта
+        timeStart: '09:00', // получаем из время старта
         timeEnd: '20:00',   // расчитывается скриптом
+        startPoint: 'Владикавказ',
+        startPointCoordLat: 50,
+        startPointCoordLong: 40,
+        endPoint: 'Владикавказ',
+        endPointCoordLat: 50,
+        endPointCoordLong: 40,
         objects: [
             {
+                object_id: 407,
                 name: "Владикавказ",
-                coordinates: [50, 40]
-            },
-            {
-                name: "Музей 'Горы кавказа",
-                coordinates: [50, 40],
+                startPointCoordLat: 50,
+                startPointCoordLong: 40,
                 timeInWay: 330,
                 way: 5000,
                 stopTime: 30,
                 time: 90,
-                typeMovement: "car"
+                typeMovement: ["car"]
             },
             {
+                object_id: 408,
+                name: "Музей 'Горы кавказа",
+                startPointCoordLat: 50,
+                startPointCoordLong: 40,
+                timeInWay: 330,
+                way: 5000,
+                stopTime: 30,
+                time: 90,
+                typeMovement: ["car"]
+            },
+            {
+                object_id: 409,
                 name: "Заповедник Северного кавказа",
-                coordinates: [50, 40],
+                startPointCoordLat: 50,
+                startPointCoordLong: 40,
                 timeInWay: 90,
                 way: 5000,
                 stopTime: 45,
                 time: 90,
-                typeMovement: "car"
-            },
-            {
-                name: "Термальный источник",
-                coordinates: [50, 40],
-                timeInWay: 90,
-                way: 5000,
-                stopTime: 30,
-                time: 90,
-                typeMovement: "people"
+                typeMovement: ["car"]
             }
         ],
 
     },
     {
         id: 3,
-        date: '2020-09-09', // получаем из даты старта
-        timeStart: '07:00', // получаем из время старта
+        name: "3 День",
+        dateStart: '2020-09-09', // получаем из даты старта
+        dateEnd: '2020-09-09', // получаем из даты старта
+        timeStart: '09:00', // получаем из время старта
         timeEnd: '20:00',   // расчитывается скриптом
+        startPoint: 'Владикавказ',
+        startPointCoordLat: 50,
+        startPointCoordLong: 40,
+        endPoint: 'Владикавказ',
+        endPointCoordLat: 50,
+        endPointCoordLong: 40,
         objects: [
             {
+                object_id: 407,
                 name: "Владикавказ",
-                coordinates: [50, 40]
-            },
-            {
-                name: "Музей 'Горы кавказа",
-                coordinates: [50, 40],
+                startPointCoordLat: 50,
+                startPointCoordLong: 40,
                 timeInWay: 330,
                 way: 5000,
                 stopTime: 30,
                 time: 90,
-                typeMovement: "car"
+                typeMovement: ["car"]
             },
             {
+                object_id: 408,
+                name: "Музей 'Горы кавказа",
+                startPointCoordLat: 50,
+                startPointCoordLong: 40,
+                timeInWay: 330,
+                way: 5000,
+                stopTime: 30,
+                time: 90,
+                typeMovement: ["car"]
+            },
+            {
+                object_id: 409,
                 name: "Заповедник Северного кавказа",
-                coordinates: [50, 40],
+                startPointCoordLat: 50,
+                startPointCoordLong: 40,
                 timeInWay: 90,
                 way: 5000,
                 stopTime: 45,
                 time: 90,
-                typeMovement: "car"
-            },
-            {
-                name: "Термальный источник",
-                coordinates: [50, 40],
-                timeInWay: 90,
-                way: 5000,
-                stopTime: 30,
-                time: 90,
-                typeMovement: "people"
+                typeMovement: ["car"]
             }
         ],
 

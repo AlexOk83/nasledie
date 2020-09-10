@@ -28,6 +28,28 @@
     .form-control-style();
     height: 40px;
     cursor: pointer;
+    &.with-icon {
+      padding-left: 50px;
+      .icon {
+        left: 15px;
+        background-color: @base;
+      }
+    }
+    &.disabled {
+      border: none;
+      &.with-icon {
+        padding-left: 30px;
+        .icon {
+          left: 0;
+        }
+      }
+
+      padding-left: 0;
+      &:after,
+      &:before {
+        display: none;
+      }
+    }
 
     &:after {
       content: '';

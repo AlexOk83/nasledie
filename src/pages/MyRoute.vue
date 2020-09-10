@@ -1,3 +1,4 @@
+<!-- создание и редактирование моего маршрута -->
 <template>
     <div>
         <h1>{{ headerTitle }}</h1>
@@ -56,6 +57,7 @@
                                :value="typeMovement"
                                :list-value="listTypesMovement"
                                @change="changeValue('typeMovement', $event)"
+                               disabled=true
                         />
                         <Objects
                                 :objects="objects"
@@ -69,6 +71,7 @@
                             :data="days"
                             @change="changeValue('days', $event)"
                         />
+
                     </div>
                     <Field name="isGeoRoute"
                            type="radio"
@@ -203,6 +206,17 @@
                     days: this.days,
                     user_id : 1,
                 }));
+                console.log({
+                    ...this.otherData,
+                    id: this.routeId,
+                    name: this.name,
+                    description: this.description,
+                    isGeoRoute: this.isGeoRoute,
+                    typeMovement: this.routeId ? this.otherData.typeMovement : [this.typeMovement],
+                    objects: this.objects,
+                    days: this.days,
+                    user_id : 1,
+                })
                 formData.append('sessionId', 1);
                 return formData
             },
@@ -221,21 +235,13 @@
                     });
             },
             calcRoute() {
-
+                this.createRoute();
             },
             calcRouteAgain() {
 
             },
             saveRoute() {
-
-            },
-            submitForm() {
-                console.clear()
-                if (this.isNewRoute) {
-                    this.createRoute();
-                } else {
-                    this.updateRoute();
-                }
+                this.updateRoute();
             },
             changeValue(field, value) {
                 this.$data[field] = value
@@ -244,6 +250,8 @@
                 repository.getMyRoute(this.routeId)
                 .then(response => {
                     const route = JSON.parse(response.data).router;
+                    console.clear();
+                    console.log(route);
                     this.updateState(route);
                 })
             },
@@ -266,6 +274,7 @@
                     this.routeId = null;
                     this.isNewRoute = true;
                 }
+                this.$forceUpdate();
             }
         },
         created() {

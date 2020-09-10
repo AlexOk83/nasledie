@@ -4,7 +4,11 @@
             <option value="" v-if="placeholder">{{ placeholder }}</option>
             <option :value="option.value" v-for="option in list" :disabled="option.disabled">{{ option.name }}</option>
         </select>
-        <div class="select__field" @click="open" :class="{'active': active }">
+        <div class="select__field"
+             :class="{'active': active, 'with-icon': iconValue, 'disabled': disabled }"
+             @click="open"
+        >
+            <Icon :icon="iconValue" v-if="iconValue" />
             {{ getValue }}
         </div>
         <div class="options-list" :class="{'active': active }">
@@ -36,6 +40,7 @@
             placeholder: String,
             onChange: Function,
             onBlur: Function,
+            disabled: Boolean,
         },
         components: {
             Icon,
@@ -54,6 +59,9 @@
                 this.$emit('change', this.currentValue);
             },
             open() {
+                if (this.disabled) {
+                    return;
+                }
                 this.active = true;
                 this.$refs.select.focus();
             },
@@ -75,6 +83,17 @@
             },
             settings() {
                 return settingsScroll;
+            },
+            iconValue() {
+                let val = null;
+
+                this.list.forEach(option => {
+                    if (option.value === this.currentValue) {
+                        val = option.icon
+                    }
+                });
+
+                return val;
             }
         },
         created() {

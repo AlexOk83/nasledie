@@ -54,6 +54,7 @@
                 :list="listValue"
                 :value="localValue"
                 :placeholder="placeholder"
+                :disabled="localDisabled"
                 @change="changeValue"
         />
         <div class="field__footer" v-if="save">
@@ -81,7 +82,7 @@
 
     export default {
         name: "Field",
-        props: ['name', 'type', 'title', 'value', 'placeholder', 'listValue', 'save', 'rows'],
+        props: ['name', 'type', 'title', 'value', 'placeholder', 'listValue', 'save', 'rows', 'disabled'],
         components: {
             DatePicker,
             TimePicker,
@@ -127,8 +128,14 @@
             }
         },
         watch: {
-            value: function () {
+            value() {
                 this.localValue = this.value;
+            },
+            disabled() {
+                this.localDisabled = this.disabled || Boolean(this.save)
+            },
+            save() {
+                this.localDisabled = this.disabled || Boolean(this.save)
             }
         }
     }

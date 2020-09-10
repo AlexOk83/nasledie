@@ -40,7 +40,7 @@
     const repository = new Repository();
 
     export default {
-        name: "form-add",
+        name: "FormAdd",
         props: {
                 objects: {
                     type: Array,

@@ -1,5 +1,4 @@
-<!-- табы - не готово! -->
-<!-- не отображаются объекты, добавление и изменение порядка объектов -->
+<!-- табы - готово! -->
 <template>
     <div class="tabs" v-resize="resize">
         <div class="tabs__nav" v-if="isLong">
@@ -8,7 +7,7 @@
         </div>
         <div class="tabs__header" ref="header" >
             <div class="tabs__list" ref="tabList" :style="styleList">
-                <div class="tab" :class="getClasses(index, day)" :style="{ width: widthTab + 'px' }"  v-for="(day, index) in localData" @click="setActiveDay(day)">
+                <div class="tab" :class="getClasses(index, day)" :style="{ width: widthTab + 'px' }"  v-for="(day, index) in localData" @click="setActiveDay(index)">
                     <span class="text">{{ index + 1 }} День</span>
                 </div>
             </div>
@@ -18,7 +17,8 @@
             <Field name="date"
                    type="date"
                    title="Дата"
-                   :value="activeDay && activeDay.date"
+                   :value="activeDay && activeDay.dateStart"
+                   @change="changeDate"
                    :save="config"
             />
             <div class="times">
@@ -26,16 +26,22 @@
                        type="time"
                        title="Время старта"
                        :value="activeDay && activeDay.timeStart"
+                       @change="changeTimeStart"
                        :save="config"
                 />
                 <Field name="timeEnd"
                        type="time"
                        title="Время финиша"
+                       @change="changeTimeEnd"
                        :value="activeDay && activeDay.timeEnd"
                        :save="config"
                 />
-                <objects-in-day :list="activeDay && activeDay.objects" @change="changeObjects" />
             </div>
+                <objects-in-day :list="activeDay && activeDay.objects" @change="changeObjectsFromActiveDay" />
+                <Form-add
+                        :objects="activeDay.objects"
+                        @add="add"
+                />
         </div>
     </div>
 
@@ -44,6 +50,7 @@
 <script>
     import ObjectsInDay from "../objects-in-day";
     import Field from "../form-control/Field";
+    import FormAdd from "../added-objects/form-add"
     import resize from 'vue-resize-directive';
 
     export default {
@@ -57,21 +64,38 @@
         components: {
             Field,
             ObjectsInDay,
+            FormAdd,
         },
         data() {
             return {
                 localData: this.data,
                 activeDay: this.getData,
+                indexActiveDay: 0,
                 left: 0,
                 widthHeader: null,
             }
         },
         methods: {
-            sendLocalData() {
-                  this.$emit('change', this.localData)
+            add(object) {
+                this.activeDay.objects.push(object);
+                this.saveActiveDay();
             },
-            updateLocalData() {
-
+            changeObjectsFromActiveDay(objects) {
+                this.activeDay.objects = objects;
+                this.saveActiveDay();
+            },
+            changeDate(e) {
+                this.activeDay.date = e;
+            },
+            changeTimeStart(e) {
+                this.activeDay.timeStart = e;
+            },
+            changeTimeEnd(e) {
+                this.activeDay.timeEnd = e;
+            },
+            saveActiveDay() {
+                this.localData[this.indexActiveDay] = this.activeDay;
+                this.$emit('change', this.localData);
             },
             getClasses(index, day) {
                 const base = index === 0 || index % 3 === 0;
@@ -96,9 +120,9 @@
             resize() {
                 this.widthHeader = this.$refs.header.clientWidth;
             },
-            setActiveDay(day) {
-                this.activeDay = day;
-                this.$forceUpdate();
+            setActiveDay(index) {
+                this.activeDay = this.localData[index];
+                this.indexActiveDay = index;
             },
             prev() {
                 if (this.left > 0)
@@ -113,6 +137,7 @@
             data: function () {
                 this.localData = this.data;
                 this.activeDay = this.localData[0];
+                this.indexActiveDay = 0;
             }
         },
         computed: {
@@ -139,7 +164,7 @@
                 return {
                     editTitle: 'Изменить',
                     viewSaveButton: false,
-                    method: this.changeActiveDay
+                    method: this.saveActiveDay
                 }
             }
         },
@@ -149,6 +174,7 @@
         created() {
             this.localData = this.data || [];
             this.activeDay = this.localData[0];
+            this.indexActiveDay = 0;
         }
     }
 </script>
