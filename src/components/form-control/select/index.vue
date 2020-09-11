@@ -35,7 +35,10 @@
         name: "Select-control",
         props: {
             value: String,
-            list: Array,
+            list: {
+                type: Array,
+                default: []
+            },
             name: String,
             placeholder: String,
             onChange: Function,

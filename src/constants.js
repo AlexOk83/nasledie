@@ -20,10 +20,10 @@ export const MockDays = [
     {
         id: 1,
         name: "1 День",
-        dateStart: '2020-09-07', // получаем из даты старта
-        dateEnd: '2020-09-07', // получаем из даты старта
-        timeStart: '09:00', // получаем из время старта
-        timeEnd: '20:00',   // расчитывается скриптом
+        dateStart: '2020-09-07',
+        dateEnd: '2020-09-07',
+        timeStart: '09:00',
+        timeEnd: '20:00',
         startPoint: 'Владикавказ',
         startPointCoordLat: 50,
         startPointCoordLong: 40,

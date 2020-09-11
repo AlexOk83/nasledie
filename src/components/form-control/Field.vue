@@ -82,7 +82,19 @@
 
     export default {
         name: "Field",
-        props: ['name', 'type', 'title', 'value', 'placeholder', 'listValue', 'save', 'rows', 'disabled'],
+        props: {
+            name: String,
+            type: String,
+            title: String,
+            value: [String, Number, Object],
+            placeholder: String,
+            listValue: Array,
+            save: {
+
+            },
+            rows: Number,
+            disabled: Boolean
+        },
         components: {
             DatePicker,
             TimePicker,

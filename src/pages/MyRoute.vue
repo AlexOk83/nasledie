@@ -11,7 +11,7 @@
                            title="Название маршрута"
                            placeholder="Название маршрута"
                            :value="name"
-                           :save="!isNewRoute && config.name"
+                           :save="!isNewRoute && configsForSave.name"
                            @change="changeValue('name', $event)"
                     />
                     <Field name="description"
@@ -19,7 +19,7 @@
                            title="Описание маршрута"
                            placeholder="Описание маршрута"
                            :value="description"
-                           :save="!isNewRoute && config.description"
+                           :save="!isNewRoute && configsForSave.description"
                            @change="changeValue('description', $event)"
                     />
                     <div v-if="isNewRoute">
@@ -57,7 +57,6 @@
                                :value="typeMovement"
                                :list-value="listTypesMovement"
                                @change="changeValue('typeMovement', $event)"
-                               disabled=true
                         />
                         <Objects
                                 :objects="objects"
@@ -105,19 +104,20 @@
                 </form>
             </div>
             <div class="right-container">
-                <Map
-                        v-if="viewMap"
-                        :from="startPoint.coordinates"
-                        :to="endPoint.coordinates"
-                        :typeMovement="typeMovement"
-                        :points="objects.map(o => (o.position))"
-                />
+<!--                <Map-->
+<!--                        v-if="viewMap"-->
+<!--                        :from="startPoint.coordinates"-->
+<!--                        :to="endPoint.coordinates"-->
+<!--                        :typeMovement="typeMovement"-->
+<!--                        :points="objects.map(o => (o.position))"-->
+<!--                />-->
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import moment from 'moment';
     import Field from "../components/form-control/Field";
     import Map from "../components/map/index";
     import Button from "../components/form-control/button/index";
@@ -148,21 +148,24 @@
                 name: 'Тестовый маршрут',
                 description: 'Описание маршрута',
                 startPoint: {
-                    coordinates: null,
-                    name: '',
-                    description: ''
+                    coordinates: [55.753215, 37.622504],
+                    name: 'Москва',
+                    description: 'Россия'
                 },
                 endPoint: {
-                    coordinates: null,
-                    name: '',
-                    description: ''
+                    coordinates: [53.5088, 49.41918],
+                    name: 'Тольятти',
+                    description: 'Россия, Самарская область'
                 },
-                dateStart: '2020-08-05',
+                dateStart: moment(new Date()).format(),
                 timeStart: '10:30',
                 isGeoRoute: 'yes',
-                typeMovement: '',
+                typeMovement: 'car',
                 objects: [],
-                days: {},
+                // данные для редактирования
+                days: [],
+                totalTime: 0,
+                totalWay: 0,
                 otherData: {},
                 files: [],
             }
@@ -177,7 +180,7 @@
                 }
                 return 'Редактировать маршрут пользователя'
             },
-            config() {
+            configsForSave() {
                 return {
                     name: {
                         editTitle: 'Редактировать название',
@@ -194,6 +197,9 @@
         },
         methods: {
             getInfoForSave() {
+                if (this.isNewRoute) {
+                    this.calculateMap();
+                }
                 const formData = new FormData();
                 formData.append('ZRouter', JSON.stringify({
                     ...this.otherData,
@@ -201,22 +207,13 @@
                     name: this.name,
                     description: this.description,
                     isGeoRoute: this.isGeoRoute,
-                    typeMovement: this.routeId ? this.otherData.typeMovement : [this.typeMovement],
+                    typesOfMovement: [this.typeMovement],
                     objects: this.objects,
                     days: this.days,
+                    totalTime: this.totalTime,
+                    totalWay: this.totalWay,
                     user_id : 1,
                 }));
-                console.log({
-                    ...this.otherData,
-                    id: this.routeId,
-                    name: this.name,
-                    description: this.description,
-                    isGeoRoute: this.isGeoRoute,
-                    typeMovement: this.routeId ? this.otherData.typeMovement : [this.typeMovement],
-                    objects: this.objects,
-                    days: this.days,
-                    user_id : 1,
-                })
                 formData.append('sessionId', 1);
                 return formData
             },
@@ -224,8 +221,111 @@
                 const data = this.getInfoForSave();
                 repository.createMyRoute(data)
                     .then(response => {
-                        console.log(response.data)
+                        console.log(response.data);
+                        const result = JSON.parse(response.data);
+                        if (result && result.id) {
+                            this.$router.push(`/edit-my-route/${result.id}`)
+                        }
                     });
+            },
+            calculateMap() {
+                let date = moment(this.dateStart).add(1, 'days');
+                console.log(date)
+                this.days = [
+                    {
+                        id: 1,
+                        name: "1 День",
+                        dateStart: this.dateStart,
+                        dateEnd: this.dateStart,
+                        timeStart: this.timeStart,
+                        timeEnd: '20:00',
+                        startPoint: this.startPoint.name,
+                        startPointCoordLat: this.startPoint.coordinates[0],
+                        startPointCoordLong: this.startPoint.coordinates[1],
+                        endPoint: this.objects[1].name,
+                        endPointCoordLat: this.objects[1].position[0],
+                        endPointCoordLong: this.objects[1].position[1],
+                        objects: [
+                            {
+                                object_id: 407,
+                                name: this.startPoint.name,
+                                startPointCoordLat: this.startPoint.coordinates[0],
+                                startPointCoordLong: this.startPoint.coordinates[1],
+                                timeInWay: 330,
+                                way: 5000,
+                                stopTime: 30,
+                                time: 90,
+                                typeMovement: [this.typeMovement]
+                            },
+                            {
+                                ...this.objects[0],
+                                object_id: this.objects[0].id,
+                                timeInWay: 330,
+                                way: 5000,
+                                stopTime: 30,
+                                time: 90,
+                                typeMovement: [this.typeMovement]
+                            },
+                            {
+                                ...this.objects[1],
+                                object_id: this.objects[1].id,
+                                timeInWay: 330,
+                                way: 5000,
+                                stopTime: 30,
+                                time: 90,
+                                typeMovement: [this.typeMovement]
+                            }
+
+                        ]
+
+                    },
+                    {
+                        id: 2,
+                        name: "2 День",
+                        dateStart: date,
+                        dateEnd: date,
+                        timeStart: this.timeStart,
+                        timeEnd: '20:00',
+                        startPoint: this.objects[1].name,
+                        startPointCoordLat: this.objects[1].position[0],
+                        startPointCoordLong: this.objects[1].position[1],
+                        endPoint: this.objects[3].name,
+                        endPointCoordLat: this.objects[3].position[0],
+                        endPointCoordLong: this.objects[3].position[1],
+                        objects: [
+                            {
+                                ...this.objects[1],
+                                object_id: this.objects[1].id,
+                                timeInWay: 330,
+                                way: 5000,
+                                stopTime: 30,
+                                time: 90,
+                                typeMovement: [this.typeMovement]
+                            },
+                            {
+                                ...this.objects[2],
+                                object_id: this.objects[2].id,
+                                timeInWay: 330,
+                                way: 5000,
+                                stopTime: 30,
+                                time: 90,
+                                typeMovement: [this.typeMovement]
+                            },
+                            {
+                                ...this.objects[3],
+                                object_id: this.objects[3].id,
+                                timeInWay: 330,
+                                way: 5000,
+                                stopTime: 30,
+                                time: 90,
+                                typeMovement: [this.typeMovement]
+                            }
+                        ]
+
+                    }
+                ];
+                this.totalTime = 90;
+                this.totalWay = 5000;
             },
             updateRoute() {
                 const data = this.getInfoForSave();
@@ -258,7 +358,7 @@
             updateState(data) {
                 this.name = data.name;
                 this.description = data.description;
-                this.days = MockDays;
+                this.days = data.days;
                 this.isGeoRoute = data.isGeoRoute;
                 this.otherData = data; // для того, чтобы не потерять данные
             }

@@ -16,10 +16,12 @@
             <div class="myRoute__params">
                 <div class="way">
                     <Icon icon="way" />
-                    {{ getWay }}</div>
+                    {{ getWay }}
+                </div>
                 <div class="hour">
                     <Icon icon="time" />
-                    {{ getHour }}</div>
+                    {{ getHour }}
+                </div>
                 <div class="myRoute__movement">
                     <div class="item" v-for="item in data.typesOfMovement">
                         <Icon :icon="item" />
@@ -30,10 +32,10 @@
             </div>
             <div class="points">
                 <span class="label">Точка старта</span>
-                <span class="point-value">{{ data.startPoint.name }}</span>
+                <span class="point-value">{{ data.startPoint }}</span>
 
                 <span class="label">Точка назначения</span>
-                <span class="point-value">{{ data.endPoint.name }}</span>
+                <span class="point-value">{{ data.endPoint }}</span>
             </div>
             <div class="myRoute__objects">
                 <div class="title__sub">Объекты для посещения</div>
@@ -66,14 +68,8 @@
             data: {
                 name: String,
                 description: String,
-                startPoint: {
-                    coordinates: Array,
-                    name: String
-                },
-                endPoint: {
-                    coordinates: Array,
-                    name: String
-                },
+                startPoint: String,
+                endPoint: String,
                 typesOfMovement: Array,
                 totalWay: Number,
                 totalTime: Number,
@@ -97,7 +93,7 @@
         },
         computed: {
             image() {
-                return data.files ? data.files[0].base64 : null;
+                return this.data.files ? this.data.files[0].base64 : null;
             },
             getWay() {
                 if (!this.data.totalWay) {
