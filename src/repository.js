@@ -53,7 +53,7 @@ export default class Repository {
     }
 
     createMyRoute(data) {
-        return axios.post(API.CREATE_RECOMMENDED_ROUTE(), data);
+        return axios.post(API.CREATE_ROUTE(), data);
     }
 
     getMyRoute(routeId) {
@@ -69,7 +69,7 @@ export default class Repository {
     }
 
     createRecommendedRoute(data) {
-        return axios.post(API.CREATE_ROUTE(), data);
+        return axios.post(API.CREATE_RECOMMENDED_ROUTE(), data);
     }
 
     getRecommendedRoutes() {

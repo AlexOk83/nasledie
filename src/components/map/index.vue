@@ -11,121 +11,112 @@
 <script>
     export default {
         name: "Map",
-        props: ['from', 'to', 'points', 'typeMovement'],
+        props: ['from', 'days'],
         data() {
             return {
                 myMap: null,
             }
         },
         computed: {
-            getPoints() {
-                const {from, points, } = this;
-                return [from, ...points, to];
-            },
-            getMovement() {
-                switch(this.typeMovement) {
+
+        },
+        methods: {
+            getMovement(typeMovement) {
+                switch(typeMovement) {
                     case "car": return 'auto';
                     case "people": return 'pedestrian';
                     default: return 'auto';
                 }
             },
-        },
-        methods: {
-            render: function() {
-                const { from, to, points, getMovement } = this;
+            viewRoutes: function() {
+                const { days, myMap } = this;
 
                 ymaps.ready(function () {
-                    this.myMap = new ymaps.Map('map', {
-                        center: from,
-                        zoom: 9,
-                        // Добавим панель маршрутизации.
-                        controls: ['default']
-                    });
+                    days.forEach(day => {
+                        var multiRoute = new ymaps.multiRouter.MultiRoute(
+                            {
+                                multiRoute: true,
+                                // Точки маршрута. Точки могут быть заданы как координатами, так и адресом.
+                                referencePoints: pointList,
+                                params: {
+                                    // routingMode: 'masstransit', //— маршрутизация с использованием общественного транспорта. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
+                                    //routingMode: 'auto' автомобильная маршрутизация;
+                                    //routingMode: 'pedestrian'  — пешеходная маршрутизация. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
+                                    routingMode: this.getMovement(),
+                                    results: 3
+                                },
 
-                    var multiRoute = new ymaps.multiRouter.MultiRoute({
-                        multiRoute: true,
-                        // Точки маршрута. Точки могут быть заданы как координатами, так и адресом.
-                        referencePoints: pointList,
-                        params: {
-                            // routingMode: 'masstransit', //— маршрутизация с использованием общественного транспорта. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
-                            //routingMode: 'auto' автомобильная маршрутизация;
-                            //routingMode: 'pedestrian'  — пешеходная маршрутизация. Доступна только для мультимаршрутов (опция multiRoute должна быть выставлена в true);
-                            routingMode: getMovement,
-                            results: 3
-                        },
+                            },
+                            {
+                                // Внешний вид путевых точек.
+                                wayPointStartIconLayout: "default#image",
+                                wayPointStartIconImageHref: "/src/assets/images/icons/flag_blue.svg",
+                                wayPointStartIconImageSize: [40, 40],
+                                wayPointStartIconImageOffset: [-5, -25],
+                                // Задаем собственную картинку для последней путевой точки.
+                                wayPointFinishIconLayout: "default#image",
+                                wayPointFinishIconImageHref: "/src/assets/images/icons/flag_blue.svg",
+                                wayPointFinishIconImageSize: [30, 30],
+                                wayPointFinishIconImageOffset: [-5, -25],
 
-                    }, {
-                        // Внешний вид путевых точек.
-                        wayPointStartIconLayout: "default#image",
-                        wayPointStartIconImageHref: "/src/assets/images/icons/flag_blue.svg",
-                        wayPointStartIconImageSize: [40, 40],
-                        wayPointStartIconImageOffset: [-5, -25],
-                        // Задаем собственную картинку для последней путевой точки.
-                        wayPointFinishIconLayout: "default#image",
-                        wayPointFinishIconImageHref: "/src/assets/images/icons/flag_blue.svg",
-                        wayPointFinishIconImageSize: [30, 30],
-                        wayPointFinishIconImageOffset: [-5, -25],
+                                wayPointIconLayout: "default#image",
+                                wayPointIconImageHref: "/src/assets/images/icons/flag_yellow.svg",
+                                wayPointIconImageSize: [30, 30],
+                                wayPointIconImageOffset: [-2, -25],
+                                // Позволяет скрыть иконки путевых точек маршрута.
+                                // wayPointVisible:false,
 
-                        wayPointIconLayout: "default#image",
-                        wayPointIconImageHref: "/src/assets/images/icons/flag_yellow.svg",
-                        wayPointIconImageSize: [30, 30],
-                        wayPointIconImageOffset: [-2, -25],
-                        // Позволяет скрыть иконки путевых точек маршрута.
-                        // wayPointVisible:false,
+                                // Внешний вид транзитных точек.
 
-                        // Внешний вид транзитных точек.
+                                viaPointIconLayout: "default#image",
+                                viaPointIconImageHref: "/src/assets/images/icons/flag_blue.svg",
+                                viaPointIconImageSize: [30, 30],
+                                viaPointIconImageOffset: [-5, -25],
+                                viaPointDraggable: false,
+                                // Позволяет скрыть иконки транзитных точек маршрута.
+                                // viaPointVisible:false,
 
-                        viaPointIconLayout: "default#image",
-                        viaPointIconImageHref: "/src/assets/images/icons/flag_blue.svg",
-                        viaPointIconImageSize: [30, 30],
-                        viaPointIconImageOffset: [-5, -25],
-                        viaPointDraggable: false,
-                        // Позволяет скрыть иконки транзитных точек маршрута.
-                        // viaPointVisible:false,
+                                // Внешний вид точечных маркеров под путевыми точками.
+                                pinIconLayout: "default#image",
+                                pinIconImageHref: "/src/assets/images/icons/flag_blue.svg",
+                                pinIconImageSize: [30, 30],
+                                pinIconImageOffset: [-5, -25],
 
-                        // Внешний вид точечных маркеров под путевыми точками.
-                        pinIconLayout: "default#image",
-                        pinIconImageHref: "/src/assets/images/icons/flag_blue.svg",
-                        pinIconImageSize: [30, 30],
-                        pinIconImageOffset: [-5, -25],
+                                // Позволяет скрыть точечные маркеры путевых точек.
+                                // pinVisible:false,
 
-                        // Позволяет скрыть точечные маркеры путевых точек.
-                        // pinVisible:false,
+                                // Внешний вид линии маршрута.
+                                routeActiveStrokeWidth: [3, 3],
+                                routeActiveStrokeColor: ["#ff0000","#00ff00"],
 
-                        // Внешний вид линии маршрута.
-                        routeActiveStrokeWidth: [3, 3],
-                        routeActiveStrokeColor: ["#ff0000","#00ff00"],
+                                // Внешний вид линии пешеходного маршрута.
+                                routeActivePedestrianSegmentStrokeStyle: "solid",
+                                routeActivePedestrianSegmentStrokeColor: "#00CDCD",
 
-                        // Внешний вид линии пешеходного маршрута.
-                        routeActivePedestrianSegmentStrokeStyle: "solid",
-                        routeActivePedestrianSegmentStrokeColor: "#00CDCD",
-
-                        boundsAutoApply: true
-                    });
-                    multiRoute.model.events.add('requestsuccess', function() {
-                        // Получение ссылки на активный маршрут.
-                        var activeRoute = multiRoute.getActiveRoute();
-                        var activeRoutePaths = activeRoute && activeRoute.getPaths();
-                        if (activeRoutePaths) {
-                            activeRoutePaths.each(function(path) {
-                                console.log("Длина пути: " + path.properties.get("distance").text);
-                                console.log("Время прохождения пути: " + path.properties.get("duration").text);
+                                boundsAutoApply: true
                             });
-                        }
-
+                        //https://tech.yandex.ru/maps/jsapi/doc/2.1/dg/concepts/router/multiRouter-docpage/#multiRouter__get-active-route
+                        this.myMap.geoObjects.add(multiRoute);
                     });
-                    //https://tech.yandex.ru/maps/jsapi/doc/2.1/dg/concepts/router/multiRouter-docpage/#multiRouter__get-active-route
-                    myMap.geoObjects.add(multiRoute);
+
 
 
                 });
             }
         },
         created() {
-            this.render()
+            let { from, myMap } = this;
+            ymaps.ready(function () {
+                myMap = new ymaps.Map('map', {
+                    center: from,
+                    zoom: 9,
+                    // Добавим панель маршрутизации.
+                    controls: ['default']
+                });
+            })
         },
         watch: {
-            points: function () {
+            days() {
                 this.$forceUpdate();
             }
         }

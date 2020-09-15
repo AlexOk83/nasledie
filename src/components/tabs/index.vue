@@ -5,7 +5,7 @@
             <div class="prev" @click="prev" />
             <div class="next" @click="next" />
         </div>
-        <div class="tabs__header" ref="header" >
+        <div class="tabs__header" :style="stylesHeader" ref="header" >
             <div class="tabs__list" ref="tabList" :style="styleList">
                 <div class="tab" :class="getClasses(index, day)" :style="{ width: widthTab + 'px' }"  v-for="(day, index) in localData" @click="setActiveDay(index)">
                     <span class="text">{{ index + 1 }} День</span>
@@ -17,7 +17,7 @@
             <Field name="date"
                    type="date"
                    title="Дата"
-                   :value="activeDay && activeDay.dateStart"
+                   :value="activeDay.pointStart && activeDay.pointStart.date"
                    @change="changeDate"
                    :save="config"
             />
@@ -25,7 +25,7 @@
                 <Field name="timeStart"
                        type="time"
                        title="Время старта"
-                       :value="activeDay && activeDay.timeStart"
+                       :value="activeDay.pointStart && activeDay.pointStart.time"
                        @change="changeTimeStart"
                        :save="config"
                 />
@@ -33,7 +33,7 @@
                        type="time"
                        title="Время финиша"
                        @change="changeTimeEnd"
-                       :value="activeDay && activeDay.timeEnd"
+                       :value="activeDay.pointEnd && activeDay.pointEnd.time"
                        :save="config"
                 />
             </div>
@@ -69,7 +69,7 @@
         data() {
             return {
                 localData: this.data,
-                activeDay: this.getData,
+                activeDay: this.getData || {},
                 indexActiveDay: 0,
                 left: 0,
                 widthHeader: null,
@@ -142,6 +142,9 @@
         },
         computed: {
             widthTab() {
+                if (this.data.length < 3) {
+                    return Math.round(this.widthHeader / this.data.length) + 1;
+                }
                 return Math.round(this.widthHeader / 3) + 1;
             },
             styleList() {
@@ -156,6 +159,14 @@
                     width: this.data.length*this.widthTab + 'px',
                     left: (-this.widthTab * this.left) + 'px',
                 };
+            },
+            stylesHeader() {
+                if (this.data.length < 3) {
+                    return {
+                        width: this.data.length*120 + 'px',
+                    }
+                }
+                return null;
             },
             isLong() {
                 return this.data && this.data.length > 3;

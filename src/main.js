@@ -4,9 +4,11 @@ import store from './store'
 import App from './App.vue'
 import router from './routes'
 import VueResource from 'vue-resource'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
+Vue.use(VueAwesomeSwiper);
 
 Vue.http.options.root = 'http://localhost:3000/';
 

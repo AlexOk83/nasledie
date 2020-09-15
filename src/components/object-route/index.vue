@@ -2,24 +2,40 @@
 <template>
     <div class="route">
         <div class="route__image">
-            <img :src="data.image" :alt="data.name" >
+            <img :src="data.images[0]" :alt="data.name" >
         </div>
         <div class="route__body">
-            <div class="title">{{ data.name }}</div>
-            <div class="text-description">{{ data.description }}</div>
+            <vue-custom-scrollbar class="scroll-area" :settings="settings" >
+                <div class="title">{{ data.name }}</div>
+                <div class="text-description">{{ data.description }}</div>
+            </vue-custom-scrollbar>
+
         </div>
     </div>
 
 </template>
 
 <script>
+    import vueCustomScrollbar from "vue-custom-scrollbar";
+
     export default {
         name: "ObjectRoute",
+        components: {
+            vueCustomScrollbar
+        },
         props: {
             data: {
                 name: String,
                 image: String,
                 description: String,
+            }
+        },
+        computed: {
+            settings() {
+                return {
+                    wheelPropagation: false,
+                    maxScrollbarLength: 400,
+                }
             }
         }
     }
@@ -31,6 +47,7 @@
     .text-description {
         .text();
         margin-top: 30px;
+
     }
 
 

@@ -1,21 +1,21 @@
 <template>
     <div class="container">
         <div class="detailRouter">
-            <div class="detailRouter__title">{{ route.title }}</div>
-            <div class="detailRouter__text">{{ route.description }}</div>
-            <div class="detailRouter__tags">
-                <div class="item" v-for="item in route.routeTypes">
-                    <span>#{{ item.title }}</span>
-                </div>
+            <div class="detailRouter__title">{{ route.name }}</div>
+            <div class="detailRouter__description">{{ route.description }}</div>
+            <Slider :files="route.files"/>
+<!--            <div class="detailRouter__tags">-->
+<!--                <div class="item" v-for="item in route.routeTypes">-->
+<!--                    <span>#{{ item.title }}</span>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div v-if="route.objects">
+                <div class="detailRouter--title">Объекты в маршруте:</div>
+                <List is-object :data="route.objects" :config="config" />
             </div>
 
-            <div class="detailRouter__content">
-                {{ route.content }}
-            </div>
-            <div class="detailRouter--title">Объекты в маршруте:</div>
-            <List is-object :data="route.objects" :config="config" />
-            <div class="detailRouter--title">Подробный маршрут: {{ route.title }}</div>
-            <Map :from="[53.537850, 49.362708]" :to="[53.537850, 49.352708]" :points="[[53.537055, 49.352733], [53.537055, 49.351733]]"></Map>
+            <div class="detailRouter--title">Подробный маршрут: {{ route.name }}</div>
+            <Map v-if="route.pointStart && route.pointStart.coordinates" :from="route.pointStart && route.pointStart.coordinates" :days="route.days" />
 
             <Table :columns="columns" :days="route.days" />
 
@@ -28,23 +28,25 @@
 <script>
     import Button from '../components/form-control/button'
     import Map from "../components/map/index";
-    import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+    import Slider from "../components/slider/slider";
     import List from "../components/route-list/index";
     import Table from "../components/table/index";
+    import { Presenter } from "../presenter";
+    import Repository from "../repository";
+    const presenter = new Presenter();
+    const repository = new Repository();
 
     export default {
         name: "ViewRecommendedRoute",
         components: {
             Button,
             Map,
-            Swiper,
-            SwiperSlide,
+            Slider,
             List,
             Table
         },
         data() {
             return {
-                resource: null,
                 id: null,
                 route: {},
                 columns: [
@@ -64,21 +66,18 @@
         },
         methods: {
             moveBack() {
-                this.$router.push('/my-routes')
+                this.$router.push('/list-my-routes')
             },
             getData() {
-                this.resource.get({id: this.id})
-                    .then(response => response.json())
-                    .then(route => {
-                        this.route = route;
-                        this.routesList = route.objects;
-                    })
+                this.id = this.$route.params.id;
+                repository.getMyRoute(this.id).then(response => {
+                    console.log(JSON.parse(response.data));
+                    const data = JSON.parse(response.data);
+                    this.route = data.router;
+                })
             }
         },
         created() {
-            this.id = this.$route.params.id;
-            const resourceLink = this.$route.params.type === 'my' ? 'myRoutes{/id}' : 'recomendRoutes{/id}'
-            this.resource = this.$resource(resourceLink);
             this.getData();
         }
     }
@@ -87,17 +86,18 @@
 
 
 <style lang="less">
-    @import "../styles/layout";
-    /*@import "../components/recomended-route/styles";*/
+    @import "../styles/mixins";
 
     .detailRouter {
         &__title {
-            .h1();
-            margin-bottom: 20px;
-        }
-        &__text {
-            .text();
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 40px;
             margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        &__description {
+            margin-bottom: 20px;
         }
         &__tags {
             display: flex;

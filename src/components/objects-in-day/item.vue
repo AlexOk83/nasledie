@@ -33,7 +33,7 @@
             <Field name="typeMovement"
                    type="select"
                    placeholder="Не выбран"
-                   :value="dataNextItem.typeMovement"
+                   :value="dataNextItem.typeMovement && dataNextItem.typeMovement[0]"
                    :list-value="listTypesMovement"
                    :save="config"
             />
@@ -65,7 +65,7 @@
                 name: String,
                 timeInWay: Number,
                 way: Number,
-                typeMovement: String,
+                typeMovement: Array,
                 StopTime: String,
             },
             isFirst: Boolean,

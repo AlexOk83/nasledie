@@ -9,6 +9,9 @@
 
 <script>
     import MaskedInput from 'vue-masked-input'
+    import { Presenter } from "../../presenter";
+    const presenter = new Presenter();
+
     export default {
         name: "TimePicker",
         props: {
@@ -28,7 +31,7 @@
                 if (this.disabled) {
                     return;
                 }
-                let { hour, minutes } = this.getTime(this.localValue);
+                let { hour, minutes } = presenter.getHourAndMinutes(this.localValue);
                 const currentHour = Number(hour);
                 if (minutes === '00') {
                     minutes = '30';
@@ -51,7 +54,7 @@
                 if (this.disabled) {
                     return;
                 }
-                let { hour, minutes } = this.getTime(this.localValue);
+                let { hour, minutes } = presenter.getHourAndMinutes(this.localValue);
                 const currentHour = Number(hour);
                 if (minutes === '00') {
                     minutes = '30';
@@ -70,22 +73,9 @@
                 this.localValue = `${hour}:${minutes}`;
                 this.$emit('change', this.localValue);
             },
-            getTime(time) {
-                if (!time) {
-                    return {
-                        hour: '00',
-                        minutes: '00'
-                    };
-                }
-                const hour = time[0] + time[1];
-                const minutes = time[3] + time[4];
-                return {
-                    hour,
-                    minutes
-                }
-            },
+
             validate(event) {
-                const { hour, minutes } = this.getTime(event);
+                const { hour, minutes } = presenter.getHourAndMinutes(event);
                 const timeIsFull = !hour.includes('_') && !minutes.includes('_')
                 if (timeIsFull) {
                     if (Number(hour) > 23 || Number(minutes) > 59) {

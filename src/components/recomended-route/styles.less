@@ -1,6 +1,7 @@
 @import "../../styles/mixins";
 
 .route {
+  .clearfix();
   width: 100%;
   overflow: hidden;
   border: 1px solid @base;
@@ -36,13 +37,17 @@
   }
   &__body {
     .column(6,6,6);
-    padding-left: 24px;
-    padding-right: 15px;
-    padding-bottom: 20px;
-    .media_mobile({
-      padding-left: 14px;
 
-    });
+    .scroll-area {
+      max-height: 400px;
+      padding-bottom: 20px;
+      padding-left: 24px;
+      padding-right: 15px;
+
+      .media_mobile({
+        padding-left: 14px;
+      });
+    }
     .title {
       margin-top: 27px;
       .boxTitle();

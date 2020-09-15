@@ -32,6 +32,7 @@
 </template>
 
 <script>
+    import { isEmpty } from 'lodash';
     import SearchField from "../form-control/search/SearchField";
     import SelectControl from '../form-control/select';
     import Button from '../form-control/button';
@@ -64,7 +65,7 @@
         },
         computed: {
             disabledForm() {
-                return !this.currentCategory || !this.currentRegion || !this.currentName;
+                return isEmpty(this.currentCategory) || isEmpty(this.currentRegion) || isEmpty(this.currentName);
             }
         },
         methods: {

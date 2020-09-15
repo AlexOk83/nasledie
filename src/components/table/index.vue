@@ -15,14 +15,14 @@
                     <div class="title--sub">Точка старта</div>
                     <div class="title">{{ day.pointStart.name }}</div>
                     <div class="title--sub">Дата старта</div>
-                    <div class="title">{{ day.pointStart.date }}</div>
+                    <div class="title">{{ getDateFormat(day.pointStart.date) }}</div>
                     <div class="title--sub">Время старта</div>
                     <div class="title">{{ day.pointStart.time }}</div>
 
                     <div class="title--sub">Точка назначения</div>
                     <div class="title">{{ day.pointEnd.name }}</div>
                     <div class="title--sub">Дата старта</div>
-                    <div class="title">{{ day.pointEnd.date }}</div>
+                    <div class="title">{{ getDateFormat(day.pointEnd.date) }}</div>
                     <div class="title--sub">Время старта</div>
                     <div class="title">{{ day.pointEnd.time }}</div>
                 </td>
@@ -39,8 +39,8 @@
                 </td>
                 <td  class="day__object">
                     <div class="icon__wrap">
-                        <Icon :icon="day.objects[0].typeMovement" />
-                        <div class="title">{{getNameMovement(day.objects[0].typeMovement)}}</div>
+                        <Icon :icon="day.objects[0].typeMovement[0]" />
+                        <div class="title">{{getNameMovement(day.objects[0].typeMovement[0])}}</div>
                     </div>
 
                 </td>
@@ -72,8 +72,8 @@
                 </td>
                 <td  class="day__object">
                     <div class="icon__wrap">
-                        <Icon :icon="object.typeMovement" />
-                        <div class="title">{{getNameMovement(object.typeMovement)}}</div>
+                        <Icon :icon="object.typeMovement[0]" />
+                        <div class="title">{{getNameMovement(object.typeMovement[0])}}</div>
                     </div>
                 </td>
                 <td  class="day__object">
@@ -100,14 +100,15 @@
 <script>
     import {Presenter} from "../../presenter";
     import Icon from "../icon";
+    import moment from 'moment';
 
     const presenter = new Presenter();
 
     export default {
         name: "Table",
         props: {
-            columns: [],
-            days : [],
+            columns: Array,
+            days : Array,
         },
         components: {
             Icon,
@@ -115,6 +116,9 @@
         methods: {
             getNextObjects(objects) {
                 return objects.slice(1);
+            },
+            getDateFormat(date) {
+                return moment(date).format('DD.MM.YYYY')
             },
             getClasses(index) {
                 const base = index === 0 || index % 3 === 0;

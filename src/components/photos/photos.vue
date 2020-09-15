@@ -8,20 +8,18 @@
             <span>Загрузить с компьютера</span>
         </label>
         <div class="photos-list">
-            <draggable v-model="files" draggable=".photos__item" @change="drag">
-                <transition-group class='list' >
-                    <div class="photos__item" v-for="photo in files" :key="photo.file.name">
-                        <div class="wrapper">
-                            <img :src="photo.base64" :alt="photo.file.name">
-                        </div>
+            <draggable class='list' v-model="files" draggable=".photos__item" @change="drag">
+                <div class="photos__item" v-for="(photo, index) in files" :key="index">
+                    <div class="wrapper">
+                        <img :src="photo.base64">
                     </div>
-                    <div class="other-wrapper" v-for="item in addButton" :key="item">
-                        <label for="photo" class="add-photo" />
-                    </div>
-                    <div class="other-wrapper" key="remove" v-if="files.length > 0">
-                        <div class="remove" @click="remove"/>
-                    </div>
-                </transition-group>
+                </div>
+                <div class="other-wrapper" v-for="item in addButton" :key="item">
+                    <label for="photo" class="add-photo" />
+                </div>
+                <div class="other-wrapper" key="remove" v-if="files.length > 0">
+                    <div class="remove" @click="remove"/>
+                </div>
             </draggable>
         </div>
     </div>
@@ -92,6 +90,14 @@
                 this.$emit('change', this.files)
             }
         },
+        watch: {
+            photos() {
+                this.files = this.photos
+            }
+        },
+        created() {
+            this.files = this.photos
+        }
     }
 </script>
 

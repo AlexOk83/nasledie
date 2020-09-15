@@ -13,7 +13,7 @@
         name: "radio-buttons",
         props: {
             name: String,
-            value: String,
+            value: [String, Number],
             variantList: Array,
         },
         data() {

@@ -70,7 +70,6 @@
                             :data="days"
                             @change="changeValue('days', $event)"
                         />
-
                     </div>
                     <Field name="isGeoRoute"
                            type="radio"
@@ -104,13 +103,11 @@
                 </form>
             </div>
             <div class="right-container">
-<!--                <Map-->
-<!--                        v-if="viewMap"-->
-<!--                        :from="startPoint.coordinates"-->
-<!--                        :to="endPoint.coordinates"-->
-<!--                        :typeMovement="typeMovement"-->
-<!--                        :points="objects.map(o => (o.position))"-->
-<!--                />-->
+                <Map
+                        v-if="viewMap"
+                        :from="startPoint.coordinates"
+                        :days="days"
+                />
             </div>
         </div>
     </div>
@@ -125,8 +122,10 @@
     import Tabs from "../components/tabs";
     import Photos from "../components/photos/photos";
     import Repository from '../repository';
+    import { Presenter } from "../presenter";
     import { radioButtonOptions, typesOfMovement, MockDays } from '../constants';
     const repository = new Repository();
+    const presenter = new Presenter();
 
     export default {
         name: "CreateRoute",
@@ -172,7 +171,7 @@
         },
         computed: {
             viewMap() {
-                return this.startPoint.coordinates && this.endPoint.coordinates
+                return this.startPoint.coordinates
             },
             headerTitle() {
                 if (this.isNewRoute) {
@@ -196,142 +195,102 @@
             }
         },
         methods: {
-            getInfoForSave() {
-                if (this.isNewRoute) {
-                    this.calculateMap();
-                }
+            getInfoForCreate() {
                 const formData = new FormData();
-                formData.append('ZRouter', JSON.stringify({
+                const values = {
                     ...this.otherData,
                     id: this.routeId,
                     name: this.name,
                     description: this.description,
-                    isGeoRoute: this.isGeoRoute,
-                    typesOfMovement: [this.typeMovement],
-                    objects: this.objects,
+                    startPoint: this.startPoint.name,
+                    startPointCoordLat: this.startPoint.coordinates[0],
+                    startPointCoordLong: this.startPoint.coordinates[1],
+                    endPoint: this.endPoint.name,
+                    endPointCoordLat: this.endPoint.coordinates[0],
+                    endPointCoordLong: this.endPoint.coordinates[1],
+                    dateStart: this.dateStart,
+                    dateEnd: this.dateStart,
+                    timeStart: this.timeStart,
+                    timeEnd: this.timeEnd,
+                    typeMovement: [this.typeMovement],
+                    objects: this.objects.map(o => ({...o, object_id: o.id})),
                     days: this.days,
                     totalTime: this.totalTime,
                     totalWay: this.totalWay,
+                    isGeoRoute: this.isGeoRoute,
+                    files: this.files,
                     user_id : 1,
-                }));
+                }
+                formData.append('ZRouter', JSON.stringify(values));
                 formData.append('sessionId', 1);
+                console.log('saved...', values);
+                return formData
+            },
+            getInfoForUpdate() {
+                const formData = new FormData();
+                const values = {
+                    ...this.otherData,
+                    id: this.routeId,
+                    name: this.name,
+                    description: this.description,
+                    startPoint: this.startPoint.name,
+                    startPointCoordLat: this.startPoint.coordinates[0],
+                    startPointCoordLong: this.startPoint.coordinates[1],
+                    endPoint: this.endPoint.name,
+                    endPointCoordLat: this.endPoint.coordinates[0],
+                    endPointCoordLong: this.endPoint.coordinates[1],
+                    dateStart: this.dateStart,
+                    dateEnd: this.dateStart,
+                    timeStart: this.timeStart,
+                    timeEnd: this.timeEnd,
+                    typeMovement: [this.typeMovement],
+                    objects: this.objects.map(o => ({...o, object_id: o.id})),
+                    days: this.days,
+                    totalTime: this.totalTime,
+                    totalWay: this.totalWay,
+                    isGeoRoute: this.isGeoRoute,
+                    files: this.files,
+                    user_id : 1,
+                }
+                formData.append('ZRouter', JSON.stringify(values));
+                formData.append('sessionId', 1);
+                console.log('saved...', values);
                 return formData
             },
             createRoute() {
-                const data = this.getInfoForSave();
-                repository.createMyRoute(data)
-                    .then(response => {
-                        console.log(response.data);
-                        const result = JSON.parse(response.data);
-                        if (result && result.id) {
-                            this.$router.push(`/edit-my-route/${result.id}`)
-                        }
-                    });
+                this.calculateMap();
             },
             calculateMap() {
-                let date = moment(this.dateStart).add(1, 'days');
-                console.log(date)
-                this.days = [
-                    {
-                        id: 1,
-                        name: "1 День",
-                        dateStart: this.dateStart,
-                        dateEnd: this.dateStart,
-                        timeStart: this.timeStart,
-                        timeEnd: '20:00',
-                        startPoint: this.startPoint.name,
-                        startPointCoordLat: this.startPoint.coordinates[0],
-                        startPointCoordLong: this.startPoint.coordinates[1],
-                        endPoint: this.objects[1].name,
-                        endPointCoordLat: this.objects[1].position[0],
-                        endPointCoordLong: this.objects[1].position[1],
-                        objects: [
-                            {
-                                object_id: 407,
-                                name: this.startPoint.name,
-                                startPointCoordLat: this.startPoint.coordinates[0],
-                                startPointCoordLong: this.startPoint.coordinates[1],
-                                timeInWay: 330,
-                                way: 5000,
-                                stopTime: 30,
-                                time: 90,
-                                typeMovement: [this.typeMovement]
-                            },
-                            {
-                                ...this.objects[0],
-                                object_id: this.objects[0].id,
-                                timeInWay: 330,
-                                way: 5000,
-                                stopTime: 30,
-                                time: 90,
-                                typeMovement: [this.typeMovement]
-                            },
-                            {
-                                ...this.objects[1],
-                                object_id: this.objects[1].id,
-                                timeInWay: 330,
-                                way: 5000,
-                                stopTime: 30,
-                                time: 90,
-                                typeMovement: [this.typeMovement]
+                presenter.calculatedDaysRoute({
+                    ...this,
+                }).then(data => {
+                    console.log(data);
+                    this.days = data.days;
+                    this.totalWay = data.totalWay;
+                    this.totalTime = data.totalTime;
+                    const infoForSave = this.getInfoForCreate();
+                    console.log('saved...')
+                    repository.createMyRoute(infoForSave)
+                        .then(response => {
+                            console.log(response.data);
+                            const result = JSON.parse(response.data);
+                            if (result && result.id) {
+                                this.$router.push(`/edit-my-route/${result.id}`)
                             }
+                        });
+                });
 
-                        ]
 
-                    },
-                    {
-                        id: 2,
-                        name: "2 День",
-                        dateStart: date,
-                        dateEnd: date,
-                        timeStart: this.timeStart,
-                        timeEnd: '20:00',
-                        startPoint: this.objects[1].name,
-                        startPointCoordLat: this.objects[1].position[0],
-                        startPointCoordLong: this.objects[1].position[1],
-                        endPoint: this.objects[3].name,
-                        endPointCoordLat: this.objects[3].position[0],
-                        endPointCoordLong: this.objects[3].position[1],
-                        objects: [
-                            {
-                                ...this.objects[1],
-                                object_id: this.objects[1].id,
-                                timeInWay: 330,
-                                way: 5000,
-                                stopTime: 30,
-                                time: 90,
-                                typeMovement: [this.typeMovement]
-                            },
-                            {
-                                ...this.objects[2],
-                                object_id: this.objects[2].id,
-                                timeInWay: 330,
-                                way: 5000,
-                                stopTime: 30,
-                                time: 90,
-                                typeMovement: [this.typeMovement]
-                            },
-                            {
-                                ...this.objects[3],
-                                object_id: this.objects[3].id,
-                                timeInWay: 330,
-                                way: 5000,
-                                stopTime: 30,
-                                time: 90,
-                                typeMovement: [this.typeMovement]
-                            }
-                        ]
-
-                    }
-                ];
-                this.totalTime = 90;
-                this.totalWay = 5000;
             },
             updateRoute() {
-                const data = this.getInfoForSave();
+                const data = this.getInfoForUpdate();
                 repository.editMyRoute(this.routeId, data)
                     .then(response => {
-                        console.log(response.data)
+                        console.log();
+                        const data = JSON.parse(response.data);
+                        if (data.status) {
+                            alert('сохранение выполнено успешно!');
+                        }
                     });
             },
             calcRoute() {
@@ -350,7 +309,6 @@
                 repository.getMyRoute(this.routeId)
                 .then(response => {
                     const route = JSON.parse(response.data).router;
-                    console.clear();
                     console.log(route);
                     this.updateState(route);
                 })
@@ -358,8 +316,11 @@
             updateState(data) {
                 this.name = data.name;
                 this.description = data.description;
-                this.days = data.days;
+                this.typeMovement = data.typesOfMovement[0];
+                this.days = presenter.changeFormat(data.days);
                 this.isGeoRoute = data.isGeoRoute;
+                this.objects = data.objects;
+                this.files = data.files || [];
                 this.otherData = data; // для того, чтобы не потерять данные
             }
         },

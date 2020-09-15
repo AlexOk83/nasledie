@@ -99,13 +99,13 @@
                 if (!this.data.totalWay) {
                     return null;
                 }
-                return presenter.getWay(this.data.way);
+                return presenter.getWay(this.data.totalWay);
             },
             getHour() {
                 if (!this.data.totalTime) {
                     return null;
                 }
-                return presenter.getDeclinedRemainder(this.data.totalTime, ['час', 'часа', 'часов'])
+                return presenter.getTime(this.data.totalTime)
             },
             link() {
                 return `/view-route/my/${this.data.id}`
