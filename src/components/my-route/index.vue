@@ -45,8 +45,8 @@
                 </div>
             </div>
             <div class="myRoute__buttons">
-                <Button text="Редактировать маршрут" is-shadow :on-click="moveToEdit" />
-                <Button text="Удалить маршрут"  is-shadow color="grey" icon="delete" :on-click="deleteRoute" />
+                <Button text="Редактировать маршрут" is-shadow :on-click="() => moveToEdit()" />
+                <Button text="Удалить маршрут"  is-shadow color="grey" icon="delete" :on-click="() => deleteRoute()" />
             </div>
 
         </div>
@@ -58,6 +58,7 @@
     import Icon from "../icon";
     import {Presenter} from "../../presenter";
     import Repository from "../../repository";
+    import { isEmpty } from 'lodash';
 
     const presenter = new Presenter();
     const repository = new Repository();
@@ -93,7 +94,10 @@
         },
         computed: {
             image() {
-                return this.data.files ? this.data.files[0].base64 : null;
+                if (isEmpty(this.data.files)) {
+                    return null;
+                }
+                return this.data.files[0].base64;
             },
             getWay() {
                 if (!this.data.totalWay) {

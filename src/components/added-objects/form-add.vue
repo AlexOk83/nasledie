@@ -23,7 +23,7 @@
         <Button
             text="Добавить для посещения"
             is-full
-            :on-click="add"
+            :on-click="() => add()"
             :disabled="disabledForm"
         />
 

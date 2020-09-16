@@ -1,0 +1,105 @@
+@import '../../../styles/mixins';
+
+@keyframes optionListOpen {
+  0% {
+    opacity: 0;
+
+  }
+  30% {
+    height: 40px;
+  }
+  60% {
+    height: 80px;
+  }
+  100% {
+    opacity: 1;
+    height: auto;
+  }
+}
+
+.search-field {
+  position: relative;
+  width: 100%;
+  &.selected {
+    .field_control {
+      z-index: 21;
+    }
+    .clear-button,
+    &:before,
+    .search-button {
+      z-index: 22;
+    }
+  }
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    border-right: 2px solid @base;
+    width: 1px;
+    height: 20px;
+    top: 8px;
+    right: 38px;
+    z-index: 4;
+  }
+  .field_control {
+    .form-control-style();
+    padding-right: 80px;
+    z-index: 3;
+    position: relative;
+  }
+}
+.clear-button {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 12px;
+  height: 12px;
+  .bg(12px);
+  background-image: url('../../../assets/images/icons/close.svg');
+  z-index: 4;
+  cursor: pointer;
+}
+.search-button {
+  position: absolute;
+  top: 9px;
+  right: 50px;
+  width: 18px;
+  height: 18px;
+  .bg(18px);
+  background-image: url('../../../assets/images/icons/search.svg');
+  z-index: 4;
+  cursor: pointer;
+}
+.search-list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 40px;
+  border-radius: 20px;
+  transform-origin: top center;
+  border: 1px solid @greyBorder;
+  transition: all 0.3s ease-out;
+  z-index: 2;
+  padding: 40px 20px 10px;
+  background-color: white;
+
+  &.show {
+    .animate(optionListOpen, 0.2s);
+    z-index: 20;
+    opacity: 1;
+  }
+  &__item {
+    line-height: 30px;
+    border-bottom: 1px solid @greyBorder;
+    cursor: pointer;
+    &:last-child {
+      border-bottom: none;
+    }
+    &:hover {
+      color: @base;
+      font-weight: bold;
+    }
+  }
+}

@@ -4,6 +4,7 @@
   .clearfix();
   width: 100%;
   overflow: hidden;
+  height: 270px;
   border: 1px solid @base;
   border-radius: 20px;
   display: flex;
@@ -14,8 +15,7 @@
   &__image {
     .column(6,6,6);
     .img_wrapper(100%);
-    height: 100%;
-    min-height: 400px;
+    height: 270px;
     position: relative;
     .media_mobile({
       height: 100%;
@@ -37,11 +37,15 @@
   }
   &__body {
     .column(6,6,6);
-
+    max-height: 250px;
+    overflow: hidden;
+    &.full {
+      width: 100%;
+    }
     .scroll-area {
-      max-height: 400px;
+      max-height: 270px;
       padding-bottom: 20px;
-      padding-left: 24px;
+      padding-left: 20px;
       padding-right: 15px;
 
       .media_mobile({

@@ -28,9 +28,6 @@ export class Presenter {
 
         return `${w} км`
     }
-    getMinute(time) {
-
-    }
 
     getHourAndMinutes(time) {
         if (!time) {
@@ -74,6 +71,7 @@ export class Presenter {
 
         return `${dec} ${min}`
     }
+
     getDeclinedRemainder(number, declensions) {
         const stringNumber = String(number);
         const [one, two, other] = declensions;
@@ -88,6 +86,7 @@ export class Presenter {
         }
         return `${number} ${other}`
     }
+
     getNameMovement(movement) {
         switch (movement) {
             case('people'): return "Пеший";
@@ -96,6 +95,16 @@ export class Presenter {
             default: return "";
         }
     }
+
+    getRoutingMode(movement) {
+        switch (movement) {
+            case('people'): return "pedestrian";
+            case('car'): return "auto";
+            case('train'): return "masstransit";
+            default: return "auto";
+        }
+    }
+
     moveItemUp(mass, index) {
         let localMass = [...mass];
         let temp = localMass[index - 1];
@@ -103,6 +112,7 @@ export class Presenter {
         localMass[index] = temp;
         return localMass
     }
+
     moveItemDown(mass, index) {
         let localMass = [...mass];
         let temp = localMass[index + 1];
@@ -110,6 +120,7 @@ export class Presenter {
         localMass[index] = temp;
         return localMass
     }
+
     calculatedDaysRoute(params) {
         return new Promise(resolve => {
             const {
@@ -133,7 +144,7 @@ export class Presenter {
                     timeInWay: 0,
                     way: 0,
                     stopTime: 0,
-                    time: 60,
+                    time: 0,
                     typeMovement: [typeMovement]
                 },
                 ...objects.map(obj => {
@@ -145,7 +156,7 @@ export class Presenter {
                         timeInWay: 0,
                         way: 0,
                         stopTime: 0,
-                        time: 60,
+                        time: 30,
                         typeMovement: [typeMovement]
                     }
                 }),
@@ -157,7 +168,7 @@ export class Presenter {
                     timeInWay: 0,
                     way: 0,
                     stopTime: 0,
-                    time: 60,
+                    time: 0,
                     typeMovement: [typeMovement]
                 },
             ];
@@ -200,8 +211,8 @@ export class Presenter {
                             if (index !== objectsInDays.length - 1) {
                                 days.push({
                                     id: index + 1,
-                                    dateStart: moment(dateStart).add(index, 'days').format('YYYY-MM-DD'),
-                                    dateEnd: moment(dateStart).add(index, 'days').format('YYYY-MM-DD'),
+                                    dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
+                                    dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
                                     timeStart: timeStart,
                                     timeEnd: '00"00',
                                     startPoint: obj.name,
@@ -248,5 +259,32 @@ export class Presenter {
 
             }
         })
+    }
+
+    getStylesPoints(index) {
+        const base = index === 0 || index % 3 === 0;
+        const two = index === 1 || (index - 1) % 3 === 0;
+        const three = index === 2 || (index - 2) % 3 === 0;
+        if (base) {
+            return {
+                color: "#51619E",
+                imagePoint: "/src/assets/images/icons/marker_blue.svg",
+                imageFlag: "/src/assets/images/icons/flag_blue.svg",
+            }
+        }
+        if (two) {
+            return {
+                color: "#019788",
+                imagePoint: "/src/assets/images/icons/marker_green.svg",
+                imageFlag: "/src/assets/images/icons/flag_green.svg",
+            }
+        }
+        if (three) {
+            return {
+                color: "#FD9080",
+                imagePoint: "/src/assets/images/icons/marker_yellow.svg",
+                imageFlag: "/src/assets/images/icons/flag_yellow.svg",
+            }
+        }
     }
 }

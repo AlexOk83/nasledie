@@ -80,18 +80,18 @@
                     />
                     <div class="buttons-container">
                         <Button text="Составить маршрут"
-                                :on-click="calcRoute"
+                                :on-click="() => calcRoute()"
                                 is-shadow
                                 v-if="isNewRoute"
                         />
                         <Button text="Пересчитать маршрут"
-                                :on-click="calcRouteAgain"
+                                :on-click="() => calcRouteAgain()"
                                 is-shadow
                                 is-full
                                 v-if="!isNewRoute"
                         />
                         <Button text="Сохранить в мои маршруты"
-                                :on-click="saveRoute"
+                                :on-click="() => saveRoute()"
                                 color="white"
                                 icon="check"
                                 is-shadow
@@ -116,7 +116,7 @@
 <script>
     import moment from 'moment';
     import Field from "../components/form-control/Field";
-    import Map from "../components/map/index";
+    import Map from "../components/map/MapTest";
     import Button from "../components/form-control/button/index";
     import Objects from "../components/added-objects";
     import Tabs from "../components/tabs";
@@ -124,6 +124,7 @@
     import Repository from '../repository';
     import { Presenter } from "../presenter";
     import { radioButtonOptions, typesOfMovement, MockDays } from '../constants';
+    import {isEmpty} from "lodash";
     const repository = new Repository();
     const presenter = new Presenter();
 
@@ -171,7 +172,15 @@
         },
         computed: {
             viewMap() {
-                return this.startPoint.coordinates
+                if (isEmpty(this.startPoint.coordinates)) {
+                    return false;
+                }
+
+                if (isEmpty(this.days)) {
+                    return false;
+                }
+
+                return true;
             },
             headerTitle() {
                 if (this.isNewRoute) {
@@ -195,6 +204,24 @@
             }
         },
         methods: {
+            clearRoute() {
+                this.routeId = null;
+                this.name = '';
+                this.description = '';
+                this.startPoint = {};
+                this.endPoint = {};
+                this.dateStart = moment(new Date()).format();
+                this.timeStart = '09:00';
+                this.isGeoRoute = 'yes';
+                this.typeMovement = '';
+                this.objects = [];
+                    // данные для редактирования
+                this.days = [];
+                this.totalTime = 0;
+                this.totalWay = 0;
+                this.otherData = {};
+                this.files = [];
+            },
             getInfoForCreate() {
                 const formData = new FormData();
                 const values = {
@@ -334,6 +361,7 @@
                 } else {
                     this.routeId = null;
                     this.isNewRoute = true;
+                    this.clearRoute();
                 }
                 this.$forceUpdate();
             }

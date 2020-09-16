@@ -15,7 +15,7 @@
             </div>
 
             <div class="detailRouter--title">Подробный маршрут: {{ route.name }}</div>
-            <Map v-if="route.pointStart && route.pointStart.coordinates" :from="route.pointStart && route.pointStart.coordinates" :days="route.days" />
+            <Map v-if="visibleMap" :from="route.pointStart.coordinates" :days="route.days" />
 
             <Table :columns="columns" :days="route.days" />
 
@@ -27,12 +27,13 @@
 </template>
 <script>
     import Button from '../components/form-control/button'
-    import Map from "../components/map/index";
+    import Map from "../components/map/MapTest";
     import Slider from "../components/slider/slider";
     import List from "../components/route-list/index";
     import Table from "../components/table/index";
     import { Presenter } from "../presenter";
     import Repository from "../repository";
+    import { isEmpty } from 'lodash';
     const presenter = new Presenter();
     const repository = new Repository();
 
@@ -63,6 +64,19 @@
                 routesList: [],
                 isObject: true
             }
+        },
+        computed: {
+          visibleMap() {
+              if (isEmpty(this.route.pointStart)) {
+                  return false;
+              }
+
+              if (isEmpty(this.route.days)) {
+                  return false;
+              }
+
+              return true;
+          }
         },
         methods: {
             moveBack() {
@@ -95,6 +109,12 @@
             line-height: 40px;
             margin-top: 20px;
             margin-bottom: 40px;
+        }
+        &--title {
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 30px;
+            margin-bottom: 20px;
         }
         &__description {
             margin-bottom: 20px;

@@ -9,7 +9,7 @@
         <tbody>
         <template  v-for="(day, index) in days" >
             <tr class="day" :class="getClasses(index)">
-                <td class="day__desc" :rowspan="day.objects.length">
+                <td class="day__desc" :rowspan="day.objects.length - 1">
                     <div class="day__name">{{ day.title }}</div>
 
                     <div class="title--sub">Точка старта</div>
@@ -21,40 +21,40 @@
 
                     <div class="title--sub">Точка назначения</div>
                     <div class="title">{{ day.pointEnd.name }}</div>
-                    <div class="title--sub">Дата старта</div>
+                    <div class="title--sub">Дата финиша</div>
                     <div class="title">{{ getDateFormat(day.pointEnd.date) }}</div>
-                    <div class="title--sub">Время старта</div>
+                    <div class="title--sub">Время финиша</div>
                     <div class="title">{{ day.pointEnd.time }}</div>
                 </td>
                 <td  class="day__object">
-                    <div class="title">Путь до "{{day.objects[0].name}}"</div>
+                    <div class="title">Путь до "{{day.objects[1].name}}"</div>
                     <div class="icon__wrap">
                         <Icon icon="time" />
-                        <div class="title">{{getTime(day.objects[0].timeInWay)}}</div>
+                        <div class="title">{{getTime(day.objects[1].timeInWay)}}</div>
                     </div>
                     <div class="icon__wrap">
                         <Icon icon="way" />
-                        <div class="title">{{getWay(day.objects[0].way)}}</div>
+                        <div class="title">{{getWay(day.objects[1].way)}}</div>
                     </div>
                 </td>
                 <td  class="day__object">
                     <div class="icon__wrap">
-                        <Icon :icon="day.objects[0].typeMovement[0]" />
-                        <div class="title">{{getNameMovement(day.objects[0].typeMovement[0])}}</div>
+                        <Icon :icon="day.objects[1].typeMovement[0]" />
+                        <div class="title">{{getNameMovement(day.objects[1].typeMovement[0])}}</div>
                     </div>
 
                 </td>
                 <td  class="day__object">
                     <div class="icon__wrap">
                         <Icon icon="time" />
-                        <div class="title">{{getTime(day.objects[0].stopTime)}}</div>
+                        <div class="title">{{getTime(day.objects[1].stopTime)}}</div>
                     </div>
                 </td>
                 <td  class="day__object">
-                    <div class="title">{{day.objects[0].name}}</div>
+                    <div class="title">{{day.objects[1].name}}</div>
                     <div class="icon__wrap">
                         <Icon icon="time" />
-                        <div class="title">{{getTime(day.objects[0].time)}}</div>
+                        <div class="title">{{getTime(day.objects[1].time)}}</div>
                     </div>
                 </td>
             </tr>
@@ -115,7 +115,7 @@
         },
         methods: {
             getNextObjects(objects) {
-                return objects.slice(1);
+                return objects.slice(2);
             },
             getDateFormat(date) {
                 return moment(date).format('DD.MM.YYYY')

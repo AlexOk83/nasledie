@@ -30,12 +30,14 @@
             FormAdd,
             List
         },
-        created() {
-            this.currentObjects = this.objects || [];
+        watch: {
+            objects() {
+                this.currentObjects = this.objects;
+            }
         },
         methods: {
             add(event) {
-                this.currentObjects.push(event)
+                this.currentObjects.push(event);
                 this.$emit('change', this.currentObjects); // при добавлении и удалении мы эмитим родителю актуальный список объектов
             },
             remove(event) {

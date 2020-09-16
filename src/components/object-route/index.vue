@@ -1,13 +1,13 @@
 <!-- вывод объектов в просмотре - готово! -->
 <template>
     <div class="route">
-        <div class="route__image">
-            <img :src="data.images[0]" :alt="data.name" >
+        <div class="route__image" v-if="image">
+            <img :src="image" :alt="data.name" >
         </div>
-        <div class="route__body">
+        <div class="route__body" :class="{'full': !image}">
             <vue-custom-scrollbar class="scroll-area" :settings="settings" >
                 <div class="title">{{ data.name }}</div>
-                <div class="text-description">{{ data.description }}</div>
+                <div class="text-description" v-html="data.description" />
             </vue-custom-scrollbar>
 
         </div>
@@ -17,6 +17,7 @@
 
 <script>
     import vueCustomScrollbar from "vue-custom-scrollbar";
+    import { isEmpty } from 'lodash';
 
     export default {
         name: "ObjectRoute",
@@ -27,15 +28,21 @@
             data: {
                 name: String,
                 image: String,
-                description: String,
+                description: HTMLBaseElement,
             }
         },
         computed: {
             settings() {
                 return {
                     wheelPropagation: false,
-                    maxScrollbarLength: 400,
+                    maxScrollbarLength: 270,
                 }
+            },
+            image() {
+                if (isEmpty(this.data.images)) {
+                    return null;
+                }
+                return this.data.images[0]
             }
         }
     }
