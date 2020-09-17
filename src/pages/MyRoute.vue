@@ -73,14 +73,14 @@
                     </div>
                     <Field name="isGeoRoute"
                            type="radio"
-                           title="Сформировать маршрут по географической близости объектов"
+                           title="Формировать маршрут по географической близости объектов"
                            :value="isGeoRoute"
                            :list-value="listParams"
                            @change="changeValue('isGeoRoute', $event)"
                     />
                     <div class="buttons-container">
                         <Button text="Составить маршрут"
-                                :on-click="() => calcRoute()"
+                                :on-click="() => createRoute()"
                                 is-shadow
                                 v-if="isNewRoute"
                         />
@@ -91,7 +91,7 @@
                                 v-if="!isNewRoute"
                         />
                         <Button text="Сохранить в мои маршруты"
-                                :on-click="() => saveRoute()"
+                                :on-click="() => updateRoute()"
                                 color="white"
                                 icon="check"
                                 is-shadow
@@ -115,6 +115,7 @@
 
 <script>
     import moment from 'moment';
+    import {isEmpty} from "lodash";
     import Field from "../components/form-control/Field";
     import Map from "../components/map/MapTest";
     import Button from "../components/form-control/button/button";
@@ -123,8 +124,8 @@
     import Photos from "../components/photos/photos";
     import Repository from '../repository';
     import { Presenter } from "../presenter";
-    import { radioButtonOptions, typesOfMovement, MockDays } from '../constants';
-    import {isEmpty} from "lodash";
+    import { radioButtonOptions, typesOfMovement } from '../constants';
+
     const repository = new Repository();
     const presenter = new Presenter();
 
@@ -285,18 +286,13 @@
                 return formData
             },
             createRoute() {
-                this.calculateMap();
-            },
-            calculateMap() {
                 presenter.calculatedDaysRoute({
                     ...this,
                 }).then(data => {
-                    console.log(data);
                     this.days = data.days;
                     this.totalWay = data.totalWay;
                     this.totalTime = data.totalTime;
                     const infoForSave = this.getInfoForCreate();
-                    console.log('saved...')
                     repository.createMyRoute(infoForSave)
                         .then(response => {
                             console.log(response.data);
@@ -306,8 +302,6 @@
                             }
                         });
                 });
-
-
             },
             updateRoute() {
                 const data = this.getInfoForUpdate();
@@ -320,14 +314,8 @@
                         }
                     });
             },
-            calcRoute() {
-                this.createRoute();
-            },
             calcRouteAgain() {
 
-            },
-            saveRoute() {
-                this.updateRoute();
             },
             changeValue(field, value) {
                 this.$data[field] = value
