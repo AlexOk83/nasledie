@@ -3,11 +3,11 @@
 <template>
     <router-link tag="div" :to="link" class="route">
         <div class="route__image">
-            <img :src="data.image" :alt="data.title" >
+            <img :src="image" :alt="data.name" >
             <div class="like" @click="handleAddToMyRoute" :class="{ 'active': data.isActive }"/>
         </div>
-        <div class="route__body">
-            <div class="title">{{ data.title }}</div>
+        <div class="route__body without-scroll-area">
+            <div class="title">{{ data.name }}</div>
             <div class="points">
                 <span class="label">Точка старта</span>
                 <span class="point-value">{{ data.pointStart.name }}</span>
@@ -41,6 +41,7 @@
 <script>
     import {Presenter} from "../../presenter";
     import Icon from "../icon"
+    import {isEmpty} from "lodash";
 
     const presenter = new Presenter();
     export default {
@@ -73,11 +74,23 @@
             }
         },
         computed: {
+            image() {
+                if (isEmpty(this.data.files)) {
+                    return null;
+                }
+                return this.data.files[0].base64;
+            },
             getWay() {
-                return presenter.getWay(this.data.way);
+                if (!this.data.totalWay) {
+                    return null;
+                }
+                return presenter.getWay(this.data.totalWay);
             },
             getHour() {
-                return presenter.getDeclinedRemainder(this.data.hours, ['час', 'часа', 'часов'])
+                if (!this.data.totalTime) {
+                    return null;
+                }
+                return presenter.getTime(this.data.totalTime)
             },
             link() {
                 return `/view-route/recomend/${this.data.id}`
