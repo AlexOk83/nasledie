@@ -26,12 +26,11 @@
         -webkit-mask-position: center;
         mask-position: center;
 
-        background: @greyIcon;
+        background: @base;
     }
 
     .icon {
         position: absolute;
-        top: 8px;
         left: 0;
         width: 20px;
         height: 20px;

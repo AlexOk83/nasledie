@@ -20,6 +20,7 @@ const API = {
     },
     GET_REGION: () => `${API.BASE()}/region`,
     GET_TYPE: () => `${API.BASE()}/type`,
+    GET_TAG: () => `${API.BASE()}/tag`,
 
     GET_MY_ROUTES: (userId) => `${API.BASE()}/routerlist?user_id=${userId}`,
     GET_MY_ROUTE: (id) => `${API.BASE()}/routerget?id=${id}`, // 14
@@ -46,6 +47,10 @@ export default class Repository {
 
     getTypes() {
         return axios.get(API.GET_TYPE());
+    }
+
+    getTags() {
+        return axios.get(API.GET_TAG());
     }
 
     getMyRoutes(userId) {

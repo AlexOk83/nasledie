@@ -12,9 +12,9 @@
 </template>
 
 <script>
-    import RecomendedRoute from '../recomended-route'
-    import MyRoute from '../my-route'
-    import ObjectRoute from '../object-route/index'
+    import RecomendedRoute from '../recomended-route/recomendRouteView'
+    import MyRoute from '../my-route/myRouteView'
+    import ObjectRoute from '../object-route/objectView'
 
     export default {
         name: "List",

@@ -92,8 +92,8 @@
 <script>
     import Field from "../components/form-control/Field";
     import Map from "../components/map/index";
-    import Button from "../components/form-control/button/index";
-    import AddedObjects from "../components/added-objects";
+    import Button from "../components/form-control/button/button";
+    import AddedObjects from "../components/added-objects/addedObjects";
     import Photos from "../components/photos/photos";
     import Repository from '../repository';
     import { radioButtonOptions, typesOfMovement } from '../constants';

@@ -26,11 +26,11 @@
 
 </template>
 <script>
-    import Button from '../components/form-control/button'
+    import Button from '../components/form-control/button/button'
     import Map from "../components/map/MapTest";
     import Slider from "../components/slider/slider";
-    import List from "../components/route-list/index";
-    import Table from "../components/table/index";
+    import List from "../components/route-list/routeListView";
+    import Table from "../components/table/table";
     import { Presenter } from "../presenter";
     import Repository from "../repository";
     import { isEmpty } from 'lodash';

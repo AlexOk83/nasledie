@@ -77,7 +77,7 @@
     import TimePicker from "./TimePicker";
     import SearchField from "./search/SearchField";
     import Radio from "./radio-buttons";
-    import Select from "./select";
+    import Select from "./select/select";
     import Icon from "../icon";
 
     export default {

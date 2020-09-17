@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import List from "../components/route-list/index";
+    import List from "../components/route-list/routeListView";
     import Repository from "../repository";
 
     const repository = new Repository();

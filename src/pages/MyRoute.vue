@@ -117,9 +117,9 @@
     import moment from 'moment';
     import Field from "../components/form-control/Field";
     import Map from "../components/map/MapTest";
-    import Button from "../components/form-control/button/index";
-    import Objects from "../components/added-objects";
-    import Tabs from "../components/tabs";
+    import Button from "../components/form-control/button/button";
+    import Objects from "../components/added-objects/addedObjects";
+    import Tabs from "../components/tabs/tabs";
     import Photos from "../components/photos/photos";
     import Repository from '../repository';
     import { Presenter } from "../presenter";

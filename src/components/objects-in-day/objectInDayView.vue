@@ -2,15 +2,15 @@
 <template>
     <div class="object-list-in-day">
         <Item v-for="(item, index) in localList"
-              :key="index"
+              :key="objectInDayView"
               :data="item"
-              :dataNextItem="nextItem(index)"
-              :is-first="index === 0"
-              :is-last="index + 1 === localList.length"
-              :click-up="() => objectUp(index)"
-              :click-down="() => objectDown(index)"
-              :click-remove="() => remove(index)"
-              @change="data => changeItem(index, data)"
+              :dataNextItem="nextItem(objectInDayView)"
+              :is-first="objectInDayView === 0"
+              :is-last="objectInDayView + 1 === localList.length"
+              :click-up="() => objectUp(objectInDayView)"
+              :click-down="() => objectDown(objectInDayView)"
+              :click-remove="() => remove(objectInDayView)"
+              @change="data => changeItem(objectInDayView, data)"
         />
     </div>
 </template>
@@ -40,30 +40,30 @@
         },
         methods: {
             nextItem(index) {
-                if (index + 1 < this.localList.length) {
-                    return this.localList[index + 1]
+                if (objectInDayView + 1 < this.localList.length) {
+                    return this.localList[objectInDayView + 1]
                 }
                 return null;
             },
             objectUp(index) {
-                this.localList = presenter.moveItemUp(this.localList, index);
+                this.localList = presenter.moveItemUp(this.localList, objectInDayView);
                 this.$emit('change', this.localList);
 
             },
             objectDown(index) {
-                this.localList = presenter.moveItemDown(this.localList, index);
+                this.localList = presenter.moveItemDown(this.localList, objectInDayView);
                 this.$emit('change', this.localList);
             },
             remove(index) {
-                this.localList.splice(index, 1);
+                this.localList.splice(objectInDayView, 1);
                 this.$emit('change', this.localList);
             },
             changeItem(index, data) {
-                console.log(index, data);
+                console.log(objectInDayView, data);
                 if (data.nextItem) {
-                    this.localList[index + 1][data.field] = data.value
+                    this.localList[objectInDayView + 1][data.field] = data.value
                 } else {
-                    this.localList[index][data.field] = data.value
+                    this.localList[objectInDayView][data.field] = data.value
                 }
                 this.$emit('change', this.localList);
             }

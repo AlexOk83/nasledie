@@ -55,8 +55,8 @@
 <script>
     import Field from "../components/form-control/Field";
     import Map from "../components/map/index";
-    import Button from "../components/form-control/button/index";
-    import Tabs from "../components/tabs";
+    import Button from "../components/form-control/button/button";
+    import Tabs from "../components/tabs/tabs";
 
     export default {
         name: "EditRoute",

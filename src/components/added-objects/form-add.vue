@@ -34,8 +34,8 @@
 <script>
     import { isEmpty } from 'lodash';
     import SearchField from "../form-control/search/SearchField";
-    import SelectControl from '../form-control/select';
-    import Button from '../form-control/button';
+    import SelectControl from '../form-control/select/select';
+    import Button from '../form-control/button/button';
     import SearchFromBaseField from "../form-control/search/SearchFromBaseField";
     import Repository from '../../repository';
     const repository = new Repository();

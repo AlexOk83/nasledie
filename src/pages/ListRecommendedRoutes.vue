@@ -11,8 +11,8 @@
 </template>
 
 <script>
-    import RouteFilter from "../components/filter";
-    import List from "../components/route-list";
+    import RouteFilter from "../components/filter/filter";
+    import List from "../components/route-list/routeListView";
 
     export default {
         name: "RecommendedRoutesList",
@@ -55,11 +55,7 @@
 
         methods: {
             getData() {
-                this.$resource('recomendRoutes').get()
-                    .then(response => response.json())
-                    .then(routes => {
-                        this.routesList = routes;
-                    })
+
             },
             changeValue(field, value) {
                 this.$data[field] = value

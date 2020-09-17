@@ -54,7 +54,7 @@
 </template>
 
 <script>
-    import Button from "../form-control/button";
+    import Button from "../form-control/button/button";
     import Icon from "../icon";
     import {Presenter} from "../../presenter";
     import Repository from "../../repository";
