@@ -7,8 +7,8 @@
         </div>
         <div class="tabs__header" :style="stylesHeader" ref="header" >
             <div class="tabs__list" ref="tabList" :style="styleList">
-                <div class="tab" :class="getClasses(tabs, day)" :style="{ width: widthTab + 'px' }" v-for="(day, index) in localData" @click="setActiveDay(tabs)">
-                    <span class="text">{{ tabs + 1 }} День</span>
+                <div class="tab" :class="getClasses(index, day)" :style="{ width: widthTab + 'px' }" v-for="(day, index) in localData" @click="setActiveDay(tabs)">
+                    <span class="text">{{ index + 1 }} День</span>
                 </div>
             </div>
 
@@ -98,9 +98,9 @@
                 this.$emit('change', this.localData);
             },
             getClasses(index, day) {
-                const base = tabs === 0 || tabs % 3 === 0;
-                const two = tabs === 1 || (tabs - 1) % 3 === 0;
-                const three = tabs === 2 || (tabs - 2) % 3 === 0;
+                const base = index === 0 || index % 3 === 0;
+                const two = index === 1 || (index - 1) % 3 === 0;
+                const three = index === 2 || (index - 2) % 3 === 0;
                 const classes = [];
                 const activeDay = this.activeDay || this.getData;
                 if (base) {
@@ -121,8 +121,8 @@
                 this.widthHeader = this.$refs.header.clientWidth;
             },
             setActiveDay(index) {
-                this.activeDay = this.localData[tabs];
-                this.indexActiveDay = tabs;
+                this.activeDay = this.localData[index];
+                this.indexActiveDay = index;
             },
             prev() {
                 if (this.left > 0)

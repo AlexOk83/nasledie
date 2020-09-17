@@ -3,7 +3,7 @@
         <h1>Мои маршруты</h1>
         <List
                 :data="routesList"
-                :config="config"
+                :config="{}"
                 :on-refresh="getData"
         />
     </div>
@@ -22,10 +22,6 @@
         },
         data() {
             return {
-                resource: null,
-                config: {
-
-                },
                 routesList: [],
             }
         },

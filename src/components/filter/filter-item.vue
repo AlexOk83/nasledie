@@ -35,12 +35,18 @@
             listTitle: String,
             listValue: Array,
             placeholder: String,
+            list: Array,
             icon: String,
         },
         data() {
             return {
                 value: '',
                 selectedValues: [],
+            }
+        },
+        watch: {
+            list() {
+                this.selectedValues = this.list
             }
         },
         computed: {},
@@ -60,7 +66,7 @@
                     }))
                     .find(item => item.value === e);
                 this.selectedValues.push(selectValue);
-                this.$emit('change', this.selectedValues);
+                this.$emit('change', this.selectedValues.map(val => (val.value)));
             }
         }
     }

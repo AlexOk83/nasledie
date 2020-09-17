@@ -7,7 +7,7 @@
     <router-link tag="div" :to="link" class="myRoute">
         <div class="myRoute__image">
             <img :src="image" :alt="data.name" v-if="image">
-            <div class="like" @click="handleAddToMyRoute" :class="{ 'active': data.isActive }"/>
+            <div class="like" v-if="data.isRecomended" />
         </div>
         <div class="myRoute__body">
             <div class="title">Маршрут «{{ data.name }}»</div>
@@ -74,6 +74,7 @@
                 typesOfMovement: Array,
                 totalWay: Number,
                 totalTime: Number,
+                isRecomended: Boolean,
             },
             onRefresh: Function,
         },

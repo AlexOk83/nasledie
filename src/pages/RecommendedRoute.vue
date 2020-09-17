@@ -19,7 +19,7 @@
                            placeholder="Описание маршрута"
                            :value="shortDescription"
                            :save="!isNewRoute && configsForSave.description"
-                           rows="3"
+                           :rows="3"
                            @change="changeValue('shortDescription', $event)"
                     />
                     <Field name="description"
@@ -28,13 +28,14 @@
                            placeholder="Описание маршрута"
                            :value="description"
                            :save="!isNewRoute && configsForSave.description"
-                           rows="15"
+                           :rows="15"
                            @change="changeValue('description', $event)"
                     />
                     <FilterItem
                             title="Тип маршрута"
                             list-title="выбранные типы:"
                             :list-value="listTags"
+                            :list="tags"
                             placeholder="Типы #"
                             icon="tag"
                             @change="changeListTags"
@@ -248,10 +249,13 @@
             getInfoForCreate() {
                 const formData = new FormData();
                 const values = {
-                    ...this.otherData,
                     id: this.routeId,
+                    recommendation: 1,
                     name: this.name,
+                    shortDescription: this.shortDescription,
                     description: this.description,
+                    tags: this.tags,
+                    files: this.files,
                     startPoint: this.startPoint.name,
                     startPointCoordLat: this.startPoint.coordinates[0],
                     startPointCoordLong: this.startPoint.coordinates[1],
@@ -259,7 +263,6 @@
                     endPointCoordLat: this.endPoint.coordinates[0],
                     endPointCoordLong: this.endPoint.coordinates[1],
                     dateStart: this.dateStart,
-                    dateEnd: this.dateStart,
                     timeStart: this.timeStart,
                     timeEnd: this.timeEnd,
                     typeMovement: [this.typeMovement],
@@ -267,8 +270,6 @@
                     days: this.days,
                     totalTime: this.totalTime,
                     totalWay: this.totalWay,
-                    isGeoRoute: this.isGeoRoute,
-                    files: this.files,
                     user_id : 1,
                 }
                 formData.append('ZRouter', JSON.stringify(values));

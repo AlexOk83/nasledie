@@ -8,14 +8,14 @@
   border-radius: 20px;
   display: flex;
   flex-wrap: wrap;
+  align-items: stretch;
   &:hover {
     .box-shadow(9px, 0px, 37px, -15px, rgba(82,98,159,1));
   }
   &__image {
-    .column(4,12,12,12);
+    .column(4,4,12,12);
     .img_wrapper(100%);
     .media_device({
-      height: 100%;
       min-height: 250px;
     });
     .like {
@@ -34,7 +34,7 @@
     }
   }
   &__body {
-    .column(8,12,12,12);
+    .column(8,8,12,12);
     padding: 34px 38px 18px;
     display: flex;
     flex-wrap: wrap;

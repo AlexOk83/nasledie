@@ -1,7 +1,9 @@
 <template>
     <div>
         <h1>Рекомендованные маршруты</h1>
-        <RouteFilter />
+        <RouteFilter
+            @filter="getFilteredData"
+        />
         <List
                 :data="routesList"
                 is-recomended
@@ -13,6 +15,10 @@
 <script>
     import RouteFilter from "../components/filter/filter";
     import List from "../components/route-list/routeListView";
+
+    import Repository from "../repository";
+
+    const repository = new Repository();
 
     export default {
         name: "RecommendedRoutesList",
@@ -29,36 +35,27 @@
                 routesList: [],
                 typeMovement: '',
                 typeRegion: '',
-                listParams: [
-                    {name: 'Да', value: 'yes'}, {name: 'Нет', value: 'no'}
-                ],
-                listTypesMovement: [
-                    {name: 'Пеший', value: 'people', icon: 'people'},
-                    {name: 'Автомобильный', value: 'car', icon: 'car'}
-                ],
-                listTypesRegion: [
-                    {name: 'Московская область', value: 'moscow', icon: false},
-                    {name: 'Пензинский район', value: 'penza', icon: false},
-                    {name: 'Краснадарский край', value: 'penza', icon: false}
-                ],
-                listTypesType: [
-                    {name: 'Кольцевой', value: '0', icon: false},
-                    {name: 'Горный', value: '1', icon: false},
-                    {name: 'Прогулочный', value: '2', icon: false}
-                ],
+
             }
         },
         created() {
-
             this.getData();
         },
 
         methods: {
             getData() {
-
+                repository.getRecommendedRoutes()
+                    .then(response => {
+                        this.routesList = JSON.parse(response.data);
+                        console.log(this.routesList)
+                    })
             },
-            changeValue(field, value) {
-                this.$data[field] = value
+            getFilteredData(filter) {
+                repository.getRecommendedRoutes(filter)
+                    .then(response => {
+                        this.routesList = JSON.parse(response.data);
+                        console.log(this.routesList)
+                    })
             }
         }
     }
