@@ -1,9 +1,5 @@
 import moment from "moment";
 const update = (items, typeMovement) => items.map((point, index) => new Promise((resolve, reject) => {
-    if (!ymaps) {
-        alert('yandex не доступен!');
-        return;
-    }
     ymaps.ready(function() {
         const routingMode = typeMovement === 'car' ? 'auto' : 'pedestrian';
         if (index !== 0) {

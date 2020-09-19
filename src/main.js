@@ -15,14 +15,14 @@ Vue.http.options.root = 'http://localhost:3000/';
 Vue.http.interceptors.push(request => {
     request.headers.set('Auth', 'RAND TOKEN ' + Math.random())
 });
-
-Vue.config.errorHandler = function(err, vm, info) {
-    console.log(`Error: ${err.toString()}\nInfo: ${info}`);
-}
-
-Vue.config.warnHandler = function(msg, vm, trace) {
-    console.log(`Warn: ${msg}\nTrace: ${trace}`);
-}
+//
+// Vue.config.errorHandler = function(err, vm, info) {
+//     console.log(`Error: ${err.toString()}\nInfo: ${info}`);
+// }
+//
+// Vue.config.warnHandler = function(msg, vm, trace) {
+//     console.log(`Warn: ${msg}\nTrace: ${trace}`);
+// }
 
 new Vue({
     el: '#app',

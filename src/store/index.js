@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Preloader from './preloader'
 import Dictionary from './dictionary'
+import Modals from './modals'
 
 Vue.use(Vuex);
 
@@ -9,6 +10,7 @@ export default new Vuex.Store({
     modules: {
         Preloader,
         Dictionary,
+        Modals,
     },
     state: {
         userId: null,

@@ -3,6 +3,7 @@
         <Preloader
             v-show="viewPreloader"
         />
+        <Modals />
         <div class="container">
             <div class="menu">
                 <router-link tag="a" to="/" >Составить маршрут пользователя</router-link>
@@ -19,16 +20,19 @@
 </template>
 
 <script>
-    import Preloader from './components/preloader'
+    import Preloader from './components/preloader';
+    import Modals from './components/modals/modals';
     export default {
         components: {
-            Preloader
+            Preloader,
+            Modals,
         },
         computed: {
             viewPreloader() {
                 return this.$store.getters.viewPreloader
             }
-        },created() {
+        },
+        created() {
             this.$store.dispatch('getDataRegions');
             this.$store.dispatch('getDataTags');
             this.$store.dispatch('getDataTypes');

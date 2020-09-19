@@ -273,10 +273,6 @@
             },
             getInfoForCreate() {
                 const formData = new FormData();
-                if (isEmpty(this.startPoint) || isEmpty(this.endPoint) || isEmpty(this.objects)) {
-                    alert('Не заполнены обязательные поля');
-                    return null;
-                }
                 const values = {
                     id: this.routeId,
                     recommendation: 1,
@@ -328,6 +324,10 @@
                 return formData
             },
             createRoute() {
+                if (isEmpty(this.startPoint) || isEmpty(this.endPoint) || isEmpty(this.objects)) {
+                    this.$store.dispatch('showModal','Не заполнены обязательные поля');
+                    return null;
+                }
                 this.$store.dispatch('showPreloader');
                 presenter.calculatedDaysRoute({
                     ...this,
@@ -358,7 +358,7 @@
 
                         const data = JSON.parse(response.data);
                         if (data.status) {
-                            alert('сохранение выполнено успешно!');
+                            this.$store.dispatch('showModalSuccess', 'сохранение выполнено успешно!');
                         }
                     })
                     .finally(() => {

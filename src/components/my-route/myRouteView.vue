@@ -83,14 +83,18 @@
                 this.$router.push(`/edit-my-route/${this.data.id}`)
             },
             deleteRoute() {
-                if (confirm(`Вы действительно хотите удалить маршрут "${this.data.name}"`)) {
-                    this.$store.dispatch('showPreloader');
-                    repository.deleteRoute(this.$store.getters.getUserId, this.data.id)
-                        .then(this.onRefresh)
-                        .finally(() => {
-                            this.$store.dispatch('hidePreloader');
-                        })
-                }
+                this.$store.dispatch('showModalConfirm', {
+                    text: 'Вы действительно хотите удалить этот маршрут?',
+                    onConfirm: this.onDelete
+                })
+            },
+            onDelete() {
+                this.$store.dispatch('showPreloader');
+                repository.deleteRoute(this.$store.getters.getUserId, this.data.id)
+                    .then(this.onRefresh)
+                    .finally(() => {
+                        this.$store.dispatch('hidePreloader');
+                    })
             },
             getNameMovement(movement) {
                 return presenter.getNameMovement(movement);

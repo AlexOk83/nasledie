@@ -1,33 +1,59 @@
 export default {
     state: {
         view: false,
-        content: null,
         text: "",
-        type: null,
+        typeModal: null,
+        onConfirm: null
     },
     mutations: {
-        viewModals(state, payLoad) {
+        viewModals(state, payload) {
             state.view = true;
-            state.content = payLoad.content;
-            state.text
+            state.text = payload.text;
+            state.typeModal = payload.typeModal;
+            state.onConfirm = payload.onConfirm;
         },
         hideModals(state) {
             state.view = false;
             state.text = "";
-            state.type = null;
+            state.typeModal = null;
+            state.onConfirm = null;
         }
     },
     actions: {
-        showPreloader({commit}) {
-            commit('changePreloader', true)
+        showModal({commit}, payload) {
+            commit('viewModals', {
+                text: payload
+            })
         },
-        hidePreloader({commit}) {
-            commit('changePreloader', false)
+        showModalConfirm({commit}, payload) {
+            commit('viewModals', {
+                text: payload.text,
+                onConfirm: payload.onConfirm,
+                typeModal: 'confirm'
+            })
+        },
+        showModalSuccess({commit}, payload) {
+            commit('viewModals', {
+                text: payload,
+                typeModal: 'success'
+            })
+        },
+        hideModal({commit}, payload) {
+            commit('hideModals', payload)
         }
     },
     getters: {
-        viewPreloader (state) {
+        view (state) {
             return state.view;
+        },
+        text (state) {
+            return state.text;
+        },
+        onConfirm (state) {
+            return state.onConfirm;
+        },
+        typeModal (state) {
+            return state.typeModal;
         }
     }
 }

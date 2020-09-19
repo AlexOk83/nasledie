@@ -328,7 +328,7 @@
                         console.log();
                         const data = JSON.parse(response.data);
                         if (data.status) {
-                            alert('сохранение выполнено успешно!');
+                            this.$store.dispatch('showModalSuccess', 'сохранение выполнено успешно!');
                         }
                     });
             },
