@@ -16,10 +16,20 @@ Vue.http.interceptors.push(request => {
     request.headers.set('Auth', 'RAND TOKEN ' + Math.random())
 });
 
+Vue.config.errorHandler = function(err, vm, info) {
+    console.log(`Error: ${err.toString()}\nInfo: ${info}`);
+}
+
+Vue.config.warnHandler = function(msg, vm, trace) {
+    console.log(`Warn: ${msg}\nTrace: ${trace}`);
+}
 
 new Vue({
     el: '#app',
     store,
     render: h => h(App),
+    renderError (h, err) {
+        return h('pre', { style: { color: 'red' }}, err.stack)
+    },
     router
 });

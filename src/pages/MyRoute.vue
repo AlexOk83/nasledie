@@ -115,7 +115,7 @@
 
 <script>
     import moment from 'moment';
-    import {isEmpty} from "lodash";
+    import {isEmpty, isNil} from "lodash";
     import Field from "../components/form-control/Field";
     import Map from "../components/map/MapTest";
     import Button from "../components/form-control/button/button";
@@ -163,6 +163,7 @@
                 isGeoRoute: 'yes',
                 typeMovement: 'car',
                 objects: [],
+                regions: [],
                 // данные для редактирования
                 days: [],
                 totalTime: 0,
@@ -222,6 +223,7 @@
                 this.totalWay = 0;
                 this.otherData = {};
                 this.files = [];
+                this.regions = [];
             },
             getInfoForCreate() {
                 const formData = new FormData();
@@ -247,6 +249,7 @@
                     totalWay: this.totalWay,
                     isGeoRoute: this.isGeoRoute,
                     files: this.files,
+                    regions: this.regions,
                     user_id : 1,
                 }
                 formData.append('ZRouter', JSON.stringify(values));
@@ -278,6 +281,7 @@
                     totalWay: this.totalWay,
                     isGeoRoute: this.isGeoRoute,
                     files: this.files,
+                    regions: this.regions,
                     user_id : 1,
                 }
                 formData.append('ZRouter', JSON.stringify(values));
@@ -318,7 +322,10 @@
 
             },
             changeValue(field, value) {
-                this.$data[field] = value
+                this.$data[field] = value;
+                if (field === 'objects') {
+                    this.regions = value.map(obj => ({ id: obj.region }));
+                }
             },
             getDataRoute() {
                 repository.getMyRoute(this.routeId)
@@ -329,6 +336,10 @@
                 })
             },
             updateState(data) {
+                if (isNil(data)) {
+                    this.$router.push('/list-my-routes');
+                    return;
+                }
                 this.name = data.name;
                 this.description = data.description;
                 this.typeMovement = data.typesOfMovement[0];
@@ -341,7 +352,7 @@
         },
         watch: {
             $route(to, from) {
-                if (to.params.id) {
+                if (to.params.id !== from.params.id && to.params.id) {
                     this.routeId = to.params.id;
                     this.isNewRoute = false;
                     this.getDataRoute()

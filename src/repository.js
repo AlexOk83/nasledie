@@ -27,13 +27,14 @@ const API = {
     EDIT_MY_ROUTE: (id) => `${API.BASE()}/routeredit?id=${id}`,
     REMOVE_MY_ROUTE: (id) => `${API.BASE()}/routerdelete?id=${id}`,
 
-    GET_RECOMMENDED_ROUTES: () => `${API.BASE()}/routerreclist`,
+    GET_RECOMMENDED_ROUTES: (userId) => `${API.BASE()}/routerreclist?user_id=${userId}`,
     GET_RECOMMENDED_ROUTE: (id) => `${API.BASE()}/routerrecget?id=${id}`,
     EDIT_RECOMMENDED_ROUTE: (id) => `${API.BASE()}/routerrecedit?id=${id}`,
-    REMOVE_RECOMMENDED_ROUTE: (id) => `${API.BASE()}/routerrecdelete?id=${id}`,
 
     CREATE_ROUTE: () => `${API.BASE()}/router`,
     CREATE_RECOMMENDED_ROUTE: () => `${API.BASE()}/routerrec`,
+
+    LIKE: () => `${API.BASE()}/routerlike`,
 };
 
 export default class Repository {
@@ -69,7 +70,7 @@ export default class Repository {
         return axios.post(API.EDIT_MY_ROUTE(routeId), data);
     }
 
-    deleteMyRoute(routeId) {
+    deleteRoute(routeId) {
         return axios.get(API.REMOVE_MY_ROUTE(routeId));
     }
 
@@ -77,8 +78,8 @@ export default class Repository {
         return axios.post(API.CREATE_RECOMMENDED_ROUTE(), data);
     }
 
-    getRecommendedRoutes() {
-        return axios.get(API.GET_RECOMMENDED_ROUTES());
+    getRecommendedRoutes(userId, filter) {
+        return axios.post(API.GET_RECOMMENDED_ROUTES(userId), filter);
     }
 
     getRecommendedRoute(routeId) {
@@ -89,11 +90,9 @@ export default class Repository {
         return axios.post(API.EDIT_RECOMMENDED_ROUTE(routeId), data);
     }
 
-    deleteRecommendedRoute(routeId) {
-        return axios.get(API.REMOVE_RECOMMENDED_ROUTE(routeId));
+    likeRoute(data) {
+        return axios.post(API.LIKE(), data);
     }
-
-
 
 
 }

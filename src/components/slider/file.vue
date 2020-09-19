@@ -1,6 +1,6 @@
 <template>
     <div class="file">
-        <img :src="fileData.base64" alt="" v-if="fileData && fileData.type === 'images'">
+        <img :src="`https://api.zhivoe-nasledie.ga/${fileData.url}`" alt="" v-if="fileData && fileData.type === 'images'">
     </div>
 </template>
 
@@ -11,6 +11,7 @@
             fileData: {
                 type: [String, Object],
                 base64: String,
+                url: String,
             }
         }
     }

@@ -3,19 +3,19 @@
 .route {
   .clearfix();
   width: 100%;
+  height: 100%;
   overflow: hidden;
-  height: 270px;
   border: 1px solid @base;
   border-radius: 20px;
   display: flex;
   flex-wrap: wrap;
+  align-items: stretch;
   &:hover {
     .box-shadow(9px, 0, 37px, -15px, rgba(82,98,159,1));
   }
   &__image {
     .column(6,6,6);
     .img_wrapper(100%);
-    height: 270px;
     position: relative;
     .media_mobile({
       height: 100%;
@@ -37,7 +37,6 @@
   }
   &__body {
     .column(6,6,6);
-    max-height: 250px;
     overflow: hidden;
     &.without-scroll-area {
       padding-bottom: 20px;
@@ -59,7 +58,9 @@
     }
     .title {
       margin-top: 27px;
-      .boxTitle();
+      .longTextWithTransfers(2, 18px, 22px, bold);
+      color: @base;
+      min-height: 44px;
     }
     .points {
       position: relative;

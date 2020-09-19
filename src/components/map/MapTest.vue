@@ -74,7 +74,7 @@
 
             function init (from, routes) {
                 var myMap = new ymaps.Map('map', {
-                    center: [55.750625, 37.626],
+                    center: from,
                     zoom: 8,
                     controls: []
                 });
@@ -162,6 +162,6 @@
 
 <style lang="less">
     #map {
-        height: 1000px;
+        height: 95vh;
     }
 </style>

@@ -72,19 +72,19 @@
         methods: {
             handleFilter() {
                 this.$emit('filter', {
-                    regions: this.listRegions,
-                    typesOfMovement: this.listTypes,
-                    tags: this.listTags
+                    regions: this.regions,
+                    typesOfMovement: this.typesMovement,
+                    tags: this.tags
                 });
             },
             changeListRegions(list) {
-                this.listRegions = list;
+                this.regions = list.map(r => (r.value));
             },
             changeListTypes(list) {
-                this.listTypes = list;
+                this.typesMovement = list.map(t => (t.value));
             },
             changeListTags(list) {
-                this.listTags = list;
+                this.tags = list.map(t => (t.id));
             },
             getData() {
                 repository.getRegions()

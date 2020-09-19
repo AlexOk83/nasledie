@@ -1,20 +1,26 @@
 import moment from "moment";
 const update = (items, typeMovement) => items.map((point, index) => new Promise((resolve, reject) => {
-            const routingMode = typeMovement === 'car' ? 'auto' : 'pedestrian';
-            if (index !== 0) {
-                const p1 = [items[index - 1].startPointCoordLat, items[index - 1].startPointCoordLong];
-                const p2 = [point.startPointCoordLat, point.startPointCoordLong];
-                ymaps.route([p1, p2], { routingMode }).then(function(route) {
-                    point.way = Math.round(route.getLength());
-                    point.timeInWay = Math.round(route.getTime()/60);
-                    resolve(point);
-                }, function () {
-                    reject()
-                })
-            } else {
-                resolve(point)
-            }
-    }));
+    if (!ymaps) {
+        alert('yandex не доступен!');
+        return;
+    }
+    ymaps.ready(function() {
+        const routingMode = typeMovement === 'car' ? 'auto' : 'pedestrian';
+        if (index !== 0) {
+            const p1 = [items[index - 1].startPointCoordLat, items[index - 1].startPointCoordLong];
+            const p2 = [point.startPointCoordLat, point.startPointCoordLong];
+            ymaps.route([p1, p2], { routingMode }).then(function(route) {
+                point.way = Math.round(route.getLength());
+                point.timeInWay = Math.round(route.getTime()/60);
+                resolve(point);
+            }, function () {
+                reject()
+            })
+        } else {
+            resolve(point)
+        }
+    })
+}));
 
 export class Presenter {
     getWay(way) {

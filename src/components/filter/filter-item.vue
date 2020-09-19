@@ -54,19 +54,14 @@
             deleteItem(index) {
                 console.log(index);
                 this.selectedValues.splice(index, 1);
+                this.$emit('change', this.selectedValues);
             },
             selectValue(e) {
                 console.log(e);
                 this.value = null;
-                let selectValue = this.listValue
-                    .map(item => ({
-                        name: item.name,
-                        value: item.value,
-                        icon: item.icon
-                    }))
-                    .find(item => item.value === e);
+                let selectValue = this.listValue.find(item => item.value === e);
                 this.selectedValues.push(selectValue);
-                this.$emit('change', this.selectedValues.map(val => (val.value)));
+                this.$emit('change', this.selectedValues);
             }
         }
     }

@@ -49,7 +49,15 @@
                :value="localValue"
                @change="changeValue"
         />
-        <Select v-if="type === 'select'"
+        <Select v-if="isSelect"
+                :name="name"
+                :list="listValue"
+                :value="localValue"
+                :placeholder="placeholder"
+                :disabled="localDisabled"
+                @change="changeValue"
+        />
+        <select-long v-if="isSelectLong"
                 :name="name"
                 :list="listValue"
                 :value="localValue"
@@ -78,6 +86,7 @@
     import SearchField from "./search/SearchField";
     import Radio from "./radio-buttons";
     import Select from "./select/select";
+    import SelectLong from "./select/select-with-search";
     import Icon from "../icon";
 
     export default {
@@ -101,6 +110,7 @@
             SearchField,
             Radio,
             Select,
+            SelectLong,
             Icon
         },
         data() {
@@ -122,6 +132,12 @@
                     return true;
                 }
                 return this.save.viewSaveButton || !this.localDisabled
+            },
+            isSelect() {
+                return this.type === 'select' && this.listValue.length <= 5
+            },
+            isSelectLong() {
+                return this.type === 'select' && this.listValue.length > 5
             }
         },
         methods: {
@@ -136,7 +152,7 @@
             },
             saveData() {
                 this.localDisabled = true;
-                this.save.method();
+                this.save.method && this.save.method();
             }
         },
         watch: {

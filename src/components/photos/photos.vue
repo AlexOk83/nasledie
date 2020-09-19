@@ -9,12 +9,12 @@
         </label>
         <div class="photos-list">
             <draggable class='list' v-model="files" draggable=".photos__item" @change="drag">
-                <div class="photos__item" v-for="(photo, index) in files" :key="index">
+                <div class="photos__item" v-for="(photo, index) in files" :key="'file-' + index">
                     <div class="wrapper">
-                        <img :src="photo.base64">
+                        <img :src="photo.base64 || `https://api.zhivoe-nasledie.ga/${photo.url}`">
                     </div>
                 </div>
-                <div class="other-wrapper" v-for="item in addButton" :key="item">
+                <div class="other-wrapper" v-for="item in addButton" :key="'button-' + item">
                     <label for="photo" class="add-photo" />
                 </div>
                 <div class="other-wrapper" key="remove" v-if="files.length > 0">
@@ -47,6 +47,9 @@
             }
         },
         computed: {
+            createdPhoto() {
+
+            },
             addButton() {
                 const l = this.files && this.files.length || 0;
                 if (this.maxCount) {
@@ -77,7 +80,6 @@
                 this.files.push({
                     type: 'images',
                     base64: this.content,
-                    file: this.file
                 });
                 this.$emit('change', this.files)
             },

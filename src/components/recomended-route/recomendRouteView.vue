@@ -4,7 +4,7 @@
     <router-link tag="div" :to="link" class="route">
         <div class="route__image">
             <img :src="image" :alt="data.name" >
-            <div class="like" @click="handleAddToMyRoute" :class="{ 'active': data.isActive }"/>
+            <div class="like" @click="handleAddToMyRoute" :class="{ 'active': isLike }"/>
         </div>
         <div class="route__body without-scroll-area">
             <div class="title">{{ data.name }}</div>
@@ -16,10 +16,10 @@
                 <span class="point-value">{{ data.pointEnd.name }}</span>
             </div>
             <div class="route__params">
-                <div class="way">
+                <div class="way" v-if="getWay">
                     <Icon icon="way" />
                     {{ getWay }}</div>
-                <div class="route__hour">
+                <div class="route__hour" v-if="getHour">
                     <Icon icon="time" />
                     {{ getHour }}</div>
                 <div class="route__movement">
@@ -29,8 +29,8 @@
                     </div>
                 </div>
                 <div class="route__types">
-                    <div class="item" v-for="item in data.routeTypes">
-                        {{ `#${item.title}` }}
+                    <div class="item" v-for="item in data.tags">
+                        {{ `#${item.name}` }}
                     </div>
                 </div>
             </div>
@@ -42,8 +42,10 @@
     import {Presenter} from "../../presenter";
     import Icon from "../icon"
     import {isEmpty} from "lodash";
+    import Repository from "../../repository";
 
     const presenter = new Presenter();
+    const repository = new Repository();
     export default {
         name: "index",
         components: {
@@ -51,6 +53,8 @@
         },
         props: {
             data: {
+                id: [Number, String],
+                like: Boolean,
                 title: String,
                 description: String,
                 pointStart: {
@@ -63,22 +67,30 @@
                 },
                 typesOfMovement: Array,
                 routeTypes: Array,
-            }
+            },
+            onRefresh: Function,
         },
         methods: {
-            handleAddToMyRoute() {
-
+            handleAddToMyRoute(e) {
+                e.preventDefault();
+                const formData = new FormData();
+                formData.append('id_user', 1)
+                formData.append('id_router', this.data.id)
+                repository.likeRoute(formData).then(this.onRefresh);
             },
             getMovement(movement) {
                 return presenter.getNameMovement(movement);
             }
         },
         computed: {
+            isLike() {
+                return this.data.like === 1;
+            },
             image() {
                 if (isEmpty(this.data.files)) {
                     return null;
                 }
-                return this.data.files[0].base64;
+                return `https://api.zhivoe-nasledie.ga/${this.data.files[0].url}`;
             },
             getWay() {
                 if (!this.data.totalWay) {

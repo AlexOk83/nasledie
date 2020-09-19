@@ -52,6 +52,27 @@
   overflow: hidden;
 }
 
+// стили начертания всех шрифтов согласно ui-kit
+.text-style(@fontSize, @lineHeight, @fontWeight: 400) {
+  font-size: @fontSize;
+  line-height: @lineHeight;
+  font-weight: @fontWeight;
+}
+
+.longTextWithTransfers(@countLine: 2, @fontSize: 16px, @lineHeight: 20px, @fw: 400) {
+  .text-style(@fontSize, @lineHeight, @fw);
+  max-height: @lineHeight * @countLine + 4px;
+  -webkit-line-clamp: @countLine;
+  -webkit-box-orient: vertical;
+  display: block;
+  display: -webkit-box;
+  word-break: break-word;
+  hyphens: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
 .clearfix() {
   &:after, &:before {
     content: '';

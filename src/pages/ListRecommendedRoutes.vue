@@ -8,6 +8,7 @@
                 :data="routesList"
                 is-recomended
                 :config="config"
+                :on-refresh="getData"
         />
     </div>
 </template>
@@ -44,18 +45,28 @@
 
         methods: {
             getData() {
-                repository.getRecommendedRoutes()
+                this.$store.dispatch('showPreloader');
+                repository.getRecommendedRoutes(1)
                     .then(response => {
                         this.routesList = JSON.parse(response.data);
                         console.log(this.routesList)
-                    })
+                    }).finally(() => {
+                    this.$store.dispatch('hidePreloader');
+                })
             },
             getFilteredData(filter) {
-                repository.getRecommendedRoutes(filter)
+                this.$store.dispatch('showPreloader');
+                const formData = new FormData();
+                formData.append('regions', filter.regions);
+                formData.append('tags', filter.tags);
+                formData.append('typesOfMovement', filter.typesOfMovement);
+                repository.getRecommendedRoutes(1, formData)
                     .then(response => {
                         this.routesList = JSON.parse(response.data);
-                        console.log(this.routesList)
-                    })
+                        console.log(this.routesList.map(item => (item.like)))
+                    }).finally(() => {
+                    this.$store.dispatch('hidePreloader');
+                })
             }
         }
     }

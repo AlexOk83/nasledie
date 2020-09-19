@@ -3,7 +3,7 @@
     <div class="list">
         <div class="row">
             <div class="list__item" :class="itemClasses" v-for="item in data">
-                <RecomendedRoute v-if="isRecomended" :data="item" />
+                <RecomendedRoute v-if="isRecomended" :data="item" :on-refresh="onRefresh" />
                 <ObjectRoute v-else-if="isObject" :data="item" />
                 <MyRoute v-else :data="item" :on-refresh="onRefresh" />
             </div>

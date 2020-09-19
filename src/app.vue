@@ -1,5 +1,8 @@
 <template>
     <div id="app">
+        <Preloader
+            v-show="viewPreloader"
+        />
         <div class="container">
             <div class="menu">
                 <router-link tag="a" to="/" >Составить маршрут пользователя</router-link>
@@ -16,8 +19,16 @@
 </template>
 
 <script>
+    import Preloader from './components/preloader'
     export default {
-
+        components: {
+            Preloader
+        },
+        computed: {
+            viewPreloader() {
+                return this.$store.getters.viewPreloader
+            }
+        }
     }
 </script>
 

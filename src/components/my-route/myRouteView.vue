@@ -86,8 +86,10 @@
                 this.$router.push(`/edit-my-route/${this.data.id}`)
             },
             deleteRoute() {
-                repository.deleteMyRoute(this.data.id)
-                    .then(this.onRefresh)
+                if (confirm(`Вы действительно хотите удалить маршрут "${this.data.name}"`)) {
+                    repository.deleteRoute(this.data.id)
+                        .then(this.onRefresh)
+                }
             },
             getNameMovement(movement) {
                 return presenter.getNameMovement(movement);
@@ -98,7 +100,7 @@
                 if (isEmpty(this.data.files)) {
                     return null;
                 }
-                return this.data.files[0].base64;
+                return `https://api.zhivoe-nasledie.ga/${this.data.files[0].url}`;
             },
             getWay() {
                 if (!this.data.totalWay) {

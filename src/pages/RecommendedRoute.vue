@@ -107,6 +107,7 @@
                                 is-shadow
                                 is-full
                                 v-if="!isNewRoute"
+                                :disabled="!needUpdateDayData"
                         />
                         <Button text="Сохранить в мои маршруты"
                                 :on-click="() => updateRoute()"
@@ -115,6 +116,7 @@
                                 is-shadow
                                 is-full
                                 v-if="!isNewRoute"
+                                :disabled="needUpdateDayData"
                         />
                     </div>
                 </form>
@@ -132,7 +134,7 @@
 
 <script>
     import moment from 'moment';
-    import {isEmpty} from "lodash";
+    import {isEmpty, isNil} from "lodash";
     import Field from "../components/form-control/Field";
     import Map from "../components/map/MapTest";
     import Button from "../components/form-control/button/button";
@@ -141,6 +143,7 @@
     import Photos from "../components/photos/photos";
     import Repository from '../repository';
     import { Presenter } from "../presenter";
+    import vueCustomScrollbar from 'vue-custom-scrollbar'
     import { radioButtonOptions, typesOfMovement } from '../constants';
     import FilterItem from "../components/filter/filter-item";
 
@@ -150,6 +153,7 @@
     export default {
         name: "CreateRoute",
         components: {
+            vueCustomScrollbar,
             Map,
             Field,
             AddedObjects,
@@ -166,13 +170,13 @@
                 listTypesMovement: typesOfMovement,
                 listTags: [],
                 //-------------------
-                name: 'Тестовый маршрут',
+                name: 'Тестовый рекомендованный маршрут',
                 shortDescription: 'краткое описание маршрута',
-                description: 'Описание маршрута',
+                description: 'полное описание маршрута',
                 startPoint: {
-                    coordinates: [55.753215, 37.622504],
-                    name: 'Москва',
-                    description: 'Россия'
+                    coordinates: [53.5088, 49.41918],
+                    name: 'Тольятти',
+                    description: 'Россия, Самарская область'
                 },
                 endPoint: {
                     coordinates: [53.5088, 49.41918],
@@ -181,6 +185,7 @@
                 },
                 files: [],
                 tags: [],
+                regions: [],
                 dateStart: moment(new Date()).format(),
                 timeStart: '10:30',
                 isGeoRoute: 'yes',
@@ -191,6 +196,7 @@
                 totalTime: 0,
                 totalWay: 0,
                 otherData: {},
+                needUpdateDayData: false,
             }
         },
         computed: {
@@ -205,6 +211,12 @@
 
                 return true;
             },
+            settings() {
+                return {
+                    wheelPropagation: false,
+                    suppressScrollX: true,
+                }
+            },
             headerTitle() {
                 if (this.isNewRoute) {
                     return 'Составить рекомендованный маршрут пользователя'
@@ -216,19 +228,16 @@
                     name: {
                         editTitle: 'Редактировать название',
                         viewSaveButton: true,
-                        method: this.updateRoute
                     },
                     description: {
                         editTitle: 'Редактировать описание',
                         viewSaveButton: true,
-                        method: this.updateRoute
                     }
                 }
             }
         },
         methods: {
             clearRoute() {
-                this.routeId = null;
                 this.name = '';
                 this.description = '';
                 this.shortDescription = '';
@@ -245,15 +254,21 @@
                 this.totalWay = 0;
                 this.otherData = {};
                 this.files = [];
+                this.regions = [];
+                this.tags = [];
             },
             getInfoForCreate() {
                 const formData = new FormData();
+                if (isEmpty(this.startPoint) || isEmpty(this.endPoint) || isEmpty(this.objects)) {
+                    alert('Не заполнены обязательные поля');
+                    return null;
+                }
                 const values = {
                     id: this.routeId,
                     recommendation: 1,
                     name: this.name,
-                    shortDescription: this.shortDescription,
-                    description: this.description,
+                    description: this.shortDescription,
+                    content: this.description,
                     tags: this.tags,
                     files: this.files,
                     startPoint: this.startPoint.name,
@@ -267,6 +282,7 @@
                     timeEnd: this.timeEnd,
                     typeMovement: [this.typeMovement],
                     objects: this.objects.map(o => ({...o, object_id: o.id})),
+                    regions: this.regions,
                     days: this.days,
                     totalTime: this.totalTime,
                     totalWay: this.totalWay,
@@ -282,25 +298,14 @@
                 const values = {
                     ...this.otherData,
                     id: this.routeId,
+                    recommendation: 1,
                     name: this.name,
-                    description: this.description,
-                    startPoint: this.startPoint.name,
-                    startPointCoordLat: this.startPoint.coordinates[0],
-                    startPointCoordLong: this.startPoint.coordinates[1],
-                    endPoint: this.endPoint.name,
-                    endPointCoordLat: this.endPoint.coordinates[0],
-                    endPointCoordLong: this.endPoint.coordinates[1],
-                    dateStart: this.dateStart,
-                    dateEnd: this.dateStart,
-                    timeStart: this.timeStart,
-                    timeEnd: this.timeEnd,
-                    typeMovement: [this.typeMovement],
-                    objects: this.objects.map(o => ({...o, object_id: o.id})),
-                    days: this.days,
-                    totalTime: this.totalTime,
-                    totalWay: this.totalWay,
-                    isGeoRoute: this.isGeoRoute,
+                    description: this.shortDescription,
+                    objects: this.otherData.objects.map(o => ({...o, object_id: o.id})),
+                    content: this.description,
+                    tags: this.tags,
                     files: this.files,
+                    days: this.days, // будут пересчитываться
                     user_id : 1,
                 }
                 formData.append('ZRouter', JSON.stringify(values));
@@ -309,9 +314,12 @@
                 return formData
             },
             createRoute() {
+                this.$store.dispatch('showPreloader');
                 presenter.calculatedDaysRoute({
                     ...this,
-                }).then(data => {
+                })
+                    .then(data => {
+                    console.log('сгенерировали дни и растояние', data);
                     this.days = data.days;
                     this.totalWay = data.totalWay;
                     this.totalTime = data.totalTime;
@@ -324,40 +332,63 @@
                                 this.$router.push(`/edit-recommended-route/${result.id}`)
                             }
                         });
+                }).finally(() => {
+                    this.$store.dispatch('hidePreloader');
                 });
             },
             updateRoute() {
+                this.$store.dispatch('showPreloader');
                 const data = this.getInfoForUpdate();
                 repository.editRecommendedRoute(this.routeId, data)
                     .then(response => {
-                        console.log();
+
                         const data = JSON.parse(response.data);
                         if (data.status) {
                             alert('сохранение выполнено успешно!');
                         }
+                    })
+                    .finally(() => {
+                        this.$store.dispatch('hidePreloader');
                     });
             },
             calcRouteAgain() {
 
             },
             changeValue(field, value) {
-                this.$data[field] = value
+                this.$data[field] = value;
+                if (field === 'objects') {
+                    this.regions = value.map(obj => ({ id: Number(obj.region) }));
+                }
+                if (field === 'days') {
+                    this.needUpdateDayData = true;
+                }
             },
             getDataRoute() {
-                repository.getMyRoute(this.routeId)
+                this.$store.dispatch('showPreloader');
+                repository.getRecommendedRoute(this.routeId)
                     .then(response => {
+                        this.$store.dispatch('hidePreloader');
                         const route = JSON.parse(response.data).router;
                         console.log(route);
+                        this.clearRoute();
                         this.updateState(route);
                     })
             },
             updateState(data) {
+                if (isNil(data)) {
+                    // this.$router.push('/list-recommended-routes');
+                    return;
+                }
+                console.log(data);
+                this.routeId = data.id;
+                this.startPoint = {
+                    coordinates: [data.startPointCoordLat, data.startPointCoordLong],
+                }
                 this.name = data.name;
-                this.description = data.description;
-                this.typeMovement = data.typesOfMovement[0];
+                this.description = data.content;
+                this.shortDescription = data.description;
                 this.days = presenter.changeFormat(data.days);
-                this.isGeoRoute = data.isGeoRoute;
-                this.objects = data.objects;
+                this.tags = data.tags;
                 this.files = data.files || [];
                 this.otherData = data; // для того, чтобы не потерять данные
             },
@@ -375,7 +406,7 @@
         },
         watch: {
             $route(to, from) {
-                if (to.params.id) {
+                if (to.params.id !== from.params.id && to.params.id) {
                     this.routeId = to.params.id;
                     this.isNewRoute = false;
                     this.getDataRoute()

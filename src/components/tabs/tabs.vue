@@ -7,7 +7,7 @@
         </div>
         <div class="tabs__header" :style="stylesHeader" ref="header" >
             <div class="tabs__list" ref="tabList" :style="styleList">
-                <div class="tab" :class="getClasses(index, day)" :style="{ width: widthTab + 'px' }" v-for="(day, index) in localData" @click="setActiveDay(tabs)">
+                <div class="tab" :class="getClasses(index, day)" :style="{ width: widthTab + 'px' }" v-for="(day, index) in localData" @click="setActiveDay(index)">
                     <span class="text">{{ index + 1 }} День</span>
                 </div>
             </div>
