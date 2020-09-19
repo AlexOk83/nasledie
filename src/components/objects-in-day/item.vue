@@ -183,7 +183,7 @@
         border-radius: 50%;
         position: absolute;
         cursor: pointer;
-        background-image: url("../../assets/images/icons/down.svg");
+        background-image: url("/src/assets/images/icons/down.svg");
         background-position: center;
         background-size: contain;
         transform: rotate(180deg);
@@ -199,7 +199,7 @@
         border-radius: 50%;
         position: absolute;
         cursor: pointer;
-        background-image: url("../../assets/images/icons/down.svg");
+        background-image: url("/src/assets/images/icons/down.svg");
         background-position: center;
         background-size: contain;
         bottom: 15px;
@@ -214,7 +214,7 @@
         border-radius: 50%;
         position: absolute;
         cursor: pointer;
-        background-image: url("../../assets/images/icons/trash2.svg");
+        background-image: url("/src/assets/images/icons/trash2.svg");
         background-position: center;
         background-size: contain;
         top: 50%;
