@@ -56,8 +56,6 @@
         },
         data() {
             return {
-                categories: [],
-                regions: [],
                 currentRegion: {},
                 currentCategory: {},
                 currentName: {},
@@ -66,6 +64,12 @@
         computed: {
             disabledForm() {
                 return isEmpty(this.currentCategory) || isEmpty(this.currentRegion) || isEmpty(this.currentName);
+            },
+            regions() {
+                return this.$store.getters.getRegions;
+            },
+            categories() {
+                return this.$store.getters.getTypes;
             }
         },
         methods: {
@@ -89,13 +93,6 @@
                 this.currentCategory = this.categories.find(category => category.value === event.type);
                 this.currentRegion = this.regions.find(region => region.value === event.region);
             },
-            getData() {
-                this.regions = this.$store.getters.getRegions;
-                this.categories = this.$store.getters.getTypes;
-            },
-        },
-        mounted() {
-            this.getData();
         },
 
     }

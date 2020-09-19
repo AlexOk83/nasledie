@@ -1,7 +1,7 @@
 <!-- фильтр - готово! -->
 <template>
     <div>
-        <div class="filter">
+        <div class="filter" v-if="showFilter">
             <div class="filter__row">
                 <FilterItem
                         title="Расположение"
@@ -46,6 +46,7 @@
     import Button from '../form-control/button/button';
     import { typesOfMovement } from '../../constants';
     import Repository from "../../repository";
+    import {isEmpty} from "lodash";
 
     const repository = new Repository();
 
@@ -59,14 +60,20 @@
                 typesMovement: [],
                 regions: [],
                 tags: [],
-                listTags: [],
-                listTypes: [],
-                listRegions: [],
             }
         },
         computed: {
+            showFilter() {
+                return !isEmpty(this.listRegions) && !isEmpty(this.listTags)
+            },
             listTypesOfMovement() {
                 return typesOfMovement;
+            },
+            listRegions() {
+                return this.$store.getters.getRegions;
+            },
+            listTags() {
+                return this.$store.getters.getTags;
             }
         },
         methods: {
@@ -86,15 +93,7 @@
             changeListTags(list) {
                 this.tags = list.map(t => (t.id));
             },
-            getData() {
-                this.listRegions = this.$store.getters.getRegions;
-                this.listTags = this.$store.getters.getTags
-            }
         },
-        created() {
-            this.getData();
-        }
-
     }
 </script>
 
