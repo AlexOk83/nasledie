@@ -17,6 +17,11 @@
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+    .file {
+        width: 100%;
+        img {
+            width: 100%;
+        }
+    }
 </style>

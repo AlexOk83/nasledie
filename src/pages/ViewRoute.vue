@@ -5,14 +5,22 @@
         />
         <div class="detail" v-if="this.route.id">
             <div class="detail__title">{{ title }}</div>
-            <div class="detail__name">{{ route.name }}</div>
+            <div class="detail__header">
+                <div class="detail__name">{{ route.name }}</div>
+                <Button text="В мои маршруты" icon-right icon="arrow-right" is-shadow color="green" :on-click="addToMyRoute" v-if="type === 'recomend'"/>
+            </div>
+
             <div class="detail__description">{{ route.description }}</div>
             <div class="detail__tags">
                 <div class="item" v-for="item in route.tags">
                     <span>#{{ item.name }}</span>
                 </div>
+                <div class="item" v-for="item in route.regions">
+                    <Icon icon="way" />
+                    <span>{{ item.name }}</span>
+                </div>
             </div>
-            <Slider :files="route.files"/>
+            <Slider :files="route.files" :like="isLike" />
 
             <div class="detail__description">{{ route.content }}</div>
             <div v-if="route.objects">
@@ -21,9 +29,12 @@
             </div>
 
             <div class="detail--title">Подробный маршрут: {{ route.name }}</div>
-            <Map v-if="visibleMap" :from="route.pointStart.coordinates" :days="route.days" />
+            <div class="detail__map">
+                <Map v-if="visibleMap" :from="route.pointStart.coordinates" :days="route.days" />
+            </div>
 
-            <Table :columns="columns" :days="route.days" />
+            <Table :columns="columns" :days="route.days" v-if="route.days && route.days.length > 0" />
+
             <div class="buttons-container">
                 <Button text="В мои маршруты" icon-right icon="arrow-right" is-shadow color="green" :on-click="addToMyRoute" v-if="type === 'recomend'"/>
                 <Button text="Удалить маршрут" is-shadow color="white" :on-click="remove" />
@@ -45,8 +56,10 @@
     import Repository from "../repository";
     import BreadCrumbs from '../components/bread-сrumbs'
     import { isEmpty } from 'lodash';
+    import Icon from '../components/icon'
     const presenter = new Presenter();
     const repository = new Repository();
+
 
     export default {
         name: "ViewRecommendedRoute",
@@ -56,7 +69,8 @@
             Slider,
             List,
             Table,
-            BreadCrumbs
+            BreadCrumbs,
+            Icon
         },
         data() {
             return {
@@ -79,36 +93,44 @@
             }
         },
         computed: {
-          visibleMap() {
-              if (isEmpty(this.route.pointStart)) {
-                  return false;
-              }
+            isLike() {
+                return this.route.like > 0
+            },
+            visibleMap() {
+                if (isEmpty(this.route.pointStart)) {
+                    return false;
+                }
 
-              if (isEmpty(this.route.days)) {
-                  return false;
-              }
+                if (isEmpty(this.route.days)) {
+                    return false;
+                }
 
-              return true;
-          },
-          title() {
-              if (this.type === 'recomend') {
-                  return "Рекомендованные маршруты"
-              }
-          },
-          listLink() {
-              const list = this.type === 'recomend' ? {
-                  url: '/list-recommended-routes',
-                  name: 'Рекомендованные маршруты'
-              } : {
-                  url: '/list-my-routes',
-                  name: 'Мои маршруты'
-              }
-            return [list, { name: this.route.name}]
-          }
+                return true;
+            },
+            title() {
+                if (this.type === 'recomend') {
+                    return "Рекомендованные маршруты"
+                } else {
+                    return "Мои маршруты"
+                }
+            },
+            listLink() {
+                const list = this.type === 'recomend' ? {
+                    url: '/list-recommended-routes',
+                    name: 'Рекомендованные маршруты'
+                } : {
+                    url: '/list-my-routes',
+                    name: 'Мои маршруты'
+                }
+                return [list, { name: this.route.name}]
+            }
         },
         methods: {
             addToMyRoute() {
-                this.$router.push('/list-my-routes')
+                const formData = new FormData();
+                formData.append('id_user', 1)
+                formData.append('id_router', this.route.id)
+                repository.likeRoute(formData).then(this.getData);
             },
             getData() {
                 this.id = this.$route.params.id;
@@ -155,14 +177,18 @@
 
     .detail {
         &__title {
-            font-size: 32px;
-            font-weight: 500;
-            line-height: 40px;
-            margin-top: 20px;
-            margin-bottom: 40px;
+            font-size: 28px;
+            line-height: 33px;
+            margin-top: 26px;
+            margin-bottom: 50px;
+        }
+        &__header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
         }
         &__name {
-
+            font-size: 23px;
         }
         &--title {
             font-size: 24px;
@@ -171,12 +197,18 @@
             margin-bottom: 20px;
         }
         &__description {
-            margin-bottom: 20px;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+        &__map {
+            margin-bottom: 50px;
+            border-radius: 20px;
+            overflow: hidden;
         }
         &__tags {
             display: flex;
             flex-wrap: wrap;
-            margin-top: 20px;
+            margin-bottom: 20px;
             .item {
                 background: @greyButton;
                 border-radius: 30px;

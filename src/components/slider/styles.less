@@ -1,3 +1,19 @@
+@import '../../styles/mixins';
+.swiper {
+  position: relative;
+  .like {
+    position: absolute;
+    right: 20px;
+    z-index: 200;
+    top: 20px;
+    width: 50px;
+    height: 50px;
+    background-image: url("/src/assets/images/icons/heart_selected.svg");
+    .bg(50px 50px);
+    cursor: pointer;
+  }
+}
+
 .swiper-container {
   height: 600px;
   margin-left: auto;
@@ -22,6 +38,8 @@
 
 .swiper-slide {
   flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 20px;
   width: 100%;
   height: 100%;
   position: relative;

@@ -1,5 +1,6 @@
 <template>
     <div class="swiper" v-if="files && files.length > 0">
+        <div class="like" v-if="like" />
         <Swiper ref="mySwiper" :options="swiperOptions">
             <swiper-slide v-for="imageFile in files" :key="imageFile.id">
                 <File :fileData="imageFile" />
@@ -15,6 +16,7 @@
         name: "slider",
         props: {
             files: Array,
+            like: Boolean
         },
         components: {
             Swiper,

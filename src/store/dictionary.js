@@ -4,17 +4,11 @@ export default {
         tags: [],
     },
     mutations: {
-        getRegions(state, payLoad) {
+        getRegions(state) {
             state.regions = payLoad
         },
     },
     actions: {
-        showPreloader({commit}) {
-            commit('changePreloader', true)
-        },
-        hidePreloader({commit}) {
-            commit('changePreloader', false)
-        }
     },
     getters: {
         getRegions (state) {

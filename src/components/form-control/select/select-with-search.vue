@@ -87,7 +87,7 @@
             close() {
                 setTimeout(() => {
                     this.active = false
-                }, 500)
+                }, 200)
 
             }
         },
@@ -126,6 +126,9 @@
                 if (this.value !== this.currentValue) {
                     this.currentValue = this.value;
                 }
+            },
+            list() {
+                this.filteredList = this.list;
             }
         }
 
