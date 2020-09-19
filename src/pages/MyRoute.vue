@@ -1,6 +1,9 @@
 <!-- создание и редактирование моего маршрута -->
 <template>
     <div>
+        <Bread-crumbs
+                :list-link="links"
+        />
         <h1>{{ headerTitle }}</h1>
 
         <div class="row">
@@ -125,6 +128,7 @@
     import Repository from '../repository';
     import { Presenter } from "../presenter";
     import { radioButtonOptions, typesOfMovement } from '../constants';
+    import BreadCrumbs from "../components/bread-сrumbs";
 
     const repository = new Repository();
     const presenter = new Presenter();
@@ -137,6 +141,7 @@
             Objects,
             Button,
             Tabs,
+            BreadCrumbs,
             Photos
         },
         data() {
@@ -174,6 +179,14 @@
             }
         },
         computed: {
+            links() {
+                if (this.isNewRoute) {
+                    return [{name: 'Составить свой маршрут'}]
+                }
+                else {
+                    return [{name: 'Редактировать свой маршрут'}]
+                }
+            },
             viewMap() {
                 if (isEmpty(this.startPoint.coordinates)) {
                     return false;

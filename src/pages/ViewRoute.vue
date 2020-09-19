@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <Bread-crumbs
             :list-link="listLink"
         />

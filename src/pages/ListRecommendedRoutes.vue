@@ -1,5 +1,8 @@
 <template>
     <div>
+        <Bread-crumbs
+                :list-link="listLink"
+        />
         <h1>Рекомендованные маршруты</h1>
         <RouteFilter
             @filter="getFilteredData"
@@ -14,6 +17,7 @@
 </template>
 
 <script>
+    import BreadCrumbs from '../components/bread-сrumbs';
     import RouteFilter from "../components/filter/filter";
     import List from "../components/route-list/routeListView";
 
@@ -24,6 +28,7 @@
     export default {
         name: "RecommendedRoutesList",
         components: {
+            BreadCrumbs,
             RouteFilter,
             List,
         },
@@ -37,6 +42,11 @@
                 typeMovement: '',
                 typeRegion: '',
 
+            }
+        },
+        computed: {
+            listLink() {
+                return [{ name: 'Рекомендованные маршруты'}]
             }
         },
         created() {

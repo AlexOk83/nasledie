@@ -1,5 +1,8 @@
 <template>
     <div>
+        <Bread-crumbs
+                :list-link="listLink"
+        />
         <h1>{{ headerTitle }}</h1>
 
         <div class="row">
@@ -146,6 +149,7 @@
     import vueCustomScrollbar from 'vue-custom-scrollbar'
     import { radioButtonOptions, typesOfMovement } from '../constants';
     import FilterItem from "../components/filter/filter-item";
+    import BreadCrumbs from "../components/bread-сrumbs";
 
     const repository = new Repository();
     const presenter = new Presenter();
@@ -160,6 +164,7 @@
             Button,
             Tabs,
             Photos,
+            BreadCrumbs,
             FilterItem
         },
         data() {
@@ -201,6 +206,14 @@
             }
         },
         computed: {
+            listLink() {
+                if (this.isNewRoute) {
+                    return [{name: 'Составить рекомендованный маршрут'}]
+                }
+                else {
+                    return [{name: 'Редактировать рекомендованный маршрут'}]
+                }
+            },
             viewMap() {
                 if (isEmpty(this.startPoint.coordinates)) {
                     return false;

@@ -1,5 +1,8 @@
 <template>
     <div>
+        <Bread-crumbs
+                :list-link="listLink"
+        />
         <h1>Мои маршруты</h1>
         <List
                 :data="routesList"
@@ -12,17 +15,24 @@
 <script>
     import List from "../components/route-list/routeListView";
     import Repository from "../repository";
+    import BreadCrumbs from "../components/bread-сrumbs";
 
     const repository = new Repository();
 
     export default {
         name: "MyRoutes",
         components: {
+            BreadCrumbs,
             List,
         },
         data() {
             return {
                 routesList: [],
+            }
+        },
+        computed: {
+            listLink() {
+                return [{ name: 'Мои маршруты'}]
             }
         },
         mounted() {

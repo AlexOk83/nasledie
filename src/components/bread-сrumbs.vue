@@ -1,9 +1,13 @@
-<template lang="pug">
-    ul.bread-crumbs
-        li: a(@click="moveTo('/')") Маршруты
-        li(v-for="link in listLink")
-            a(@click="moveTo(link.url)" v-if="link.url") {{ link.name }}
-            span(v-else) {{ link.name }}
+<template>
+    <ul class="bread-crumbs">
+        <li>
+            <a href="#" @click="moveTo('/')">Маршруты</a>
+        </li>
+        <li v-for="link in listLink">
+            <a href="#" @click="moveTo(link.url)" v-if="link.url">{{ link.name }}</a>
+            <span v-else >{{ link.name }}</span>
+        </li>
+    </ul>
 </template>
 
 <script>
@@ -25,16 +29,18 @@
     @import '../styles/mixins';
     .bread-crumbs {
         display: flex;
+        margin-bottom: 30px;
         li {
             display: block;
             position: relative;
-            padding-right: 15px;
+            padding-right: 20px;
             a, span {
                 color: @greyIcon;
                 font-size: 12px;
             }
             a {
                 cursor: pointer;
+                text-decoration: none;
             }
             a:hover {
                 color: @base;
@@ -48,7 +54,7 @@
                 border-bottom: 1px solid @greyIcon;
                 position: absolute;
                 top: 8px;
-                right: 5px;
+                right: 10px;
                 transform: rotate(-45deg);
 
             }
