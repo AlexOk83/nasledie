@@ -28,6 +28,11 @@
             viewPreloader() {
                 return this.$store.getters.viewPreloader
             }
+        },created() {
+            this.$store.dispatch('getDataRegions');
+            this.$store.dispatch('getDataTags');
+            this.$store.dispatch('getDataTypes');
+            this.$store.dispatch('aUserId', 1);
         }
     }
 </script>

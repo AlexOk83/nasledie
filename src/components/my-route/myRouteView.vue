@@ -79,16 +79,17 @@
             onRefresh: Function,
         },
         methods: {
-            handleAddToMyRoute() {
-                repository.createMyRoute()
-            },
             moveToEdit() {
                 this.$router.push(`/edit-my-route/${this.data.id}`)
             },
             deleteRoute() {
                 if (confirm(`Вы действительно хотите удалить маршрут "${this.data.name}"`)) {
-                    repository.deleteRoute(this.data.id)
+                    this.$store.dispatch('showPreloader');
+                    repository.deleteRoute(this.$store.getters.getUserId, this.data.id)
                         .then(this.onRefresh)
+                        .finally(() => {
+                            this.$store.dispatch('hidePreloader');
+                        })
                 }
             },
             getNameMovement(movement) {

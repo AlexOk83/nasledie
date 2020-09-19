@@ -87,16 +87,8 @@
                 this.tags = list.map(t => (t.id));
             },
             getData() {
-                repository.getRegions()
-                    .then(response => {
-                        let regions = JSON.parse(response.data);
-                        this.listRegions = regions.map(region => ({ ...region, value: String(region.value)}))
-                    });
-                repository.getTags()
-                    .then(response => {
-                        let tags = JSON.parse(response.data);
-                        this.listTags = tags.map(tag => ({ ...tag, value: String(tag.name)}))
-                    });
+                this.listRegions = this.$store.getters.getRegions;
+                this.listTags = this.$store.getters.getTags
             }
         },
         created() {

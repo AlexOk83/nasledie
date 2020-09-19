@@ -90,16 +90,8 @@
                 this.currentRegion = this.regions.find(region => region.value === event.region);
             },
             getData() {
-                    repository.getRegions()
-                        .then(response => {
-                            let regions = JSON.parse(response.data);
-                            this.regions = regions.map(region => ({ ...region, value: String(region.value)}))
-                        });
-                    repository.getTypes()
-                        .then(response => {
-                            this.categories = JSON.parse(response.data);
-                        });
-
+                this.regions = this.$store.getters.getRegions;
+                this.categories = this.$store.getters.getTypes;
             },
         },
         mounted() {

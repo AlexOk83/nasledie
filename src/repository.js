@@ -23,16 +23,16 @@ const API = {
     GET_TAG: () => `${API.BASE()}/tag`,
 
     GET_MY_ROUTES: (userId) => `${API.BASE()}/routerlist?user_id=${userId}`,
-    GET_MY_ROUTE: (id) => `${API.BASE()}/routerget?id=${id}`, // 14
-    EDIT_MY_ROUTE: (id) => `${API.BASE()}/routeredit?id=${id}`,
-    REMOVE_MY_ROUTE: (id) => `${API.BASE()}/routerdelete?id=${id}`,
+    GET_MY_ROUTE: (userId, id) => `${API.BASE()}/routerget?user_id=${userId}&id=${id}`, // 14
+    EDIT_MY_ROUTE: (userId, id) => `${API.BASE()}/routeredit?user_id=${userId}&id=${id}`,
+    REMOVE_ROUTE: (userId, id) => `${API.BASE()}/routerdelete?user_id=${userId}&id=${id}`,
 
     GET_RECOMMENDED_ROUTES: (userId) => `${API.BASE()}/routerreclist?user_id=${userId}`,
-    GET_RECOMMENDED_ROUTE: (id) => `${API.BASE()}/routerrecget?id=${id}`,
-    EDIT_RECOMMENDED_ROUTE: (id) => `${API.BASE()}/routerrecedit?id=${id}`,
+    GET_RECOMMENDED_ROUTE: (userId, id) => `${API.BASE()}/routerrecget?user_id=${userId}&id=${id}`,
+    EDIT_RECOMMENDED_ROUTE: (userId, id) => `${API.BASE()}/routerrecedit?user_id=${userId}&id=${id}`,
 
-    CREATE_ROUTE: () => `${API.BASE()}/router`,
-    CREATE_RECOMMENDED_ROUTE: () => `${API.BASE()}/routerrec`,
+    CREATE_ROUTE: (userId) => `${API.BASE()}/router?user_id=${userId}`,
+    CREATE_RECOMMENDED_ROUTE: (userId) => `${API.BASE()}/routerrec?user_id=${userId}`,
 
     LIKE: () => `${API.BASE()}/routerlike`,
 };
@@ -58,36 +58,36 @@ export default class Repository {
         return axios.get(API.GET_MY_ROUTES(userId));
     }
 
-    createMyRoute(data) {
-        return axios.post(API.CREATE_ROUTE(), data);
+    createMyRoute(userId, data) {
+        return axios.post(API.CREATE_ROUTE(userId), data);
     }
 
-    getMyRoute(routeId) {
-        return axios.get(API.GET_MY_ROUTE(routeId));
+    getMyRoute(userId, routeId) {
+        return axios.get(API.GET_MY_ROUTE(userId, routeId));
     }
 
-    editMyRoute(routeId, data) {
-        return axios.post(API.EDIT_MY_ROUTE(routeId), data);
+    editMyRoute(userId, routeId, data) {
+        return axios.post(API.EDIT_MY_ROUTE(userId, routeId), data);
     }
 
-    deleteRoute(routeId) {
-        return axios.get(API.REMOVE_MY_ROUTE(routeId));
+    deleteRoute(userId, routeId) {
+        return axios.get(API.REMOVE_ROUTE(userId, routeId));
     }
 
-    createRecommendedRoute(data) {
-        return axios.post(API.CREATE_RECOMMENDED_ROUTE(), data);
+    createRecommendedRoute(userId, data) {
+        return axios.post(API.CREATE_RECOMMENDED_ROUTE(userId), data);
     }
 
     getRecommendedRoutes(userId, filter) {
         return axios.post(API.GET_RECOMMENDED_ROUTES(userId), filter);
     }
 
-    getRecommendedRoute(routeId) {
-        return axios.get(API.GET_RECOMMENDED_ROUTE(routeId));
+    getRecommendedRoute(userId, routeId) {
+        return axios.get(API.GET_RECOMMENDED_ROUTE(userId, routeId));
     }
 
-    editRecommendedRoute(routeId, data) {
-        return axios.post(API.EDIT_RECOMMENDED_ROUTE(routeId), data);
+    editRecommendedRoute(userId, routeId, data) {
+        return axios.post(API.EDIT_RECOMMENDED_ROUTE(userId, routeId), data);
     }
 
     likeRoute(data) {

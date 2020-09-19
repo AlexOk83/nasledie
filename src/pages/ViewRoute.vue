@@ -15,7 +15,9 @@
                 <div class="item" v-for="item in route.tags">
                     <span>#{{ item.name }}</span>
                 </div>
-                <div class="item" v-for="item in route.regions">
+            </div>
+            <div class="detail__tags">
+                <div class="item item-with-icon" v-for="item in route.regions">
                     <Icon icon="way" />
                     <span>{{ item.name }}</span>
                 </div>
@@ -128,7 +130,7 @@
         methods: {
             addToMyRoute() {
                 const formData = new FormData();
-                formData.append('id_user', 1)
+                formData.append('id_user', this.$store.getters.getUserId)
                 formData.append('id_router', this.route.id)
                 repository.likeRoute(formData).then(this.getData);
             },
@@ -136,7 +138,8 @@
                 this.id = this.$route.params.id;
                 this.type = this.$route.params.type;
                 this.$store.dispatch('showPreloader');
-                repository.getMyRoute(this.id).then(response => {
+                console.log(this.$store.getters.getUserId)
+                repository.getMyRoute(this.$store.getters.getUserId, this.id).then(response => {
                     console.log(JSON.parse(response.data));
                     const data = JSON.parse(response.data);
                     this.route = data.router;
@@ -146,7 +149,7 @@
             },
             remove() {
                 if (confirm(`Вы действительно хотите удалить маршрут "${this.route.name}"`)) {
-                    repository.deleteRoute(this.route.id)
+                    repository.deleteRoute(this.$store.getters.getUserId, this.route.id)
                         .then(() => {
                             if (this.type === 'recomend') {
                                 this.$router.push('/list-recommended-routes')
@@ -210,6 +213,7 @@
             flex-wrap: wrap;
             margin-bottom: 20px;
             .item {
+                position: relative;
                 background: @greyButton;
                 border-radius: 30px;
                 float: left;
@@ -217,6 +221,12 @@
                 padding: 10px 20px;
                 .text();
                 color: @colorLink;
+                &-with-icon {
+                    padding-left: 50px;
+                    .icon {
+                        left: 20px;
+                    }
+                }
             }
         }
         &__content {

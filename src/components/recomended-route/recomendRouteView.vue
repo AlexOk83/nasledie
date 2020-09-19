@@ -74,7 +74,7 @@
             handleAddToMyRoute(e) {
                 e.preventDefault();
                 const formData = new FormData();
-                formData.append('id_user', 1)
+                formData.append('id_user', this.$store.getters.getUserId)
                 formData.append('id_router', this.data.id)
                 repository.likeRoute(formData).then(this.onRefresh);
             },
@@ -84,7 +84,7 @@
         },
         computed: {
             isLike() {
-                return this.data.like === 1;
+                return this.data.like > 0;
             },
             image() {
                 if (isEmpty(this.data.files)) {

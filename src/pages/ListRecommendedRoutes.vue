@@ -46,7 +46,7 @@
         methods: {
             getData() {
                 this.$store.dispatch('showPreloader');
-                repository.getRecommendedRoutes(1)
+                repository.getRecommendedRoutes(this.$store.getters.getUserId)
                     .then(response => {
                         this.routesList = JSON.parse(response.data);
                         console.log(this.routesList)
@@ -60,7 +60,7 @@
                 formData.append('regions', filter.regions);
                 formData.append('tags', filter.tags);
                 formData.append('typesOfMovement', filter.typesOfMovement);
-                repository.getRecommendedRoutes(1, formData)
+                repository.getRecommendedRoutes(this.$store.getters.getUserId, formData)
                     .then(response => {
                         this.routesList = JSON.parse(response.data);
                         console.log(this.routesList.map(item => (item.like)))

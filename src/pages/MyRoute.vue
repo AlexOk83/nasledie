@@ -141,6 +141,7 @@
         },
         data() {
             return {
+                userId: null,
                 routeId: null,
                 isNewRoute: true,
                 listParams: radioButtonOptions,
@@ -297,7 +298,7 @@
                     this.totalWay = data.totalWay;
                     this.totalTime = data.totalTime;
                     const infoForSave = this.getInfoForCreate();
-                    repository.createMyRoute(infoForSave)
+                    repository.createMyRoute(this.userId, infoForSave)
                         .then(response => {
                             console.log(response.data);
                             const result = JSON.parse(response.data);
@@ -309,7 +310,7 @@
             },
             updateRoute() {
                 const data = this.getInfoForUpdate();
-                repository.editMyRoute(this.routeId, data)
+                repository.editMyRoute(this.userId, this.routeId, data)
                     .then(response => {
                         console.log();
                         const data = JSON.parse(response.data);
@@ -328,7 +329,7 @@
                 }
             },
             getDataRoute() {
-                repository.getMyRoute(this.routeId)
+                repository.getMyRoute(this.userId, this.routeId)
                 .then(response => {
                     const route = JSON.parse(response.data).router;
                     console.log(route);
@@ -366,6 +367,7 @@
             }
         },
         created() {
+            this.userId = this.$store.getters.getUserId;
             if (this.$route.params.id) {
                 this.routeId = this.$route.params.id;
                 this.isNewRoute = false;

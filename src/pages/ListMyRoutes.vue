@@ -30,7 +30,8 @@
         },
         methods: {
             getData() {
-                repository.getMyRoutes(1)
+
+                repository.getMyRoutes(this.$store.getters.getUserId)
                     .then(response => {
                         this.routesList = JSON.parse(response.data);
                         console.log(this.routesList)

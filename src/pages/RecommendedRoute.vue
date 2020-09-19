@@ -164,6 +164,7 @@
         },
         data() {
             return {
+                userId: null,
                 routeId: null,
                 isNewRoute: true,
                 listParams: radioButtonOptions,
@@ -324,7 +325,7 @@
                     this.totalWay = data.totalWay;
                     this.totalTime = data.totalTime;
                     const infoForSave = this.getInfoForCreate();
-                    repository.createRecommendedRoute(infoForSave)
+                    repository.createRecommendedRoute(this.userId, infoForSave)
                         .then(response => {
                             console.log(response.data);
                             const result = JSON.parse(response.data);
@@ -339,7 +340,7 @@
             updateRoute() {
                 this.$store.dispatch('showPreloader');
                 const data = this.getInfoForUpdate();
-                repository.editRecommendedRoute(this.routeId, data)
+                repository.editRecommendedRoute(this.userId, this.routeId, data)
                     .then(response => {
 
                         const data = JSON.parse(response.data);
@@ -365,7 +366,7 @@
             },
             getDataRoute() {
                 this.$store.dispatch('showPreloader');
-                repository.getRecommendedRoute(this.routeId)
+                repository.getRecommendedRoute(this.userId, this.routeId)
                     .then(response => {
                         this.$store.dispatch('hidePreloader');
                         const route = JSON.parse(response.data).router;
@@ -393,11 +394,7 @@
                 this.otherData = data; // для того, чтобы не потерять данные
             },
             getListTags() {
-                repository.getTags()
-                    .then(response => {
-                        let tags = JSON.parse(response.data);
-                        this.listTags = tags.map(tag => ({ ...tag, value: String(tag.name)}))
-                    });
+                this.listTags = this.$store.getters.getTags;
             },
             changeListTags(list) {
                 console.log(list);
@@ -421,6 +418,7 @@
         },
         created() {
             this.getListTags();
+            this.userId = this.$store.getters.getUserId;
             if (this.$route.params.id) {
                 this.routeId = this.$route.params.id;
                 this.isNewRoute = false;
