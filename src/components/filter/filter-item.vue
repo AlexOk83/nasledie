@@ -108,7 +108,7 @@
                     background-size: contain;
                     background-position: center;
                     background-repeat: no-repeat;
-                    background-image: url("/src/assets/images/icons/delete-white.svg");
+                    background-image: url("/assets/images/icons/delete-white.svg");
                     cursor: pointer;
                 }
                 .icon--tag {

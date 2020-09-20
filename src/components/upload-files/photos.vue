@@ -159,7 +159,7 @@
                     display: block;
                     .img_wrapper(70%);
                     background-color: @greyButton;
-                    background-image: url("/src/assets/images/icons/plus.svg");
+                    background-image: url("/assets/images/icons/plus.svg");
                     background-repeat: no-repeat;
                     background-position: center;
                     background-size: 14px;
@@ -172,7 +172,7 @@
                     height: 60px;
                     border-radius: 50%;
                     background-color: @greyButton;
-                    background-image: url("/src/assets/images/icons/trash.svg");
+                    background-image: url("/assets/images/icons/trash.svg");
                     background-repeat: no-repeat;
                     background-position: center;
                     background-size: 30px;

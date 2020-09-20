@@ -270,22 +270,22 @@ export class Presenter {
         if (base) {
             return {
                 color: "#51619E",
-                imagePoint: "/src/assets/images/icons/marker_blue.svg",
-                imageFlag: "/src/assets/images/icons/flag_blue.svg",
+                imagePoint: "/assets/images/icons/marker_blue.svg",
+                imageFlag: "/assets/images/icons/flag_blue.svg",
             }
         }
         if (two) {
             return {
                 color: "#019788",
-                imagePoint: "/src/assets/images/icons/marker_green.svg",
-                imageFlag: "/src/assets/images/icons/flag_green.svg",
+                imagePoint: "/assets/images/icons/marker_green.svg",
+                imageFlag: "/assets/images/icons/flag_green.svg",
             }
         }
         if (three) {
             return {
                 color: "#FD9080",
-                imagePoint: "/src/assets/images/icons/marker_yellow.svg",
-                imageFlag: "/src/assets/images/icons/flag_yellow.svg",
+                imagePoint: "/assets/images/icons/marker_yellow.svg",
+                imageFlag: "/assets/images/icons/flag_yellow.svg",
             }
         }
     }

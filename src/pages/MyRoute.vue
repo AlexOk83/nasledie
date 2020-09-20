@@ -111,6 +111,10 @@
                         :from="startPoint.coordinates"
                         :days="days"
                 />
+                <Map-objects
+                        v-if="viewMapCreate"
+                        :from="startPoint.coordinates"
+                />
             </div>
         </div>
     </div>
@@ -121,6 +125,7 @@
     import {isEmpty, isNil} from "lodash";
     import Field from "../components/form-control/Field";
     import Map from "../components/map/MapTest";
+    import MapObjects from "../components/map/map-with-objects";
     import Button from "../components/form-control/button/button";
     import Objects from "../components/added-objects/addedObjects";
     import Tabs from "../components/tabs/tabs";
@@ -137,6 +142,7 @@
         name: "CreateRoute",
         components: {
             Map,
+            MapObjects,
             Field,
             Objects,
             Button,
@@ -201,7 +207,14 @@
                     return false;
                 }
 
-                return true;
+                return !this.isNewRoute;
+            },
+            viewMapCreate() {
+                if (isEmpty(this.startPoint.coordinates)) {
+                    return false;
+                }
+
+                return this.isNewRoute;
             },
             headerTitle() {
                 if (this.isNewRoute) {

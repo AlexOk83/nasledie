@@ -14,8 +14,8 @@
 <style scoped lang="less">
     @import "../styles/mixins";
     .mask(@image) {
-        -webkit-mask-image: url("/src/assets/images/icons/@{image}.svg");
-        mask-image: url("/src/assets/images/icons/@{image}.svg");
+        -webkit-mask-image: url("/assets/images/icons/@{image}.svg");
+        mask-image: url("/assets/images/icons/@{image}.svg");
 
         -webkit-mask-repeat: no-repeat;
         mask-repeat: no-repeat;

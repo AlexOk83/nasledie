@@ -50,17 +50,17 @@
                             {
                                 // Внешний вид путевых точек.
                                 wayPointStartIconLayout: "default#image",
-                                wayPointStartIconImageHref: "/src/assets/images/icons/flag_blue.svg",
+                                wayPointStartIconImageHref: "/assets/images/icons/flag_blue.svg",
                                 wayPointStartIconImageSize: [40, 40],
                                 wayPointStartIconImageOffset: [-5, -25],
                                 // Задаем собственную картинку для последней путевой точки.
                                 wayPointFinishIconLayout: "default#image",
-                                wayPointFinishIconImageHref: "/src/assets/images/icons/flag_blue.svg",
+                                wayPointFinishIconImageHref: "/assets/images/icons/flag_blue.svg",
                                 wayPointFinishIconImageSize: [30, 30],
                                 wayPointFinishIconImageOffset: [-5, -25],
 
                                 wayPointIconLayout: "default#image",
-                                wayPointIconImageHref: "/src/assets/images/icons/flag_yellow.svg",
+                                wayPointIconImageHref: "/assets/images/icons/flag_yellow.svg",
                                 wayPointIconImageSize: [30, 30],
                                 wayPointIconImageOffset: [-2, -25],
                                 // Позволяет скрыть иконки путевых точек маршрута.
@@ -69,7 +69,7 @@
                                 // Внешний вид транзитных точек.
 
                                 viaPointIconLayout: "default#image",
-                                viaPointIconImageHref: "/src/assets/images/icons/flag_blue.svg",
+                                viaPointIconImageHref: "/assets/images/icons/flag_blue.svg",
                                 viaPointIconImageSize: [30, 30],
                                 viaPointIconImageOffset: [-5, -25],
                                 viaPointDraggable: false,
@@ -78,7 +78,7 @@
 
                                 // Внешний вид точечных маркеров под путевыми точками.
                                 pinIconLayout: "default#image",
-                                pinIconImageHref: "/src/assets/images/icons/flag_blue.svg",
+                                pinIconImageHref: "/assets/images/icons/flag_blue.svg",
                                 pinIconImageSize: [30, 30],
                                 pinIconImageOffset: [-5, -25],
 
