@@ -227,12 +227,10 @@
                     name: {
                         editTitle: 'Редактировать название',
                         viewSaveButton: true,
-                        method: this.updateRoute
                     },
                     description: {
                         editTitle: 'Редактировать описание',
                         viewSaveButton: true,
-                        method: this.updateRoute
                     }
                 }
             }
@@ -337,7 +335,7 @@
                             this.$store.dispatch('showModalSuccess', 'сохранение выполнено успешно!');
                         }
                     }).finally(() => {
-                    this.$store.dispatch('showPreloader');
+                    this.$store.dispatch('hidePreloader');
                 });
             },
             calcRouteAgain() {
@@ -350,6 +348,14 @@
                 }
                 if (field === 'days') {
                     this.needUpdateDayData = true;
+                }
+                if (field === 'startPoint') {
+                    if (this.startPoint && this.startPoint.coordinates) {
+                        this.$store.dispatch('getObjects', {
+                            lat: this.startPoint.coordinates[0],
+                            long: this.startPoint.coordinates[1]
+                        });
+                    }
                 }
             },
             getDataRoute() {

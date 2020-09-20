@@ -10,7 +10,7 @@ const update = (items, typeMovement) => items.map((point, index) => new Promise(
                 point.timeInWay = Math.round(route.getTime()/60);
                 resolve(point);
             }, function () {
-                reject()
+                reject(e => console.log(e))
             })
         } else {
             resolve(point)
@@ -174,6 +174,7 @@ export class Presenter {
                     typeMovement: [typeMovement]
                 },
             ];
+            console.log(objectsInDays);
             // дополняем список растоянием между точками и временем прохождения
             Promise.all(update(objectsInDays, typeMovement)).then(() => {
                 // здесь мы уже имеем все изменения

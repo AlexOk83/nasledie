@@ -90,6 +90,8 @@
                     this.currentValue = this.value;
                     this.searchText = '';
                 }
+                this.currentValue = this.value;
+                this.searchText = this.currentValue.name
             }
         },
         created() {

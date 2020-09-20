@@ -80,8 +80,10 @@
             }
         },
         methods: {
-            selectRecommendObjects(e) {
-                console.log(e);
+            selectRecommendObjects(event) {
+                this.currentName = event;
+                this.currentCategory = this.categories.find(category => category.value === event.type);
+                this.currentRegion = this.regions.find(region => Number(region.value) === Number(event.region));
             },
             add() {
                 this.$emit('add', this.currentName);
