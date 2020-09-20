@@ -172,9 +172,6 @@
                 userId: null,
                 routeId: null,
                 isNewRoute: true,
-                listParams: radioButtonOptions,
-                listTypesMovement: typesOfMovement,
-                listTags: [],
                 //-------------------
                 name: 'Тестовый рекомендованный маршрут',
                 shortDescription: 'краткое описание маршрута',
@@ -206,6 +203,15 @@
             }
         },
         computed: {
+            listParams() {
+                return radioButtonOptions;
+            },
+            listTypesMovement() {
+                return typesOfMovement;
+            },
+            listTags() {
+                return this.$store.getters.getTags;
+            },
             listLink() {
                 if (this.isNewRoute) {
                     return [{name: 'Составить рекомендованный маршрут'}]
@@ -274,7 +280,7 @@
             getInfoForCreate() {
                 const formData = new FormData();
                 const values = {
-                    id: this.routeId,
+                    id: null,
                     recommendation: 1,
                     name: this.name,
                     description: this.shortDescription,
@@ -296,7 +302,7 @@
                     days: this.days,
                     totalTime: this.totalTime,
                     totalWay: this.totalWay,
-                    user_id : 1,
+                    user_id : this.$store.getters.getUserId,
                 }
                 formData.append('ZRouter', JSON.stringify(values));
                 formData.append('sessionId', 1);
@@ -316,7 +322,7 @@
                     tags: this.tags,
                     files: this.files,
                     days: this.days, // будут пересчитываться
-                    user_id : 1,
+                    user_id : this.$store.getters.getUserId,
                 }
                 formData.append('ZRouter', JSON.stringify(values));
                 formData.append('sessionId', 1);
@@ -331,8 +337,7 @@
                 this.$store.dispatch('showPreloader');
                 presenter.calculatedDaysRoute({
                     ...this,
-                })
-                    .then(data => {
+                }).then(data => {
                     console.log('сгенерировали дни и растояние', data);
                     this.days = data.days;
                     this.totalWay = data.totalWay;
@@ -355,7 +360,6 @@
                 const data = this.getInfoForUpdate();
                 repository.editRecommendedRoute(this.userId, this.routeId, data)
                     .then(response => {
-
                         const data = JSON.parse(response.data);
                         if (data.status) {
                             this.$store.dispatch('showModalSuccess', 'сохранение выполнено успешно!');
@@ -390,10 +394,8 @@
             },
             updateState(data) {
                 if (isNil(data)) {
-                    // this.$router.push('/list-recommended-routes');
                     return;
                 }
-                console.log(data);
                 this.routeId = data.id;
                 this.startPoint = {
                     coordinates: [data.startPointCoordLat, data.startPointCoordLong],
@@ -406,11 +408,7 @@
                 this.files = data.files || [];
                 this.otherData = data; // для того, чтобы не потерять данные
             },
-            getListTags() {
-                this.listTags = this.$store.getters.getTags;
-            },
             changeListTags(list) {
-                console.log(list);
                 this.tags = list
             }
         },
@@ -430,7 +428,6 @@
             }
         },
         created() {
-            this.getListTags();
             this.userId = this.$store.getters.getUserId;
             if (this.$route.params.id) {
                 this.routeId = this.$route.params.id;

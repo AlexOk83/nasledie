@@ -149,8 +149,6 @@
                 userId: null,
                 routeId: null,
                 isNewRoute: true,
-                listParams: radioButtonOptions,
-                listTypesMovement: typesOfMovement,
                 //-------------------
                 name: 'Тестовый маршрут',
                 description: 'Описание маршрута',
@@ -174,11 +172,18 @@
                 days: [],
                 totalTime: 0,
                 totalWay: 0,
-                otherData: {},
                 files: [],
+                otherData: {},
+                needUpdateDayData: false,
             }
         },
         computed: {
+            listParams() {
+                return radioButtonOptions
+            },
+            listTypesMovement() {
+                return typesOfMovement
+            },
             links() {
                 if (this.isNewRoute) {
                     return [{name: 'Составить свой маршрут'}]
@@ -221,7 +226,6 @@
         },
         methods: {
             clearRoute() {
-                this.routeId = null;
                 this.name = '';
                 this.description = '';
                 this.startPoint = {};
@@ -242,8 +246,7 @@
             getInfoForCreate() {
                 const formData = new FormData();
                 const values = {
-                    ...this.otherData,
-                    id: this.routeId,
+                    id: null,
                     name: this.name,
                     description: this.description,
                     startPoint: this.startPoint.name,
@@ -253,7 +256,6 @@
                     endPointCoordLat: this.endPoint.coordinates[0],
                     endPointCoordLong: this.endPoint.coordinates[1],
                     dateStart: this.dateStart,
-                    dateEnd: this.dateStart,
                     timeStart: this.timeStart,
                     timeEnd: this.timeEnd,
                     typeMovement: [this.typeMovement],
@@ -261,10 +263,9 @@
                     days: this.days,
                     totalTime: this.totalTime,
                     totalWay: this.totalWay,
-                    isGeoRoute: this.isGeoRoute,
                     files: this.files,
                     regions: this.regions,
-                    user_id : 1,
+                    user_id : this.$store.getters.getUserId,
                 }
                 formData.append('ZRouter', JSON.stringify(values));
                 formData.append('sessionId', 1);
@@ -278,25 +279,10 @@
                     id: this.routeId,
                     name: this.name,
                     description: this.description,
-                    startPoint: this.startPoint.name,
-                    startPointCoordLat: this.startPoint.coordinates[0],
-                    startPointCoordLong: this.startPoint.coordinates[1],
-                    endPoint: this.endPoint.name,
-                    endPointCoordLat: this.endPoint.coordinates[0],
-                    endPointCoordLong: this.endPoint.coordinates[1],
-                    dateStart: this.dateStart,
-                    dateEnd: this.dateStart,
-                    timeStart: this.timeStart,
-                    timeEnd: this.timeEnd,
-                    typeMovement: [this.typeMovement],
-                    objects: this.objects.map(o => ({...o, object_id: o.id})),
+                    objects: this.otherData.objects.map(o => ({...o, object_id: o.id})),
                     days: this.days,
-                    totalTime: this.totalTime,
-                    totalWay: this.totalWay,
-                    isGeoRoute: this.isGeoRoute,
                     files: this.files,
-                    regions: this.regions,
-                    user_id : 1,
+                    user_id : this.$store.getters.getUserId,
                 }
                 formData.append('ZRouter', JSON.stringify(values));
                 formData.append('sessionId', 1);
@@ -304,6 +290,11 @@
                 return formData
             },
             createRoute() {
+                if (isEmpty(this.startPoint) || isEmpty(this.endPoint) || isEmpty(this.objects)) {
+                    this.$store.dispatch('showModal','Не заполнены обязательные поля');
+                    return null;
+                }
+                this.$store.dispatch('showPreloader');
                 presenter.calculatedDaysRoute({
                     ...this,
                 }).then(data => {
@@ -319,18 +310,22 @@
                                 this.$router.push(`/edit-my-route/${result.id}`)
                             }
                         });
+                }).finally(() => {
+                    this.$store.dispatch('hidePreloader');
                 });
             },
             updateRoute() {
+                this.$store.dispatch('showPreloader');
                 const data = this.getInfoForUpdate();
                 repository.editMyRoute(this.userId, this.routeId, data)
                     .then(response => {
-                        console.log();
                         const data = JSON.parse(response.data);
                         if (data.status) {
                             this.$store.dispatch('showModalSuccess', 'сохранение выполнено успешно!');
                         }
-                    });
+                    }).finally(() => {
+                    this.$store.dispatch('showPreloader');
+                });
             },
             calcRouteAgain() {
 
@@ -340,10 +335,15 @@
                 if (field === 'objects') {
                     this.regions = value.map(obj => ({ id: obj.region }));
                 }
+                if (field === 'days') {
+                    this.needUpdateDayData = true;
+                }
             },
             getDataRoute() {
+                this.$store.dispatch('showPreloader');
                 repository.getMyRoute(this.userId, this.routeId)
                 .then(response => {
+                    this.$store.dispatch('hidePreloader');
                     const route = JSON.parse(response.data).router;
                     console.log(route);
                     this.updateState(route);
@@ -351,15 +351,15 @@
             },
             updateState(data) {
                 if (isNil(data)) {
-                    this.$router.push('/list-my-routes');
                     return;
+                }
+                this.routeId = data.id;
+                this.startPoint = {
+                    coordinates: [data.startPointCoordLat, data.startPointCoordLong],
                 }
                 this.name = data.name;
                 this.description = data.description;
-                this.typeMovement = data.typesOfMovement[0];
                 this.days = presenter.changeFormat(data.days);
-                this.isGeoRoute = data.isGeoRoute;
-                this.objects = data.objects;
                 this.files = data.files || [];
                 this.otherData = data; // для того, чтобы не потерять данные
             }
