@@ -150,11 +150,18 @@ export class Presenter {
                     typeMovement: [typeMovement]
                 },
                 ...objects.map(obj => {
+                    let coordinates;
+                    if (Array.isArray(obj.position)) {
+                        coordinates = obj.position
+                    } else {
+                        coordinates = obj.position.split(', ')
+                    }
+                    const [lat, long] = coordinates;
                     return {
                         object_id: obj.id,
                         name: obj.name,
-                        startPointCoordLat: Number(obj.position[0]),
-                        startPointCoordLong: Number(obj.position[1]),
+                        startPointCoordLat: lat,
+                        startPointCoordLong: long,
                         timeInWay: 0,
                         way: 0,
                         stopTime: 0,

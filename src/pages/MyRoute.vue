@@ -204,10 +204,6 @@
                     return false;
                 }
 
-                if (isEmpty(this.days)) {
-                    return false;
-                }
-
                 return !this.isNewRoute;
             },
             viewMapCreate() {
