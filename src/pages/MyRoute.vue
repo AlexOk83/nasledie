@@ -114,6 +114,7 @@
                 <Map-objects
                         v-if="viewMapCreate"
                         :from="startPoint.coordinates"
+                        @add="addObject"
                 />
             </div>
         </div>
@@ -381,6 +382,9 @@
                 this.days = presenter.changeFormat(data.days);
                 this.files = data.files || [];
                 this.otherData = data; // для того, чтобы не потерять данные
+            },
+            addObject(object) {
+                this.objects.push(object)
             }
         },
         watch: {

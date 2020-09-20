@@ -17,7 +17,13 @@
             }
         },
         methods: {
-
+            addObject(e) {
+                console.log(e);
+                this.$store.dispatch('showModalConfirm', {
+                    text: 'Добавить объект в маршрут?',
+                    onConfirm: () => { this.$emit('add', e) }
+                })
+            }
         },
         computed: {
             points() {
@@ -25,19 +31,21 @@
             }
         },
         watch:{
-            points() {
-                if (!isEmpty(this.points)) {
-                    this.visibleMap = true;
+            points(newVal, oldVal) {
+                if (!isEmpty(newVal) && newVal !== oldVal) {
+                    this.visibleMap = false;
+                    let myMap;
+                    let pointList = this.points;
+                    const { from, addObject } = this;
+                    setTimeout(() => {
+                        this.visibleMap = true;
+                        ymaps.ready(() => init(myMap, from, pointList, addObject));
+                    },100)
 
-                    console.log(this.points);
-                    console.log(this.points && this.points.map(obj => (obj.position)));
-
-                    ymaps.ready(init);
-                    var myMap;
-                    var pointList = this.points.map(obj => (obj.position));
-                    const { from } = this;
-
-                    function init () {
+                    function init (myMap, from, pointList, addObject) {
+                        if (myMap){
+                            myMap.destroy();
+                        }
                         myMap = new ymaps.Map("map", {
                             center: from, // Углич
                             zoom: 11
@@ -45,27 +53,37 @@
                             balloonMaxWidth: 200,
                             searchControlProvider: 'yandex#search'
                         });
-
+                        var placemarks = []
+                        pointList.forEach((obj, index) => {
+                            let point = obj.position.split(', ');
+                            let text = obj.name
+                            placemarks[index] = new ymaps.Placemark(point, {
+                                balloonContent: text
+                            }, {
+                                // Опции.
+                                // Необходимо указать данный тип макета.
+                                iconLayout: 'default#imageWithContent',
+                                // Своё изображение иконки метки.
+                                iconImageHref: '/assets/images/icons/marker_blue.svg',
+                                // Размеры метки.
+                                iconImageSize: [10, 10],
+                                // Смещение левого верхнего угла иконки относительно
+                                // её "ножки" (точки привязки).
+                                iconImageOffset: [-5, -5],
+                                // Смещение слоя с содержимым относительно слоя с картинкой.
+                                iconContentOffset: [15, 15],
+                            });
+                            console.log(placemarks[index]);
+                            placemarks[index].events.add('click', function (e) {
+                                addObject(obj);
+                                // placemarks[index].options.set('iconImageHref', '/assets/images/icons/marker_green.svg');
+                            });
+                            myMap.geoObjects.add(placemarks[index])
+                        })
                         // Обработка события, возникающего при щелчке
                         // левой кнопкой мыши в любой точке карты.
                         // При возникновении такого события откроем балун.
-                        myMap.events.add('click', function (e) {
-                            if (!myMap.balloon.isOpen()) {
-                                var coords = e.get('coords');
-                                myMap.balloon.open(coords, {
-                                    contentHeader:'Событие!',
-                                    contentBody:'<p>Кто-то щелкнул по карте.</p>' +
-                                        '<p>Координаты щелчка: ' + [
-                                            coords[0].toPrecision(6),
-                                            coords[1].toPrecision(6)
-                                        ].join(', ') + '</p>',
-                                    contentFooter:'<sup>Щелкните еще раз</sup>'
-                                });
-                            }
-                            else {
-                                myMap.balloon.close();
-                            }
-                        });
+
 
                         // Обработка события, возникающего при щелчке
                         // правой кнопки мыши в любой точке карты.
@@ -80,6 +98,9 @@
                             myMap.hint.close();
                         });
                     }
+                }
+                if (isEmpty(newVal)) {
+                    this.visibleMap = false;
                 }
             }
         },
