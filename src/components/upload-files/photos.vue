@@ -2,8 +2,8 @@
 <template>
     <div class="photos">
         <div class="photos__label">Загрузить фото к маршруту</div>
-        <input class="file" type="file" id="photo" @change="load" :disabled="maxCount && files && maxCount === files.length">
-        <label for="photo" class="button button--color-white button--full button--with-icon button--shadow" :class="{'button--disabled': maxCount && files && maxCount === files.length}">
+        <input class="file" type="file" id="photo" @change="load" :disabled="maxCount && files && maxCount <= files.length">
+        <label for="photo" class="button button--color-white button--full button--with-icon button--shadow" :class="{'button--disabled': maxCount && files && maxCount <= files.length}">
             <Icon icon="load" />
             <span>Загрузить с компьютера</span>
         </label>
@@ -11,7 +11,7 @@
             <draggable class='list' v-model="files" draggable=".photos__item" @change="drag">
                 <div class="photos__item" v-for="(photo, index) in files" :key="'file-' + index">
                     <div class="wrapper">
-                        <img :src="photo.base64 || `https://api.zhivoe-nasledie.ga/${photo.url}`">
+                        <img :src="image(photo)">
                     </div>
                 </div>
                 <div class="other-wrapper" v-for="item in addButton" :key="'button-' + item">
@@ -47,12 +47,13 @@
             }
         },
         computed: {
-            createdPhoto() {
-
-            },
             addButton() {
                 const l = this.files && this.files.length || 0;
+
                 if (this.maxCount) {
+                    if (this.maxCount < l) {
+                        return 0
+                    }
                     return this.maxCount - l
                 }
                 const o = l % 3;
@@ -66,6 +67,12 @@
             }
         },
         methods: {
+            image(photo) {
+                if (photo.base64 && photo.base64.length > 0) {
+                    return photo.base64
+                }
+                return `https://api.zhivoe-nasledie.ga/${photo.url}`;
+            },
             load(e) {
                 e.preventDefault()
                 this.file = e.target.files[0];

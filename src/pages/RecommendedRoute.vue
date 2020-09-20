@@ -143,7 +143,7 @@
     import Button from "../components/form-control/button/button";
     import AddedObjects from "../components/added-objects/addedObjects";
     import Tabs from "../components/tabs/tabs";
-    import Photos from "../components/photos/photos";
+    import Photos from "../components/upload-files/photos";
     import Repository from '../repository';
     import { Presenter } from "../presenter";
     import vueCustomScrollbar from 'vue-custom-scrollbar'

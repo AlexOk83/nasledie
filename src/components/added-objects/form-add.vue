@@ -20,6 +20,11 @@
 
             />
         </div>
+        <div class="form__field">
+            <SelectRecommendObjects
+                    @change="selectRecommendObjects"
+            />
+        </div>
         <Button
             text="Добавить для посещения"
             is-full
@@ -35,6 +40,7 @@
     import { isEmpty } from 'lodash';
     import SearchField from "../form-control/search/SearchField";
     import SelectControl from '../form-control/select/select-with-search';
+    import SelectRecommendObjects from './select-recommend-objects';
     import Button from '../form-control/button/button';
     import SearchFromBaseField from "../form-control/search/SearchFromBaseField";
     import Repository from '../../repository';
@@ -43,13 +49,14 @@
     export default {
         name: "FormAdd",
         props: {
-                objects: {
-                    type: Array,
-                    default: [],
-                },
+            objects: {
+                type: Array,
+                default: [],
+            },
         },
         components: {
             SelectControl,
+            SelectRecommendObjects,
             SearchField,
             SearchFromBaseField,
             Button,
@@ -73,6 +80,9 @@
             }
         },
         methods: {
+            selectRecommendObjects(e) {
+                console.log(e);
+            },
             add() {
                 this.$emit('add', this.currentName);
                 this.clearAll();

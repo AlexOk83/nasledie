@@ -44,3 +44,117 @@
     cursor: pointer;
   }
 }
+
+@keyframes optionListOpen {
+  0% {
+    opacity: 0;
+
+  }
+  30% {
+    height: 40px;
+  }
+  60% {
+    height: 80px;
+  }
+  100% {
+    opacity: 1;
+    height: auto;
+  }
+}
+
+.select-object {
+  position: relative;
+  outline: none;
+  select {
+    display: none;
+  }
+  &__field {
+    position: relative;
+    text-transform: uppercase;
+    background-color: @colorYellow;
+    color: white;
+    .form-control-style(@colorYellow);
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    padding-left: 50px;
+    .icon {
+      background-color: white;
+      top: 8px;
+      left: 20px;
+    }
+    &.disabled {
+      opacity: 0.5;
+      cursor: default;
+      &:after,
+      &:before {
+        display: none;
+      }
+    }
+    &.active {
+      z-index: 30;
+    }
+
+    &:after {
+      content: '';
+      display: block;
+      .arrow(7px, 15px, 'up', white);
+      z-index: 0;
+    }
+    &:before {
+      content: '';
+      display: block;
+      .arrow(22px, 15px, 'down', white);
+      z-index: 0;
+    }
+    &.active:before {
+      z-index: 100;
+    }
+  }
+
+  .options-list {
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-radius: 20px;
+    border: 1px solid @colorYellow;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    transform-origin: top center;
+    opacity: 0;
+    height: 40px;
+    padding: 45px 16px 5px;
+    background-color: white;
+    &.active {
+      .animate(optionListOpen, 0.2s);
+      z-index: 20;
+      opacity: 1;
+    }
+    .search {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid @base;
+      height: 40px;
+    }
+    .option {
+      .no_select();
+      z-index: 20;
+      width: 100%;
+      line-height: 36px;
+      cursor: pointer;
+      padding-bottom: 5px;
+      margin-bottom: 5px;
+      border-bottom: 1px solid @greFilter;
+      color: @greyIcon;
+      &.last {
+        border-bottom: 0;
+      }
+      &:hover,
+      &--active {
+        color: @colorYellow;
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ export default {
         regions: [],
         tags: [],
         types: [],
+        recommendObjects: [],
     },
     mutations: {
         getRegionsFromBase(state, payLoad) {
@@ -16,6 +17,9 @@ export default {
         },
         getTypesFromBase(state, payload) {
             state.types = payload;
+        },
+        getObjectsFromBase(state, payload) {
+            state.recommendObjects = payload;
         }
     },
     actions: {
@@ -37,6 +41,12 @@ export default {
                 commit('getTagsFromBase', tags.map(tag => ({ ...tag, value: String(tag.name)})) );
             })
         },
+        getObjects({commit}, payload) {
+            repository.getRecObjects(payload.lat, payload.long).then(response => {
+                let objects = JSON.parse(response.data);
+                commit('getObjectsFromBase', objects);
+            })
+        }
     },
     getters: {
         getRegions (state) {
@@ -47,6 +57,9 @@ export default {
         },
         getTypes (state) {
             return state.types;
+        },
+        getRecObjects (state) {
+            return state.recommendObjects;
         }
     }
 }

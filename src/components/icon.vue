@@ -69,5 +69,8 @@
         &--load {
             .mask('load');
         }
+        &--star {
+            .mask('star');
+        }
     }
 </style>

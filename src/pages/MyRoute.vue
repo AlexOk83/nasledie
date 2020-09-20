@@ -124,7 +124,7 @@
     import Button from "../components/form-control/button/button";
     import Objects from "../components/added-objects/addedObjects";
     import Tabs from "../components/tabs/tabs";
-    import Photos from "../components/photos/photos";
+    import Photos from "../components/upload-files/photos";
     import Repository from '../repository';
     import { Presenter } from "../presenter";
     import { radioButtonOptions, typesOfMovement } from '../constants';
@@ -385,6 +385,12 @@
                 this.routeId = this.$route.params.id;
                 this.isNewRoute = false;
                 this.getDataRoute();
+            }
+            if (this.startPoint && this.startPoint.coordinates) {
+                this.$store.dispatch('getObjects', {
+                    lat: this.startPoint.coordinates[0],
+                    long: this.startPoint.coordinates[1]
+                });
             }
         },
     }
