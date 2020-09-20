@@ -64,6 +64,7 @@
             z-index: 0;
         }
         .date-picker__input {
+            z-index: 1;
             .form-control-style();
             position: relative;
             background: transparent;

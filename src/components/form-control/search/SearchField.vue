@@ -82,6 +82,10 @@
                 else {
                     this.findedPoints = [];
                 }
+                if (this.currentValue && this.searchText.length < 3) {
+                    this.currentValue = {};
+                    this.findedPoints = [];
+                }
             },
             select(point) {
                 this.currentValue = point;
