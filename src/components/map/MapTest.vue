@@ -29,27 +29,27 @@
                     currentRoutingMode = '';
 
                     day.objects.forEach((obj, indexObj) => {
-                        let position = obj.position;
+                        let coordinates = obj.coordinates;
                         let routingMode = presenter.getRoutingMode(obj.typeMovement[0]);
                         if (indexObj === 0) {
-                            currentPointList = [position]; // 1 точка в текущем дне
+                            currentPointList = [coordinates]; // 1 точка в текущем дне
                         }
                         else {
-                            let prevposition = day.objects[indexObj - 1].position;
+                            let prevCoordinates = day.objects[indexObj - 1].coordinates;
 
                             if (currentRoutingMode === '') { // если это вторая точка
                                 currentRoutingMode = routingMode; // присваиваем для сравнения
-                                currentPointList.push(position); // записываем в pointList
+                                currentPointList.push(coordinates); // записываем в pointList
                             }
                             else if (routingMode === currentRoutingMode ) { // если это 3, 4.. точка, и режим перемещения не изменился
-                                currentPointList.push(position);
+                                currentPointList.push(coordinates);
                             }
                             else { // режим изменился
                                 routes[indexDay].push({
                                     pointList: currentPointList,
                                     routingMode: currentRoutingMode,
                                 });
-                                currentPointList = [prevposition, position];
+                                currentPointList = [prevCoordinates, coordinates];
                                 currentRoutingMode = routingMode;
                             }
                             if (indexObj === day.objects.length - 1) { // если точка была последняя

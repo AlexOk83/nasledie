@@ -269,11 +269,11 @@ export class Presenter {
                 timeStart: day.pointStart.time,
                 timeEnd: day.pointEnd.time,
                 startPoint: day.pointStart.name,
-                startPointCoordLat: day.pointStart.position[0],
-                startPointCoordLong: day.pointStart.position[1],
+                startPointCoordLat: day.pointStart.coordinates[0],
+                startPointCoordLong: day.pointStart.coordinates[1],
                 endPoint: day.pointEnd.name,
-                endPointCoordLat: day.pointEnd.position[0],
-                endPointCoordLong: day.pointEnd.position[1],
+                endPointCoordLat: day.pointEnd.coordinates[0],
+                endPointCoordLong: day.pointEnd.coordinates[1],
 
             }
         })
