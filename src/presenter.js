@@ -181,16 +181,16 @@ export class Presenter {
                     typeMovement: [typeMovement]
                 },
             ];
-            console.log(objectsInDays);
             // дополняем список растоянием между точками и временем прохождения
             Promise.all(update(objectsInDays, typeMovement)).then(() => {
                 // здесь мы уже имеем все изменения
                 console.log(objectsInDays);
                 // теперь нужно разбить этот список объектов на дни
                 let time = 0; // сколько пройдено пути по времени
+                let minutes = 0;
                 const timeBorder = 12*60; // 12 часов в день по 60 минут
                 objectsInDays.forEach((obj, index) => {
-                    const i = days.length - 1;
+                    let i = days.length - 1;
                     totalTime = totalTime + obj.timeInWay;
                     totalWay = totalWay + obj.way;
                     if (index === 0) {
@@ -208,9 +208,10 @@ export class Presenter {
                             endPointCoordLong: null,
                             objects: [obj]
                         })
+                        i = days.length - 1;
                     }
                     else {
-                        const minutes = time + obj.timeInWay + obj.time + obj.stopTime;
+                        minutes = time + obj.timeInWay + obj.time + obj.stopTime;
                         if (minutes >= timeBorder) {
                             time = 0;
                             days[i].timeEnd = this.getTimeEnd(days[i].timeStart, minutes);
@@ -232,12 +233,19 @@ export class Presenter {
                                     endPointCoordLat: null,
                                     endPointCoordLong: null,
                                     objects: [obj]
-                                })
+                                });
+                                i = days.length - 1;
                             }
                         }
                         else {
                             days[i].objects.push(obj);
                         }
+                    }
+                    if (index === objectsInDays.length - 1) {
+                        days[i].timeEnd = this.getTimeEnd(days[i].timeStart, minutes);
+                        days[i].endPoint = obj.name;
+                        days[i].endPointCoordLat = obj.startPointCoordLat;
+                        days[i].endPointCoordLong = obj.startPointCoordLat;
                     }
 
                 });
