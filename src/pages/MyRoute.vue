@@ -62,7 +62,7 @@
                                @change="changeValue('typeMovement', $event)"
                         />
                         <Objects
-                                :objects="objects"
+                                :objects="mapPoints"
                                 @change="changeValue('objects', $event)"
                         />
                     </div>
@@ -108,13 +108,13 @@
             <div class="right-container">
                 <Map
                         v-if="viewMap"
-                        :from="startPoint.coordinates"
+                        :from="startPoint.position"
                         :days="days"
                 />
                 <Map-objects
                         v-if="viewMapCreate"
-                        :from="startPoint.coordinates"
-                        :to="endPoint.coordinates"
+                        :from="startPoint.position"
+                        :to="endPoint.position"
                         :points="mapPoints"
                         @addObject="addObject"
                         @addPoint="addPoint"
@@ -185,8 +185,8 @@
         computed: {
             dataMap() {
                 return {
-                    from: this.startPoint.coordinates,
-                    to: this.endPoint.coordinates,
+                    from: this.startPoint.position,
+                    to: this.endPoint.position,
                     points: this.mapPoints,
                 }
             },
@@ -205,7 +205,7 @@
                 }
             },
             viewMap() {
-                if (isEmpty(this.startPoint.coordinates)) {
+                if (isEmpty(this.startPoint.position)) {
                     return false;
                 }
 
@@ -259,11 +259,11 @@
                     name: this.name,
                     description: this.description,
                     startPoint: this.startPoint.name,
-                    startPointCoordLat: this.startPoint.coordinates[0],
-                    startPointCoordLong: this.startPoint.coordinates[1],
+                    startPointCoordLat: this.startPoint.position[0],
+                    startPointCoordLong: this.startPoint.position[1],
                     endPoint: this.endPoint.name,
-                    endPointCoordLat: this.endPoint.coordinates[0],
-                    endPointCoordLong: this.endPoint.coordinates[1],
+                    endPointCoordLat: this.endPoint.position[0],
+                    endPointCoordLong: this.endPoint.position[1],
                     dateStart: this.dateStart,
                     timeStart: this.timeStart,
                     timeEnd: this.timeEnd,
@@ -299,7 +299,7 @@
                 return formData
             },
             createRoute() {
-                if (isEmpty(this.startPoint) || isEmpty(this.endPoint) || isEmpty(this.objects)) {
+                if (isEmpty(this.startPoint) || isEmpty(this.endPoint) || (isEmpty(this.objects) && isEmpty(this.mapPoints)) ) {
                     this.$store.dispatch('showModal','Не заполнены обязательные поля');
                     return null;
                 }
@@ -365,7 +365,7 @@
                 }
                 this.routeId = data.id;
                 this.startPoint = {
-                    coordinates: [data.startPointCoordLat, data.startPointCoordLong],
+                    position: [data.startPointCoordLat, data.startPointCoordLong],
                 }
                 this.name = data.name;
                 this.description = data.description;
@@ -385,7 +385,6 @@
                 }
                 if (type === 'point') {
                     this.mapPoints.push(point)
-                    this.objects.push(point)
                 }
                 // this.points.push(point);
             }

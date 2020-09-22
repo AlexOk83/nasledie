@@ -58,11 +58,11 @@
                 title: String,
                 description: String,
                 pointStart: {
-                    coordinates: Array,
+                    position: Array,
                     name: String
                 },
                 pointEnd: {
-                    coordinates: Array,
+                    position: Array,
                     name: String
                 },
                 typesOfMovement: Array,

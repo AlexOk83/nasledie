@@ -131,7 +131,7 @@ export class Presenter {
                 dateStart,
                 timeStart,
                 typeMovement,
-                objects,
+                mapPoints,
             } = params;
             let days = [];
             let totalTime = 0;
@@ -139,26 +139,26 @@ export class Presenter {
             // формируем список объектов с необходимыми параметрами
             let objectsInDays = [
                 {
-                    object_id: 551,
+                    object_id: null,
                     name: startPoint.name,
-                    startPointCoordLat: startPoint.coordinates[0],
-                    startPointCoordLong: startPoint.coordinates[1],
+                    startPointCoordLat: startPoint.position[0],
+                    startPointCoordLong: startPoint.position[1],
                     timeInWay: 0,
                     way: 0,
                     stopTime: 0,
                     time: 0,
                     typeMovement: [typeMovement]
                 },
-                ...objects.map(obj => {
-                    let coordinates;
+                ...mapPoints.map(obj => {
+                    let position;
                     if (Array.isArray(obj.position)) {
-                        coordinates = obj.position
+                        position = obj.position
                     } else {
-                        coordinates = obj.position.split(', ')
+                        position = obj.position.split(', ')
                     }
-                    const [lat, long] = coordinates;
+                    const [lat, long] = position;
                     return {
-                        object_id: obj.id,
+                        object_id: obj.id || null,
                         name: obj.name,
                         startPointCoordLat: lat,
                         startPointCoordLong: long,
@@ -170,10 +170,10 @@ export class Presenter {
                     }
                 }),
                 {
-                    object_id: 552,
+                    object_id: null,
                     name: endPoint.name,
-                    startPointCoordLat: endPoint.coordinates[0],
-                    startPointCoordLong: endPoint.coordinates[1],
+                    startPointCoordLat: endPoint.position[0],
+                    startPointCoordLong: endPoint.position[1],
                     timeInWay: 0,
                     way: 0,
                     stopTime: 0,
@@ -261,11 +261,11 @@ export class Presenter {
                 timeStart: day.pointStart.time,
                 timeEnd: day.pointEnd.time,
                 startPoint: day.pointStart.name,
-                startPointCoordLat: day.pointStart.coordinates[0],
-                startPointCoordLong: day.pointStart.coordinates[1],
+                startPointCoordLat: day.pointStart.position[0],
+                startPointCoordLong: day.pointStart.position[1],
                 endPoint: day.pointEnd.name,
-                endPointCoordLat: day.pointEnd.coordinates[0],
-                endPointCoordLong: day.pointEnd.coordinates[1],
+                endPointCoordLat: day.pointEnd.position[0],
+                endPointCoordLong: day.pointEnd.position[1],
 
             }
         })

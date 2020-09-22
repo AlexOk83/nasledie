@@ -61,7 +61,7 @@
                         function (res) {
                             res.geoObjects.each(function(el) {
                                 let point = {
-                                    coordinates: el.geometry.getCoordinates(),
+                                    position: el.geometry.getCoordinates(),
                                     name: el.properties.get('name'),
                                     description: el.properties.get('description'),
                                 }
@@ -159,7 +159,7 @@
                 }
                 const points = this.points;
                 points.forEach((point, index) => {
-                    this.currentPoints[index] = new ymaps.Placemark(point.coordinates, {
+                    this.currentPoints[index] = new ymaps.Placemark(point.position, {
                     }, {
                         // Опции.
                         // Необходимо указать данный тип макета.

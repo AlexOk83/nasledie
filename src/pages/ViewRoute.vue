@@ -32,7 +32,7 @@
 
             <div class="detail--title">Подробный маршрут: {{ route.name }}</div>
             <div class="detail__map">
-                <Map v-if="visibleMap" :from="route.pointStart.coordinates" :days="route.days" />
+                <Map v-if="visibleMap" :from="route.pointStart.position" :days="route.days" />
             </div>
 
             <Table :columns="columns" :days="route.days" v-if="route.days && route.days.length > 0" />

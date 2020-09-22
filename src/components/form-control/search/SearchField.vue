@@ -25,7 +25,7 @@
             name: String,
             placeholder: String,
             value: {
-                coordinates: Array,
+                position: Array,
                 name: String,
                 description: String
             }
@@ -69,7 +69,7 @@
                         function (res) {
                             res.geoObjects.each(function(el) {
                                 let point = {
-                                    coordinates: el.geometry.getCoordinates(),
+                                    position: el.geometry.getCoordinates(),
                                     name: el.properties.get('name'),
                                     description: el.properties.get('description'),
                                 }

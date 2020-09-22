@@ -127,7 +127,7 @@
             <div class="right-container">
                 <Map
                         v-if="viewMap"
-                        :from="startPoint.coordinates"
+                        :from="startPoint.position"
                         :days="days"
                 />
             </div>
@@ -177,12 +177,12 @@
                 shortDescription: 'краткое описание маршрута',
                 description: 'полное описание маршрута',
                 startPoint: {
-                    coordinates: [53.5088, 49.41918],
+                    position: [53.5088, 49.41918],
                     name: 'Тольятти',
                     description: 'Россия, Самарская область'
                 },
                 endPoint: {
-                    coordinates: [53.5088, 49.41918],
+                    position: [53.5088, 49.41918],
                     name: 'Тольятти',
                     description: 'Россия, Самарская область'
                 },
@@ -221,7 +221,7 @@
                 }
             },
             viewMap() {
-                if (isEmpty(this.startPoint.coordinates)) {
+                if (isEmpty(this.startPoint.position)) {
                     return false;
                 }
 
@@ -288,11 +288,11 @@
                     tags: this.tags,
                     files: this.files,
                     startPoint: this.startPoint.name,
-                    startPointCoordLat: this.startPoint.coordinates[0],
-                    startPointCoordLong: this.startPoint.coordinates[1],
+                    startPointCoordLat: this.startPoint.position[0],
+                    startPointCoordLong: this.startPoint.position[1],
                     endPoint: this.endPoint.name,
-                    endPointCoordLat: this.endPoint.coordinates[0],
-                    endPointCoordLong: this.endPoint.coordinates[1],
+                    endPointCoordLat: this.endPoint.position[0],
+                    endPointCoordLong: this.endPoint.position[1],
                     dateStart: this.dateStart,
                     timeStart: this.timeStart,
                     timeEnd: this.timeEnd,
@@ -398,7 +398,7 @@
                 }
                 this.routeId = data.id;
                 this.startPoint = {
-                    coordinates: [data.startPointCoordLat, data.startPointCoordLong],
+                    position: [data.startPointCoordLat, data.startPointCoordLong],
                 }
                 this.name = data.name;
                 this.description = data.content;
