@@ -1,6 +1,7 @@
 <template>
-    <div class="overlay-modals" @click="close" v-show="view">
-        <div class="modal" :class="{'active': view}">
+    <div v-show="view" class="modal__container">
+        <div class="overlay-modals"  @click="close" />
+        <div class="modal" :class="{'active': view, 'small': typeModal === 'map'}">
             <div class="modal__header">
                 <div class="modal__header-title">{{ title }}</div>
                 <div class="close" @click="close" />
@@ -19,17 +20,34 @@
                         is-shadow
                 />
             </div>
+            <div class="modal__buttons" v-if="typeModal === 'map'">
+                <Button text="Стартовая точка"
+                        :on-click="() => addPoint('startPoint')"
+                        is-full
+                />
+                <Button text="Точка остановки"
+                        :on-click="() => addPoint('point')"
+                        is-full
+                />
+                <Button text="Точка назначения"
+                        :on-click="() => addPoint('endPoint')"
+                        is-full
+                />
+            </div>
         </div>
+
     </div>
 </template>
 
 <script>
     import Button from "../form-control/button/button";
+    import Radio from "../form-control/radio-buttons";
 
     export default {
         name: "modals",
         components: {
             Button,
+            Radio
         },
         computed: {
             isConfirm() {
@@ -41,7 +59,11 @@
             title() {
                 if (this.isConfirm) {
                     return "Предупреждение"
-                } else if (this.isSuccess) {
+                }
+                if (this.typeModal === 'map') {
+                    return "Добавить точку в маршрут"
+                }
+                if (this.isSuccess) {
                     return "Готово"
                 }
             },
@@ -64,11 +86,14 @@
             },
             confirm() {
                 this.onConfirm();
-                setTimeout(() => {
-                    this.$store.dispatch('hideModal');
-                }, 100)
+                setTimeout(this.close, 100)
 
-            }
+            },
+            addPoint(typePoint) {
+                this.onConfirm && this.onConfirm(typePoint);
+                setTimeout(this.close, 100)
+
+            },
         }
     }
 </script>

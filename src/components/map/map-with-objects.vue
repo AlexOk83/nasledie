@@ -1,5 +1,5 @@
 <template>
-    <div id="map" v-if="visibleMap"/>
+    <div id="map" />
 </template>
 
 <script>
@@ -10,10 +10,15 @@
         name: "Map-with-objects",
         props: {
             from: Array,
+            to: Array,
+            points: Array,
         },
         data() {
             return {
-                visibleMap: false,
+                map: {},
+                startPoint: null,
+                endPoint: [],
+                currentPoints: [],
             }
         },
         methods: {
@@ -23,88 +28,163 @@
                     text: 'Добавить объект в маршрут?',
                     onConfirm: () => { this.$emit('add', e) }
                 })
+            },
+            addPoint(point) {
+                this.$store.dispatch('showModalAddPoint', {
+                    onConfirm: (type) => {
+                        this.$emit('addPoint', {
+                            type,
+                            point
+                        })
+                    }
+                });
+            },
+            init() {
+                const { from, addPoint } = this;
+                this.map = new ymaps.Map("map", {
+                    center: from || [55.753215, 37.622504], // по умолчанию москва
+                    zoom: 13
+                }, {
+                    searchControlProvider: 'yandex#search',
+                    yandexMapDisablePoiInteractivity: true // отключил интерактивность маркеров
+                });
+
+                var cursor = this.map.cursors.push('crosshair');
+
+                this.map.events.add('click', function (e) {
+                    var coords = e.get('coords');
+                    const geocoder = ymaps.geocode(coords);
+                    let pointList = [];
+
+                    // После того, как поиск вернул результат, вызывается callback-функция
+                    geocoder.then(
+                        function (res) {
+                            res.geoObjects.each(function(el) {
+                                let point = {
+                                    coordinates: el.geometry.getCoordinates(),
+                                    name: el.properties.get('name'),
+                                    description: el.properties.get('description'),
+                                }
+                                pointList.push(point);
+                            });
+                            addPoint(pointList[0]);                        }
+                    );
+
+                });
+
+                if (from) {
+                    this.startPoint = new ymaps.Placemark(from, {
+                    }, {
+                        // Опции.
+                        // Необходимо указать данный тип макета.
+                        iconLayout: 'default#imageWithContent',
+                        // Своё изображение иконки метки.
+                        iconImageHref: '/assets/images/icons/marker_blue.svg',
+                        // Размеры метки.
+                        iconImageSize: [20, 20],
+                        // Смещение левого верхнего угла иконки относительно
+                        // её "ножки" (точки привязки).
+                        iconImageOffset: [-10, -10],
+                        // Смещение слоя с содержимым относительно слоя с картинкой.
+
+                    });
+
+                    this.map.geoObjects.add(this.startPoint)
+                }
+
             }
+
         },
         computed: {
-            points() {
-                return this.$store.getters.getRecObjects
-            }
+
         },
-        watch:{
-            points(newVal, oldVal) {
-                if (!isEmpty(newVal) && newVal !== oldVal) {
-                    this.visibleMap = false;
-                    let myMap;
-                    let pointList = this.points;
-                    const { from, addObject } = this;
-                    setTimeout(() => {
-                        this.visibleMap = true;
-                        ymaps.ready(() => init(myMap, from, pointList, addObject));
-                    },100)
-
-                    function init (myMap, from, pointList, addObject) {
-                        if (myMap){
-                            myMap.destroy();
-                        }
-                        myMap = new ymaps.Map("map", {
-                            center: from, // Углич
-                            zoom: 11
-                        }, {
-                            balloonMaxWidth: 200,
-                            searchControlProvider: 'yandex#search'
-                        });
-                        var placemarks = []
-                        pointList.forEach((obj, index) => {
-                            let point = obj.position.split(', ');
-                            let text = obj.name
-                            placemarks[index] = new ymaps.Placemark(point, {
-                                balloonContent: text
-                            }, {
-                                // Опции.
-                                // Необходимо указать данный тип макета.
-                                iconLayout: 'default#imageWithContent',
-                                // Своё изображение иконки метки.
-                                iconImageHref: '/assets/images/icons/marker_blue.svg',
-                                // Размеры метки.
-                                iconImageSize: [10, 10],
-                                // Смещение левого верхнего угла иконки относительно
-                                // её "ножки" (точки привязки).
-                                iconImageOffset: [-5, -5],
-                                // Смещение слоя с содержимым относительно слоя с картинкой.
-                                iconContentOffset: [15, 15],
-                            });
-                            console.log(placemarks[index]);
-                            placemarks[index].events.add('click', function (e) {
-                                addObject(obj);
-                                // placemarks[index].options.set('iconImageHref', '/assets/images/icons/marker_green.svg');
-                            });
-                            myMap.geoObjects.add(placemarks[index])
-                        })
-                        // Обработка события, возникающего при щелчке
-                        // левой кнопкой мыши в любой точке карты.
-                        // При возникновении такого события откроем балун.
-
-
-                        // Обработка события, возникающего при щелчке
-                        // правой кнопки мыши в любой точке карты.
-                        // При возникновении такого события покажем всплывающую подсказку
-                        // в точке щелчка.
-                        myMap.events.add('contextmenu', function (e) {
-                            myMap.hint.open(e.get('coords'), 'Кто-то щелкнул правой кнопкой');
-                        });
-
-                        // Скрываем хинт при открытии балуна.
-                        myMap.events.add('balloonopen', function (e) {
-                            myMap.hint.close();
-                        });
+        watch: {
+            from(newVal, oldVal) {
+                if (newVal !== oldVal) {
+                    this.map.setCenter(newVal);
+                    if (this.startPoint) {
+                        this.map.geoObjects.remove(this.startPoint)
                     }
+                    this.startPoint = new ymaps.Placemark(newVal, {
+                    }, {
+                        // Опции.
+                        // Необходимо указать данный тип макета.
+                        iconLayout: 'default#imageWithContent',
+                        // Своё изображение иконки метки.
+                        iconImageHref: '/assets/images/icons/marker_blue.svg',
+                        // Размеры метки.
+                        iconImageSize: [20, 20],
+                        // Смещение левого верхнего угла иконки относительно
+                        // её "ножки" (точки привязки).
+                        iconImageOffset: [-10, -10],
+                        // Смещение слоя с содержимым относительно слоя с картинкой.
+
+                    });
+
+                    this.map.geoObjects.add(this.startPoint)
                 }
-                if (isEmpty(newVal)) {
-                    this.visibleMap = false;
+            },
+            to(newVal, oldVal) {
+                if (newVal !== oldVal) {
+                    if (this.endPoint) {
+                        this.map.geoObjects.remove(this.endPoint)
+                    }
+                    this.endPoint = new ymaps.Placemark(newVal, {
+                    }, {
+                        // Опции.
+                        // Необходимо указать данный тип макета.
+                        iconLayout: 'default#imageWithContent',
+                        // Своё изображение иконки метки.
+                        iconImageHref: '/assets/images/icons/flag_blue.svg',
+                        // Размеры метки.
+                        iconImageSize: [45, 45],
+                        // Смещение левого верхнего угла иконки относительно
+                        // её "ножки" (точки привязки).
+                        iconImageOffset: [-7, -37],
+                        // Смещение слоя с содержимым относительно слоя с картинкой.
+
+                    });
+
+                    this.map.geoObjects.add(this.endPoint)
                 }
+            },
+            points() {
+                console.log('изменились точки');
+                console.log(this.points);
+                if (this.currentPoints.length > 0) { // если точки отрисованы, их надо удалить
+                    this.currentPoints.forEach(point => {
+                        this.map.geoObjects.remove(point)
+                    })
+                    this.currentPoints = [];
+                }
+                const points = this.points;
+                points.forEach((point, index) => {
+                    this.currentPoints[index] = new ymaps.Placemark(point.coordinates, {
+                    }, {
+                        // Опции.
+                        // Необходимо указать данный тип макета.
+                        iconLayout: 'default#imageWithContent',
+                        // Своё изображение иконки метки.
+                        iconImageHref: '/assets/images/icons/marker_blue.svg',
+                        // Размеры метки.
+                        iconImageSize: [10, 10],
+                        // Смещение левого верхнего угла иконки относительно
+                        // её "ножки" (точки привязки).
+                        iconImageOffset: [-5, -5],
+                        // Смещение слоя с содержимым относительно слоя с картинкой.
+                    });
+
+                    this.currentPoints[index].events.add('click', function () {
+                        points.splice(index, 1);
+                    });
+
+                    this.map.geoObjects.add(this.currentPoints[index])
+                })
+
             }
         },
-        created() {
+        mounted() {
+            ymaps.ready(this.init);
 
         }
     }

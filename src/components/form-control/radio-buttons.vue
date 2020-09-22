@@ -33,6 +33,7 @@
     @import "../../styles/mixins";
     .radio-buttons {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         .radio-item {
             display: block;

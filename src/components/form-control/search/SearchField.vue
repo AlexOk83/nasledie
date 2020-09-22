@@ -90,17 +90,18 @@
             select(point) {
                 this.currentValue = point;
                 this.searchText = point.name || '';
-                this.$emit('change', this.currentValue)
+                this.$emit('change', this.currentValue);
             }
         },
         watch: {
-            value: function () {
+            value (newVal, oldVal) {
                 if (!this.value.name && this.currentValue.name) {
                     this.currentValue = this.value;
                     this.searchText = "";
                 }
-                if (this.value.name && !this.searchText) {
-                    this.searchText = this.value.name
+                if (this.value.name && !this.searchText || newVal.name !== oldVal.name) {
+                    this.currentValue = this.value;
+                    this.searchText = this.value.name;
                 }
             }
         },

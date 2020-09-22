@@ -38,6 +38,12 @@ export default {
                 typeModal: 'success'
             })
         },
+        showModalAddPoint({commit}, payload) {
+            commit('viewModals', {
+                typeModal: 'map',
+                onConfirm: payload.onConfirm,
+            })
+        },
         hideModal({commit}, payload) {
             commit('hideModals', payload)
         }

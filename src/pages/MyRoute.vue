@@ -114,8 +114,12 @@
                 <Map-objects
                         v-if="viewMapCreate"
                         :from="startPoint.coordinates"
-                        @add="addObject"
+                        :to="endPoint.coordinates"
+                        :points="mapPoints"
+                        @addObject="addObject"
+                        @addPoint="addPoint"
                 />
+
             </div>
         </div>
     </div>
@@ -159,21 +163,14 @@
                 //-------------------
                 name: 'Тестовый маршрут',
                 description: 'Описание маршрута',
-                startPoint: {
-                    coordinates: [55.753215, 37.622504],
-                    name: 'Москва',
-                    description: 'Россия'
-                },
-                endPoint: {
-                    coordinates: [53.5088, 49.41918],
-                    name: 'Тольятти',
-                    description: 'Россия, Самарская область'
-                },
+                startPoint: {},
+                endPoint: {},
                 dateStart: moment(new Date()).format(),
                 timeStart: '10:30',
                 isGeoRoute: 'yes',
                 typeMovement: 'car',
                 objects: [],
+                mapPoints: [], // точки на карте, которые будут отображаться
                 regions: [],
                 // данные для редактирования
                 days: [],
@@ -182,9 +179,17 @@
                 files: [],
                 otherData: {},
                 needUpdateDayData: false,
+                showMap: false,
             }
         },
         computed: {
+            dataMap() {
+                return {
+                    from: this.startPoint.coordinates,
+                    to: this.endPoint.coordinates,
+                    points: this.mapPoints,
+                }
+            },
             listParams() {
                 return radioButtonOptions
             },
@@ -207,11 +212,7 @@
                 return !this.isNewRoute;
             },
             viewMapCreate() {
-                if (isEmpty(this.startPoint.coordinates)) {
-                    return false;
-                }
-
-                return this.isNewRoute;
+                return this.isNewRoute && this.showMap;
             },
             headerTitle() {
                 if (this.isNewRoute) {
@@ -346,14 +347,6 @@
                 if (field === 'days') {
                     this.needUpdateDayData = true;
                 }
-                if (field === 'startPoint') {
-                    if (this.startPoint && this.startPoint.coordinates) {
-                        this.$store.dispatch('getObjects', {
-                            lat: this.startPoint.coordinates[0],
-                            long: this.startPoint.coordinates[1]
-                        });
-                    }
-                }
             },
             getDataRoute() {
                 this.$store.dispatch('showPreloader');
@@ -381,6 +374,19 @@
             },
             addObject(object) {
                 this.objects.push(object)
+            },
+            addPoint({ type, point }) {
+                if (type === 'startPoint') {
+                    this.startPoint = point
+                }
+                if (type === 'endPoint') {
+                    this.endPoint = point
+                }
+                if (type === 'point') {
+                    this.mapPoints.push(point)
+                    this.objects.push(point)
+                }
+                // this.points.push(point);
             }
         },
         watch: {
@@ -396,7 +402,7 @@
                     this.clearRoute();
                 }
                 this.$forceUpdate();
-            }
+            },
         },
         created() {
             this.userId = this.$store.getters.getUserId;
@@ -405,13 +411,10 @@
                 this.isNewRoute = false;
                 this.getDataRoute();
             }
-            if (this.startPoint && this.startPoint.coordinates) {
-                this.$store.dispatch('getObjects', {
-                    lat: this.startPoint.coordinates[0],
-                    long: this.startPoint.coordinates[1]
-                });
-            }
         },
+        mounted() {
+            this.showMap = true;
+        }
     }
 </script>
 
