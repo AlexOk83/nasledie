@@ -3,7 +3,7 @@
     <div class="object-list">
         <div class="label" v-if="list.length > 0">Выбранные объекты:</div>
         <li v-for="(item, index) in list" >
-            {{ item.name }}
+            {{ item.description }}, {{item.name }}
             <span class="icon icon-delete" @click="removeObject(index)" />
         </li>
 

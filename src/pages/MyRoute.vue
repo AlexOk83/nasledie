@@ -113,8 +113,8 @@
                 />
                 <Map-objects
                         v-if="viewMapCreate"
-                        :from="startPoint.position"
-                        :to="endPoint.position"
+                        :from="startPoint"
+                        :to="endPoint"
                         :points="mapPoints"
                         @addObject="addObject"
                         @addPoint="addPoint"

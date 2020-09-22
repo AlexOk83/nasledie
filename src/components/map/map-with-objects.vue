@@ -31,6 +31,7 @@
             },
             addPoint(point) {
                 this.$store.dispatch('showModalAddPoint', {
+                    text: `Адрес: ${point.description} ${point.name}`,
                     onConfirm: (type) => {
                         this.$emit('addPoint', {
                             type,
@@ -42,7 +43,7 @@
             init() {
                 const { from, addPoint } = this;
                 this.map = new ymaps.Map("map", {
-                    center: from || [55.753215, 37.622504], // по умолчанию москва
+                    center: from.position || [55.753215, 37.622504], // по умолчанию москва
                     zoom: 13
                 }, {
                     searchControlProvider: 'yandex#search',
@@ -72,8 +73,9 @@
 
                 });
 
-                if (from) {
-                    this.startPoint = new ymaps.Placemark(from, {
+                if (from.position) {
+                    this.startPoint = new ymaps.Placemark(from.position, {
+                        hintContent: `${from.description}, ${from.name}`
                     }, {
                         // Опции.
                         // Необходимо указать данный тип макета.
@@ -100,12 +102,13 @@
         },
         watch: {
             from(newVal, oldVal) {
-                if (newVal !== oldVal) {
-                    this.map.setCenter(newVal);
+                if (newVal.position !== oldVal.position) {
+                    this.map.setCenter(newVal.position);
                     if (this.startPoint) {
                         this.map.geoObjects.remove(this.startPoint)
                     }
-                    this.startPoint = new ymaps.Placemark(newVal, {
+                    this.startPoint = new ymaps.Placemark(newVal.position, {
+                        hintContent: `${newVal.description}, ${newVal.name}`
                     }, {
                         // Опции.
                         // Необходимо указать данный тип макета.
@@ -118,18 +121,18 @@
                         // её "ножки" (точки привязки).
                         iconImageOffset: [-10, -10],
                         // Смещение слоя с содержимым относительно слоя с картинкой.
-
                     });
 
                     this.map.geoObjects.add(this.startPoint)
                 }
             },
             to(newVal, oldVal) {
-                if (newVal !== oldVal) {
+                if (newVal.position !== oldVal.position) {
                     if (this.endPoint) {
                         this.map.geoObjects.remove(this.endPoint)
                     }
-                    this.endPoint = new ymaps.Placemark(newVal, {
+                    this.endPoint = new ymaps.Placemark(newVal.position, {
+                        hintContent: `${newVal.description}, ${newVal.name}`
                     }, {
                         // Опции.
                         // Необходимо указать данный тип макета.
@@ -160,6 +163,7 @@
                 const points = this.points;
                 points.forEach((point, index) => {
                     this.currentPoints[index] = new ymaps.Placemark(point.position, {
+                        hintContent: `${point.description}, ${point.name}`
                     }, {
                         // Опции.
                         // Необходимо указать данный тип макета.
@@ -172,6 +176,7 @@
                         // её "ножки" (точки привязки).
                         iconImageOffset: [-5, -5],
                         // Смещение слоя с содержимым относительно слоя с картинкой.
+
                     });
 
                     this.currentPoints[index].events.add('click', function () {
