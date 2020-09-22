@@ -129,7 +129,7 @@
     import moment from 'moment';
     import {isEmpty, isNil} from "lodash";
     import Field from "../components/form-control/Field";
-    import Map from "../components/map/MapTest";
+    import Map from "../components/map/map-with-routes";
     import MapObjects from "../components/map/map-with-objects";
     import Button from "../components/form-control/button/button";
     import Objects from "../components/added-objects/addedObjects";
@@ -209,7 +209,11 @@
                     return false;
                 }
 
-                return !this.isNewRoute;
+                if (isEmpty(this.days)) {
+                    return false;
+                }
+
+                return !this.isNewRoute && this.showMap;
             },
             viewMapCreate() {
                 return this.isNewRoute && this.showMap;
