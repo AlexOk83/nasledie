@@ -343,6 +343,7 @@
                 this.$data[field] = value;
                 if (field === 'objects') {
                     this.regions = value.map(obj => ({ id: obj.region }));
+                    this.mapPoints = value;
                 }
                 if (field === 'days') {
                     this.needUpdateDayData = true;
