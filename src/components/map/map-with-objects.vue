@@ -22,6 +22,14 @@
             }
         },
         methods: {
+            setBounds() {
+                const bounds = this.map.geoObjects.getBounds();
+                if (bounds[0][0] === bounds[1][0] && bounds[0][1] === bounds[1][1]) {
+                    this.map.setCenter(bounds[0]);
+                } else {
+                    this.map.setBounds(bounds,{checkZoomRange:true, zoomMargin:35});
+                }
+            },
             addObject(e) {
                 console.log(e);
                 this.$store.dispatch('showModalConfirm', {
@@ -44,7 +52,8 @@
                 const { from, addPoint } = this;
                 this.map = new ymaps.Map("map", {
                     center: from.position || [55.753215, 37.622504], // по умолчанию москва
-                    zoom: 13
+                    zoom: 13,
+                    maxZoom: 15
                 }, {
                     searchControlProvider: 'yandex#search',
                     yandexMapDisablePoiInteractivity: true // отключил интерактивность маркеров
@@ -88,10 +97,12 @@
                         // её "ножки" (точки привязки).
                         iconImageOffset: [-10, -10],
                         // Смещение слоя с содержимым относительно слоя с картинкой.
-
+                        boundsAutoApply: true
                     });
 
                     this.map.geoObjects.add(this.startPoint)
+                    this.setBounds();
+
                 }
 
             }
@@ -103,7 +114,6 @@
         watch: {
             from(newVal, oldVal) {
                 if (newVal.position !== oldVal.position) {
-                    this.map.setCenter(newVal.position);
                     if (this.startPoint) {
                         this.map.geoObjects.remove(this.startPoint)
                     }
@@ -121,9 +131,11 @@
                         // её "ножки" (точки привязки).
                         iconImageOffset: [-10, -10],
                         // Смещение слоя с содержимым относительно слоя с картинкой.
+                        boundsAutoApply: true
                     });
 
-                    this.map.geoObjects.add(this.startPoint)
+                    this.map.geoObjects.add(this.startPoint);
+                    this.setBounds();
                 }
             },
             to(newVal, oldVal) {
@@ -145,10 +157,11 @@
                         // её "ножки" (точки привязки).
                         iconImageOffset: [-7, -37],
                         // Смещение слоя с содержимым относительно слоя с картинкой.
-
+                        boundsAutoApply: true
                     });
 
-                    this.map.geoObjects.add(this.endPoint)
+                    this.map.geoObjects.add(this.endPoint);
+                    this.setBounds();
                 }
             },
             points() {
@@ -176,7 +189,7 @@
                         // её "ножки" (точки привязки).
                         iconImageOffset: [-5, -5],
                         // Смещение слоя с содержимым относительно слоя с картинкой.
-
+                        boundsAutoApply: true
                     });
 
                     this.currentPoints[index].events.add('click', function () {
@@ -185,7 +198,9 @@
 
                     this.map.geoObjects.add(this.currentPoints[index])
                 })
+                console.log(this.map.geoObjects.getBounds())
 
+                this.setBounds();
             }
         },
         mounted() {

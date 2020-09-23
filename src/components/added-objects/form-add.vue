@@ -10,15 +10,16 @@
         </div>
         <div class="form__field">
             <SearchFromBaseField
-                    :value="currentName"
-                    placeholder="Название"
-                    @change="changeName"
+                    :value="currentBrand"
+                    placeholder="Бренд"
+                    @change="changeBrand"
                     @clear="clearAll"
                     :category="currentCategory"
                     :region="currentRegion"
-                    :addedObjects="objects"
-
             />
+        </div>
+        <div class="form__field">
+            <SelectControl :list="objectList" :value="currentObject.value"  placeholder="Наименование" @change="changeObject" />
         </div>
         <div class="form__field">
             <SelectRecommendObjects
@@ -44,6 +45,7 @@
     import Button from '../form-control/button/button';
     import SearchFromBaseField from "../form-control/search/SearchFromBaseField";
     import Repository from '../../repository';
+    import {setCoordsToNumeric} from "../../utils";
     const repository = new Repository();
 
     export default {
@@ -65,12 +67,14 @@
             return {
                 currentRegion: {},
                 currentCategory: {},
-                currentName: {},
+                currentBrand: {},
+                objectList: [],
+                currentObject: {}
             }
         },
         computed: {
             disabledForm() {
-                return isEmpty(this.currentCategory) || isEmpty(this.currentRegion) || isEmpty(this.currentName);
+                return isEmpty(this.currentObject);
             },
             regions() {
                 return this.$store.getters.getRegions;
@@ -86,13 +90,16 @@
                 this.currentRegion = this.regions.find(region => Number(region.value) === Number(event.region));
             },
             add() {
-                this.$emit('add', this.currentName);
+                console.log(this.currentObject);
+                this.$emit('add', this.currentObject);
                 this.clearAll();
             },
             clearAll() {
                 this.currentRegion = {};
                 this.currentCategory = {};
-                this.currentName =  {};
+                this.currentBrand =  {};
+                this.currentObject = {};
+                this.objectList = [];
             },
             changeRegion(event) {
                 this.currentRegion = this.regions.find(region => region.value === event);
@@ -100,10 +107,21 @@
             changeCategory(event) {
                 this.currentCategory = this.categories.find(region => region.value === event);
             },
-            changeName(event) {
-                this.currentName = event;
+            changeObject(event) {
+                console.log(event);
+                this.currentObject = this.objectList.find(object => object.value === event);
+            },
+            changeBrand(event) {
+                console.clear();
+                console.log(event, this.regions);
+                this.currentBrand = event;
                 this.currentCategory = this.categories.find(category => category.value === event.type);
-                this.currentRegion = this.regions.find(region => region.value === event.region);
+                this.currentRegion = this.regions.find(region => Number(region.value) === Number(event.region));
+                this.objectList = event.objects.map(obj => {
+                    const position = setCoordsToNumeric(obj.position);
+                    console.info(position);
+                    return {...obj, value: obj.id, position }
+                });
             },
         },
 

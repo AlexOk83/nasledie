@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API = {
     BASE: () => 'https://api.zhivoe-nasledie.ga',
-    GET_OBJECTS: (category, region, query) => {
+    GET_BRANDS: (category, region, query) => {
         let params = '?';
         let paramsJoin = '';
         if (category) {
@@ -39,8 +39,8 @@ const API = {
 };
 
 export default class Repository {
-    getObjects(category, region, query) {
-        return axios.get(API.GET_OBJECTS(category, region, query));
+    getBrands(category, region, query) {
+        return axios.get(API.GET_BRANDS(category, region, query));
     }
 
     getRecObjects(lat, long) {

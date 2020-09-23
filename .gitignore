@@ -1,4 +1,6 @@
 node_modules
+dist/*
+Nasledie_web
 .DS_Store
 npm-debug.log
 tools/test_coverage

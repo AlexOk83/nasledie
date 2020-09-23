@@ -1,11 +1,11 @@
 <template>
-    <div class="select" v-if="list.length > 0" tabindex="0" ref="select">
+    <div class="select" tabindex="0" ref="select">
         <select :name="name" :id="name" v-model="currentValue" >
             <option value="" v-if="placeholder">{{ placeholder }}</option>
             <option :value="option.value" v-for="option in list" :disabled="option.disabled">{{ option.name }}</option>
         </select>
         <div class="select__field"
-             :class="{'active': active, 'with-icon': iconValue, 'disabled': disabled }"
+             :class="{'active': active, 'with-icon': iconValue, 'disabled': disabled, 'list-empty': list.length === 0, 'empty': getValue === placeholder }"
              @click="open"
         >
             <Icon :icon="iconValue" v-if="iconValue" />
@@ -35,7 +35,7 @@
     export default {
         name: "Select-control",
         props: {
-            value: String,
+            value: [String, Object, Number],
             list: {
                 type: Array,
                 default: []
@@ -65,6 +65,7 @@
                 this.active = false;
                 this.searchText = "";
                 this.filteredList = this.list;
+                console.log('выбрал ', option.value)
                 this.$emit('change', this.currentValue);
             },
             filterList(event) {
@@ -78,7 +79,7 @@
 
             },
             open() {
-                if (this.disabled) {
+                if (this.disable) {
                     return;
                 }
                 this.active = true;
@@ -92,6 +93,9 @@
             }
         },
         computed: {
+            disable() {
+                return this.disabled || this.list.length === 0
+            },
             getValue() {
                 let val = this.placeholder;
 

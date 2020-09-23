@@ -53,7 +53,13 @@
         display: none;
       }
     }
-
+    &.list-empty {
+      opacity: 0.5;
+      cursor: default;
+    }
+    &.empty {
+      color: @emptyText;
+    }
     &:after {
       content: '';
       display: block;

@@ -4,10 +4,10 @@
         <input type="text" class="field_control" v-model="searchText" :placeholder="placeholder" @input="search" @blur="close" @focus="search">
         <div class="search-button" @click="search"/>
         <div class="clear-button" @click="clear"/>
-        <div class="search-list" :class="{'show': menuVisible && objects.length > 0 }">
+        <div class="search-list" :class="{'show': menuVisible && brands.length > 0 }">
             <vue-custom-scrollbar class="scroll-area" :settings="settings">
-                <div class="search-list__item" v-for="object in objects" @click="select(object)">
-                    {{ object.name }}
+                <div class="search-list__item" v-for="brand in brands" @click="select(brand)">
+                    {{ brand.name }}
                 </div>
             </vue-custom-scrollbar>
         </div>
@@ -39,7 +39,7 @@
             return {
                 searchText: '',
                 currentValue: {},
-                objects: [],
+                brands: [],
                 menuVisible: false,
             }
         },
@@ -65,22 +65,18 @@
             search() {
                 const category = this.category && this.category.value;
                 const region = this.region && this.region.value;
-                repository.getObjects(category, region, this.searchText)
+                repository.getBrands(category, region, this.searchText)
                     .then(response => {
-                        let objects = JSON.parse(response.data);
-                        this.objects = objects.map(o => ({
-                            ...o,
-                            region: String(o.region),
-                            position: o.position.split(', ')
-                        }))
-                        console.log(this.objects)
+                        let brands = JSON.parse(response.data);
+                        console.log(brands)
+                        this.brands = brands;
                         this.menuVisible = true;
                     })
 
             },
-            select(object) {
-                this.currentValue = object;
-                this.searchText = object.name;
+            select(brand) {
+                this.currentValue = brand;
+                this.searchText = brand.name;
                 this.$emit('change', this.currentValue)
             }
         },
