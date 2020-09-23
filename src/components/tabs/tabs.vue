@@ -37,7 +37,12 @@
                        :save="config"
                 />
             </div>
-                <objects-in-day :list="activeDay && activeDay.objects" @change="changeObjectsFromActiveDay" />
+                <objects-in-day
+                        :list="activeDay && activeDay.objects"
+                        :start="start"
+                        :end="end"
+                        @change="changeObjectsFromActiveDay"
+                />
                 <Form-add
                         :objects="activeDay.objects"
                         @add="add"
@@ -60,6 +65,8 @@
         },
         props: {
             data: Array,
+            start: Object,
+            end: Object,
         },
         components: {
             Field,

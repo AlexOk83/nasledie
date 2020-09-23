@@ -203,7 +203,7 @@ export class Presenter {
                             timeEnd: "00:00",
                             startPoint: obj.name,
                             startPointCoordLat: obj.startPointCoordLat,
-                            startPointCoordLong: obj.startPointCoordLat,
+                            startPointCoordLong: obj.startPointCoordLong,
                             endPoint: null,
                             endPointCoordLat: null,
                             endPointCoordLong: null,
@@ -229,7 +229,7 @@ export class Presenter {
                                     timeEnd: '00"00',
                                     startPoint: obj.name,
                                     startPointCoordLat: obj.startPointCoordLat,
-                                    startPointCoordLong: obj.startPointCoordLat,
+                                    startPointCoordLong: obj.startPointCoordLong,
                                     endPoint: null,
                                     endPointCoordLat: null,
                                     endPointCoordLong: null,
@@ -246,7 +246,7 @@ export class Presenter {
                         days[i].timeEnd = this.getTimeEnd(days[i].timeStart, minutes);
                         days[i].endPoint = obj.name;
                         days[i].endPointCoordLat = obj.startPointCoordLat;
-                        days[i].endPointCoordLong = obj.startPointCoordLat;
+                        days[i].endPointCoordLong = obj.startPointCoordLong;
                     }
 
                 });

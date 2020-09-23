@@ -5,8 +5,9 @@
               :key="index"
               :data="item"
               :dataNextItem="nextItem(index)"
-              :is-first="index === 0"
-              :is-last="index + 1 === localList.length"
+              :is-first="isFirst(index)"
+              :is-not-point="isStart(item) || isEnd(item)"
+              :is-last="index + 1 === localList.length || isLast(index)"
               :click-up="() => objectUp(index)"
               :click-down="() => objectDown(index)"
               :click-remove="() => remove(index)"
@@ -27,6 +28,8 @@
         },
         props: {
             list: Array,
+            start: Object,
+            end: Object,
         },
         data() {
             return {
@@ -38,7 +41,33 @@
                 this.localList = this.list;
             }
         },
+        computed: {
+        },
         methods: {
+            isEqual(p1, p2) {
+                const [lat1, long1] = p1;
+                const [lat2, long2] = p2;
+
+                return Boolean(lat1 === lat2 && long1 === long2);
+            },
+            isLast(index) {
+                return this.isEnd(this.localList[index + 1]) || index === this.localList.length - 1;
+            },
+            isFirst(index) {
+                return this.isStart(this.localList[index - 1]) || index === 0;
+            },
+            isStart(object) {
+                if (!object) {
+                    return false;
+                }
+                return this.isEqual(this.start.position, object.coordinates);
+            },
+            isEnd(object) {
+                if (!object) {
+                    return false;
+                }
+                return this.isEqual(this.end.position, object.coordinates);
+            },
             nextItem(index) {
                 if (index + 1 < this.localList.length) {
                     return this.localList[index + 1]
@@ -66,6 +95,9 @@
                     this.localList[index][data.field] = data.value
                 }
                 this.$emit('change', this.localList);
+                console.log(this.localList[index])
+                console.log(this.localList[index][data.field])
+                console.log(this.localList)
             }
         },
         created() {

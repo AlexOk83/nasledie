@@ -30,13 +30,6 @@
                     this.map.setBounds(bounds,{checkZoomRange:true, zoomMargin:35});
                 }
             },
-            addObject(e) {
-                console.log(e);
-                this.$store.dispatch('showModalConfirm', {
-                    text: 'Добавить объект в маршрут?',
-                    onConfirm: () => { this.$emit('add', e) }
-                })
-            },
             addPoint(point) {
                 this.$store.dispatch('showModalAddPoint', {
                     text: `Адрес: ${point.description} ${point.name}`,

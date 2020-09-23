@@ -71,6 +71,8 @@
                         <Tabs
                             v-if="days && days.length > 0"
                             :data="days"
+                            :start="startPoint"
+                            :end="endPoint"
                             @change="changeValue('days', $event)"
                         />
                     </div>
@@ -92,6 +94,7 @@
                                 is-shadow
                                 is-full
                                 v-if="!isNewRoute"
+                                :disabled="!needUpdateDayData"
                         />
                         <Button text="Сохранить в мои маршруты"
                                 :on-click="() => updateRoute()"
@@ -100,25 +103,28 @@
                                 is-shadow
                                 is-full
                                 v-if="!isNewRoute"
+                                :disabled="needUpdateDayData"
                         />
                     </div>
 
                 </form>
             </div>
             <div class="right-container">
-                <Map
-                        v-if="viewMap"
-                        :from="startPoint.position"
-                        :days="days"
-                />
-                <Map-objects
-                        v-if="viewMapCreate"
-                        :from="startPoint"
-                        :to="endPoint"
-                        :points="mapPoints"
-                        @addObject="addObject"
-                        @addPoint="addPoint"
-                />
+                <div class="map-stiky">
+                    <Map
+                            v-if="viewMap"
+                            :from="startPoint.position"
+                            :days="days"
+                    />
+                    <Map-objects
+                            v-if="viewMapCreate"
+                            :from="startPoint"
+                            :to="endPoint"
+                            :points="mapPoints"
+                            @addPoint="addPoint"
+                    />
+                </div>
+
 
             </div>
         </div>
@@ -341,7 +347,12 @@
                 });
             },
             calcRouteAgain() {
-
+                presenter.updateDaysRoute(this.days).then(e => {
+                    console.log('', e);
+                },
+                e => {
+                    console.log(e);
+                })
             },
             changeValue(field, value) {
                 this.$data[field] = value;
@@ -370,6 +381,9 @@
                 this.routeId = data.id;
                 this.startPoint = {
                     position: [data.startPointCoordLat, data.startPointCoordLong],
+                }
+                this.endPoint = {
+                    position: [data.endPointCoordLat, data.endPointCoordLong],
                 }
                 this.name = data.name;
                 this.description = data.description;
@@ -424,4 +438,9 @@
 
 <style lang="less">
     @import "../styles/mixins";
+
+    .map-stiky {
+        position: sticky;
+        top: 0;
+    }
 </style>

@@ -142,6 +142,7 @@
         },
         methods: {
             changeValue(e) {
+                this.localValue = e;
                 this.$emit('change', e);
             },
             changeLocalValue() {
@@ -152,7 +153,7 @@
             },
             saveData() {
                 this.localDisabled = true;
-                this.save.method && this.save.method();
+                this.save.method && this.save.method(this.localValue);
             }
         },
         watch: {

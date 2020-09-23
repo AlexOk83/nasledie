@@ -11,8 +11,8 @@
                     :value="time"
                     @change="changeTime"
             />
-            <div class="btn-up" v-if="!isFirst" @click="up" />
-            <div class="btn-down" v-if="!isLast" @click="down" />
+            <div class="btn-up" v-if="visibleUp" @click="up" />
+            <div class="btn-down" v-if="visibleDown" @click="down" />
             <div class="btn-remove" @click="remove" />
         </div>
         <div v-if="dataNextItem" class="body-object">
@@ -70,6 +70,7 @@
             },
             isFirst: Boolean,
             isLast: Boolean,
+            isNotPoint: Boolean,
             clickUp: Function,
             clickDown: Function,
             clickRemove: Function
@@ -86,6 +87,18 @@
             }
         },
         computed: {
+            visibleUp() {
+                if (this.isFirst || this.isNotPoint) {
+                    return false;
+                }
+                return true;
+            },
+            visibleDown() {
+                if (this.isLast || this.isNotPoint) {
+                    return false;
+                }
+                return true;
+            },
             timeInWay() {
                 return presenter.getTime(this.dataNextItem.timeInWay)
             },
@@ -102,11 +115,11 @@
         },
         methods: {
             changeTypeMovement(e) {
-                console.log('all works!!')
+                console.log('1', [e]);
                 this.$emit('change', {
                     field: 'typeMovement',
                     nextItem: true,
-                    value: e
+                    value: [e]
                 })
             },
             changeTime(e) {
