@@ -34,3 +34,33 @@ export function getAdress(point) {
     }
     return `${desc}${d}${point.name}`;
 }
+
+export function getDistanceFromLatLonInMeters(point1, point2) {
+    const [lat1, lon1] = point1;
+    const [lat2, lon2] = point2;
+    const R = 6371; // Radius of the earth in km
+    const dLat = deg2rad(lat2-lat1);  // deg2rad below
+    const dLon = deg2rad(lon2-lon1);
+    const a =
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon/2) * Math.sin(dLon/2)
+    ;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const d = R * c * 1000; // Distance in meters
+    return Math.ceil(d);
+}
+
+function deg2rad(deg) {
+    return deg * (Math.PI/180)
+};
+
+export function isEqual(p1, p2) {
+    if (!p1 || !p2) {
+        return false;
+    }
+    const [lat1, long1] = p1;
+    const [lat2, long2] = p2;
+
+    return Boolean(lat1 === lat2 && long1 === long2);
+}

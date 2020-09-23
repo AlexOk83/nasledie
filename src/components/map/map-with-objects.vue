@@ -5,12 +5,13 @@
 <script>
     import { isEmpty } from 'lodash';
     import { Presenter } from '../../presenter';
+    import {getAdress} from "../../utils";
     const presenter = new Presenter();
     export default {
         name: "Map-with-objects",
         props: {
-            from: Array,
-            to: Array,
+            from: Object,
+            to: Object,
             points: Array,
         },
         data() {
@@ -77,7 +78,7 @@
 
                 if (from.position) {
                     this.startPoint = new ymaps.Placemark(from.position, {
-                        hintContent: `${from.description}, ${from.name}`
+                        hintContent: getAdress(from)
                     }, {
                         // Опции.
                         // Необходимо указать данный тип макета.
@@ -111,7 +112,7 @@
                         this.map.geoObjects.remove(this.startPoint)
                     }
                     this.startPoint = new ymaps.Placemark(newVal.position, {
-                        hintContent: `${newVal.description}, ${newVal.name}`
+                        hintContent: getAdress(newVal)
                     }, {
                         // Опции.
                         // Необходимо указать данный тип макета.
@@ -137,7 +138,7 @@
                         this.map.geoObjects.remove(this.endPoint)
                     }
                     this.endPoint = new ymaps.Placemark(newVal.position, {
-                        hintContent: `${newVal.description}, ${newVal.name}`
+                        hintContent: getAdress(newVal)
                     }, {
                         // Опции.
                         // Необходимо указать данный тип макета.
@@ -169,7 +170,7 @@
                 const points = this.points;
                 points.forEach((point, index) => {
                     this.currentPoints[index] = new ymaps.Placemark(point.position, {
-                        hintContent: `${point.description}, ${point.name}`
+                        hintContent: getAdress(point)
                     }, {
                         // Опции.
                         // Необходимо указать данный тип макета.

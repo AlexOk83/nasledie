@@ -5,6 +5,7 @@
 <script>
     import { isEmpty } from 'lodash';
     import { Presenter } from '../../presenter';
+    import {getAdress, isEqual} from "../../utils";
     const presenter = new Presenter();
     export default {
         name: "Map-with-routes",
@@ -16,6 +17,7 @@
             return {
                 map: {},
                 multiRoutes: [],
+                currentPoints: []
             }
         },
         methods: {
@@ -31,7 +33,7 @@
                 });
             },
             init() {
-                const { from, addPoint } = this;
+                const {from, addPoint} = this;
                 this.map = new ymaps.Map("map", {
                     center: from, // по умолчанию москва
                     zoom: 13
@@ -50,7 +52,7 @@
                     // После того, как поиск вернул результат, вызывается callback-функция
                     geocoder.then(
                         function (res) {
-                            res.geoObjects.each(function(el) {
+                            res.geoObjects.each(function (el) {
                                 let point = {
                                     position: el.geometry.getCoordinates(),
                                     name: el.properties.get('name'),
@@ -58,7 +60,8 @@
                                 }
                                 pointList.push(point);
                             });
-                            addPoint(pointList[0]);                        }
+                            addPoint(pointList[0]);
+                        }
                     );
 
                 });
@@ -79,19 +82,19 @@
                                 // Внешний вид путевых точек.
                                 wayPointStartIconLayout: "default#image",
                                 wayPointStartIconImageHref: styles.imagePoint,
-                                wayPointStartIconImageSize: [15, 15],
-                                wayPointStartIconImageOffset: [-7, -7],
+                                wayPointStartIconImageSize: [2, 2],
+                                wayPointStartIconImageOffset: [-1, -1],
                                 // промежуточные точки
                                 wayPointIconLayout: "default#image",
                                 wayPointIconImageHref: styles.imagePoint,
-                                wayPointIconImageSize: [15, 15],
-                                wayPointIconImageOffset: [-7, -7],
+                                wayPointIconImageSize: [2, 2],
+                                wayPointIconImageOffset: [-1, -1],
                                 // Задаем собственную картинку для последней путевой точки.
                                 wayPointFinishIconLayout: "default#image",
-                                wayPointFinishIconImageHref: styles.imageFlag,
+                                wayPointFinishIconImageHref: styles.imagePoint,
                                 wayPointFinishIconColor: styles.color,
-                                wayPointFinishIconImageSize: [45, 45],
-                                wayPointFinishIconImageOffset: [-7, -37],
+                                wayPointFinishIconImageSize: [2, 2],
+                                wayPointFinishIconImageOffset: [-1, -1],
                                 // Позволяет скрыть иконки путевых точек маршрута.
                                 // wayPointVisible:false,
 
@@ -129,10 +132,36 @@
                         // Добавляем мультимаршрут на карту.
                         this.map.geoObjects.add(this.multiRoutes[index][i]);
                     })
-                })
+                });
 
+                this.days.forEach((day, indexDay ) => {
+                    this.currentPoints[indexDay] = [];
+                    let styles = presenter.getStylesPoints(indexDay);
+                    let finalObject = day.objects[day.objects.length - 1]
+                    day.objects.forEach((obj, indexObj) => {
+                        let image = isEqual(finalObject.coordinates, obj.coordinates) ? styles.imageFlag : styles.imagePoint;
+                        let size = isEqual(finalObject.coordinates, obj.coordinates) ? [45, 45] : [10, 10];
+                        let offset = isEqual(finalObject.coordinates, obj.coordinates) ? [-7, -37] : [-5, -5];
+                        this.currentPoints[indexDay][indexObj] = new ymaps.Placemark(obj.coordinates, {
+                            hintContent: getAdress(obj),
+                        }, {
+                            // Опции.
+                            // Необходимо указать данный тип макета.
+                            iconLayout: 'default#imageWithContent',
+                            // Своё изображение иконки метки.
+                            iconImageHref: image,
+                            // Размеры метки.
+                            iconImageSize: size,
+                            // Смещение левого верхнего угла иконки относительно
+                            // её "ножки" (точки привязки).
+                            iconImageOffset: [-5, -5],
+                            // Смещение слоя с содержимым относительно слоя с картинкой.
+                        });
+
+                        this.map.geoObjects.add(this.currentPoints[indexDay][indexObj])
+                    })
+                });
             }
-
         },
         computed: {
             routes() {
@@ -185,7 +214,6 @@
         },
         mounted() {
             ymaps.ready(this.init);
-
         }
     }
 </script>

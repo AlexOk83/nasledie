@@ -1,5 +1,6 @@
 import moment from "moment";
-import {isEmpty} from "lodash";
+import {getDistanceFromLatLonInMeters} from './utils';
+
 const update = (items, typeMovement) => items.map((point, index) => new Promise((resolve, reject) => {
     ymaps.ready(function() {
         const routingMode = typeMovement === 'car' ? 'auto' : 'pedestrian';
@@ -18,6 +19,12 @@ const update = (items, typeMovement) => items.map((point, index) => new Promise(
         }
     })
 }));
+
+const sort = (start) => (a, b) => {
+    if (getDistanceFromLatLonInMeters(start, a.position) > getDistanceFromLatLonInMeters(start, b.position)) return 1;
+    if (getDistanceFromLatLonInMeters(start, a.position) < getDistanceFromLatLonInMeters(start, b.position)) return -1;
+    if (getDistanceFromLatLonInMeters(start, a.position) === getDistanceFromLatLonInMeters(start, b.position)) return 0;
+}
 
 export class Presenter {
     getWay(way) {
@@ -133,11 +140,16 @@ export class Presenter {
                 timeStart,
                 typeMovement,
                 mapPoints,
+                isGeoRoute,
             } = params;
             let days = [];
             let totalTime = 0;
             let totalWay = 0;
             // формируем список объектов с необходимыми параметрами
+            let points = [...mapPoints];
+            if (isGeoRoute === 'yes') {
+                points.sort(sort(startPoint.position));
+            }
             let objectsInDays = [
                 {
                     object_id: null,
@@ -150,7 +162,7 @@ export class Presenter {
                     time: 0,
                     typeMovement: [typeMovement]
                 },
-                ...mapPoints.map(obj => {
+                ...points.map(obj => {
                     let position;
                     if (Array.isArray(obj.position)) {
                         position = obj.position

@@ -32,7 +32,7 @@
 
             <div class="detail--title">Подробный маршрут: {{ route.name }}</div>
             <div class="detail__map">
-                <Map v-if="visibleMap" :from="route.pointStart.position" :days="route.days" />
+                <Map v-if="visibleMap" :from="route.pointStart.coordinates" :days="route.days" />
             </div>
 
             <Table :columns="columns" :days="route.days" v-if="route.days && route.days.length > 0" />
@@ -50,7 +50,7 @@
 </template>
 <script>
     import Button from '../components/form-control/button/button'
-    import Map from "../components/map/MapTest";
+    import Map from "../components/map/map-with-routes";
     import Slider from "../components/slider/slider";
     import List from "../components/route-list/routeListView";
     import Table from "../components/table/table";
@@ -91,7 +91,8 @@
                     colTablet: 2,
                 },
                 routesList: [],
-                isObject: true
+                isObject: true,
+                showMap: false,
             }
         },
         computed: {
@@ -107,7 +108,7 @@
                     return false;
                 }
 
-                return true;
+                return this.showMap;
             },
             title() {
                 if (this.type === 'recomend') {
@@ -169,6 +170,9 @@
         },
         created() {
             this.getData();
+        },
+        mounted() {
+            this.showMap = true;
         }
     }
 

@@ -19,6 +19,7 @@
 <script>
     import Item from './item';
     import {Presenter} from "../../presenter";
+    import {isEqual} from "../../utils";
     const presenter = new Presenter();
 
     export default {
@@ -44,12 +45,6 @@
         computed: {
         },
         methods: {
-            isEqual(p1, p2) {
-                const [lat1, long1] = p1;
-                const [lat2, long2] = p2;
-
-                return Boolean(lat1 === lat2 && long1 === long2);
-            },
             isLast(index) {
                 return this.isEnd(this.localList[index + 1]) || index === this.localList.length - 1;
             },
@@ -60,13 +55,13 @@
                 if (!object) {
                     return false;
                 }
-                return this.isEqual(this.start.position, object.coordinates);
+                return isEqual(this.start.position, object.coordinates);
             },
             isEnd(object) {
                 if (!object) {
                     return false;
                 }
-                return this.isEqual(this.end.position, object.coordinates);
+                return isEqual(this.end.position, object.coordinates);
             },
             nextItem(index) {
                 if (index + 1 < this.localList.length) {
