@@ -3,7 +3,7 @@
     <div class="object-list">
         <div class="label" v-if="list.length > 0">Выбранные объекты:</div>
         <li v-for="(item, index) in list" >
-            {{ item.description }}, {{item.name }}
+            {{ getName(item) }}
             <span class="icon icon-delete" @click="removeObject(index)" />
         </li>
 
@@ -11,6 +11,8 @@
 </template>
 
 <script>
+    import {getAdress} from "../../utils";
+
     export default {
         name: "object",
         props: {
@@ -19,6 +21,9 @@
         methods: {
             removeObject(id) {
                 this.$emit('remove', id)
+            },
+            getName(item) {
+                return getAdress(item);
             }
         }
     }

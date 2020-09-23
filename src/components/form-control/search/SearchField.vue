@@ -7,7 +7,7 @@
         <div class="search-list" :class="{'show': findedPoints.length > 0 }" >
             <vue-custom-scrollbar class="scroll-area" :settings="settings" >
                 <div class="search-list__item" v-for="point in findedPoints" @click="() => select(point)" >
-                    {{ point.name }} {{point.description }}
+                    {{ getSearchText(point) }}
                 </div>
             </vue-custom-scrollbar>
         </div>
@@ -16,8 +16,9 @@
 </template>
 
 <script>
-    import vueCustomScrollbar from 'vue-custom-scrollbar'
+    import vueCustomScrollbar from 'vue-custom-scrollbar';
     import { settingsScroll } from "../../../constants";
+    import {getAdress} from "../../../utils";
 
     export default {
         name: "SearchField",
@@ -43,9 +44,13 @@
         computed: {
             settings() {
                 return settingsScroll
-            }
+            },
+
         },
         methods: {
+            getSearchText(point) {
+                return getAdress(point);
+            },
             clear() {
                 this.searchText = '';
                 this.currentValue = {};
@@ -89,7 +94,7 @@
             },
             select(point) {
                 this.currentValue = point;
-                this.searchText = point.name || '';
+                this.searchText = this.getSearchText(point)
                 this.$emit('change', this.currentValue);
             }
         },
@@ -101,13 +106,13 @@
                 }
                 if (this.value.name && !this.searchText || newVal.name !== oldVal.name) {
                     this.currentValue = this.value;
-                    this.searchText = this.value.name;
+                    this.searchText = this.getSearchText(this.value)
                 }
             }
         },
         created() {
             this.currentValue = this.value || {};
-            this.searchText = this.value.name || "";
+            this.searchText = this.getSearchText(this.value)
         }
     }
 </script>

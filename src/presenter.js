@@ -1,4 +1,5 @@
 import moment from "moment";
+import {isEmpty} from "lodash";
 const update = (items, typeMovement) => items.map((point, index) => new Promise((resolve, reject) => {
     ymaps.ready(function() {
         const routingMode = typeMovement === 'car' ? 'auto' : 'pedestrian';
