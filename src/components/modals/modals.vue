@@ -51,7 +51,7 @@
         },
         computed: {
             isConfirm() {
-                return  this.typeModal === 'confirm';
+                return  this.onConfirm;
             },
             isSuccess() {
                 return  this.typeModal === 'success';
@@ -79,19 +79,26 @@
             typeModal() {
                 return this.$store.getters.typeModal
             },
+            onSuccess() {
+                return this.$store.getters.onSuccess
+            },
         },
         methods: {
             close() {
-                this.$store.dispatch('hideModal');
+                this.onSuccess && this.onSuccess();
+                setTimeout(() => {
+                    this.$store.dispatch('hideModal');
+                }, 100)
+
             },
             confirm() {
                 this.onConfirm();
-                setTimeout(this.close, 100)
+                this.close();
 
             },
             addPoint(typePoint) {
                 this.onConfirm && this.onConfirm(typePoint);
-                setTimeout(this.close, 100)
+                this.close();
 
             },
         }

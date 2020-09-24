@@ -7,13 +7,18 @@ const update = (items, typeMovement) => items.map((point, index) => new Promise(
         if (index !== 0) {
             const p1 = [items[index - 1].startPointCoordLat, items[index - 1].startPointCoordLong];
             const p2 = [point.startPointCoordLat, point.startPointCoordLong];
-            ymaps.route([p1, p2], { routingMode }).then(function(route) {
-                point.way = Math.round(route.getLength());
-                point.timeInWay = Math.round(route.getTime()/60);
-                resolve(point);
-            }, function () {
-                reject(e => console.log(e))
-            })
+            const distance = getDistanceFromLatLonInMeters(p1, p2);
+            ymaps.route([p1, p2], { routingMode }).then(
+                function(route) { // успешно смогли построить маршрут
+                    point.way = Math.round(route.getLength());
+                    point.timeInWay = Math.round(route.getTime()/60);
+                    resolve(point);
+                }, function () {
+                    point.way_false = 1;
+                    point.way = distance;
+                    point.timeInWay = Math.round(distance / 800)
+                    resolve(point)
+                })
         } else {
             resolve(point)
         }

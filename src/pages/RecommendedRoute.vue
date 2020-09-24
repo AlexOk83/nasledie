@@ -125,11 +125,20 @@
                 </form>
             </div>
             <div class="right-container">
-                <Map
-                        v-if="viewMap"
-                        :from="startPoint.position"
-                        :days="days"
-                />
+                <div class="map-stiky">
+                    <Map
+                            v-if="viewMap"
+                            :from="startPoint.position"
+                            :days="days"
+                    />
+                    <Map-objects
+                            v-if="viewMapCreate"
+                            :from="startPoint"
+                            :to="endPoint"
+                            :points="mapPoints"
+                            @addPoint="addPoint"
+                    />
+                </div>
             </div>
         </div>
     </div>
@@ -229,7 +238,10 @@
                     return false;
                 }
 
-                return true;
+                return !this.isNewRoute && this.showMap;
+            },
+            viewMapCreate() {
+                return this.isNewRoute && this.showMap;
             },
             settings() {
                 return {
@@ -362,7 +374,7 @@
                     .then(response => {
                         const data = JSON.parse(response.data);
                         if (data.status) {
-                            this.$store.dispatch('showModalSuccess', 'сохранение выполнено успешно!');
+                            this.$store.dispatch('showModalSuccess', { text: 'сохранение выполнено успешно!' });
                         }
                     })
                     .finally(() => {

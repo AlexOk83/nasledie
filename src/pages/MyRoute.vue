@@ -84,6 +84,13 @@
                            @change="changeValue('isGeoRoute', $event)"
                     />
                     <div class="buttons-container">
+                        <Button text="Очистить форму"
+                                :on-click="() => onClear()"
+                                is-shadow
+                                color="red"
+                                icon="trash"
+                                v-if="isNewRoute"
+                        />
                         <Button text="Составить маршрут"
                                 :on-click="() => createRoute()"
                                 is-shadow
@@ -124,8 +131,6 @@
                             @addPoint="addPoint"
                     />
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -189,13 +194,6 @@
             }
         },
         computed: {
-            dataMap() {
-                return {
-                    from: this.startPoint.position,
-                    to: this.endPoint.position,
-                    points: this.mapPoints,
-                }
-            },
             listParams() {
                 return radioButtonOptions
             },
@@ -244,6 +242,12 @@
             }
         },
         methods: {
+            onClear() {
+                this.$store.dispatch('showModalConfirm', {
+                    text: 'Форма будет очищена, вы уверены?',
+                    onConfirm: this.clearRoute
+                })
+            },
             clearRoute() {
                 this.name = '';
                 this.description = '';
@@ -252,7 +256,7 @@
                 this.dateStart = moment(new Date()).format();
                 this.timeStart = '09:00';
                 this.isGeoRoute = 'yes';
-                this.typeMovement = '';
+                this.typeMovement = 'car';
                 this.objects = [];
                     // данные для редактирования
                 this.days = [];
@@ -326,7 +330,15 @@
                             console.log(response.data);
                             const result = JSON.parse(response.data);
                             if (result && result.id) {
-                                this.$router.push(`/edit-my-route/${result.id}`)
+
+                                this.$store.dispatch('showModalSuccess', {
+                                    text: 'Маршрут составлен!',
+                                    onSuccess: () => {
+                                        this.showMap = false;
+                                        this.$router.push(`/edit-my-route/${result.id}`)
+                                    }
+                                });
+
                             }
                         });
                 }).finally(() => {
@@ -340,7 +352,7 @@
                     .then(response => {
                         const data = JSON.parse(response.data);
                         if (data.status) {
-                            this.$store.dispatch('showModalSuccess', 'сохранение выполнено успешно!');
+                            this.$store.dispatch('showModalSuccess', { text: 'сохранение выполнено успешно!' });
                         }
                     }).finally(() => {
                     this.$store.dispatch('hidePreloader');
@@ -390,9 +402,7 @@
                 this.days = presenter.changeFormat(data.days);
                 this.files = data.files || [];
                 this.otherData = data; // для того, чтобы не потерять данные
-            },
-            addObject(object) {
-                this.objects.push(object)
+                this.showMap = true;
             },
             addPoint({ type, point }) {
                 if (type === 'startPoint') {

@@ -154,7 +154,7 @@
                             iconImageSize: size,
                             // Смещение левого верхнего угла иконки относительно
                             // её "ножки" (точки привязки).
-                            iconImageOffset: [-5, -5],
+                            iconImageOffset: offset,
                             // Смещение слоя с содержимым относительно слоя с картинкой.
                         });
 
@@ -181,12 +181,19 @@
                         }
                         else {
                             let prevCoordinates = day.objects[indexObj - 1].coordinates;
-
-                            if (currentRoutingMode === '') { // если это вторая точка
+                            if (day.objects[indexObj].way_false) { // если в эту точку не попасть
+                                // сохраняем этот отрезок как полет
+                                routes[indexDay].push({
+                                    pointList: [prevCoordinates, coordinates],
+                                    routingMode: 'fly',
+                                });
+                                // получается следующий отрезок должен быть
+                            }
+                            else if (currentRoutingMode === '') { // если это вторая точка
                                 currentRoutingMode = routingMode; // присваиваем для сравнения
                                 currentPointList.push(coordinates); // записываем в pointList
                             }
-                            else if (routingMode === currentRoutingMode ) { // если это 3, 4.. точка, и режим перемещения не изменился
+                            else if (routingMode === currentRoutingMode) { // если это 3, 4.. точка, и режим перемещения не изменился
                                 currentPointList.push(coordinates);
                             }
                             else { // режим изменился

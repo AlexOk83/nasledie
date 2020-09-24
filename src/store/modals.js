@@ -3,7 +3,8 @@ export default {
         view: false,
         text: "",
         typeModal: null,
-        onConfirm: null
+        onConfirm: null,
+        onSuccess: null
     },
     mutations: {
         viewModals(state, payload) {
@@ -11,6 +12,7 @@ export default {
             state.text = payload.text;
             state.typeModal = payload.typeModal;
             state.onConfirm = payload.onConfirm;
+            state.onSuccess = payload.onSuccess;
         },
         hideModals(state) {
             state.view = false;
@@ -34,8 +36,9 @@ export default {
         },
         showModalSuccess({commit}, payload) {
             commit('viewModals', {
-                text: payload,
-                typeModal: 'success'
+                text: payload.text,
+                typeModal: 'success',
+                onSuccess: payload.onSuccess
             })
         },
         showModalAddPoint({commit}, payload) {
@@ -57,6 +60,9 @@ export default {
         },
         onConfirm (state) {
             return state.onConfirm;
+        },
+        onSuccess (state) {
+            return state.onSuccess;
         },
         typeModal (state) {
             return state.typeModal;
