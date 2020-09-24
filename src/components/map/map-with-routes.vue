@@ -17,7 +17,8 @@
             return {
                 map: {},
                 multiRoutes: [],
-                currentPoints: []
+                currentPoints: [],
+                hasFlyRoutes: false,
             }
         },
         methods: {
@@ -71,63 +72,82 @@
                     let styles = presenter.getStylesPoints(index);
                     day.forEach((route, i) => {
                         // Создаем мультимаршрут.
-                        this.multiRoutes[index][i] = new ymaps.multiRouter.MultiRoute(
-                            {
-                                referencePoints: route.pointList,
-                                params: {
-                                    routingMode: route.routingMode,
+                        if (route.routingMode === 'fly') {
+                            this.multiRoutes[index][i] = new ymaps.Polyline(
+                                // Указываем координаты вершин ломаной.
+                                route.pointList
+                            , {
+
+                            }, {
+                                // Цвет линии.
+                                strokeColor: styles.color,
+                                // Ширина линии.
+                                strokeWidth: 6,
+                                // Коэффициент прозрачности.
+                                strokeOpacity: 1
+                            });
+                            this.hasFlyRoutes = true;
+                        }
+                        else {
+                            this.multiRoutes[index][i] = new ymaps.multiRouter.MultiRoute(
+                                {
+                                    referencePoints: route.pointList,
+                                    params: {
+                                        routingMode: route.routingMode,
+                                    }
+                                },
+                                {
+                                    // Внешний вид путевых точек.
+                                    wayPointStartIconLayout: "default#image",
+                                    wayPointStartIconImageHref: styles.imagePoint,
+                                    wayPointStartIconImageSize: [2, 2],
+                                    wayPointStartIconImageOffset: [-1, -1],
+                                    // промежуточные точки
+                                    wayPointIconLayout: "default#image",
+                                    wayPointIconImageHref: styles.imagePoint,
+                                    wayPointIconImageSize: [2, 2],
+                                    wayPointIconImageOffset: [-1, -1],
+                                    // Задаем собственную картинку для последней путевой точки.
+                                    wayPointFinishIconLayout: "default#image",
+                                    wayPointFinishIconImageHref: styles.imagePoint,
+                                    wayPointFinishIconColor: styles.color,
+                                    wayPointFinishIconImageSize: [2, 2],
+                                    wayPointFinishIconImageOffset: [-1, -1],
+                                    // Позволяет скрыть иконки путевых точек маршрута.
+                                    // wayPointVisible:false,
+
+                                    // Внешний вид транзитных точек.
+                                    viaPointIconRadius: 7,
+                                    viaPointIconFillColor: styles.color,
+                                    viaPointActiveIconFillColor: styles.color,
+                                    // Транзитные точки можно перетаскивать, при этом
+                                    // маршрут будет перестраиваться.
+                                    viaPointDraggable: false,
+                                    // Позволяет скрыть иконки транзитных точек маршрута.
+                                    // viaPointVisible:false,
+
+                                    // Внешний вид точечных маркеров под путевыми точками.
+                                    pinIconFillColor: styles.color,
+                                    pinActiveIconFillColor: styles.color,
+                                    // Позволяет скрыть точечные маркеры путевых точек.
+                                    // pinVisible:false,
+
+                                    // Внешний вид линии маршрута.
+                                    routeStrokeWidth: 2,
+                                    routeStrokeColor: styles.color,
+                                    routeActiveStrokeWidth: 6,
+                                    routeActiveStrokeColor: styles.color,
+
+                                    // Внешний вид линии пешеходного маршрута.
+                                    // routeActivePedestrianSegmentStrokeStyle: "solid",
+                                    routeActivePedestrianSegmentStrokeColor: styles.color,
+
+                                    // Автоматически устанавливать границы карты так, чтобы маршрут был виден целиком.
+                                    boundsAutoApply: false
                                 }
-                            },
-                            {
-                                // Внешний вид путевых точек.
-                                wayPointStartIconLayout: "default#image",
-                                wayPointStartIconImageHref: styles.imagePoint,
-                                wayPointStartIconImageSize: [2, 2],
-                                wayPointStartIconImageOffset: [-1, -1],
-                                // промежуточные точки
-                                wayPointIconLayout: "default#image",
-                                wayPointIconImageHref: styles.imagePoint,
-                                wayPointIconImageSize: [2, 2],
-                                wayPointIconImageOffset: [-1, -1],
-                                // Задаем собственную картинку для последней путевой точки.
-                                wayPointFinishIconLayout: "default#image",
-                                wayPointFinishIconImageHref: styles.imagePoint,
-                                wayPointFinishIconColor: styles.color,
-                                wayPointFinishIconImageSize: [2, 2],
-                                wayPointFinishIconImageOffset: [-1, -1],
-                                // Позволяет скрыть иконки путевых точек маршрута.
-                                // wayPointVisible:false,
+                            );
+                        }
 
-                                // Внешний вид транзитных точек.
-                                viaPointIconRadius: 7,
-                                viaPointIconFillColor: styles.color,
-                                viaPointActiveIconFillColor: styles.color,
-                                // Транзитные точки можно перетаскивать, при этом
-                                // маршрут будет перестраиваться.
-                                viaPointDraggable: false,
-                                // Позволяет скрыть иконки транзитных точек маршрута.
-                                // viaPointVisible:false,
-
-                                // Внешний вид точечных маркеров под путевыми точками.
-                                pinIconFillColor: styles.color,
-                                pinActiveIconFillColor: styles.color,
-                                // Позволяет скрыть точечные маркеры путевых точек.
-                                // pinVisible:false,
-
-                                // Внешний вид линии маршрута.
-                                routeStrokeWidth: 2,
-                                routeStrokeColor: styles.color,
-                                routeActiveStrokeWidth: 6,
-                                routeActiveStrokeColor: styles.color,
-
-                                // Внешний вид линии пешеходного маршрута.
-                                // routeActivePedestrianSegmentStrokeStyle: "solid",
-                                routeActivePedestrianSegmentStrokeColor: styles.color,
-
-                                // Автоматически устанавливать границы карты так, чтобы маршрут был виден целиком.
-                                boundsAutoApply: true
-                            }
-                        );
 
                         // Добавляем мультимаршрут на карту.
                         this.map.geoObjects.add(this.multiRoutes[index][i]);
@@ -161,6 +181,8 @@
                         this.map.geoObjects.add(this.currentPoints[indexDay][indexObj])
                     })
                 });
+
+                this.map.setBounds(this.map.geoObjects.getBounds(),{checkZoomRange:true, zoomMargin:35});
             }
         },
         computed: {
@@ -176,39 +198,56 @@
                     day.objects.forEach((obj, indexObj) => {
                         let coordinates = obj.coordinates;
                         let routingMode = presenter.getRoutingMode(obj.typeMovement[0]);
+                        // 1 точка в текущем дне
                         if (indexObj === 0) {
-                            currentPointList = [coordinates]; // 1 точка в текущем дне
+                            currentPointList = [coordinates];
                         }
+                        // все остальные точки
                         else {
                             let prevCoordinates = day.objects[indexObj - 1].coordinates;
-                            if (day.objects[indexObj].way_false) { // если в эту точку не попасть
-                                // сохраняем этот отрезок как полет
+                            // если в эту точку не попасть
+                            // сохраняем этот отрезок как полет
+                            if (day.objects[indexObj].way_false) {
+                                if (currentRoutingMode !== '') {
+                                    routes[indexDay].push({
+                                        pointList: currentPointList,
+                                        routingMode: currentRoutingMode,
+                                    });
+                                }
                                 routes[indexDay].push({
                                     pointList: [prevCoordinates, coordinates],
                                     routingMode: 'fly',
                                 });
-                                // получается следующий отрезок должен быть
+                                currentPointList = [coordinates];
+                                currentRoutingMode === routingMode;
                             }
-                            else if (currentRoutingMode === '') { // если это вторая точка
-                                currentRoutingMode = routingMode; // присваиваем для сравнения
-                                currentPointList.push(coordinates); // записываем в pointList
-                            }
-                            else if (routingMode === currentRoutingMode) { // если это 3, 4.. точка, и режим перемещения не изменился
-                                currentPointList.push(coordinates);
-                            }
-                            else { // режим изменился
-                                routes[indexDay].push({
-                                    pointList: currentPointList,
-                                    routingMode: currentRoutingMode,
-                                });
-                                currentPointList = [prevCoordinates, coordinates];
-                                currentRoutingMode = routingMode;
-                            }
-                            if (indexObj === day.objects.length - 1) { // если точка была последняя
-                                routes[indexDay].push({
-                                    pointList: currentPointList,
-                                    routingMode: currentRoutingMode,
-                                });
+                            // если попасть...
+                            else {
+                                // если это только 2 точка
+                                if (currentRoutingMode === '') { // только если это вторая точка
+                                    currentRoutingMode = routingMode;
+                                    currentPointList.push(coordinates);
+                                }
+                                // если режим не изменился
+                                else if (routingMode === currentRoutingMode) {
+                                    currentPointList.push(coordinates);
+                                }
+                                // если изменился
+                                else { // режим изменился
+                                    routes[indexDay].push({
+                                        pointList: currentPointList,
+                                        routingMode: currentRoutingMode,
+                                    });
+                                    currentPointList = [prevCoordinates, coordinates];
+                                    currentRoutingMode = routingMode;
+                                }
+                                // если точка последняя
+                                if (indexObj === day.objects.length - 1) { // если точка была последняя
+                                    routes[indexDay].push({
+                                        pointList: currentPointList,
+                                        routingMode: currentRoutingMode,
+                                    });
+                                }
                             }
                         }
                     })
