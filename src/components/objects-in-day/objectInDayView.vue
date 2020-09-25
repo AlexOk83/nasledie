@@ -83,16 +83,12 @@
                 this.$emit('change', this.localList);
             },
             changeItem(index, data) {
-                console.log(index, data);
                 if (data.nextItem) {
                     this.localList[index + 1][data.field] = data.value
                 } else {
                     this.localList[index][data.field] = data.value
                 }
                 this.$emit('change', this.localList);
-                console.log(this.localList[index])
-                console.log(this.localList[index][data.field])
-                console.log(this.localList)
             }
         },
         created() {

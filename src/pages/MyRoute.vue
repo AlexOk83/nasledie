@@ -182,6 +182,7 @@
                 typeMovement: 'car',
                 objects: [],
                 mapPoints: [], // точки на карте, которые будут отображаться
+                pointList: [], // список точек после составления маршрута
                 regions: [],
                 // данные для редактирования
                 days: [],
@@ -288,6 +289,7 @@
                     totalWay: this.totalWay,
                     files: this.files,
                     regions: this.regions,
+                    map_points: JSON.stringify(this.pointList),
                     user_id : this.$store.getters.getUserId,
                 }
                 formData.append('ZRouter', JSON.stringify(values));
@@ -324,6 +326,7 @@
                     this.days = data.days;
                     this.totalWay = data.totalWay;
                     this.totalTime = data.totalTime;
+                    this.pointList = data.pointsList;
                     const infoForSave = this.getInfoForCreate();
                     repository.createMyRoute(this.userId, infoForSave)
                         .then(response => {
@@ -400,6 +403,7 @@
                 this.name = data.name;
                 this.description = data.description;
                 this.days = presenter.changeFormat(data.days);
+                this.pointList = JSON.parse(data.map_points);
                 this.files = data.files || [];
                 this.otherData = data; // для того, чтобы не потерять данные
                 this.showMap = true;

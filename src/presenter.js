@@ -1,5 +1,5 @@
 import moment from "moment";
-import {getDistanceFromLatLonInMeters} from './utils';
+import {getDistanceFromLatLonInMeters, isEqual} from './utils';
 
 const update = (items, typeMovement) => items.map((point, index) => new Promise((resolve, reject) => {
     ymaps.ready(function() {
@@ -272,10 +272,24 @@ export class Presenter {
                 resolve({
                     days,
                     totalTime,
-                    totalWay
+                    totalWay,
+                    pointsList: objectsInDays,
                 });
             })
         });
+    }
+
+    updateDaysRoute(days) {
+        let totalTime = 0;
+        let totalWay = 0;
+        let points = [];
+        days.forEach(day => {
+            day.objects.forEach(object => {
+                if (isEmpty(points)) {
+                    points.push(object); // первый элемент
+                }
+            })
+        })
     }
 
     changeFormat(days) {
