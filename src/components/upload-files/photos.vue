@@ -17,7 +17,7 @@
                 <div class="other-wrapper" v-for="item in addButton" :key="'button-' + item">
                     <label for="photo" class="add-photo" />
                 </div>
-                <div class="other-wrapper" key="remove" v-if="files.length > 0">
+                <div class="other-wrapper" key="remove" v-if="files && files.length > 0">
                     <div class="remove" @click="remove"/>
                 </div>
             </draggable>

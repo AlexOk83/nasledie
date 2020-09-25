@@ -6,7 +6,7 @@
         />
         <h1>{{ headerTitle }}</h1>
 
-        <div class="row">
+        <div class="row" v-if="!reload">
             <div class="left-form">
                 <form>
                     <Field name="name"
@@ -74,6 +74,9 @@
                             :start="startPoint"
                             :end="endPoint"
                             @change="changeValue('days', $event)"
+                            @setActiveDay="setActiveDay"
+                            :indexActiveDay="indexActiveDay"
+                            :data-is-change="needUpdateDayData"
                         />
                     </div>
                     <Field name="isGeoRoute"
@@ -97,7 +100,7 @@
                                 v-if="isNewRoute"
                         />
                         <Button text="Пересчитать маршрут"
-                                :on-click="() => calcRouteAgain()"
+                                :on-click="() => onCalcRoute()"
                                 is-shadow
                                 is-full
                                 v-if="!isNewRoute"
@@ -118,11 +121,13 @@
             </div>
             <div class="right-container">
                 <div class="map-stiky">
-                    <Map
+                    <Map-routes
                             v-if="viewMap"
                             :from="startPoint.position"
                             :days="days"
-                            @change="changeValue('days', $event)"
+                            @addPoint="addPointToActiveDay"
+                            :index-active-day="indexActiveDay"
+                            :read-only="false"
                     />
                     <Map-objects
                             v-if="viewMapCreate"
@@ -141,7 +146,7 @@
     import moment from 'moment';
     import {isEmpty, isNil} from "lodash";
     import Field from "../components/form-control/Field";
-    import Map from "../components/map/map-with-routes";
+    import MapRoutes from "../components/map/map-with-routes";
     import MapObjects from "../components/map/map-with-objects";
     import Button from "../components/form-control/button/button";
     import Objects from "../components/added-objects/addedObjects";
@@ -158,7 +163,7 @@
     export default {
         name: "CreateRoute",
         components: {
-            Map,
+            MapRoutes,
             MapObjects,
             Field,
             Objects,
@@ -187,15 +192,36 @@
                 regions: [],
                 // данные для редактирования
                 days: [],
+                indexActiveDay: 0,          // индекс активного дня в this.days
+                globalIndexActiveDay: 0,    // индекс активного дня в this.pointList
+                countObjectActiveDay: 0,
                 totalTime: 0,
                 totalWay: 0,
                 files: [],
                 otherData: {},
                 needUpdateDayData: false,
                 showMap: false,
+                reload: false,
             }
         },
         computed: {
+            countObjectToDays() {
+                return this.days.map(day => (day.objects && day.objects.length));
+            },
+            globalIndex() {
+                const indexes = [0];
+                let l = 0; // индекс первого элемента 1 дня
+                this.days.forEach((day, i) => {
+
+                    // добавляем пока сл. дня уже не будет
+                    if (i !== this.days.length - 1) {
+                        l += day.objects.length - 1; // индекс 1 элемента сл. дня
+                        indexes.push(l)
+                    }
+                });
+
+                return indexes;
+            },
             validation() {
                 if (!this.name || this.name === '') {
                     return 'Не заполнено название маршрута'
@@ -262,6 +288,50 @@
             }
         },
         methods: {
+            addPointToActiveDay(point) {
+                console.log(point);
+                // мы знаем позиции активного дняи нам надо эту точку добавить в 1 месте
+                let wellPoint = {
+                    ...point,
+                    startPointCoordLat: point.position[0],
+                    startPointCoordLong: point.position[1],
+                    time: 0,
+                    object_id: null,
+                    timeInWay: 0,
+                    stopTime: 0,
+                    way: 0,
+                    typeMovement: ['car']
+                }
+                this.days[this.indexActiveDay].objects.splice(this.countObjectActiveDay - 1, 0, wellPoint);
+                this.pointList.splice(this.globalIndexActiveDay + this.countObjectActiveDay - 1, 0, wellPoint)
+                this.needUpdateDayData = true;
+            },
+            setActiveDay(index) {
+                this.indexActiveDay = index;
+                this.globalIndexActiveDay = this.globalIndex[index];
+                this.countObjectActiveDay = this.countObjectToDays[index];
+            },
+            calcRouteAgain() {
+                this.$store.dispatch('showPreloader');
+                return presenter.calculatedDaysRoute({
+                    ...this,
+                }).then(data => {
+                    this.days = data.days;
+                    this.totalWay = data.totalWay;
+                    this.totalTime = data.totalTime;
+                    this.needUpdateDayData = false;
+                    this.reload = true;
+                }).finally(() => {
+                    this.$store.dispatch('hidePreloader');
+                    this.reload = false;
+                });
+            },
+            onCalcRoute() {
+                this.calcRouteAgain().then(() => {
+                    this.$store.dispatch('showModalSuccess', {text: 'Маршрут пересчитан!'});
+                })
+            },
+            // доделанные методы V
             onClear() {
                 this.$store.dispatch('showModalConfirm', {
                     text: 'Форма будет очищена, вы уверены?',
@@ -285,6 +355,7 @@
                 this.otherData = {};
                 this.files = [];
                 this.regions = [];
+                this.pointList = [];
             },
             getInfoForCreate() {
                 const formData = new FormData();
@@ -326,6 +397,8 @@
                     objects: this.otherData.objects.map(o => ({...o, object_id: o.id})),
                     days: this.days,
                     files: this.files,
+                    regions: this.regions,
+                    map_points: JSON.stringify(this.pointList),
                     user_id : this.$store.getters.getUserId,
                 }
                 formData.append('ZRouter', JSON.stringify(values));
@@ -381,22 +454,17 @@
                     this.$store.dispatch('hidePreloader');
                 });
             },
-            calcRouteAgain() {
-                presenter.updateDaysRoute(this.days).then(e => {
-                    console.log('', e);
-                },
-                e => {
-                    console.log(e);
-                })
-            },
             changeValue(field, value) {
+                if (field === 'days') {
+                    const activeDayObjects = value[this.indexActiveDay].objects;
+                    this.pointList.splice(this.globalIndexActiveDay, this.countObjectActiveDay, ...activeDayObjects);
+                    this.needUpdateDayData = true;
+                }
                 this.$data[field] = value;
+                this.countObjectActiveDay = this.countObjectToDays[this.indexActiveDay];
                 if (field === 'objects') {
                     this.regions = value.map(obj => ({ id: obj.region }));
                     this.mapPoints = value;
-                }
-                if (field === 'days') {
-                    this.needUpdateDayData = true;
                 }
             },
             getDataRoute() {
@@ -406,6 +474,7 @@
                     this.$store.dispatch('hidePreloader');
                     const route = JSON.parse(response.data).router;
                     console.log(route);
+                    this.showMap = true;
                     this.updateState(route);
                 })
             },
@@ -414,6 +483,8 @@
                     return;
                 }
                 this.routeId = data.id;
+                this.dateStart = data.dateStart;
+                this.timeStart = data.timeStart;
                 this.startPoint = {
                     position: [data.startPointCoordLat, data.startPointCoordLong],
                 }
@@ -425,8 +496,10 @@
                 this.days = presenter.changeFormat(data.days);
                 this.pointList = JSON.parse(data.map_points);
                 this.files = data.files || [];
+                this.regions = data.regions;
                 this.otherData = data; // для того, чтобы не потерять данные
                 this.showMap = true;
+                this.setActiveDay(0);
             },
             addPoint({ type, point }) {
                 if (type === 'startPoint') {
@@ -439,7 +512,7 @@
                     this.mapPoints.push(point)
                 }
                 // this.points.push(point);
-            }
+            },
         },
         watch: {
             $route(to, from) {
@@ -462,10 +535,12 @@
                 this.routeId = this.$route.params.id;
                 this.isNewRoute = false;
                 this.getDataRoute();
+            } else {
+                this.showMap = true;
             }
         },
         mounted() {
-            this.showMap = true;
+
         }
     }
 </script>

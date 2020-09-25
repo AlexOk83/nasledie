@@ -13,7 +13,7 @@
             />
             <div class="btn-up" v-if="visibleUp" @click="up" />
             <div class="btn-down" v-if="visibleDown" @click="down" />
-            <div class="btn-remove" @click="remove" />
+            <div class="btn-remove" v-if="!this.isNotPoint" @click="remove" />
         </div>
         <div v-if="dataNextItem" class="body-object">
             <div class="title">
@@ -70,6 +70,7 @@
             },
             isFirst: Boolean,
             isLast: Boolean,
+            isChanged: Boolean,
             isNotPoint: Boolean,
             clickUp: Function,
             clickDown: Function,

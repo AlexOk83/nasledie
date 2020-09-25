@@ -152,59 +152,91 @@ export class Presenter {
                 typeMovement,
                 mapPoints,
                 isGeoRoute,
+                pointList,
             } = params;
             let days = [];
             let totalTime = 0;
             let totalWay = 0;
-            // формируем список объектов с необходимыми параметрами
-            let points = [...mapPoints];
-            if (isGeoRoute === 'yes') {
-                points.sort(sort(startPoint.position));
+            let objectsInDays;
+            if (pointList && pointList.length > 0) {
+                let start = pointList[0];
+                start.position = [
+                        start.startPointCoordLat,
+                        start.startPointCoordLong
+                    ];
+                let points = pointList.map(o => ({
+                    ...o,
+                    position: [
+                        o.startPointCoordLat,
+                        o.startPointCoordLong
+                    ]
+                }));
+                points.splice(0,1);
+                points.splice(-1,1);
+                let end = pointList[pointList.length - 1];
+                end.position = [end.startPointCoordLat, end.startPointCoordLong];
+
+
+                if (isGeoRoute === 'yes') {
+                    points.sort(sort(startPoint.position));
+                }
+                objectsInDays = [
+                    start,
+                    ...points,
+                    end
+                ];
             }
-            let objectsInDays = [
-                {
-                    object_id: null,
-                    name: startPoint.name,
-                    startPointCoordLat: startPoint.position[0],
-                    startPointCoordLong: startPoint.position[1],
-                    timeInWay: 0,
-                    way: 0,
-                    stopTime: 0,
-                    time: 0,
-                    typeMovement: [typeMovement]
-                },
-                ...points.map(obj => {
-                    let position;
-                    if (Array.isArray(obj.position)) {
-                        position = obj.position
-                    } else {
-                        position = obj.position.split(', ')
-                    }
-                    const [lat, long] = position;
-                    return {
-                        object_id: obj.id || null,
-                        name: obj.name,
-                        startPointCoordLat: lat,
-                        startPointCoordLong: long,
+            else {
+                let points = [...mapPoints];
+                if (isGeoRoute === 'yes') {
+                    points.sort(sort(startPoint.position));
+                }
+                objectsInDays = [
+                    {
+                        object_id: null,
+                        name: startPoint.name,
+                        startPointCoordLat: startPoint.position[0],
+                        startPointCoordLong: startPoint.position[1],
                         timeInWay: 0,
                         way: 0,
                         stopTime: 0,
-                        time: 30,
+                        time: 0,
                         typeMovement: [typeMovement]
-                    }
-                }),
-                {
-                    object_id: null,
-                    name: endPoint.name,
-                    startPointCoordLat: endPoint.position[0],
-                    startPointCoordLong: endPoint.position[1],
-                    timeInWay: 0,
-                    way: 0,
-                    stopTime: 0,
-                    time: 0,
-                    typeMovement: [typeMovement]
-                },
-            ];
+                    },
+                    ...points.map(obj => {
+                        let position;
+                        if (Array.isArray(obj.position)) {
+                            position = obj.position
+                        } else {
+                            position = obj.position.split(', ')
+                        }
+                        const [lat, long] = position;
+                        return {
+                            object_id: obj.id || null,
+                            name: obj.name,
+                            startPointCoordLat: lat,
+                            startPointCoordLong: long,
+                            timeInWay: 0,
+                            way: 0,
+                            stopTime: 0,
+                            time: 30,
+                            typeMovement: [typeMovement]
+                        }
+                    }),
+                    {
+                        object_id: null,
+                        name: endPoint.name,
+                        startPointCoordLat: endPoint.position[0],
+                        startPointCoordLong: endPoint.position[1],
+                        timeInWay: 0,
+                        way: 0,
+                        stopTime: 0,
+                        time: 0,
+                        typeMovement: [typeMovement]
+                    },
+                ];
+            }
+
             // дополняем список растоянием между точками и временем прохождения
             Promise.all(update(objectsInDays, typeMovement)).then(() => {
                 // здесь мы уже имеем все изменения

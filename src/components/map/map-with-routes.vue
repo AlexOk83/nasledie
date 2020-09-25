@@ -12,6 +12,7 @@
         props: {
             from: Array,
             days: Array,
+            indexActiveDay: Number,
             readOnly: {
                 type: Boolean,
                 default: true,
@@ -26,14 +27,100 @@
             }
         },
         methods: {
+            routes() {
+                let currentRoutingMode = '';
+                let currentPointList = [];
+                let routes = [];
+
+                this.days.forEach((day, indexDay) => {
+                    routes[indexDay] = [];
+                    currentRoutingMode = '';
+
+                    day.objects.forEach((obj, indexObj) => {
+                        let coordinates = obj.coordinates;
+                        let routingMode = presenter.getRoutingMode(obj.typeMovement[0]);
+                        // 1 точка в текущем дне
+                        if (indexObj === 0) {
+                            currentPointList = [coordinates];
+                        }
+                        // все остальные точки
+                        else {
+                            let prevCoordinates = day.objects[indexObj - 1].coordinates;
+                            // если в эту точку не попасть
+                            // сохраняем этот отрезок как полет
+                            if (day.objects[indexObj].way_false) {
+                                if (currentRoutingMode !== '') {
+                                    routes[indexDay].push({
+                                        pointList: currentPointList,
+                                        routingMode: currentRoutingMode,
+                                    });
+                                }
+                                routes[indexDay].push({
+                                    pointList: [prevCoordinates, coordinates],
+                                    routingMode: 'fly',
+                                });
+                                currentPointList = [coordinates];
+                                currentRoutingMode === routingMode;
+                            }
+                            // если попасть...
+                            else {
+                                // если это только 2 точка
+                                if (currentRoutingMode === '') { // только если это вторая точка
+                                    currentRoutingMode = routingMode;
+                                    currentPointList.push(coordinates);
+                                }
+                                // если режим не изменился
+                                else if (routingMode === currentRoutingMode) {
+                                    currentPointList.push(coordinates);
+                                }
+                                // если изменился
+                                else { // режим изменился
+                                    routes[indexDay].push({
+                                        pointList: currentPointList,
+                                        routingMode: currentRoutingMode,
+                                    });
+                                    currentPointList = [prevCoordinates, coordinates];
+                                    currentRoutingMode = routingMode;
+                                }
+                                // если точка последняя
+                                if (indexObj === day.objects.length - 1) { // если точка была последняя
+                                    routes[indexDay].push({
+                                        pointList: currentPointList,
+                                        routingMode: currentRoutingMode,
+                                    });
+                                }
+                            }
+                        }
+                    })
+                });
+                return routes;
+            },
             addPoint(point) {
-                this.$store.dispatch('showModalAddPoint', {
-                    text: `Адрес: ${point.description} ${point.name}`,
-                    onConfirm: (type) => {
-                        this.$emit('addPoint', {
-                            type,
-                            point
-                        })
+                this.$store.dispatch('showModalConfirm', {
+                    text: `Добавить в выбранном дне точку: ${getAdress(point)}?`,
+                    onConfirm: () => {
+                        let image = presenter.getStylesPoints(this.indexActiveDay).imagePoint;
+                        let size = [10, 10];
+                        let offset = [-5, -5];
+                        const l = this.currentPoints[this.indexActiveDay].length || 0;
+                        this.currentPoints[this.indexActiveDay][l] = new ymaps.Placemark(point.position, {
+                            hintContent: getAdress(point),
+                        }, {
+                            // Опции.
+                            // Необходимо указать данный тип макета.
+                            iconLayout: 'default#imageWithContent',
+                            // Своё изображение иконки метки.
+                            iconImageHref: image,
+                            // Размеры метки.
+                            iconImageSize: size,
+                            // Смещение левого верхнего угла иконки относительно
+                            // её "ножки" (точки привязки).
+                            iconImageOffset: offset,
+                            // Смещение слоя с содержимым относительно слоя с картинкой.
+                        });
+
+                        this.map.geoObjects.add(this.currentPoints[this.indexActiveDay][l]);
+                        this.$emit('addPoint', point);
                     }
                 });
             },
@@ -47,8 +134,6 @@
                     // searchControlProvider: 'yandex#search',
                     yandexMapDisablePoiInteractivity: true // отключил интерактивность маркеров
                 });
-
-
 
                 if (!this.readOnly) {
                     var cursor = this.map.cursors.push('crosshair');
@@ -78,7 +163,7 @@
                 }
 
                 // добавление маршрутов
-                this.routes.forEach((day, index) => {
+                this.routes().forEach((day, index) => {
                     this.multiRoutes[index] = [];
                     let styles = presenter.getStylesPoints(index);
                     day.forEach((route, i) => {
@@ -190,12 +275,6 @@
                             iconImageOffset: offset,
                             // Смещение слоя с содержимым относительно слоя с картинкой.
                         });
-                        if (!this.readOnly) {
-                            this.currentPoints[indexDay][indexObj].events.add('click', function () {
-                                points.splice(index, 1);
-                            });
-                        }
-
 
                         this.map.geoObjects.add(this.currentPoints[indexDay][indexObj])
                     })
@@ -205,74 +284,7 @@
             }
         },
         computed: {
-            routes() {
-                let currentRoutingMode = '';
-                let currentPointList = [];
-                let routes = [];
 
-                this.days.forEach((day, indexDay) => {
-                    routes[indexDay] = [];
-                    currentRoutingMode = '';
-
-                    day.objects.forEach((obj, indexObj) => {
-                        let coordinates = obj.coordinates;
-                        let routingMode = presenter.getRoutingMode(obj.typeMovement[0]);
-                        // 1 точка в текущем дне
-                        if (indexObj === 0) {
-                            currentPointList = [coordinates];
-                        }
-                        // все остальные точки
-                        else {
-                            let prevCoordinates = day.objects[indexObj - 1].coordinates;
-                            // если в эту точку не попасть
-                            // сохраняем этот отрезок как полет
-                            if (day.objects[indexObj].way_false) {
-                                if (currentRoutingMode !== '') {
-                                    routes[indexDay].push({
-                                        pointList: currentPointList,
-                                        routingMode: currentRoutingMode,
-                                    });
-                                }
-                                routes[indexDay].push({
-                                    pointList: [prevCoordinates, coordinates],
-                                    routingMode: 'fly',
-                                });
-                                currentPointList = [coordinates];
-                                currentRoutingMode === routingMode;
-                            }
-                            // если попасть...
-                            else {
-                                // если это только 2 точка
-                                if (currentRoutingMode === '') { // только если это вторая точка
-                                    currentRoutingMode = routingMode;
-                                    currentPointList.push(coordinates);
-                                }
-                                // если режим не изменился
-                                else if (routingMode === currentRoutingMode) {
-                                    currentPointList.push(coordinates);
-                                }
-                                // если изменился
-                                else { // режим изменился
-                                    routes[indexDay].push({
-                                        pointList: currentPointList,
-                                        routingMode: currentRoutingMode,
-                                    });
-                                    currentPointList = [prevCoordinates, coordinates];
-                                    currentRoutingMode = routingMode;
-                                }
-                                // если точка последняя
-                                if (indexObj === day.objects.length - 1) { // если точка была последняя
-                                    routes[indexDay].push({
-                                        pointList: currentPointList,
-                                        routingMode: currentRoutingMode,
-                                    });
-                                }
-                            }
-                        }
-                    })
-                });
-                return routes;
-            }
         },
         watch: {
 

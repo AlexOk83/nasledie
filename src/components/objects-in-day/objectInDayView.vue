@@ -11,6 +11,7 @@
               :click-up="() => objectUp(index)"
               :click-down="() => objectDown(index)"
               :click-remove="() => remove(index)"
+              :is-changed="dataIsChange"
               @change="data => changeItem(index, data)"
         />
     </div>
@@ -31,6 +32,7 @@
             list: Array,
             start: Object,
             end: Object,
+            dataIsChange:Boolean,
         },
         data() {
             return {
@@ -79,7 +81,14 @@
                 this.$emit('change', this.localList);
             },
             remove(index) {
+                console.clear();
+                console.log(this.localList.map(i => (i.name)));
+                console.log(this.localList[index].name);
+
+                console.log(index);
+
                 this.localList.splice(index, 1);
+                console.log(this.localList.map(i => (i.name)));
                 this.$emit('change', this.localList);
             },
             changeItem(index, data) {

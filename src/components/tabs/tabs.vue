@@ -41,6 +41,7 @@
                         :list="activeDay && activeDay.objects"
                         :start="start"
                         :end="end"
+                        :data-is-change="dataIsChange"
                         @change="changeObjectsFromActiveDay"
                 />
                 <Form-add
@@ -67,6 +68,8 @@
             data: Array,
             start: Object,
             end: Object,
+            indexActiveDay: Number,
+            dataIsChange: Boolean,
         },
         components: {
             Field,
@@ -76,8 +79,7 @@
         data() {
             return {
                 localData: this.data,
-                activeDay: this.getData || {},
-                indexActiveDay: 0,
+                activeDay: {},
                 left: 0,
                 widthHeader: null,
             }
@@ -130,7 +132,7 @@
             },
             setActiveDay(index) {
                 this.activeDay = this.localData[index];
-                this.indexActiveDay = index;
+                this.$emit('setActiveDay', index);
             },
             prev() {
                 if (this.left > 0)
@@ -144,8 +146,10 @@
         watch: {
             data: function () {
                 this.localData = this.data;
-                this.activeDay = this.localData[0];
-                this.indexActiveDay = 0;
+                this.activeDay = this.localData[this.indexActiveDay];
+            },
+            indexActiveDay() {
+
             }
         },
         computed: {
