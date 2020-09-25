@@ -174,8 +174,9 @@
                         let image = isEqual(finalObject.coordinates, obj.coordinates) ? styles.imageFlag : styles.imagePoint;
                         let size = isEqual(finalObject.coordinates, obj.coordinates) ? [45, 45] : [10, 10];
                         let offset = isEqual(finalObject.coordinates, obj.coordinates) ? [-7, -37] : [-5, -5];
+                        let time = obj.timeInWay === 0 ? 'Начало маршрута' : presenter.getTime(obj.timeInWay)
                         this.currentPoints[indexDay][indexObj] = new ymaps.Placemark(obj.coordinates, {
-                            hintContent: getAdress(obj),
+                            hintContent: '<div><p>' + getAdress(obj) + '</p><p>' + time + '</p></div>',
                         }, {
                             // Опции.
                             // Необходимо указать данный тип макета.

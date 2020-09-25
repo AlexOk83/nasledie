@@ -12,11 +12,17 @@ const update = (items, typeMovement) => items.map((point, index) => new Promise(
                 function(route) { // успешно смогли построить маршрут
                     point.way = Math.round(route.getLength());
                     point.timeInWay = Math.round(route.getTime()/60);
+                    if (point.timeInWay > 16*60) {
+                        point.routeVeryLong = true;
+                    }
                     resolve(point);
                 }, function () {
                     point.way_false = 1;
                     point.way = distance;
-                    point.timeInWay = Math.round(distance / 800)
+                    point.timeInWay = Math.round(distance / 800);
+                    if (point.timeInWay > 16*60) {
+                        point.routeVeryLong = true;
+                    }
                     resolve(point)
                 })
         } else {
@@ -204,13 +210,13 @@ export class Presenter {
                 // здесь мы уже имеем все изменения
                 console.log(objectsInDays);
                 // теперь нужно разбить этот список объектов на дни
-                let time = 0; // сколько пройдено пути по времени
                 let minutes = 0;
+                let i; // index активного для заполнения (последним созданного дня)
                 const timeBorder = 12*60; // 12 часов в день по 60 минут
                 objectsInDays.forEach((obj, index) => {
-                    let i = days.length - 1;
-                    totalTime = totalTime + obj.timeInWay;
-                    totalWay = totalWay + obj.way;
+                    totalTime = totalTime + obj.timeInWay + obj.time + obj.stopTime;
+                    totalWay += obj.way;
+                    // день первый - создаем день
                     if (index === 0) {
                         days.push({
                             id: index + 1,
@@ -228,44 +234,92 @@ export class Presenter {
                         })
                         i = days.length - 1;
                     }
-                    else {
-                        minutes = time + obj.timeInWay + obj.time + obj.stopTime;
-                        if (minutes >= timeBorder) {
-                            time = 0;
-                            days[i].timeEnd = this.getTimeEnd(days[i].timeStart, minutes);
+                    // слишком длинный отрезок
+                    else if (obj.timeInWay > 12*60) {
+                        // он второй в списке (будет полюбому 3 и выше)
+                        if (days[i].objects.length === 1) {
+                            days[i].timeEnd = this.getTimeEnd(timeStart, obj.timeInWay + obj.time);
                             days[i].endPoint = obj.name;
                             days[i].endPointCoordLat = obj.startPointCoordLat;
-                            days[i].endPointCoordLong = obj.startPointCoordLat;
+                            days[i].endPointCoordLong = obj.startPointCoordLong;
                             days[i].objects.push(obj);
-                            if (index !== objectsInDays.length - 1) {
-                                days.push({
-                                    id: index + 1,
-                                    dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
-                                    dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
-                                    timeStart: timeStart,
-                                    timeEnd: '00"00',
-                                    startPoint: obj.name,
-                                    startPointCoordLat: obj.startPointCoordLat,
-                                    startPointCoordLong: obj.startPointCoordLong,
-                                    endPoint: null,
-                                    endPointCoordLat: null,
-                                    endPointCoordLong: null,
-                                    objects: [obj]
-                                });
-                                i = days.length - 1;
-                            }
+                            days.push({
+                                id: i + 2,
+                                dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
+                                dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
+                                timeStart: timeStart,
+                                startPoint: obj.name,
+                                startPointCoordLat: obj.startPointCoordLat,
+                                startPointCoordLong: obj.startPointCoordLong,
+                                objects: [obj]
+                            });
+                            i = days.length - 1;
                         }
                         else {
-                            days[i].objects.push(obj);
+                            const prevObj = objectsInDays[index - 1];
+                            days[i].timeEnd = this.getTimeEnd(days[i].timeStart, minutes);
+                            days[i].endPoint = prevObj.name;
+                            days[i].endPointCoordLat = prevObj.startPointCoordLat;
+                            days[i].endPointCoordLong = prevObj.startPointCoordLong;
+                            days.push({
+                                id: i + 2,
+                                dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
+                                dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
+                                timeStart: timeStart,
+                                timeEnd: this.getTimeEnd(timeStart, obj.timeInWay + obj.time),
+                                startPoint: prevObj.name,
+                                startPointCoordLat: prevObj.startPointCoordLat,
+                                startPointCoordLong: prevObj.startPointCoordLong,
+                                endPoint: obj.name,
+                                endPointCoordLat: obj.startPointCoordLat,
+                                endPointCoordLong: obj.startPointCoordLong,
+                                objects: [prevObj, obj]
+                            }, {
+                                id: i + 3,
+                                dateStart: moment(dateStart).add(i + 2, 'days').format('YYYY-MM-DD'),
+                                dateEnd: moment(dateStart).add(i + 2, 'days').format('YYYY-MM-DD'),
+                                timeStart: timeStart,
+                                startPoint: obj.name,
+                                startPointCoordLat: obj.startPointCoordLat,
+                                startPointCoordLong: obj.startPointCoordLong,
+                                objects: [obj]
+                            });
+                            i = days.length - 1;
                         }
                     }
-                    if (index === objectsInDays.length - 1) {
-                        days[i].timeEnd = this.getTimeEnd(days[i].timeStart, minutes);
+                    // если время вышло за пределы 12 часов
+                    else if (minutes + obj.timeInWay + obj.time >= timeBorder) {
+                        days[i].timeEnd = this.getTimeEnd(timeStart, minutes + obj.timeInWay + obj.time);
                         days[i].endPoint = obj.name;
                         days[i].endPointCoordLat = obj.startPointCoordLat;
                         days[i].endPointCoordLong = obj.startPointCoordLong;
+                        days[i].objects.push(obj);
+                        minutes = 0;
+                        // и это не последний объект, создает начало сл. дня
+                        if (index !== objectsInDays.length - 1) {
+                            days.push({
+                                id: index + 1,
+                                dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
+                                dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
+                                timeStart: timeStart,
+                                startPoint: obj.name,
+                                startPointCoordLat: obj.startPointCoordLat,
+                                startPointCoordLong: obj.startPointCoordLong,
+                                objects: [obj]
+                            });
+                            i = days.length - 1;
+                        }
                     }
-
+                    else {
+                        minutes = minutes + obj.timeInWay + obj.time;
+                        days[i].objects.push(obj);
+                        if (index === objectsInDays.length - 1) {
+                            days[i].timeEnd = this.getTimeEnd(timeStart, minutes);
+                            days[i].endPoint = obj.name;
+                            days[i].endPointCoordLat = obj.startPointCoordLat;
+                            days[i].endPointCoordLong = obj.startPointCoordLong;
+                        }
+                    }
                 });
                 console.log(days, totalTime, totalWay);
 

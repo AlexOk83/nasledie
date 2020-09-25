@@ -196,6 +196,24 @@
             }
         },
         computed: {
+            validation() {
+                if (!this.name || this.name === '') {
+                    return 'Не заполнено название маршрута'
+                }
+                if (isEmpty(this.startPoint)) {
+                    return 'Не указана точка старта'
+                }
+                if (isEmpty(this.endPoint)) {
+                    return 'Не указана точка назначения'
+                }
+                if (isEmpty(this.objects) && isEmpty(this.mapPoints)) {
+                    return 'Не заданы точки остановки, объекты на карте'
+                }
+                if (this.pointList.find(object => object.routeVeryLong)) {
+                    return 'Следует перестроить маршрут. У данного маршрута есть отрезок продолжительностью пути более 24 часов'
+                }
+                return null;
+            },
             listParams() {
                 return radioButtonOptions
             },
@@ -316,8 +334,9 @@
                 return formData
             },
             createRoute() {
-                if (isEmpty(this.startPoint) || isEmpty(this.endPoint) || (isEmpty(this.objects) && isEmpty(this.mapPoints)) ) {
-                    this.$store.dispatch('showModal','Не заполнены обязательные поля');
+                const validation = this.validation;
+                if (validation) {
+                    this.$store.dispatch('showModal', validation);
                     return null;
                 }
                 this.$store.dispatch('showPreloader');
