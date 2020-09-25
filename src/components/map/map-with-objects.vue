@@ -47,9 +47,10 @@
                 this.map = new ymaps.Map("map", {
                     center: from.position || [55.753215, 37.622504], // по умолчанию москва
                     zoom: 13,
-                    maxZoom: 15
+                    maxZoom: 15,
+                    controls: [],
                 }, {
-                    searchControlProvider: 'yandex#search',
+                    // searchControlProvider: 'yandex#search',
                     yandexMapDisablePoiInteractivity: true // отключил интерактивность маркеров
                 });
 

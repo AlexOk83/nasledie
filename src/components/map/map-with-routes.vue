@@ -12,6 +12,10 @@
         props: {
             from: Array,
             days: Array,
+            readOnly: {
+                type: Boolean,
+                default: true,
+            }
         },
         data() {
             return {
@@ -37,36 +41,43 @@
                 const {from, addPoint} = this;
                 this.map = new ymaps.Map("map", {
                     center: from, // по умолчанию москва
-                    zoom: 13
+                    zoom: 13,
+                    controls: [],
                 }, {
-                    searchControlProvider: 'yandex#search',
+                    // searchControlProvider: 'yandex#search',
                     yandexMapDisablePoiInteractivity: true // отключил интерактивность маркеров
                 });
 
-                var cursor = this.map.cursors.push('crosshair');
 
-                this.map.events.add('click', function (e) {
-                    var coords = e.get('coords');
-                    const geocoder = ymaps.geocode(coords);
-                    let pointList = [];
 
-                    // После того, как поиск вернул результат, вызывается callback-функция
-                    geocoder.then(
-                        function (res) {
-                            res.geoObjects.each(function (el) {
-                                let point = {
-                                    position: el.geometry.getCoordinates(),
-                                    name: el.properties.get('name'),
-                                    description: el.properties.get('description'),
-                                }
-                                pointList.push(point);
-                            });
-                            addPoint(pointList[0]);
-                        }
-                    );
+                if (!this.readOnly) {
+                    var cursor = this.map.cursors.push('crosshair');
 
-                });
+                    this.map.events.add('click', function (e) {
+                        var coords = e.get('coords');
+                        const geocoder = ymaps.geocode(coords);
+                        let pointList = [];
 
+                        // После того, как поиск вернул результат, вызывается callback-функция
+                        geocoder.then(
+                            function (res) {
+                                res.geoObjects.each(function (el) {
+                                    let point = {
+                                        position: el.geometry.getCoordinates(),
+                                        name: el.properties.get('name'),
+                                        description: el.properties.get('description'),
+                                    }
+                                    pointList.push(point);
+                                });
+                                addPoint(pointList[0]);
+                            }
+                        );
+
+                    });
+
+                }
+
+                // добавление маршрутов
                 this.routes.forEach((day, index) => {
                     this.multiRoutes[index] = [];
                     let styles = presenter.getStylesPoints(index);
@@ -154,6 +165,7 @@
                     })
                 });
 
+                // добавление маркеров на карту
                 this.days.forEach((day, indexDay ) => {
                     this.currentPoints[indexDay] = [];
                     let styles = presenter.getStylesPoints(indexDay);
@@ -177,6 +189,12 @@
                             iconImageOffset: offset,
                             // Смещение слоя с содержимым относительно слоя с картинкой.
                         });
+                        if (!this.readOnly) {
+                            this.currentPoints[indexDay][indexObj].events.add('click', function () {
+                                points.splice(index, 1);
+                            });
+                        }
+
 
                         this.map.geoObjects.add(this.currentPoints[indexDay][indexObj])
                     })

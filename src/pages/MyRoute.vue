@@ -122,6 +122,7 @@
                             v-if="viewMap"
                             :from="startPoint.position"
                             :days="days"
+                            @change="changeValue('days', $event)"
                     />
                     <Map-objects
                             v-if="viewMapCreate"
