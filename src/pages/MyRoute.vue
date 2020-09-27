@@ -374,6 +374,7 @@
                 this.files = [];
                 this.regions = [];
                 this.pointList = [];
+                this.mapPoints = [];
             },
             getInfoForCreate() {
                 const formData = new FormData();
@@ -493,12 +494,12 @@
             getDataRoute() {
                 this.$store.dispatch('showPreloader');
                 repository.getMyRoute(this.userId, this.routeId)
-                .then(response => {
-                    this.$store.dispatch('hidePreloader');
-                    const route = JSON.parse(response.data).router;
-                    this.showMap = true;
-                    this.updateState(route);
-                })
+                    .then(response => {
+                        this.$store.dispatch('hidePreloader');
+                        const route = JSON.parse(response.data).router;
+                        this.showMap = true;
+                        this.updateState(route);
+                    })
             },
             updateState(data) {
                 if (isNil(data)) {
@@ -561,9 +562,6 @@
                 this.showMap = true;
             }
         },
-        mounted() {
-
-        }
     }
 </script>
 
