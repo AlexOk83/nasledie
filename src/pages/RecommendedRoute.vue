@@ -371,6 +371,9 @@
                         const data = JSON.parse(response.data);
                         if (data.status) {
                             this.$store.dispatch('showModalSuccess', { text: 'сохранение выполнено успешно!' });
+                            setTimeout(() => {
+                                this.$store.dispatch('hideModal');
+                            }, 500);
                         }
                     })
                     .finally(() => {
