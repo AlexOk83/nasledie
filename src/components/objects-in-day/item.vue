@@ -4,7 +4,7 @@
         <div class="body-object">
             <div class="title">
                 <Icon icon="object" />
-                <span>{{ data.name }}</span>
+                <span>{{ name }}</span>
             </div>
             <div class="gray-label">Время на объекте:</div>
             <MinutePicker
@@ -52,6 +52,7 @@
     import MinutePicker from "../form-control/MinutePicker";
     import Field from "../form-control/Field";
     import {typesOfMovement} from "../../constants";
+    import {getAdress} from "../../utils";
     const presenter = new Presenter();
 
     export default {
@@ -88,6 +89,9 @@
             }
         },
         computed: {
+            name() {
+                return getAdress(this.data);
+            },
             visibleUp() {
                 if (this.isFirst || this.isNotPoint) {
                     return false;
