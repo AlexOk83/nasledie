@@ -53,13 +53,13 @@
                                     routes[indexDay].push({
                                         pointList: currentPointList,
                                         routingMode: currentRoutingMode,
-                                        veryLong: obj.routeVeryLong,
+                                        veryLong: obj.timeInWay > 16*60,
                                     });
                                 }
                                 routes[indexDay].push({
                                     pointList: [prevCoordinates, coordinates],
                                     routingMode: 'fly',
-                                    veryLong: obj.routeVeryLong,
+                                    veryLong: obj.timeInWay > 16*60,
                                 });
                                 currentPointList = [coordinates];
                                 currentRoutingMode = routingMode;
@@ -80,7 +80,7 @@
                                     routes[indexDay].push({
                                         pointList: currentPointList,
                                         routingMode: currentRoutingMode,
-                                        veryLong: obj.routeVeryLong,
+                                        veryLong: obj.timeInWay > 16*60,
                                     });
                                     currentPointList = [prevCoordinates, coordinates];
                                     currentRoutingMode = routingMode;
@@ -90,7 +90,7 @@
                                     routes[indexDay].push({
                                         pointList: currentPointList,
                                         routingMode: currentRoutingMode,
-                                        veryLong: obj.routeVeryLong,
+                                        veryLong: obj.timeInWay > 16*60,
                                     });
                                 }
                             }

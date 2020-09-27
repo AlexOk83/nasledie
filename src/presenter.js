@@ -43,23 +43,11 @@ const update2 = (items) => items.map((point, index) => new Promise((resolve, rej
                     point.way_false = 0;
                     point.way = Math.round(route.getLength());
                     point.timeInWay = Math.round(route.getTime() / 60);
-                    if (point.timeInWay > 16 * 60) {
-                        point.routeVeryLong = true;
-                    }
-                    else {
-                        point.routeVeryLong = null;
-                    }
                     resolve(point);
                 }, function () {
                     point.way_false = 1;
                     point.way = distance;
                     point.timeInWay = Math.round(distance / 800);
-                    if (point.timeInWay > 16 * 60) {
-                        point.routeVeryLong = true;
-                    }
-                    else {
-                        point.routeVeryLong = null;
-                    }
                     resolve(point)
                 })
         } else {
