@@ -10,6 +10,7 @@ const update = (items, typeMovement) => items.map((point, index) => new Promise(
             const distance = getDistanceFromLatLonInMeters(p1, p2);
             ymaps.route([p1, p2], {routingMode}).then(
                 function (route) { // успешно смогли построить маршрут
+                    point.way_false = 0;
                     point.way = Math.round(route.getLength());
                     point.timeInWay = Math.round(route.getTime() / 60);
                     if (point.timeInWay > 16 * 60) {
@@ -39,6 +40,7 @@ const update2 = (items) => items.map((point, index) => new Promise((resolve, rej
             const distance = getDistanceFromLatLonInMeters(p1, p2);
             ymaps.route([p1, p2], {routingMode}).then(
                 function (route) { // успешно смогли построить маршрут
+                    point.way_false = 0;
                     point.way = Math.round(route.getLength());
                     point.timeInWay = Math.round(route.getTime() / 60);
                     if (point.timeInWay > 16 * 60) {
