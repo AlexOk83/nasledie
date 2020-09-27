@@ -139,9 +139,7 @@
                 this.id = this.$route.params.id;
                 this.type = this.$route.params.type;
                 this.$store.dispatch('showPreloader');
-                console.log(this.$store.getters.getUserId)
                 repository.getMyRoute(this.$store.getters.getUserId, this.id).then(response => {
-                    console.log(JSON.parse(response.data));
                     const data = JSON.parse(response.data);
                     this.route = data.router;
                 }).finally(() => {

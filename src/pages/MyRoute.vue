@@ -219,7 +219,6 @@
                         indexes.push(l)
                     }
                 });
-
                 return indexes;
             },
             validation() {
@@ -289,7 +288,6 @@
         },
         methods: {
             addPointToActiveDay(point) {
-                console.log(point);
                 // мы знаем позиции активного дняи нам надо эту точку добавить в 1 месте
                 let wellPoint = {
                     ...point,
@@ -313,10 +311,29 @@
             },
             calcRouteAgain() {
                 this.$store.dispatch('showPreloader');
-                return presenter.calculatedDaysRoute({
+                return presenter.updateDaysRoute({
                     ...this,
                 }).then(data => {
-                    this.days = data.days;
+                    this.days = data.days.map(day => {
+                        let pointStart = {
+                            date: day.dateStart,
+                            time: day.timeStart
+                        };
+                        let pointEnd = {
+                            date: day.dateEnd,
+                            time: day.timeEnd
+                        }
+                        let objects = day.objects.map(o => ({
+                            ...o,
+                            coordinates: o.position,
+                        }))
+                        return {
+                            ...day,
+                            pointStart,
+                            pointEnd,
+                            objects
+                        }
+                    });
                     this.totalWay = data.totalWay;
                     this.totalTime = data.totalTime;
                     this.needUpdateDayData = false;
@@ -329,6 +346,10 @@
             onCalcRoute() {
                 this.calcRouteAgain().then(() => {
                     this.$store.dispatch('showModalSuccess', {text: 'Маршрут пересчитан!'});
+                    setTimeout(() => {
+                        this.$store.dispatch('hideModal');
+                    }, 500);
+
                 })
             },
             // доделанные методы V
@@ -384,7 +405,6 @@
                 }
                 formData.append('ZRouter', JSON.stringify(values));
                 formData.append('sessionId', 1);
-                console.log('saved...', values);
                 return formData
             },
             getInfoForUpdate() {
@@ -403,7 +423,6 @@
                 }
                 formData.append('ZRouter', JSON.stringify(values));
                 formData.append('sessionId', 1);
-                console.log('saved...', values);
                 return formData
             },
             createRoute() {
@@ -419,11 +438,10 @@
                     this.days = data.days;
                     this.totalWay = data.totalWay;
                     this.totalTime = data.totalTime;
-                    this.pointList = data.pointsList;
+                    this.pointList = data.pointList;
                     const infoForSave = this.getInfoForCreate();
                     repository.createMyRoute(this.userId, infoForSave)
                         .then(response => {
-                            console.log(response.data);
                             const result = JSON.parse(response.data);
                             if (result && result.id) {
 
@@ -457,7 +475,12 @@
             changeValue(field, value) {
                 if (field === 'days') {
                     const activeDayObjects = value[this.indexActiveDay].objects;
-                    this.pointList.splice(this.globalIndexActiveDay, this.countObjectActiveDay, ...activeDayObjects);
+                    if (this.days.length === 1) {
+                        this.pointList = activeDayObjects;
+                    }
+                    else {
+                        this.pointList.splice(this.globalIndexActiveDay, this.countObjectActiveDay, ...activeDayObjects);
+                    }
                     this.needUpdateDayData = true;
                 }
                 this.$data[field] = value;
@@ -473,7 +496,6 @@
                 .then(response => {
                     this.$store.dispatch('hidePreloader');
                     const route = JSON.parse(response.data).router;
-                    console.log(route);
                     this.showMap = true;
                     this.updateState(route);
                 })

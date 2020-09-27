@@ -318,7 +318,6 @@
                 }
                 formData.append('ZRouter', JSON.stringify(values));
                 formData.append('sessionId', 1);
-                console.log('saved...', values);
                 return formData
             },
             getInfoForUpdate() {
@@ -338,7 +337,6 @@
                 }
                 formData.append('ZRouter', JSON.stringify(values));
                 formData.append('sessionId', 1);
-                console.log('saved...', values);
                 return formData
             },
             createRoute() {
@@ -350,14 +348,12 @@
                 presenter.calculatedDaysRoute({
                     ...this,
                 }).then(data => {
-                    console.log('сгенерировали дни и растояние', data);
                     this.days = data.days;
                     this.totalWay = data.totalWay;
                     this.totalTime = data.totalTime;
                     const infoForSave = this.getInfoForCreate();
                     repository.createRecommendedRoute(this.userId, infoForSave)
                         .then(response => {
-                            console.log(response.data);
                             const result = JSON.parse(response.data);
                             if (result && result.id) {
                                 this.$router.push(`/edit-recommended-route/${result.id}`)
@@ -399,7 +395,6 @@
                     .then(response => {
                         this.$store.dispatch('hidePreloader');
                         const route = JSON.parse(response.data).router;
-                        console.log(route);
                         this.clearRoute();
                         this.updateState(route);
                     })

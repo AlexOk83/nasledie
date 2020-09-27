@@ -81,14 +81,7 @@
                 this.$emit('change', this.localList);
             },
             remove(index) {
-                console.clear();
-                console.log(this.localList.map(i => (i.name)));
-                console.log(this.localList[index].name);
-
-                console.log(index);
-
                 this.localList.splice(index, 1);
-                console.log(this.localList.map(i => (i.name)));
                 this.$emit('change', this.localList);
             },
             changeItem(index, data) {

@@ -52,12 +52,10 @@
         computed: {},
         methods: {
             deleteItem(index) {
-                console.log(index);
                 this.selectedValues.splice(index, 1);
                 this.$emit('change', this.selectedValues);
             },
             selectValue(e) {
-                console.log(e);
                 this.value = null;
                 let selectValue = this.listValue.find(item => item.value === e);
                 this.selectedValues.push(selectValue);

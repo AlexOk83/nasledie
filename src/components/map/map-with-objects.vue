@@ -160,8 +160,6 @@
                 }
             },
             points() {
-                console.log('изменились точки');
-                console.log(this.points);
                 if (this.currentPoints.length > 0) { // если точки отрисованы, их надо удалить
                     this.currentPoints.forEach(point => {
                         this.map.geoObjects.remove(point)
@@ -193,7 +191,6 @@
 
                     this.map.geoObjects.add(this.currentPoints[index])
                 })
-                console.log(this.map.geoObjects.getBounds())
 
                 this.setBounds();
             }

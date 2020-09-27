@@ -64,3 +64,13 @@ export function isEqual(p1, p2) {
 
     return Boolean(lat1 === lat2 && long1 === long2);
 }
+
+export function calcTime(distance, typeMovement) {
+    if (typeMovement === 'people') {
+        return Math.round(distance / 5);
+    }
+    if (distance > 1080000) { // d > 1080 км (90 км/ч * 12 часов)
+        return Math.round(distance / 800)
+    }
+    return Math.round(distance / 90)
+}

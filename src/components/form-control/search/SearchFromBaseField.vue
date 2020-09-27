@@ -68,7 +68,6 @@
                 repository.getBrands(category, region, this.searchText)
                     .then(response => {
                         let brands = JSON.parse(response.data);
-                        console.log(brands)
                         this.brands = brands;
                         this.menuVisible = true;
                     })

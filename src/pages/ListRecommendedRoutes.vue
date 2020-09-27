@@ -59,7 +59,6 @@
                 repository.getRecommendedRoutes(this.$store.getters.getUserId)
                     .then(response => {
                         this.routesList = JSON.parse(response.data);
-                        console.log(this.routesList)
                     }).finally(() => {
                     this.$store.dispatch('hidePreloader');
                 })
@@ -73,7 +72,6 @@
                 repository.getRecommendedRoutes(this.$store.getters.getUserId, formData)
                     .then(response => {
                         this.routesList = JSON.parse(response.data);
-                        console.log(this.routesList.map(item => (item.like)))
                     }).finally(() => {
                     this.$store.dispatch('hidePreloader');
                 })

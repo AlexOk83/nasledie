@@ -20,7 +20,6 @@
         },
         methods: {
             getRoutes() {
-                console.log('1');
                 let currentRoutingMode = '';
                 let currentPointList = [];
                 let routes = [];
@@ -64,7 +63,6 @@
 
                     })
                 });
-                console.log(routes);
                 this.routes = routes;
             },
         },

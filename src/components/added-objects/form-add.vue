@@ -90,7 +90,6 @@
                 this.currentRegion = this.regions.find(region => Number(region.value) === Number(event.region));
             },
             add() {
-                console.log(this.currentObject);
                 this.$emit('add', this.currentObject);
                 this.clearAll();
             },
@@ -108,12 +107,9 @@
                 this.currentCategory = this.categories.find(region => region.value === event);
             },
             changeObject(event) {
-                console.log(event);
                 this.currentObject = this.objectList.find(object => object.value === event);
             },
             changeBrand(event) {
-                console.clear();
-                console.log(event, this.regions);
                 this.currentBrand = event;
                 this.currentCategory = this.categories.find(category => category.value === event.type);
                 this.currentRegion = this.regions.find(region => Number(region.value) === Number(event.region));

@@ -65,11 +65,9 @@
                 this.active = false;
                 this.searchText = "";
                 this.filteredList = this.list;
-                console.log('выбрал ', option.value)
                 this.$emit('change', this.currentValue);
             },
             filterList(event) {
-                console.log(event.target.value);
                 if (event.target.value.length > 2) {
                     this.filteredList = this.list.filter(item => item.name.toLowerCase().match(event.target.value.toLowerCase()))
                 }

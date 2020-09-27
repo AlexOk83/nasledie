@@ -116,7 +116,6 @@
         },
         methods: {
             changeTypeMovement(e) {
-                console.log('1', [e]);
                 this.$emit('change', {
                     field: 'typeMovement',
                     nextItem: true,
