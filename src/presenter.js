@@ -1,5 +1,6 @@
 import moment from "moment";
 import {getDistanceFromLatLonInMeters, isEqual, calcTime} from './utils';
+import {isEmpty} from 'lodash';
 
 const update = (items, typeMovement) => items.map((point, index) => new Promise((resolve, reject) => {
     ymaps.ready(function () {
@@ -99,7 +100,10 @@ export class Presenter {
             remainderMinutes = `0${remainderMinutes}`
         }
         if (hours > 23) {
-            hours = '00';
+            hours = hours - 24;
+        }
+        if (hours < 10) {
+            hours = `0${hours}`
         }
         return `${hours}:${remainderMinutes}`;
     }
@@ -250,12 +254,27 @@ export class Presenter {
         });
     }
 
-    createDataDays(pointList, dateStart, timeStart) {
-        let minutes = 0, i;
+    getCurrentTimeStart(oldDays, i, timeStart) {
+        if (isEmpty(oldDays)) {
+            return timeStart;
+        }
+        if (oldDays && oldDays[i] && oldDays[i].timeStart) {
+            return oldDays[i].timeStart;
+        }
+        if (oldDays && oldDays[i - 1] && oldDays[i - 1].timeStart) {
+            return oldDays[i - 1].timeStart;
+        }
+
+        return timeStart;
+    }
+
+    createDataDays(pointList, dateStart, timeStart, oldDays = []) {
+        let minutes = 0, i = 0;
         let days = [];
         let totalTime = 0;
         let totalWay = 0;
         const timeBorder = 12 * 60;
+
 
         pointList.forEach((obj, index) => {
             totalTime = totalTime + obj.timeInWay + obj.time + obj.stopTime;
@@ -263,22 +282,21 @@ export class Presenter {
             // день первый - создаем день
             if (index === 0) {
                 days.push({
-                    id: index + 1,
+                    id: 1,
                     dateStart: moment(dateStart).format('YYYY-MM-DD'),
                     dateEnd: moment(dateStart).format('YYYY-MM-DD'),
-                    timeStart: timeStart,
+                    timeStart: this.getCurrentTimeStart(oldDays, 0, timeStart),
                     startPoint: obj.name,
                     startPointCoordLat: obj.startPointCoordLat,
                     startPointCoordLong: obj.startPointCoordLong,
                     objects: [obj]
                 })
-                i = days.length - 1;
             }
             // слишком длинный отрезок
             else if (obj.timeInWay > 12 * 60) {
                 // он второй в списке (будет полюбому 3 и выше) - заканчиваем текущий день
                 if (days[i].objects.length === 1) {
-                    days[i].timeEnd = this.getTimeEnd(timeStart, obj.timeInWay + obj.time);
+                    days[i].timeEnd = this.getTimeEnd(days[i].timeStart, obj.timeInWay + obj.time + obj.stopTime);
                     days[i].endPoint = obj.name;
                     days[i].endPointCoordLat = obj.startPointCoordLat;
                     days[i].endPointCoordLong = obj.startPointCoordLong;
@@ -287,7 +305,7 @@ export class Presenter {
                         id: i + 2,
                         dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
                         dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
-                        timeStart: timeStart,
+                        timeStart: this.getCurrentTimeStart(oldDays, i + 1, timeStart),
                         startPoint: obj.name,
                         startPointCoordLat: obj.startPointCoordLat,
                         startPointCoordLong: obj.startPointCoordLong,
@@ -307,8 +325,8 @@ export class Presenter {
                         id: i + 2,
                         dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
                         dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
-                        timeStart: timeStart,
-                        timeEnd: this.getTimeEnd(timeStart, obj.timeInWay + obj.time),
+                        timeStart: this.getCurrentTimeStart(oldDays, i + 1, timeStart),
+                        timeEnd: this.getTimeEnd(days[i].timeStart, obj.timeInWay + obj.time + obj.stopTime),
                         startPoint: prevObj.name,
                         startPointCoordLat: prevObj.startPointCoordLat,
                         startPointCoordLong: prevObj.startPointCoordLong,
@@ -320,7 +338,7 @@ export class Presenter {
                         id: i + 3,
                         dateStart: moment(dateStart).add(i + 2, 'days').format('YYYY-MM-DD'),
                         dateEnd: moment(dateStart).add(i + 2, 'days').format('YYYY-MM-DD'),
-                        timeStart: timeStart,
+                        timeStart: this.getCurrentTimeStart(oldDays, i + 2, timeStart),
                         startPoint: obj.name,
                         startPointCoordLat: obj.startPointCoordLat,
                         startPointCoordLong: obj.startPointCoordLong,
@@ -331,7 +349,7 @@ export class Presenter {
             }
             // если время вышло за пределы 12 часов
             else if (minutes + obj.timeInWay + obj.time >= timeBorder) {
-                days[i].timeEnd = this.getTimeEnd(timeStart, minutes + obj.timeInWay + obj.time);
+                days[i].timeEnd = this.getTimeEnd(days[i].timeStart, minutes + obj.timeInWay + obj.time + obj.stopTime);
                 days[i].endPoint = obj.name;
                 days[i].endPointCoordLat = obj.startPointCoordLat;
                 days[i].endPointCoordLong = obj.startPointCoordLong;
@@ -340,10 +358,10 @@ export class Presenter {
                 // и это не последний объект, создает начало сл. дня
                 if (index !== pointList.length - 1) {
                     days.push({
-                        id: index + 1,
+                        id: i + 2,
                         dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
                         dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
-                        timeStart: timeStart,
+                        timeStart: this.getCurrentTimeStart(oldDays, i + 1, timeStart),
                         startPoint: obj.name,
                         startPointCoordLat: obj.startPointCoordLat,
                         startPointCoordLong: obj.startPointCoordLong,
@@ -356,7 +374,7 @@ export class Presenter {
                 minutes = minutes + obj.timeInWay + obj.time;
                 days[i].objects.push(obj);
                 if (index === pointList.length - 1) {
-                    days[i].timeEnd = this.getTimeEnd(timeStart, minutes);
+                    days[i].timeEnd = this.getTimeEnd(days[i].timeStart, minutes);
                     days[i].endPoint = obj.name;
                     days[i].endPointCoordLat = obj.startPointCoordLat;
                     days[i].endPointCoordLong = obj.startPointCoordLong;
@@ -391,7 +409,7 @@ export class Presenter {
             Promise.all(update2(points)).then(() => {
                 // здесь мы уже имеем все изменения
 
-                const result = this.createDataDays(points, dateStart, timeStart);
+                const result = this.createDataDays(points, dateStart, timeStart, days);
 
                 resolve(result);
             })
