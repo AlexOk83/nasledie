@@ -461,7 +461,7 @@ export class Presenter {
         }
         if (three) {
             return {
-                color: "#FD9080",
+                color: "#F3742E",
                 imagePoint: "/assets/images/icons/marker_yellow.svg",
                 imageFlag: "/assets/images/icons/flag_yellow.svg",
             }

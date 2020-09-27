@@ -257,7 +257,9 @@
                         this.map.geoObjects.add(this.multiRoutes[index][i]);
                     })
                 });
-
+                let MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
+                    '<div style="color: #FFFFFF; font-size: 12px; text-transform: uppercase; position: absolute;top:-8px;  left: -20px; font-weight: bold; width: 90px;">День $[properties.data]</div><div style="color: #FFFFFF; font-size: 10px; position: absolute;top:5px;  left: -22px; width: 90px;text-transform: uppercase;">$[properties.data2]</div>'
+                )
                 // добавление маркеров на карту
                 this.days.forEach((day, indexDay ) => {
                     this.currentPoints[indexDay] = [];
@@ -265,11 +267,14 @@
                     let finalObject = day.objects[day.objects.length - 1]
                     day.objects.forEach((obj, indexObj) => {
                         let image = isEqual(finalObject.coordinates, obj.coordinates) ? styles.imageFlag : styles.imagePoint;
-                        let size = isEqual(finalObject.coordinates, obj.coordinates) ? [45, 45] : [10, 10];
-                        let offset = isEqual(finalObject.coordinates, obj.coordinates) ? [-7, -37] : [-5, -5];
+                        let size = isEqual(finalObject.coordinates, obj.coordinates) ? [60, 60] : [10, 10];
+                        let offset = isEqual(finalObject.coordinates, obj.coordinates) ? [-5, -50] : [-5, -5];
+                        let content = isEqual(finalObject.coordinates, obj.coordinates) ? MyIconContentLayout : null;
                         let time = obj.timeInWay === 0 ? 'Начало маршрута' : presenter.getTime(obj.timeInWay)
                         this.currentPoints[indexDay][indexObj] = new ymaps.Placemark(obj.coordinates, {
                             hintContent: '<div><p>' + getAdress(obj) + '</p><p>' + time + '</p></div>',
+                            data: indexDay + 1,
+                            data2: `${Math.round(obj.way / 1000)} км`,
                         }, {
                             // Опции.
                             // Необходимо указать данный тип макета.
@@ -282,6 +287,8 @@
                             // её "ножки" (точки привязки).
                             iconImageOffset: offset,
                             // Смещение слоя с содержимым относительно слоя с картинкой.
+                            iconContentOffset: [5, 15],
+                            iconContentLayout: content
                         });
 
                         this.map.geoObjects.add(this.currentPoints[indexDay][indexObj])
