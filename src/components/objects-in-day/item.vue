@@ -6,11 +6,14 @@
                 <Icon icon="object" />
                 <span>{{ name }}</span>
             </div>
-            <div class="gray-label">Время на объекте:</div>
-            <MinutePicker
-                    :value="time"
-                    @change="changeTime"
-            />
+            <div v-if="!this.isNotPoint">
+                <div class="gray-label">Время на объекте:</div>
+                <MinutePicker
+                        :value="time"
+                        @change="changeTime"
+                />
+            </div>
+
             <div class="btn-up" v-if="visibleUp" @click="up" />
             <div class="btn-down" v-if="visibleDown" @click="down" />
             <div class="btn-remove" v-if="!this.isNotPoint" @click="remove" />

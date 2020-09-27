@@ -94,8 +94,12 @@ export class Presenter {
     getTimeEnd(timeStart, countMinute) {
         const {hour, minutes} = this.getHourAndMinutes(timeStart);
         const allMinutes = Number(minutes) + countMinute;
-        let hours = Number(hour) + Math.round(allMinutes / 60);
-        let remainderMinutes = allMinutes % 60;
+        let hours = Number(hour);
+        let remainderMinutes = allMinutes;
+        if (allMinutes > 60) {
+            hours = Number(hour) + Math.round(allMinutes / 60);
+            remainderMinutes = allMinutes % 60;
+        }
         if (remainderMinutes < 10) {
             remainderMinutes = `0${remainderMinutes}`
         }
@@ -105,6 +109,7 @@ export class Presenter {
         if (hours < 10) {
             hours = `0${hours}`
         }
+        console.log(timeStart, countMinute, `${hours}:${remainderMinutes}`)
         return `${hours}:${remainderMinutes}`;
     }
 
@@ -277,6 +282,9 @@ export class Presenter {
 
 
         pointList.forEach((obj, index) => {
+            console.log(obj.timeInWay + obj.time + obj.stopTime);
+            console.log(minutes);
+            console.log(days[i] && days[i].timeEnd);
             totalTime = totalTime + obj.timeInWay + obj.time + obj.stopTime;
             totalWay += obj.way;
             // день первый - создаем день
@@ -296,11 +304,12 @@ export class Presenter {
             else if (obj.timeInWay > 12 * 60) {
                 // он второй в списке (будет полюбому 3 и выше) - заканчиваем текущий день
                 if (days[i].objects.length === 1) {
-                    days[i].timeEnd = this.getTimeEnd(days[i].timeStart, obj.timeInWay + obj.time + obj.stopTime);
+                    days[i].timeEnd = this.getTimeEnd(days[i].timeStart, minutes + obj.timeInWay + obj.time + obj.stopTime);
                     days[i].endPoint = obj.name;
                     days[i].endPointCoordLat = obj.startPointCoordLat;
                     days[i].endPointCoordLong = obj.startPointCoordLong;
                     days[i].objects.push(obj);
+                    minutes = 0;
                     days.push({
                         id: i + 2,
                         dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
@@ -321,12 +330,13 @@ export class Presenter {
                     days[i].endPoint = prevObj.name;
                     days[i].endPointCoordLat = prevObj.startPointCoordLat;
                     days[i].endPointCoordLong = prevObj.startPointCoordLong;
+                    minutes = 0;
                     days.push({
                         id: i + 2,
                         dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
                         dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
                         timeStart: this.getCurrentTimeStart(oldDays, i + 1, timeStart),
-                        timeEnd: this.getTimeEnd(days[i].timeStart, obj.timeInWay + obj.time + obj.stopTime),
+                        timeEnd: this.getTimeEnd(days[i + 1].timeStart, obj.timeInWay + obj.time + obj.stopTime),
                         startPoint: prevObj.name,
                         startPointCoordLat: prevObj.startPointCoordLat,
                         startPointCoordLong: prevObj.startPointCoordLong,
@@ -348,7 +358,7 @@ export class Presenter {
                 }
             }
             // если время вышло за пределы 12 часов
-            else if (minutes + obj.timeInWay + obj.time >= timeBorder) {
+            else if (minutes + obj.timeInWay + obj.time + obj.stopTime >= timeBorder) {
                 days[i].timeEnd = this.getTimeEnd(days[i].timeStart, minutes + obj.timeInWay + obj.time + obj.stopTime);
                 days[i].endPoint = obj.name;
                 days[i].endPointCoordLat = obj.startPointCoordLat;
@@ -371,7 +381,7 @@ export class Presenter {
                 }
             }
             else {
-                minutes = minutes + obj.timeInWay + obj.time;
+                minutes = minutes + obj.timeInWay + obj.time + obj.stopTime;
                 days[i].objects.push(obj);
                 if (index === pointList.length - 1) {
                     days[i].timeEnd = this.getTimeEnd(days[i].timeStart, minutes);
