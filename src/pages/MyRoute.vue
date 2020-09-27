@@ -234,9 +234,6 @@
                 if (isEmpty(this.objects) && isEmpty(this.mapPoints)) {
                     return 'Не заданы точки остановки, объекты на карте'
                 }
-                if (this.pointList.find(object => object.routeVeryLong)) {
-                    return 'Следует перестроить маршрут. У данного маршрута есть отрезок продолжительностью пути более 24 часов'
-                }
                 return null;
             },
             listParams() {
