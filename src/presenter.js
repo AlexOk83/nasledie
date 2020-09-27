@@ -30,6 +30,41 @@ const update = (items, typeMovement) => items.map((point, index) => new Promise(
         }
     })
 }));
+const update2 = (items) => items.map((point, index) => new Promise((resolve, reject) => {
+    ymaps.ready(function () {
+        const routingMode = point.typeMovement[0] === 'car' ? 'auto' : 'pedestrian';
+        if (index !== 0) {
+            const p1 = [items[index - 1].startPointCoordLat, items[index - 1].startPointCoordLong];
+            const p2 = [point.startPointCoordLat, point.startPointCoordLong];
+            const distance = getDistanceFromLatLonInMeters(p1, p2);
+            ymaps.route([p1, p2], {routingMode}).then(
+                function (route) { // успешно смогли построить маршрут
+                    point.way = Math.round(route.getLength());
+                    point.timeInWay = Math.round(route.getTime() / 60);
+                    if (point.timeInWay > 16 * 60) {
+                        point.routeVeryLong = true;
+                    }
+                    else {
+                        point.routeVeryLong = null;
+                    }
+                    resolve(point);
+                }, function () {
+                    point.way_false = 1;
+                    point.way = distance;
+                    point.timeInWay = Math.round(distance / 800);
+                    if (point.timeInWay > 16 * 60) {
+                        point.routeVeryLong = true;
+                    }
+                    else {
+                        point.routeVeryLong = null;
+                    }
+                    resolve(point)
+                })
+        } else {
+            resolve(point)
+        }
+    })
+}));
 
 const sort = (start) => (a, b) => {
     if (getDistanceFromLatLonInMeters(start, a.position) > getDistanceFromLatLonInMeters(start, b.position)) return 1;
@@ -363,11 +398,13 @@ export class Presenter {
                 points.sort(sort(startPosition));
             }
 
-            points = this.calcDistanceAndTimeWithoutYandex(points);
+            Promise.all(update2(points)).then(() => {
+                // здесь мы уже имеем все изменения
 
-            const result = this.createDataDays(points, dateStart, timeStart);
+                const result = this.createDataDays(points, dateStart, timeStart);
 
-            resolve(result);
+                resolve(result);
+            })
         })
     }
 
