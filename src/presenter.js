@@ -97,8 +97,8 @@ export class Presenter {
         let hours = Number(hour);
         let remainderMinutes = allMinutes;
         if (allMinutes > 60) {
-            hours = Number(hour) + Math.round(allMinutes / 60);
             remainderMinutes = allMinutes % 60;
+            hours = Number(hour) + Math.round((allMinutes - remainderMinutes) / 60 );
         }
         if (remainderMinutes < 10) {
             remainderMinutes = `0${remainderMinutes}`
@@ -109,7 +109,6 @@ export class Presenter {
         if (hours < 10) {
             hours = `0${hours}`
         }
-        console.log(timeStart, countMinute, `${hours}:${remainderMinutes}`)
         return `${hours}:${remainderMinutes}`;
     }
 
