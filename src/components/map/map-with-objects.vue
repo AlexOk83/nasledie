@@ -66,7 +66,7 @@
                         function (res) {
                             res.geoObjects.each(function(el) {
                                 let point = {
-                                    position: el.geometry.getCoordinates(),
+                                    position: coords,
                                     name: el.properties.get('name'),
                                     description: el.properties.get('description'),
                                 }

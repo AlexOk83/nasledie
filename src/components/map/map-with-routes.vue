@@ -145,6 +145,7 @@
 
                     this.map.events.add('click', function (e) {
                         var coords = e.get('coords');
+                        console.log(coords);
                         const geocoder = ymaps.geocode(coords);
                         let pointList = [];
 
@@ -153,7 +154,7 @@
                             function (res) {
                                 res.geoObjects.each(function (el) {
                                     let point = {
-                                        position: el.geometry.getCoordinates(),
+                                        position: coords,
                                         name: el.properties.get('name'),
                                         description: el.properties.get('description'),
                                     }
