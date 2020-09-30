@@ -231,8 +231,6 @@ export class Presenter {
         let totalTime = 0;
         let totalWay = 0;
         const timeBorder = 12 * 60;
-        console.log(oldDays);
-        debugger;
         pointList.forEach((obj, index) => {
             totalTime = totalTime + obj.timeInWay + obj.time + obj.stopTime;
             totalWay += obj.way;

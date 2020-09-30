@@ -388,7 +388,6 @@
                 }, 200);
             },
             updateData(result) {
-                debugger;
                 this.days = result.days.map(day => {
                     let pointStart = {
                         date: day.dateStart,
