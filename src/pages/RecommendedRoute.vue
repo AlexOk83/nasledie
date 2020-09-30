@@ -113,7 +113,7 @@
                                 v-if="isNewRoute"
                         />
                         <Button text="Составить маршрут"
-                                :on-click="() => createRoute()"
+                                :on-click="() => calculatedRoute()"
                                 is-shadow
                                 v-if="isNewRoute"
                         />
@@ -153,6 +153,18 @@
                             :points="mapPoints"
                             @addPoint="addPoint"
                     />
+                    <Map-calc
+                            v-if="showCalcMap"
+                            :from="startPoint"
+                            :to="endPoint"
+                            :points="pointList"
+                            :timeStart="timeStart"
+                            :dateStart="dateStart"
+                            :days="days"
+                            :is-update="calcMapUpdate"
+                            @calc="createRoute"
+                            @update="updateData"
+                    />
                 </div>
             </div>
         </div>
@@ -165,6 +177,7 @@
     import Field from "../components/form-control/Field";
     import MapRoutes from "../components/map/map-with-routes";
     import MapObjects from "../components/map/map-with-objects";
+    import MapCalc from "../components/map/map-for-create";
     import Button from "../components/form-control/button/button";
     import AddedObjects from "../components/added-objects/addedObjects";
     import Tabs from "../components/tabs/tabs";
@@ -183,6 +196,7 @@
         components: {
             MapRoutes,
             MapObjects,
+            MapCalc,
             Field,
             AddedObjects,
             Button,
@@ -231,6 +245,8 @@
                 needUpdateDayData: false,
                 showMap: false,
                 reload: false,
+                showCalcMap: false,
+                calcMapUpdate: false,
             }
         },
         computed: {
@@ -316,6 +332,113 @@
             }
         },
         methods: {
+            calculatedRoute() {
+                this.calcMapUpdate = false;
+                this.showCalcMap = false;
+                const validation = this.validation;
+                if (validation) {
+                    this.$store.dispatch('showModal', validation);
+                    return null;
+                }
+                this.pointList = presenter.getAllPoints(this);
+                setTimeout(() => {
+                    this.showMap = false;
+                    this.showCalcMap = true;
+                }, 200)
+
+            },
+
+            createRoute(result) {
+                this.$store.dispatch('showPreloader');
+
+                this.days = result.days;
+                this.totalWay = result.totalWay;
+                this.totalTime = result.totalTime;
+                this.pointList = result.pointList;
+
+                const infoForSave = this.getInfoForCreate();
+                repository.createMyRoute(this.userId, infoForSave)
+                    .then(response => {
+                        const result = JSON.parse(response.data);
+                        if (result && result.id) {
+                            this.$store.dispatch('showModalSuccess', {
+                                text: 'Маршрут составлен!',
+                                onSuccess: () => {
+                                    this.showCalcMap= false;
+                                    this.showMap = false;
+                                    this.$router.push(`/edit-recommended-route/${result.id}`);
+                                }
+                            });
+                        }
+                    })
+                    .finally(() => {
+                        this.$store.dispatch('hidePreloader');
+                    });
+            },
+
+            onCalcRoute() {
+                this.calcMapUpdate = true;
+                this.showCalcMap = false;
+                this.pointList = presenter.updateAllPoints(this);
+                this.showMap = true;
+                setTimeout(() => {
+                    this.showCalcMap = true;
+                    this.showMap = false;
+                    this.$store.dispatch('showPreloader');
+                }, 200);
+            },
+            updateData(result) {
+                debugger;
+                this.days = result.days.map(day => {
+                    let pointStart = {
+                        date: day.dateStart,
+                        time: day.timeStart
+                    };
+                    let pointEnd = {
+                        date: day.dateEnd,
+                        time: day.timeEnd
+                    }
+                    let objects = day.objects.map(o => ({
+                        ...o,
+                        coordinates: o.position,
+                    }))
+                    return {
+                        ...day,
+                        pointStart,
+                        pointEnd,
+                        objects
+                    }
+                });
+                this.totalWay = result.totalWay;
+                this.totalTime = result.totalTime;
+                this.pointList = result.pointList;
+                this.showCalcMap = false;
+                this.showMap = true;
+                this.needUpdateDayData = false;
+                this.$store.dispatch('showModalSuccess', {text: 'Маршрут пересчитан!'});
+                this.$store.dispatch('hidePreloader');
+                setTimeout(() => {
+                    this.$store.dispatch('hideModal');
+                }, 500);
+
+            },
+
+            updateRoute() {
+                this.$store.dispatch('showPreloader');
+                const data = this.getInfoForUpdate();
+                repository.editRecommendedRoute(this.userId, this.routeId, data)
+                    .then(response => {
+                        const data = JSON.parse(response.data);
+                        if (data.status) {
+                            this.$store.dispatch('showModalSuccess', { text: 'сохранение выполнено успешно!' });
+                            setTimeout(() => {
+                                this.$store.dispatch('hideModal');
+                            }, 500);
+                        }
+                    }).finally(() => {
+                    this.$store.dispatch('hidePreloader');
+                });
+            },
             addPointToActiveDay(point) {
                 // мы знаем позиции активного дняи нам надо эту точку добавить в 1 месте
                 let wellPoint = {
@@ -337,49 +460,6 @@
                 this.indexActiveDay = index;
                 this.globalIndexActiveDay = this.globalIndex[index];
                 this.countObjectActiveDay = this.countObjectToDays[index];
-            },
-            calcRouteAgain() {
-                this.$store.dispatch('showPreloader');
-                return presenter.updateDaysRoute({
-                    ...this,
-                }).then(data => {
-                    this.days = data.days.map(day => {
-                        let pointStart = {
-                            date: day.dateStart,
-                            time: day.timeStart
-                        };
-                        let pointEnd = {
-                            date: day.dateEnd,
-                            time: day.timeEnd
-                        }
-                        let objects = day.objects.map(o => ({
-                            ...o,
-                            coordinates: o.position,
-                        }))
-                        return {
-                            ...day,
-                            pointStart,
-                            pointEnd,
-                            objects
-                        }
-                    });
-                    this.totalWay = data.totalWay;
-                    this.totalTime = data.totalTime;
-                    this.needUpdateDayData = false;
-                    this.reload = true;
-                }).finally(() => {
-                    this.$store.dispatch('hidePreloader');
-                    this.reload = false;
-                });
-            },
-            onCalcRoute() {
-                this.calcRouteAgain().then(() => {
-                    this.$store.dispatch('showModalSuccess', {text: 'Маршрут пересчитан!'});
-                    setTimeout(() => {
-                        this.$store.dispatch('hideModal');
-                    }, 500);
-
-                })
             },
             clearRoute() {
                 this.name = '';
@@ -455,54 +535,6 @@
                 formData.append('ZRouter', JSON.stringify(values));
                 formData.append('sessionId', 1);
                 return formData
-            },
-            createRoute() {
-                const validation = this.validation;
-                if (validation) {
-                    this.$store.dispatch('showModal', validation);
-                    return null;
-                }
-                this.$store.dispatch('showPreloader');
-                presenter.calculatedDaysRoute({
-                    ...this,
-                }).then(data => {
-                    this.days = data.days;
-                    this.totalWay = data.totalWay;
-                    this.totalTime = data.totalTime;
-                    this.pointList = data.pointList;
-                    const infoForSave = this.getInfoForCreate();
-                    repository.createRecommendedRoute(this.userId, infoForSave)
-                        .then(response => {
-                            const result = JSON.parse(response.data);
-                            if (result && result.id) {
-                            this.$store.dispatch('showModalSuccess', {
-                                    text: 'Маршрут составлен!',
-                                    onSuccess: () => {
-                                        this.showMap = false;
-                                        this.$router.push(`/edit-recommended-route/${result.id}`);
-                                    }
-                                });
-                            }
-                        });
-                }).finally(() => {
-                    this.$store.dispatch('hidePreloader');
-                });
-            },
-            updateRoute() {
-                this.$store.dispatch('showPreloader');
-                const data = this.getInfoForUpdate();
-                repository.editRecommendedRoute(this.userId, this.routeId, data)
-                    .then(response => {
-                        const data = JSON.parse(response.data);
-                        if (data.status) {
-                            this.$store.dispatch('showModalSuccess', { text: 'сохранение выполнено успешно!' });
-                            setTimeout(() => {
-                                this.$store.dispatch('hideModal');
-                            }, 500);
-                        }
-                    }).finally(() => {
-                    this.$store.dispatch('hidePreloader');
-                });
             },
             changeValue(field, value) {
                 if (field === 'days') {

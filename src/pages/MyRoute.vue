@@ -278,7 +278,7 @@
                 return !this.isNewRoute && this.showMap;
             },
             viewMapCreate() {
-                return this.isNewRoute && this.showMap && !this.showCalcMap;
+                return this.isNewRoute && this.showMap;
             },
             headerTitle() {
                 if (this.isNewRoute) {
@@ -300,8 +300,6 @@
             }
         },
         methods: {
-            // ------------------ создание маршрута - готово!
-            // вызываем карту которая расчитывает расстояние - при создании - готово
             calculatedRoute() {
                 this.calcMapUpdate = false;
                 this.showCalcMap = false;
@@ -312,7 +310,8 @@
                 }
                 this.pointList = presenter.getAllPoints(this);
                 setTimeout(() => {
-                    this.showCalcMap = true
+                    this.showMap = false;
+                    this.showCalcMap = true;
                 }, 200)
 
             },
@@ -345,8 +344,6 @@
                     });
             },
 
-            // --------------------------- редактирование маршрута - не готово!!
-            // нажали на пересчитать маршрут
             onCalcRoute() {
                 this.calcMapUpdate = true;
                 this.showCalcMap = false;
@@ -394,7 +391,6 @@
 
             },
 
-            // сохранение текущего стейта в БД
             updateRoute() {
                 this.$store.dispatch('showPreloader');
                 const data = this.getInfoForUpdate();
