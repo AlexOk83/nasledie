@@ -252,9 +252,8 @@ export class Presenter {
                 currentDayListPoints.push(obj);
                 currentMinutes = currentMinutes + obj.timeInWay + obj.time + obj.stopTime;
                 console.log(currentMinutes);
-                // превысили лимит по времени
-                if (currentMinutes > timeBorder) {
-                    // это второй объект в текущем дне, то нам надо просто закрыть его
+                // превысили лимит по времени или конец маршрута
+                if (currentMinutes > timeBorder || index === pointList.length - 1) {
                         days[i].timeEnd = this.getTimeEnd(days[i].timeStart, currentMinutes);
                         days[i].endPoint = obj.name;
                         days[i].endPointCoordLat = obj.startPointCoordLat;
