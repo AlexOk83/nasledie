@@ -43,7 +43,7 @@
                 });
             },
             init() {
-                const { from, addPoint } = this;
+                const { from, to, points, addPoint } = this;
                 this.map = new ymaps.Map("map", {
                     center: from.position || [55.753215, 37.622504], // по умолчанию москва
                     zoom: 13,
@@ -77,7 +77,7 @@
 
                 });
 
-                if (from.position) {
+                if (from && from.position) {
                     this.startPoint = new ymaps.Placemark(from.position, {
                         hintContent: getAdress(from)
                     }, {
@@ -100,6 +100,57 @@
 
                 }
 
+                if (to && to.position) {
+                    if (this.endPoint) {
+                        this.map.geoObjects.remove(this.endPoint)
+                    }
+                    this.endPoint = new ymaps.Placemark(to.position, {
+                        hintContent: getAdress(to)
+                    }, {
+                        // Опции.
+                        // Необходимо указать данный тип макета.
+                        iconLayout: 'default#imageWithContent',
+                        // Своё изображение иконки метки.
+                        iconImageHref: '/assets/images/icons/flag_blue.svg',
+                        // Размеры метки.
+                        iconImageSize: [45, 45],
+                        // Смещение левого верхнего угла иконки относительно
+                        // её "ножки" (точки привязки).
+                        iconImageOffset: [-7, -37],
+                        // Смещение слоя с содержимым относительно слоя с картинкой.
+                        boundsAutoApply: true
+                    });
+
+                    this.map.geoObjects.add(this.endPoint);
+                    this.setBounds();
+                }
+
+                points.forEach((point, index) => {
+                    this.currentPoints[index] = new ymaps.Placemark(point.position, {
+                        hintContent: getAdress(point)
+                    }, {
+                        // Опции.
+                        // Необходимо указать данный тип макета.
+                        iconLayout: 'default#imageWithContent',
+                        // Своё изображение иконки метки.
+                        iconImageHref: '/assets/images/icons/marker_blue.svg',
+                        // Размеры метки.
+                        iconImageSize: [10, 10],
+                        // Смещение левого верхнего угла иконки относительно
+                        // её "ножки" (точки привязки).
+                        iconImageOffset: [-5, -5],
+                        // Смещение слоя с содержимым относительно слоя с картинкой.
+                        boundsAutoApply: true
+                    });
+
+                    this.currentPoints[index].events.add('click', function () {
+                        points.splice(index, 1);
+                    });
+
+                    this.map.geoObjects.add(this.currentPoints[index])
+                })
+
+                this.setBounds();
             }
 
         },
