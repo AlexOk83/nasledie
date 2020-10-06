@@ -430,6 +430,9 @@
                 this.needUpdateDayData = true;
             },
             setActiveDay(index) {
+                if (this.needUpdateDayData) {
+                    this.onCalcRoute();
+                }
                 this.indexActiveDay = index;
                 this.globalIndexActiveDay = this.globalIndex[index];
                 this.countObjectActiveDay = this.countObjectToDays[index];
