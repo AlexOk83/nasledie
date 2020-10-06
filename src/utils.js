@@ -51,6 +51,16 @@ export function getDistanceFromLatLonInMeters(point1, point2) {
     return Math.ceil(d);
 }
 
+export function getTimeInWay(distance) {
+    const distanceInKm = distance / 1000;
+    if (distanceInKm < 100) {
+        return Math.round( distanceInKm / 25 * 60 );
+    } else if (distanceInKm < 400) {
+        return Math.round( distanceInKm / 90 * 60 );
+    }
+    return Math.round( distanceInKm / 900 * 60 );
+}
+
 function deg2rad(deg) {
     return deg * (Math.PI/180)
 };

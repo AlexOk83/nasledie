@@ -104,7 +104,7 @@
                                 is-shadow
                                 is-full
                                 v-if="!isNewRoute"
-                                :disabled="!needUpdateDayData"
+                                :disabled="disabledUpdateButton"
                         />
                         <Button text="Сохранить в мои маршруты"
                                 :on-click="() => updateRoute()"
@@ -214,6 +214,7 @@
                 files: [],
                 otherData: {},
                 needUpdateDayData: false,
+                canUpdateDayData: false,
                 showMap: false,
                 reload: false,
                 showCalcMap: false,
@@ -221,6 +222,9 @@
             }
         },
         computed: {
+            disabledUpdateButton() {
+                return !this.needUpdateDayData && !this.canUpdateDayData
+            },
             countObjectToDays() {
                 return this.days.map(day => (day.objects && day.objects.length));
             },
@@ -382,6 +386,7 @@
                 this.showCalcMap = false;
                 this.showMap = true;
                 this.needUpdateDayData = false;
+                this.canUpdateDayData = false;
                 this.$store.dispatch('showModalSuccess', {text: 'Маршрут пересчитан!'});
                 this.$store.dispatch('hidePreloader');
                 setTimeout(() => {
@@ -513,6 +518,9 @@
                     }
                     this.needUpdateDayData = true;
                 }
+                if (field === 'isGeoRoute') {
+                    this.canUpdateDayData = true;
+                }
                 this.$data[field] = value;
                 this.countObjectActiveDay = this.countObjectToDays[this.indexActiveDay];
                 if (field === 'objects') {
@@ -563,7 +571,6 @@
                 if (type === 'point') {
                     this.mapPoints.push(point)
                 }
-                // this.points.push(point);
             },
         },
         watch: {

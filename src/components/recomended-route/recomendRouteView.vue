@@ -12,7 +12,7 @@
                 <span class="label">Точка старта</span>
                 <span class="point-value">{{ data.pointStart.name }}</span>
 
-                <span class="label">Точка назначения</span>
+                <span class="label label--end">Точка назначения</span>
                 <span class="point-value">{{ data.pointEnd.name }}</span>
             </div>
             <div class="route__params">

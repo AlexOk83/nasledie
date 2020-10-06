@@ -34,7 +34,7 @@
                 <span class="label">Точка старта</span>
                 <span class="point-value">{{ data.startPoint }}</span>
 
-                <span class="label">Точка назначения</span>
+                <span class="label label--end">Точка назначения</span>
                 <span class="point-value">{{ data.endPoint }}</span>
             </div>
             <div class="myRoute__objects">

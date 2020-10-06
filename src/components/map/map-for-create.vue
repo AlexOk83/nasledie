@@ -5,7 +5,7 @@
 <script>
     import { isEmpty } from 'lodash';
     import { Presenter } from '../../presenter';
-    import {getAdress, getDistanceFromLatLonInMeters, isEqual} from "../../utils";
+    import { getAdress, getDistanceFromLatLonInMeters, getTimeInWay, isEqual } from "../../utils";
     const presenter = new Presenter();
     export default {
         name: "Map-for-create",
@@ -102,7 +102,7 @@
                         if (!activeRoutePaths) {
                             let point = item.point;
                             let distance = getDistanceFromLatLonInMeters(item.referencePoints[0], item.referencePoints[1])
-                            point.timeInWay = Math.round(distance / 1000 / 800 * 60 );
+                            point.timeInWay = getTimeInWay(distance);
                             point.way = distance;
                             point.way_false = 1;
                             console.log('вручную', distance);

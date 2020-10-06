@@ -111,38 +111,50 @@
       }
     }
     .points {
+      position: relative;
+      margin-top: 20px;
+      .column(4,4,12,12);
+      padding-left: 30px;
+      &:before {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: calc(100% - 70px);
+        border-left: 2px dotted @base;
+        left: 9px;
+        top: 13px;
+      }
+      .label {
         position: relative;
-        margin-top: 20px;
-        .column(4,4,12,12);
+        .text();
+        margin-top: 0;
         &:before {
           content: "";
           position: absolute;
-          width: 20px;
-          height: 80px;
-          left: 0px;
-          top: -3px;
-          background: url("/assets/images/icons/way.svg");
-          background-size: 100%;
-          background-repeat: no-repeat;
+          width: 10px;
+          height: 10px;
+          left: -25px;
+          top: 0;
+          background-color: @base;
+          border-radius: 50%;
         }
-        padding-left: 30px;
-        .label {
-          .text();
-          margin-top: 0px;
-        }
-        .point-value {
-          .text();
-          font-weight: bold;
-          margin-top: 0px;
-          margin-bottom: 20px;
+        &--end:before {
+          background-color: @orange;
         }
       }
+      .point-value {
+        .text();
+        font-weight: bold;
+        margin-top: 0px;
+        margin-bottom: 20px;
+      }
+    }
     .myRoute__objects {
-        .column(8,8,12,12);
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: 20px;
+      .column(8,8,12,12);
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 20px;
       .icon {
         position: absolute;
         top: -5px;
@@ -150,25 +162,25 @@
         display: block;
         .bg();
       }
-        .title__sub {
-          .text();
-          width: 100%;
-          margin-top: 0;
-          margin-bottom: 20px;
-        }
-        .item {
-          position: relative;
-          .column(6,6,6,6);
-          .text();
-          margin-top: 0px;
-          font-weight: bold;
-          margin-bottom: 20px;
-          padding-left: 30px;
-          .icon--object {
-            background-color: @base;
-          }
+      .title__sub {
+        .text();
+        width: 100%;
+        margin-top: 0;
+        margin-bottom: 20px;
+      }
+      .item {
+        position: relative;
+        .column(6,6,6,6);
+        .text();
+        margin-top: 0px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        padding-left: 30px;
+        .icon--object {
+          background-color: @base;
         }
       }
+    }
 
     .myRoute__buttons {
       width: 100%;

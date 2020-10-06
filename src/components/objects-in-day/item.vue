@@ -18,7 +18,7 @@
             <div class="btn-down" v-if="visibleDown" @click="down" />
             <div class="btn-remove" v-if="!this.isNotPoint" @click="remove" />
         </div>
-        <div v-if="dataNextItem" class="body-object">
+        <div v-if="dataNextItem" class="body-object body-object--way">
             <div class="title">
                 <Icon icon="way" />
                 <span>Путь до "{{ dataNextItem.name }}"</span>
@@ -159,13 +159,16 @@
 <style lang="less" >
     @import "../../styles/mixins";
     .body-object {
-        background-color: @greyButton;
+        background-color: #cccccc;
         border-radius: 10px;
         margin-bottom: 15px;
         padding: 15px;
         padding-right: 55px;
         min-height: 140px;
         position: relative;
+        &--way {
+            background-color: #f9f9f9;
+        }
         .title,
         .icon-container {
             position: relative;

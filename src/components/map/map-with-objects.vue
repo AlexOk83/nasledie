@@ -6,6 +6,7 @@
     import { isEmpty } from 'lodash';
     import { Presenter } from '../../presenter';
     import {getAdress} from "../../utils";
+    import {MOSKOW} from "../../constants";
     const presenter = new Presenter();
     export default {
         name: "Map-with-objects",
@@ -25,9 +26,13 @@
         methods: {
             setBounds() {
                 const bounds = this.map.geoObjects.getBounds();
+                if (!bounds) {
+                    this.map.setCenter(MOSKOW);
+                } else
                 if (bounds[0][0] === bounds[1][0] && bounds[0][1] === bounds[1][1]) {
                     this.map.setCenter(bounds[0]);
-                } else {
+                }
+                else {
                     this.map.setBounds(bounds,{checkZoomRange:true, zoomMargin:35});
                 }
             },
@@ -45,7 +50,7 @@
             init() {
                 const { from, to, points, addPoint } = this;
                 this.map = new ymaps.Map("map", {
-                    center: from.position || [55.753215, 37.622504], // по умолчанию москва
+                    center: from.position || MOSKOW, // по умолчанию москва
                     zoom: 13,
                     maxZoom: 15,
                     controls: [],
@@ -159,6 +164,12 @@
         },
         watch: {
             from(newVal, oldVal) {
+                if (!newVal.position) {
+                    this.map.geoObjects.remove(this.startPoint)
+                    this.startPoint = null;
+                    this.map.setCenter(MOSKOW);
+                    this.map.setZoom(13)
+                } else
                 if (newVal.position !== oldVal.position) {
                     if (this.startPoint) {
                         this.map.geoObjects.remove(this.startPoint)
@@ -183,8 +194,13 @@
                     this.map.geoObjects.add(this.startPoint);
                     this.setBounds();
                 }
+
             },
             to(newVal, oldVal) {
+                if (!newVal.position) {
+                    this.map.geoObjects.remove(this.endPoint)
+                    this.endPoint = null;
+                } else
                 if (newVal.position !== oldVal.position) {
                     if (this.endPoint) {
                         this.map.geoObjects.remove(this.endPoint)
