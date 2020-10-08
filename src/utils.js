@@ -61,6 +61,16 @@ export function getTimeInWay(distance) {
     return Math.round( distanceInKm / 900 * 60 );
 }
 
+export function getTypeMovement(distance) {
+    const distanceInKm = distance / 1000;
+    if (distanceInKm < 100) {
+        return ['ship']
+    } else if (distanceInKm < 400) {
+        return ['train']
+    }
+    return ['plane']
+}
+
 function deg2rad(deg) {
     return deg * (Math.PI/180)
 };

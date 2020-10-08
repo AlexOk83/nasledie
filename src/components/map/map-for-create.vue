@@ -5,7 +5,7 @@
 <script>
     import { isEmpty } from 'lodash';
     import { Presenter } from '../../presenter';
-    import { getAdress, getDistanceFromLatLonInMeters, getTimeInWay, isEqual } from "../../utils";
+    import {getAdress, getDistanceFromLatLonInMeters, getTimeInWay, getTypeMovement, isEqual} from "../../utils";
     const presenter = new Presenter();
     export default {
         name: "Map-for-create",
@@ -34,19 +34,36 @@
             routes() {
                 return this.points.map((p, i) => {
                     if (i !== 0) {
+                        const start =  this.points[i - 1];
                         return {
-                            referencePoints: [[this.points[i - 1].startPointCoordLat, this.points[i - 1].startPointCoordLong], [p.startPointCoordLat, p.startPointCoordLong]],
+                            referencePoints: [[start.startPointCoordLat, start.startPointCoordLong], [p.startPointCoordLat, p.startPointCoordLong]],
                             routingMode: p.typeMovement[0],
-                            point: p
+                            point: p,
+                            start,
                         }
                     }
                 }).filter(item => item);
             },
         },
         methods: {
-            setCurrentPoints(point) {
+            setCurrentPoints(point, start) {
                 console.log(this.setCounts);
+                if (point.timeInWay >= 24 * 60) {
+                    let result = {
+                        start: start.name,
+                        end: point.name,
+                        time: point.timeInWay
+
+                    }
+                    if (this.isUpdate) {
+                        this.$emit('update', result);
+                    } else {
+                        this.$emit('calc', result);
+                    }
+                    return;
+                }
                 this.setCounts ++;
+
                 this.currentPoints = this.currentPoints.map(p => {
                     if (isEqual([point.startPointCoordLat, point.startPointCoordLong], [p.startPointCoordLat, p.startPointCoordLong])) {
                         return point
@@ -103,11 +120,12 @@
                             let point = item.point;
                             let distance = getDistanceFromLatLonInMeters(item.referencePoints[0], item.referencePoints[1])
                             point.timeInWay = getTimeInWay(distance);
+                            point.typeMovement = getTypeMovement(distance);
                             point.way = distance;
                             point.way_false = 1;
                             console.log('вручную', distance);
                             console.log('вручную', point.timeInWay);
-                            setCurrentPoints(point)
+                            setCurrentPoints(point, item.start)
                         }
                         else {
                             activeRoutePaths && activeRoutePaths.each(function(path) {
@@ -119,7 +137,7 @@
                                 console.log("Время прохождения пути: " + path.properties.get("duration").text);
                                 console.log("Расстояние: " + path.properties.get("distance").text);
                                 point.way_false = 0;
-                                setCurrentPoints(point)
+                                setCurrentPoints(point, item.start)
                             });
                         }
                     });
