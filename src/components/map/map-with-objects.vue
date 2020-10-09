@@ -34,6 +34,8 @@
                 }
                 else {
                     this.map.setBounds(bounds,{checkZoomRange:true, zoomMargin:35});
+                    const zoom = this.map.getZoom();
+                    this.map.setZoom(zoom ? zoom - 5 : 13)
                 }
             },
             addPoint(point) {

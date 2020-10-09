@@ -2,62 +2,6 @@ import moment from "moment";
 import {getDistanceFromLatLonInMeters, isEqual, calcTime, getAdress} from './utils';
 import {isEmpty} from 'lodash';
 
-const update = (items, typeMovement) => items.map((point, index) => new Promise((resolve, reject) => {
-    ymaps.ready(function () {
-        const routingMode = typeMovement === 'car' ? 'auto' : 'pedestrian';
-        if (index !== 0) {
-            const p1 = [items[index - 1].startPointCoordLat, items[index - 1].startPointCoordLong];
-            const p2 = [point.startPointCoordLat, point.startPointCoordLong];
-            const distance = getDistanceFromLatLonInMeters(p1, p2);
-            ymaps.route([p1, p2], { routingMode, multiRoute: true }).then(
-                function (route) { // успешно смогли построить маршрут
-                    point.way_false = 0;
-                    point.way = Math.round(route.getLength());
-                    point.timeInWay = Math.round(route.getTime() / 60);
-                    if (point.timeInWay > 16 * 60) {
-                        point.routeVeryLong = true;
-                    }
-                    resolve(point);
-                }, function () {
-                    point.way_false = 1;
-                    point.way = distance;
-                    point.timeInWay = Math.round(distance / 800);
-                    if (point.timeInWay > 16 * 60) {
-                        point.routeVeryLong = true;
-                    }
-                    resolve(point)
-                })
-        } else {
-            resolve(point)
-        }
-    })
-}));
-const update2 = (items) => items.map((point, index) => new Promise((resolve, reject) => {
-    ymaps.ready(function () {
-        const routingMode = point.typeMovement[0] === 'car' ? 'auto' : 'pedestrian';
-        if (index !== 0) {
-            const p1 = [items[index - 1].startPointCoordLat, items[index - 1].startPointCoordLong];
-            const p2 = [point.startPointCoordLat, point.startPointCoordLong];
-            const distance = getDistanceFromLatLonInMeters(p1, p2);
-            ymaps.route([p1, p2], {routingMode}).then(
-                function (route) { // успешно смогли построить маршрут
-                    console.log(route.properties.get("distance").text)
-                    point.way_false = 0;
-                    point.way = Math.round(route.getLength());
-                    point.timeInWay = Math.round(route.getTime() / 60);
-                    resolve(point);
-                }, function () {
-                    point.way_false = 1;
-                    point.way = distance;
-                    point.timeInWay = Math.round(distance / 800);
-                    resolve(point)
-                })
-        } else {
-            resolve(point)
-        }
-    })
-}));
-
 const sort = (start) => (a, b) => {
     if (getDistanceFromLatLonInMeters(start, a.position) > getDistanceFromLatLonInMeters(start, b.position)) return 1;
     if (getDistanceFromLatLonInMeters(start, a.position) < getDistanceFromLatLonInMeters(start, b.position)) return -1;
@@ -65,7 +9,6 @@ const sort = (start) => (a, b) => {
 }
 
 export class Presenter {
-    // TODO - не понятно, нужен метод или нет
     getCurrentTimeStart(oldDays, i, timeStart) {
         if (isEmpty(oldDays)) {
             return timeStart;
@@ -160,7 +103,7 @@ export class Presenter {
         let days = [];
         let totalTime = 0;
         let totalWay = 0;
-        const timeBorder = 12 * 60;
+        let timeBorder = 12 * 60;
         pointList.forEach((obj, index) => {
             totalTime = totalTime + obj.timeInWay + obj.time + obj.stopTime;
             totalWay += obj.way;
@@ -179,6 +122,9 @@ export class Presenter {
                 })
             }
             else {
+                let currentTimeStart = this.getCurrentTimeStart(oldDays, i, timeStart);
+                const { hour } = this.getHourAndMinutes(currentTimeStart); // сколько часов на старте
+                timeBorder = (21 - hour) * 60;
                 currentDayListPoints.push(obj);
                 currentMinutes = currentMinutes + obj.timeInWay + obj.time + obj.stopTime;
                 console.log(currentMinutes);

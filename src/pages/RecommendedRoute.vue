@@ -349,6 +349,12 @@
             },
 
             createRoute(result) {
+                if (!result.days) {
+                    this.showCalcMap = false;
+                    this.showMap = true;
+                    this.$store.dispatch('showModal', `маршрут от "${result.start}" до "${result.end}" составил ${presenter.getTime(result.time)}, необходимо его разбить на более маленькие маршруты`);
+                    return null;
+                }
                 this.$store.dispatch('showPreloader');
 
                 this.days = result.days;
@@ -388,6 +394,12 @@
                 }, 200);
             },
             updateData(result) {
+                if (!result.days) {
+                    this.showCalcMap = false;
+                    this.showMap = true;
+                    this.$store.dispatch('showModal', `маршрут от "${result.start}" до "${result.end}" составил ${presenter.getTime(result.time)}, необходимо его разбить на более маленькие маршруты`);
+                    return null;
+                }
                 this.days = result.days.map(day => {
                     let pointStart = {
                         date: day.dateStart,

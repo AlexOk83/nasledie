@@ -192,16 +192,16 @@
                 routeId: null,
                 isNewRoute: true,
                 //-------------------
-                name: 'полеты между островами №1',
-                description: 'Описание маршрута',
-                startPoint: {"position":[61.77262930226311,9.061672256870137],"name":"Лемоншёэн","description":"Норвегия, Иннланнет, Вого"},
-                endPoint: {"position":[78.82681866187409,-38.94044134486984],"name":"Гренландия","description":""},
+                name: '',
+                description: '',
+                startPoint: {},
+                endPoint: {},
                 dateStart: moment(new Date()).format(),
                 timeStart: '10:30',
                 isGeoRoute: 'yes',
                 typeMovement: 'car',
                 objects: [],
-                mapPoints: [{"position":[64.62714162559112,-18.448093368129907],"name":"округ Сюдюрланд","description":"Исландия"},{"position":[70.29661713080031,-35.41098399312991],"name":"Гренландия","description":""},{"position":[73.39899723801369,-35.23520274312994],"name":"Гренландия","description":""}], // точки на карте, которые будут отображаться
+                mapPoints: [], // точки на карте, которые будут отображаться
                 pointList: [], // список точек после составления маршрута
                 regions: [],
                 // данные для редактирования
