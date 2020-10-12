@@ -94,3 +94,24 @@ export function calcTime(distance, typeMovement) {
     }
     return Math.round(distance / 90)
 }
+
+const sort = (start) => (a, b) => {
+    if (getDistanceFromLatLonInMeters(start, a.position) > getDistanceFromLatLonInMeters(start, b.position)) return 1;
+    if (getDistanceFromLatLonInMeters(start, a.position) < getDistanceFromLatLonInMeters(start, b.position)) return -1;
+    if (getDistanceFromLatLonInMeters(start, a.position) === getDistanceFromLatLonInMeters(start, b.position)) return 0;
+}
+
+export function sortGeo(start,pointList) {
+    let newPointList = [];
+    let oldPointList = [...pointList];
+
+
+    while (oldPointList.length > 0) {
+        let startPoint = (newPointList[newPointList.length - 1] && newPointList[newPointList.length - 1].position) || start;
+        oldPointList.sort(sort(startPoint));
+        let shifter = oldPointList.shift();
+        newPointList.push(shifter)
+    }
+
+    return newPointList;
+}

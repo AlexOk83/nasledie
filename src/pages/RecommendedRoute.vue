@@ -352,7 +352,7 @@
                 if (!result.days) {
                     this.showCalcMap = false;
                     this.showMap = true;
-                    this.$store.dispatch('showModal', `маршрут от "${result.start}" до "${result.end}" составил ${presenter.getTime(result.time)}, необходимо его разбить на более маленькие маршруты`);
+                    this.$store.dispatch('showModal', `маршрут от "${result.start}" до "${result.end}" составляет более 24 часов, необходимо добавить точку остановки.`);
                     return null;
                 }
                 this.$store.dispatch('showPreloader');
@@ -397,7 +397,7 @@
                 if (!result.days) {
                     this.showCalcMap = false;
                     this.showMap = true;
-                    this.$store.dispatch('showModal', `маршрут от "${result.start}" до "${result.end}" составил ${presenter.getTime(result.time)}, необходимо его разбить на более маленькие маршруты`);
+                    this.$store.dispatch('showModal', `маршрут от "${result.start}" до "${result.end}" составляет более 24 часов, необходимо добавить точку остановки.`);
                     return null;
                 }
                 this.days = result.days.map(day => {

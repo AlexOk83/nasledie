@@ -47,7 +47,6 @@
         },
         methods: {
             setCurrentPoints(point, start) {
-                console.log(this.setCounts);
                 if (point.timeInWay >= 24 * 60) {
                     let result = {
                         start: start.name,
