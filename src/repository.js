@@ -19,7 +19,7 @@ const API = {
         return `${API.BASE()}/object${params}`
     },
     GET_REGION: () => `${API.BASE()}/region`,
-    GET_RECOM_OBJECTS: (lat, long) => `${API.BASE()}/objectradius?lat=${lat}&long=${long}`,
+    GET_RECOM_OBJECTS: () => `${API.BASE()}/objectradius`,
     GET_TYPE: () => `${API.BASE()}/type`,
     GET_TAG: () => `${API.BASE()}/tag`,
 
@@ -43,8 +43,8 @@ export default class Repository {
         return axios.get(API.GET_BRANDS(category, region, query));
     }
 
-    getRecObjects(lat, long) {
-        return axios.get(API.GET_RECOM_OBJECTS(lat, long));
+    getRecObjects(data) {
+        return axios.post(API.GET_RECOM_OBJECTS(), data);
     }
 
     getRegions() {

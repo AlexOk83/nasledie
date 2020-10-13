@@ -301,6 +301,12 @@
                         viewSaveButton: true,
                     }
                 }
+            },
+            coordinatesAllPoints() {
+                const start = this.startPoint.position;
+                const end = this.endPoint.position;
+                const points = this.mapPoints.map(p => (p.position));
+                return [start, ...points, end];
             }
         },
         methods: {
@@ -602,6 +608,10 @@
                 }
                 this.$forceUpdate();
             },
+            coordinatesAllPoints() {
+                console.log(this.coordinatesAllPoints);
+                this.$store.dispatch('getObjects', this.coordinatesAllPoints);
+            }
         },
         created() {
             this.userId = this.$store.getters.getUserId;

@@ -42,7 +42,7 @@ export default {
             })
         },
         getObjects({commit}, payload) {
-            repository.getRecObjects(payload.lat, payload.long).then(response => {
+            repository.getRecObjects(payload).then(response => {
                 let objects = JSON.parse(response.data);
                 commit('getObjectsFromBase', objects);
             })
