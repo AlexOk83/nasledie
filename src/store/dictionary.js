@@ -42,8 +42,11 @@ export default {
             })
         },
         getObjects({commit}, payload) {
-            repository.getRecObjects(payload).then(response => {
+            const formData = new FormData();
+            formData.append('coordinates', JSON.stringify(payload));
+            repository.getRecObjects(formData).then(response => {
                 let objects = JSON.parse(response.data);
+                console.log(objects);
                 commit('getObjectsFromBase', objects);
             })
         }

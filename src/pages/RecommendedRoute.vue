@@ -334,7 +334,14 @@
                 const start = this.startPoint.position;
                 const end = this.endPoint.position;
                 const points = this.mapPoints.map(p => (p.position));
-                return [start, ...points, end];
+                const coordinates = [];
+                if (start) {
+                    coordinates.push(start);
+                }
+                if (end) {
+                    coordinates.push(end);
+                }
+                return [...coordinates, ...points];
             }
         },
         methods: {
