@@ -47,6 +47,11 @@ export default {
             repository.getRecObjects(formData).then(response => {
                 let objects = JSON.parse(response.data);
                 console.log(objects);
+                objects = objects.map(o => ({
+                    ...o,
+                    value: o.id,
+                    position: o.position.split(', ')
+                }))
                 commit('getObjectsFromBase', objects);
             })
         }

@@ -85,7 +85,9 @@
         },
         methods: {
             selectRecommendObjects(event) {
-                this.currentName = event;
+                console.log(event)
+                this.currentObject = event;
+                this.objectList = [event];
                 this.currentCategory = this.categories.find(category => category.value === event.type);
                 this.currentRegion = this.regions.find(region => Number(region.value) === Number(event.region));
             },
