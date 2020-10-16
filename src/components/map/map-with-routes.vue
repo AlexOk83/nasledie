@@ -100,7 +100,17 @@
                 console.log(routes);
                 return routes;
             },
+            removePoint(point, l) {
+                this.$store.dispatch('showModalConfirm', {
+                    text: `Удалить выбранную точку: ${getAdress(point)}?`,
+                    onConfirm: () => {
+                        this.map.geoObjects.remove(this.currentPoints[this.indexActiveDay][l]);
+                        this.$emit('removePoint', point);
+                    }
+                })
+            },
             addPoint(point) {
+                const { removePoint } = this;
                 this.$store.dispatch('showModalConfirm', {
                     text: `Добавить в выбранном дне точку: ${getAdress(point)}?`,
                     onConfirm: () => {
@@ -122,6 +132,10 @@
                             // её "ножки" (точки привязки).
                             iconImageOffset: offset,
                             // Смещение слоя с содержимым относительно слоя с картинкой.
+                        });
+
+                        this.currentPoints[this.indexActiveDay][l].events.add('click', function () {
+                            removePoint(point, l);
                         });
 
                         this.map.geoObjects.add(this.currentPoints[this.indexActiveDay][l]);

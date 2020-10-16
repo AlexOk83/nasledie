@@ -75,6 +75,8 @@
                             :end="endPoint"
                             @change="changeValue('days', $event)"
                             @setActiveDay="setActiveDay"
+                            @addNewObject="addNewObject"
+                            @removeNewObject="removeNewObject"
                             :indexActiveDay="indexActiveDay"
                             :data-is-change="needUpdateDayData"
                         />
@@ -126,6 +128,9 @@
                             :from="startPoint.position"
                             :days="days"
                             @addPoint="addPointToActiveDay"
+                            @removePoint="removePointToActiveDay"
+                            @removeNewObject="removeNewObject"
+                            :newObjectsInDay="newObjects"
                             :index-active-day="indexActiveDay"
                             :read-only="false"
                     />

@@ -12,6 +12,7 @@ import Repository from '../repository';
 import { Presenter } from "../presenter";
 import { radioButtonOptions, typesOfMovement } from '../constants';
 import BreadCrumbs from "../components/bread-сrumbs";
+import {isEqual} from "../utils";
 
 const repository = new Repository();
 const presenter = new Presenter();
@@ -52,6 +53,7 @@ export default {
             indexActiveDay: 0,          // индекс активного дня в this.days
             globalIndexActiveDay: 0,    // индекс активного дня в this.pointList
             countObjectActiveDay: 0,
+            newObjects: [],         // массив точек на карте, добавленных объектов
             totalTime: 0,
             totalWay: 0,
             files: [],
@@ -278,6 +280,19 @@ export default {
                 }).finally(() => {
                 this.$store.dispatch('hidePreloader');
             });
+        },
+        addNewObject(object) {
+            console.log(object)
+        },
+        removeNewObject(object) {
+            console.log(object)
+        },
+        removePointToActiveDay(point) {
+            // точку мы добавляем и удаляем на карте
+            // debugger;
+            const filter = pointDay => !isEqual(pointDay.position, point.position);
+            this.days[this.indexActiveDay].objects = this.days[this.indexActiveDay].objects.filter(filter);
+            this.pointList = this.pointList.filter(filter);
         },
 // ------------------------------------далее доделанные методы V
         addPointToActiveDay(point) {
