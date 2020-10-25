@@ -126,11 +126,12 @@
                     <Map-routes
                             v-if="viewMap"
                             :from="startPoint.position"
+                            :to="endPoint.position"
                             :days="days"
                             @addPoint="addPointToActiveDay"
                             @removePoint="removePointToActiveDay"
                             @removeNewObject="removeNewObject"
-                            :newObjectsInDay="newObjects"
+                            :newObject="newObject"
                             :index-active-day="indexActiveDay"
                             :read-only="false"
                     />
@@ -215,7 +216,7 @@
                 indexActiveDay: 0,          // индекс активного дня в this.days
                 globalIndexActiveDay: 0,    // индекс активного дня в this.pointList
                 countObjectActiveDay: 0,
-                newObjects: [],         // массив точек на карте, добавленных объектов
+                newObject: {},         // массив точек на карте, добавленных объектов
                 totalTime: 0,
                 totalWay: 0,
                 files: [],
@@ -441,15 +442,23 @@
                 });
             },
             addNewObject(object) {
-                console.log(object)
+                console.log(object);
+                this.newObject = {};
+                setTimeout(() => {
+                  this.newObject = object;
+                }, 100)
             },
             removeNewObject(object) {
                 console.log(object)
             },
             removePointToActiveDay(point) {
+              const position = point.position || point.coordinates
                 // точку мы добавляем и удаляем на карте
                 // debugger;
-                const filter = pointDay => !isEqual(pointDay.position, point.position);
+                const filter = pointDay => {
+                  const pointDayPosition = pointDay.position || pointDay.coordinates;
+                  return !isEqual(pointDayPosition, position);
+                }
                 this.days[this.indexActiveDay].objects = this.days[this.indexActiveDay].objects.filter(filter);
                 this.pointList = this.pointList.filter(filter);
             },

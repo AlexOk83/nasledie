@@ -3,11 +3,12 @@
 </template>
 
 <script>
-    import { isEmpty } from 'lodash';
     import { Presenter } from '../../presenter';
-    import {getAdress} from "../../utils";
-    import {MOSKOW} from "../../constants";
+    import { getAdress } from "../../utils";
+    import { MOSKOW } from "../../constants";
+
     const presenter = new Presenter();
+
     export default {
         name: "Map-with-objects",
         props: {
@@ -159,9 +160,6 @@
 
                 this.setBounds();
             }
-
-        },
-        computed: {
 
         },
         watch: {

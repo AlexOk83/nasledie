@@ -3,16 +3,17 @@
 </template>
 
 <script>
-    import { isEmpty } from 'lodash';
     import { Presenter } from '../../presenter';
-    import {getAdress, isEqual} from "../../utils";
+    import { getAdress, isEqual } from "../../utils";
     const presenter = new Presenter();
     export default {
         name: "Map-with-routes",
         props: {
             from: Array,
+            to: Array,
             days: Array,
             indexActiveDay: Number,
+            newObject: Object,
             readOnly: {
                 type: Boolean,
                 default: true,
@@ -100,51 +101,59 @@
                 console.log(routes);
                 return routes;
             },
-            removePoint(point, l) {
+            removePoint(point, i, l) {
+              if (isEqual(point.coordinates, this.from) || isEqual(point.coordinates, this.to)) {
+                return;
+              }
+              if (i === this.indexActiveDay) {
                 this.$store.dispatch('showModalConfirm', {
-                    text: `Удалить выбранную точку: ${getAdress(point)}?`,
-                    onConfirm: () => {
-                        this.map.geoObjects.remove(this.currentPoints[this.indexActiveDay][l]);
-                        this.$emit('removePoint', point);
-                    }
+                  text: `Удалить выбранную точку: ${getAdress(point)}?`,
+                  onConfirm: () => {
+                    this.map.geoObjects.remove(this.currentPoints[i][l]);
+                    this.$emit('removePoint', point);
+                  }
                 })
+              }
+            },
+            add(point) {
+              const { removePoint, indexActiveDay } = this;
+              let image = presenter.getStylesPoints(indexActiveDay).imagePoint;
+              let size = [10, 10];
+              let offset = [-5, -5];
+              const l = this.currentPoints[indexActiveDay].length || 0;
+              this.currentPoints[indexActiveDay][l] = new ymaps.Placemark(point.position, {
+                hintContent: getAdress(point),
+              }, {
+                // Опции.
+                // Необходимо указать данный тип макета.
+                iconLayout: 'default#imageWithContent',
+                // Своё изображение иконки метки.
+                iconImageHref: image,
+                // Размеры метки.
+                iconImageSize: size,
+                // Смещение левого верхнего угла иконки относительно
+                // её "ножки" (точки привязки).
+                iconImageOffset: offset,
+                // Смещение слоя с содержимым относительно слоя с картинкой.
+              });
+
+              this.currentPoints[indexActiveDay][l].events.add('click', function () {
+                removePoint(point, indexActiveDay, l);
+              });
+
+              this.map.geoObjects.add(this.currentPoints[indexActiveDay][l]);
             },
             addPoint(point) {
-                const { removePoint } = this;
                 this.$store.dispatch('showModalConfirm', {
                     text: `Добавить в выбранном дне точку: ${getAdress(point)}?`,
                     onConfirm: () => {
-                        let image = presenter.getStylesPoints(this.indexActiveDay).imagePoint;
-                        let size = [10, 10];
-                        let offset = [-5, -5];
-                        const l = this.currentPoints[this.indexActiveDay].length || 0;
-                        this.currentPoints[this.indexActiveDay][l] = new ymaps.Placemark(point.position, {
-                            hintContent: getAdress(point),
-                        }, {
-                            // Опции.
-                            // Необходимо указать данный тип макета.
-                            iconLayout: 'default#imageWithContent',
-                            // Своё изображение иконки метки.
-                            iconImageHref: image,
-                            // Размеры метки.
-                            iconImageSize: size,
-                            // Смещение левого верхнего угла иконки относительно
-                            // её "ножки" (точки привязки).
-                            iconImageOffset: offset,
-                            // Смещение слоя с содержимым относительно слоя с картинкой.
-                        });
-
-                        this.currentPoints[this.indexActiveDay][l].events.add('click', function () {
-                            removePoint(point, l);
-                        });
-
-                        this.map.geoObjects.add(this.currentPoints[this.indexActiveDay][l]);
+                        this.add(point)
                         this.$emit('addPoint', point);
                     }
                 });
             },
             init() {
-                const {from, addPoint} = this;
+                const {from, addPoint, removePoint } = this;
                 this.map = new ymaps.Map("map", {
                     center: from, // по умолчанию москва
                     zoom: 13,
@@ -155,7 +164,7 @@
                 });
 
                 if (!this.readOnly) {
-                    var cursor = this.map.cursors.push('crosshair');
+                    this.map.cursors.push('crosshair');
 
                     this.map.events.add('click', function (e) {
                         var coords = e.get('coords');
@@ -212,7 +221,6 @@
                                     referencePoints: route.pointList,
                                     params: {
                                         routingMode: route.routingMode,
-                                        hintContent: 'asdasd'
                                     }
                                 },
                                 {
@@ -291,11 +299,14 @@
                         let offset = isEqual(finalObject.coordinates, obj.coordinates) ? [-5, -50] : [-5, -5];
                         let iconContentLayout = isEqual(finalObject.coordinates, obj.coordinates) ? MyIconContentLayout : defaultContentLayout;
                         let time = isEqual(this.days[0].objects[0].coordinates, obj.coordinates) ? 'Начало маршрута' : presenter.getTime(obj.timeInWay)
-                        this.currentPoints[indexDay][indexObj] = new ymaps.Placemark(obj.coordinates, {
-                            hintContent: '<div><p>' + getAdress(obj) + '</p><p>' + time + '</p></div>',
-                            data: indexDay + 1,
-                            data2: `${totalWay} км`,
-                        }, {
+                        this.currentPoints[indexDay][indexObj] = new ymaps.Placemark(
+                            obj.coordinates,
+                            {
+                              hintContent: '<div><p>' + getAdress(obj) + '</p><p>' + time + '</p></div>',
+                              data: indexDay + 1,
+                              data2: `${totalWay} км`,
+                            },
+                            {
                             // Опции.
                             // Необходимо указать данный тип макета.
                             iconLayout: 'default#imageWithContent',
@@ -309,7 +320,12 @@
                             // Смещение слоя с содержимым относительно слоя с картинкой.
                             iconContentOffset: [5, 15],
                             iconContentLayout,
-                        });
+                        }
+                        );
+
+                      this.currentPoints[indexDay][indexObj].events.add('click', function () {
+                        removePoint(obj, indexDay, indexObj);
+                      });
 
                         this.map.geoObjects.add(this.currentPoints[indexDay][indexObj])
                     })
@@ -322,7 +338,11 @@
 
         },
         watch: {
-
+          newObject() {
+            if (this.newObject.position) {
+              this.add(this.newObject);
+            }
+          }
         },
         mounted() {
             ymaps.ready(this.init);
