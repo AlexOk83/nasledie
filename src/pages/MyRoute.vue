@@ -75,8 +75,8 @@
                             :end="endPoint"
                             @change="changeValue('days', $event)"
                             @setActiveDay="setActiveDay"
-                            @addNewObject="addNewObject"
-                            @removeNewObject="removeNewObject"
+                            @add="addNewObject"
+                            @remove="removeNewObject"
                             :indexActiveDay="indexActiveDay"
                             :data-is-change="needUpdateDayData"
                         />
@@ -339,7 +339,6 @@
                 }, 200)
 
             },
-
             createRoute(result) {
                 if (!result.days) {
                     this.showCalcMap = false;
@@ -373,7 +372,6 @@
                         this.$store.dispatch('hidePreloader');
                     });
             },
-
             onCalcRoute() {
                 this.calcMapUpdate = true;
                 this.showCalcMap = false;
@@ -426,7 +424,6 @@
                 }, 500);
 
             },
-
             updateRoute() {
                 this.$store.dispatch('showPreloader');
                 const data = this.getInfoForUpdate();

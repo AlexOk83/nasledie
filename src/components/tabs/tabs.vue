@@ -89,6 +89,7 @@
                 const penultIndex = this.activeDay.objects.length - 2;
                 this.activeDay.objects.splice(penultIndex, 0, object);
                 this.saveActiveDay();
+                this.$emit('add', object);
             },
             changeObjectsFromActiveDay(objects) {
                 this.activeDay.objects = objects;
