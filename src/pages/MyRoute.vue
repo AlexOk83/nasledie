@@ -76,7 +76,7 @@
                             @change="changeValue('days', $event)"
                             @setActiveDay="setActiveDay"
                             @add="addNewObject"
-                            @remove="removeNewObject"
+                            @remove="removeObject"
                             :indexActiveDay="indexActiveDay"
                             :data-is-change="needUpdateDayData"
                         />
@@ -130,7 +130,7 @@
                             :days="days"
                             @addPoint="addPointToActiveDay"
                             @removePoint="removePointToActiveDay"
-                            @removeNewObject="removeNewObject"
+                            :deleteObject="deleteObject"
                             :newObject="newObject"
                             :index-active-day="indexActiveDay"
                             :read-only="false"
@@ -216,7 +216,8 @@
                 indexActiveDay: 0,          // индекс активного дня в this.days
                 globalIndexActiveDay: 0,    // индекс активного дня в this.pointList
                 countObjectActiveDay: 0,
-                newObject: {},         // массив точек на карте, добавленных объектов
+                newObject: {},
+                deleteObject: false,
                 totalTime: 0,
                 totalWay: 0,
                 files: [],
@@ -442,14 +443,16 @@
                 });
             },
             addNewObject(object) {
-                console.log(object);
                 this.newObject = {};
                 setTimeout(() => {
                   this.newObject = object;
                 }, 100)
             },
-            removeNewObject(object) {
-                console.log(object)
+            removeObject() {
+              this.deleteObject = true;
+              setTimeout(() => {
+                this.deleteObject = false;
+              }, 100)
             },
             removePointToActiveDay(point) {
               const position = point.position || point.coordinates

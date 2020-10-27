@@ -86,7 +86,18 @@
         methods: {
             selectRecommendObjects(event) {
                 console.log(event)
-                this.currentObject = event;
+                this.currentObject = {
+                  ...event,
+                  coordinates: event.position,
+                  startPointCoordLat: event.position[0],
+                  startPointCoordLong: event.position[1],
+                  time: 0,
+                  object_id: null,
+                  timeInWay: 0,
+                  stopTime: 0,
+                  way: 0,
+                  typeMovement: ['car']
+                };
                 this.objectList = [event];
                 this.currentCategory = this.categories.find(category => category.value === event.type);
                 this.currentRegion = this.regions.find(region => Number(region.value) === Number(event.region));
@@ -109,7 +120,19 @@
                 this.currentCategory = this.categories.find(region => region.value === event);
             },
             changeObject(event) {
-                this.currentObject = this.objectList.find(object => object.value === event);
+                const currentObject = this.objectList.find(object => object.value === event);
+                this.currentObject = {
+                  ...currentObject,
+                  coordinates: currentObject.position,
+                  startPointCoordLat: currentObject.position[0],
+                  startPointCoordLong: currentObject.position[1],
+                  time: 0,
+                  object_id: null,
+                  timeInWay: 0,
+                  stopTime: 0,
+                  way: 0,
+                  typeMovement: ['car']
+                }
             },
             changeBrand(event) {
                 this.currentBrand = event;

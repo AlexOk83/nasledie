@@ -14,6 +14,7 @@
             days: Array,
             indexActiveDay: Number,
             newObject: Object,
+            deleteObject: Boolean,
             readOnly: {
                 type: Boolean,
                 default: true,
@@ -152,6 +153,58 @@
                     }
                 });
             },
+            createMarkers() {
+              let MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
+                  '<div style="color: #FFFFFF; font-size: 12px; text-transform: uppercase; position: absolute;top:-8px;  left: -20px; font-weight: bold; width: 90px;">День $[properties.data]</div><div style="color: #FFFFFF; font-size: 10px; position: absolute;top:5px;  left: -22px; width: 90px;text-transform: uppercase;">$[properties.data2]</div>'
+              )
+              let defaultContentLayout = ymaps.templateLayoutFactory.createClass(
+                  ''
+              )
+              // добавление маркеров на карту
+              this.days.forEach((day, indexDay ) => {
+                this.currentPoints[indexDay] = [];
+                let styles = presenter.getStylesPoints(indexDay);
+                let finalObject = day.objects[day.objects.length - 1];
+                let totalWay = 0;
+                day.objects.forEach((obj, indexObj) => {
+                  totalWay += Math.round(obj.way / 1000);
+                  let image = isEqual(finalObject.coordinates, obj.coordinates) ? styles.imageFlag : styles.imagePoint;
+                  let size = isEqual(finalObject.coordinates, obj.coordinates) ? [60, 60] : [10, 10];
+                  let offset = isEqual(finalObject.coordinates, obj.coordinates) ? [-5, -50] : [-5, -5];
+                  let iconContentLayout = isEqual(finalObject.coordinates, obj.coordinates) ? MyIconContentLayout : defaultContentLayout;
+                  let time = isEqual(this.days[0].objects[0].coordinates, obj.coordinates) ? 'Начало маршрута' : presenter.getTime(obj.timeInWay)
+                  this.currentPoints[indexDay][indexObj] = new ymaps.Placemark(
+                      obj.coordinates,
+                      {
+                        hintContent: '<div><p>' + getAdress(obj) + '</p><p>' + time + '</p></div>',
+                        data: indexDay + 1,
+                        data2: `${totalWay} км`,
+                      },
+                      {
+                        // Опции.
+                        // Необходимо указать данный тип макета.
+                        iconLayout: 'default#imageWithContent',
+                        // Своё изображение иконки метки.
+                        iconImageHref: image,
+                        // Размеры метки.
+                        iconImageSize: size,
+                        // Смещение левого верхнего угла иконки относительно
+                        // её "ножки" (точки привязки).
+                        iconImageOffset: offset,
+                        // Смещение слоя с содержимым относительно слоя с картинкой.
+                        iconContentOffset: [5, 15],
+                        iconContentLayout,
+                      }
+                  );
+
+                  this.currentPoints[indexDay][indexObj].events.add('click', function () {
+                    removePoint(obj, indexDay, indexObj);
+                  });
+
+                  this.map.geoObjects.add(this.currentPoints[indexDay][indexObj])
+                })
+              });
+            },
             init() {
                 const {from, addPoint, removePoint } = this;
                 this.map = new ymaps.Map("map", {
@@ -280,56 +333,8 @@
                         this.map.geoObjects.add(this.multiRoutes[index][i]);
                     })
                 });
-                let MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
-                    '<div style="color: #FFFFFF; font-size: 12px; text-transform: uppercase; position: absolute;top:-8px;  left: -20px; font-weight: bold; width: 90px;">День $[properties.data]</div><div style="color: #FFFFFF; font-size: 10px; position: absolute;top:5px;  left: -22px; width: 90px;text-transform: uppercase;">$[properties.data2]</div>'
-                )
-                let defaultContentLayout = ymaps.templateLayoutFactory.createClass(
-                    ''
-                )
-                // добавление маркеров на карту
-                this.days.forEach((day, indexDay ) => {
-                    this.currentPoints[indexDay] = [];
-                    let styles = presenter.getStylesPoints(indexDay);
-                    let finalObject = day.objects[day.objects.length - 1];
-                    let totalWay = 0;
-                    day.objects.forEach((obj, indexObj) => {
-                        totalWay += Math.round(obj.way / 1000);
-                        let image = isEqual(finalObject.coordinates, obj.coordinates) ? styles.imageFlag : styles.imagePoint;
-                        let size = isEqual(finalObject.coordinates, obj.coordinates) ? [60, 60] : [10, 10];
-                        let offset = isEqual(finalObject.coordinates, obj.coordinates) ? [-5, -50] : [-5, -5];
-                        let iconContentLayout = isEqual(finalObject.coordinates, obj.coordinates) ? MyIconContentLayout : defaultContentLayout;
-                        let time = isEqual(this.days[0].objects[0].coordinates, obj.coordinates) ? 'Начало маршрута' : presenter.getTime(obj.timeInWay)
-                        this.currentPoints[indexDay][indexObj] = new ymaps.Placemark(
-                            obj.coordinates,
-                            {
-                              hintContent: '<div><p>' + getAdress(obj) + '</p><p>' + time + '</p></div>',
-                              data: indexDay + 1,
-                              data2: `${totalWay} км`,
-                            },
-                            {
-                            // Опции.
-                            // Необходимо указать данный тип макета.
-                            iconLayout: 'default#imageWithContent',
-                            // Своё изображение иконки метки.
-                            iconImageHref: image,
-                            // Размеры метки.
-                            iconImageSize: size,
-                            // Смещение левого верхнего угла иконки относительно
-                            // её "ножки" (точки привязки).
-                            iconImageOffset: offset,
-                            // Смещение слоя с содержимым относительно слоя с картинкой.
-                            iconContentOffset: [5, 15],
-                            iconContentLayout,
-                        }
-                        );
 
-                      this.currentPoints[indexDay][indexObj].events.add('click', function () {
-                        removePoint(obj, indexDay, indexObj);
-                      });
-
-                        this.map.geoObjects.add(this.currentPoints[indexDay][indexObj])
-                    })
-                });
+                this.createMarkers();
 
                 this.map.setBounds(this.map.geoObjects.getBounds(),{checkZoomRange:true, zoomMargin:35});
             }
@@ -342,7 +347,19 @@
             if (this.newObject.position) {
               this.add(this.newObject);
             }
-          }
+          },
+          deleteObject() {
+            if (this.deleteObject) {
+              console.log('удалили');
+              this.currentPoints.forEach(day => {
+                day.forEach(point => {
+                  this.map.geoObjects.remove(point);
+                })
+              })
+              this.currentPoints = [];
+              this.createMarkers();
+            }
+          },
         },
         mounted() {
             ymaps.ready(this.init);

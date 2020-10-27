@@ -43,6 +43,7 @@
                         :end="end"
                         :data-is-change="dataIsChange"
                         @change="changeObjectsFromActiveDay"
+                        @remove="() => { this.$emit('remove') }"
                 />
                 <Form-add
                         :objects="activeDay.objects"
@@ -86,7 +87,7 @@
         },
         methods: {
             add(object) {
-                const penultIndex = this.activeDay.objects.length - 2;
+                const penultIndex = this.activeDay.objects.length - 1;
                 this.activeDay.objects.splice(penultIndex, 0, object);
                 this.saveActiveDay();
                 this.$emit('add', object);

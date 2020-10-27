@@ -83,6 +83,7 @@
             remove(index) {
                 this.localList.splice(index, 1);
                 this.$emit('change', this.localList);
+                this.$emit('remove');
             },
             changeItem(index, data) {
                 if (data.nextItem) {
