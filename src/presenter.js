@@ -80,7 +80,7 @@ export class Presenter {
                     startPointCoordLat: lat,
                     startPointCoordLong: long,
                     way: 0,
-                    time: 30,
+                    time: 0,
                     timeInWay: 0,
                     stopTime: 0,
                     typeMovement: [typeMovement]
