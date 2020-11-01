@@ -1,4 +1,5 @@
 import Repository from "../repository";
+import {isEqual, setCoordsToNumeric} from "../utils";
 const repository = new Repository();
 
 export default {
@@ -46,12 +47,23 @@ export default {
             formData.append('coordinates', JSON.stringify(payload));
             repository.getRecObjects(formData).then(response => {
                 let objects = JSON.parse(response.data);
-                console.log(objects);
-                objects = objects.map(o => ({
-                    ...o,
-                    value: o.id,
-                    position: o.position.split(', ')
-                }))
+
+                objects = objects
+                    .map(o => ({
+                        ...o,
+                        value: o.id,
+                        position: setCoordsToNumeric(o.position)
+                    }))
+                    .filter(obj => {
+                        let filter = true;
+                        payload.forEach(coord => {
+                            if (isEqual(coord, obj.position)) {
+                                filter = false;
+                            }
+                        })
+                        return filter;
+                    })
+
                 commit('getObjectsFromBase', objects);
             })
         }

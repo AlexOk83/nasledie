@@ -2,12 +2,12 @@
 <template>
     <div class="route">
         <div class="route__image" v-if="image">
-            <img :src="image" :alt="data.name" >
+            <img :src="image" >
         </div>
         <div class="route__body" :class="{'full': !image}">
             <vue-custom-scrollbar class="scroll-area" :settings="settings" >
                 <div class="title">{{ data.name }}</div>
-                <div class="text-description" v-html="data.description" />
+                <div class="text-description" v-html="data.short_description" />
             </vue-custom-scrollbar>
 
         </div>
@@ -17,7 +17,8 @@
 
 <script>
     import vueCustomScrollbar from "vue-custom-scrollbar";
-    import { isEmpty } from 'lodash';
+    import { isNil } from 'lodash';
+    import { API } from '../../repository';
 
     export default {
         name: "ObjectRoute",
@@ -28,7 +29,7 @@
             data: {
                 name: String,
                 image: String,
-                description: HTMLBaseElement,
+                short_description: HTMLBaseElement,
             }
         },
         computed: {
@@ -39,10 +40,12 @@
                 }
             },
             image() {
-                if (isEmpty(this.data.images)) {
-                    return null;
-                }
-                return this.data.images[0]
+
+              if (isNil(this.data.image)) {
+                return null;
+              }
+
+              return `${API.BASE()}${this.data.image}`
             }
         }
     }
@@ -54,8 +57,5 @@
     .text-description {
         .text();
         margin-top: 30px;
-
     }
-
-
 </style>

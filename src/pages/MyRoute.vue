@@ -62,8 +62,10 @@
                                @change="changeValue('typeMovement', $event)"
                         />
                         <Objects
-                                :objects="mapPoints"
-                                @change="changeValue('objects', $event)"
+                                :objects="objects"
+                                :points="mapPoints"
+                                @change="changeValue('mapPoints', $event)"
+                                @add=""
                         />
                     </div>
                     <div v-if="!isNewRoute">
@@ -565,108 +567,112 @@
                 return formData
             },
             changeValue(field, value) {
-                if (field === 'days') {
-                    const activeDayObjects = value[this.indexActiveDay].objects;
-                    if (this.days.length === 1) {
-                        this.pointList = activeDayObjects;
-                    }
-                    else {
-                        this.pointList.splice(this.globalIndexActiveDay, this.countObjectActiveDay, ...activeDayObjects);
-                    }
-                    this.needUpdateDayData = true;
-                }
-                if (field === 'isGeoRoute') {
-                    this.canUpdateDayData = true;
-                }
-                this.$data[field] = value;
-                this.countObjectActiveDay = this.countObjectToDays[this.indexActiveDay];
-                if (field === 'objects') {
-                    this.regions = value.map(obj => ({ id: obj.region }));
-                    this.mapPoints = value;
-                }
-            },
-            getDataRoute() {
-                this.$store.dispatch('showPreloader');
-                repository.getMyRoute(this.userId, this.routeId)
-                    .then(response => {
-                        this.$store.dispatch('hidePreloader');
-                        const route = JSON.parse(response.data).router;
-                        this.showMap = true;
-                        this.updateState(route);
-                    })
-            },
-            updateState(data) {
-                if (isNil(data)) {
-                    return;
-                }
-                this.routeId = data.id;
-                this.dateStart = data.dateStart;
-                this.timeStart = data.timeStart;
-                this.startPoint = {
-                    position: [data.startPointCoordLat, data.startPointCoordLong],
-                }
-                this.endPoint = {
-                    position: [data.endPointCoordLat, data.endPointCoordLong],
-                }
-                this.name = data.name;
-                this.description = data.description;
-                this.days = presenter.changeFormat(data.days);
-                this.pointList = JSON.parse(data.map_points);
-                this.files = data.files || [];
-                this.regions = data.regions;
-                this.otherData = data; // для того, чтобы не потерять данные
-                this.showMap = true;
-                this.setActiveDay(0);
-            },
-            addPoint({ type, point }) {
-                if (type === 'startPoint') {
-                    this.startPoint = point
-                }
-                if (type === 'endPoint') {
-                    this.endPoint = point
-                }
-                if (type === 'point') {
-                    this.mapPoints.push(point)
-                }
-            },
-        },
-        watch: {
-            $route(to, from) {
-                if (to.params.id !== from.params.id && to.params.id) {
-                    this.routeId = to.params.id;
-                    this.isNewRoute = false;
-                    this.getDataRoute()
+              if (field === 'mapPoints') {
+                this.regions = value.objects.map(obj => ({ id: obj.region }));
+                this.mapPoints = value.points;
+                this.objects = value.objects;
 
-                } else {
-                    this.routeId = null;
-                    this.isNewRoute = true;
-                    this.clearRoute();
+                return;
+              }
+              if (field === 'days') {
+                const activeDayObjects = value[this.indexActiveDay].objects;
+                if (this.days.length === 1) {
+                  this.pointList = activeDayObjects;
                 }
-                this.$forceUpdate();
+                else {
+                  this.pointList.splice(this.globalIndexActiveDay, this.countObjectActiveDay, ...activeDayObjects);
+                }
+                this.needUpdateDayData = true;
+              }
+              if (field === 'isGeoRoute') {
+                this.canUpdateDayData = true;
+              }
+              this.$data[field] = value;
+              this.countObjectActiveDay = this.countObjectToDays[this.indexActiveDay];
+
             },
-            coordinatesAllPoints() {
-                console.log(this.coordinatesAllPoints);
-                this.$store.dispatch('getObjects', this.coordinatesAllPoints);
+          getDataRoute() {
+            this.$store.dispatch('showPreloader');
+            repository.getMyRoute(this.userId, this.routeId)
+                .then(response => {
+                  this.$store.dispatch('hidePreloader');
+                  const route = JSON.parse(response.data).router;
+                  this.showMap = true;
+                  this.updateState(route);
+                })
+          },
+          updateState(data) {
+            if (isNil(data)) {
+              return;
             }
-        },
-        created() {
-            this.userId = this.$store.getters.getUserId;
-            if (this.$route.params.id) {
-                this.routeId = this.$route.params.id;
-                this.isNewRoute = false;
-                this.getDataRoute();
-            } else {
-                this.showMap = true;
+            this.routeId = data.id;
+            this.dateStart = data.dateStart;
+            this.timeStart = data.timeStart;
+            this.startPoint = {
+              position: [data.startPointCoordLat, data.startPointCoordLong],
             }
+            this.endPoint = {
+              position: [data.endPointCoordLat, data.endPointCoordLong],
+            }
+            this.name = data.name;
+            this.description = data.description;
+            this.days = presenter.changeFormat(data.days);
+            this.pointList = JSON.parse(data.map_points);
+            this.files = data.files || [];
+            this.regions = data.regions;
+            this.otherData = data; // для того, чтобы не потерять данные
+            this.showMap = true;
+            this.setActiveDay(0);
+          },
+          addPoint({ type, point }) {
+            if (type === 'startPoint') {
+              this.startPoint = point
+            }
+            if (type === 'endPoint') {
+              this.endPoint = point
+            }
+            if (type === 'point') {
+              this.mapPoints.push(point)
+            }
+          },
         },
+      watch: {
+        $route(to, from) {
+          if (to.params.id !== from.params.id && to.params.id) {
+            this.routeId = to.params.id;
+            this.isNewRoute = false;
+            this.getDataRoute()
+
+          } else {
+            this.routeId = null;
+            this.isNewRoute = true;
+            this.clearRoute();
+          }
+          this.$forceUpdate();
+        },
+        coordinatesAllPoints() {
+          console.log(this.coordinatesAllPoints);
+          this.$store.dispatch('getObjects', this.coordinatesAllPoints);
+        }
+      },
+      created() {
+        this.userId = this.$store.getters.getUserId;
+        if (this.$route.params.id) {
+          this.routeId = this.$route.params.id;
+          this.isNewRoute = false;
+          this.getDataRoute();
+        } else {
+          this.showMap = true;
+        }
+      },
     }
 </script>
 
 <style lang="less">
-    @import "../styles/mixins";
+@import "../styles/mixins";
 
-    .map-stiky {
-        position: sticky;
-        top: 0;
-    }
+.map-stiky {
+  position: sticky;
+  top: 0;
+}
 </style>

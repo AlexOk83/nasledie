@@ -1,5 +1,5 @@
 import moment from "moment";
-import {getAdress, sortGeo} from './utils';
+import {getAdress, setCoordsToNumeric, sortGeo} from './utils';
 import {isEmpty} from 'lodash';
 
 export class Presenter {
@@ -72,7 +72,7 @@ export class Presenter {
                 typeMovement: [typeMovement]
             },
             ...points.map(obj => {
-                const position = this.wellFormatPosition(obj.position);
+                const position = setCoordsToNumeric(obj.position);
                 const [lat, long] = position;
                 return {
                     object_id: obj.id || null,
@@ -295,14 +295,6 @@ export class Presenter {
         localMass[index] = temp;
         return localMass
     }
-    // готово!
-    wellFormatPosition(position) { // приводим к одному формату
-        if (Array.isArray(position)) {
-            return position
-        }
-        return position.split(', ')
-    }
-
     changeFormat(days) {
         return days.map(day => {
             return {

@@ -6,7 +6,7 @@
                 @add="add"
         />
         <List
-            :list="currentObjects"
+            :list="currentPoints"
             @remove="remove"
         />
     </div>
@@ -19,10 +19,12 @@
     export default {
         name: "added-objects",
         props: {
+            points: Array,
             objects: Array,
         },
         data() {
             return {
+                currentPoints: [],
                 currentObjects: [],
             }
         },
@@ -33,16 +35,21 @@
         watch: {
             objects() {
                 this.currentObjects = this.objects;
+            },
+            points() {
+                this.currentPoints = this.points;
             }
         },
         methods: {
             add(event) {
                 this.currentObjects.push(event);
-                this.$emit('change', this.currentObjects); // при добавлении и удалении мы эмитим родителю актуальный список объектов
+                this.currentPoints.push(event);
+                this.$emit('change', { objects: this.currentObjects, points: this.currentPoints }); // при добавлении и удалении мы эмитим родителю актуальный список объектов
             },
             remove(event) {
                 this.currentObjects.splice(event, 1);
-                this.$emit('change', this.currentObjects);
+                this.currentPoints.splice(event, 1);
+                this.$emit('change', { objects: this.currentObjects, points: this.currentPoints });
             }
 
         }

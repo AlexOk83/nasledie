@@ -57,7 +57,7 @@
     import Button from "../form-control/button/button";
     import Icon from "../icon";
     import {Presenter} from "../../presenter";
-    import Repository from "../../repository";
+    import Repository, { API } from "../../repository";
     import { isEmpty } from 'lodash';
 
     const presenter = new Presenter();
@@ -105,7 +105,7 @@
                 if (isEmpty(this.data.files)) {
                     return null;
                 }
-                return `https://api.zhivoe-nasledie.ga/${this.data.files[0].url}`;
+                return `${API.BASE()}/${this.data.files[0].url}`;
             },
             getWay() {
                 if (!this.data.totalWay) {

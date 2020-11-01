@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = {
+export const API = {
     BASE: () => 'https://api.zhivoe-nasledie.ga',
     GET_BRANDS: (category, region, query) => {
         let params = '?';
