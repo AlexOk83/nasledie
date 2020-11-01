@@ -115,3 +115,36 @@ export function sortGeo(start,pointList) {
 
     return newPointList;
 }
+
+export function getHourAndMinutes(time, asNumber) {
+    if (!time) {
+        return {
+            hour: '00',
+            minutes: '00'
+        };
+    }
+    const hour = time[0] + time[1];
+    const minutes = time[3] + time[4];
+    if (asNumber) {
+        return {
+            hour: Number(hour),
+            minutes: Number(minutes)
+        }
+    }
+    return {
+        hour,
+        minutes
+    }
+}
+export function getMinutesToTime(time) {
+    const {hour, minutes} = getHourAndMinutes(time, true);
+    return minutes + (hour * 60);
+}
+
+export function getTimeBorderDefault(startTime, endTime) {
+    const startMinutes = getMinutesToTime(startTime);
+    console.log(startTime, startMinutes);
+    const endMinutes = getMinutesToTime(endTime || '21:00');
+    console.log('21:00', endMinutes, endMinutes - startMinutes);
+    return endMinutes - startMinutes;
+}

@@ -1,5 +1,5 @@
 import moment from "moment";
-import {getAdress, setCoordsToNumeric, sortGeo} from './utils';
+import {getAdress, getHourAndMinutes, getTimeBorderDefault, setCoordsToNumeric, sortGeo} from './utils';
 import {isEmpty} from 'lodash';
 
 export class Presenter {
@@ -16,12 +16,12 @@ export class Presenter {
 
         return timeStart;
     }
-    getCurrentTimeEnd(oldDays, i) {
+    getCurrentNeededTimeEnd(oldDays, i) {
         if (isEmpty(oldDays)) {
             return "21:00";
         }
-        if (oldDays && oldDays[i] && oldDays[i].timeEnd) {
-            return oldDays[i].timeEnd;
+        if (oldDays && oldDays[i] && oldDays[i].neededTimeEnd) {
+            return oldDays[i].neededTimeEnd;
         }
 
         return "21:00";
@@ -103,11 +103,14 @@ export class Presenter {
     }
     // вроде готово
     createDataDays(pointList, dateStart, timeStart, oldDays = []) {
-        let i = 0, currentMinutes = 0, currentDayListPoints = [];
+        let i = 0, // index создаваемого дня
+            currentMinutes = 0, // всего минут
+            currentDayListPoints = [];  // всего точек в текущем дне
         let days = [];
         let totalTime = 0;
         let totalWay = 0;
-        let timeBorder = 12 * 60;
+        let timeBorder = getTimeBorderDefault(timeStart);
+
         pointList.forEach((obj, index) => {
             totalTime = totalTime + obj.timeInWay + obj.time + obj.stopTime;
             totalWay += obj.way;
@@ -119,6 +122,7 @@ export class Presenter {
                     dateStart: moment(dateStart).format('YYYY-MM-DD'),
                     dateEnd: moment(dateStart).format('YYYY-MM-DD'),
                     timeStart: this.getCurrentTimeStart(oldDays, 0, timeStart),
+                    neededTimeEnd: this.getCurrentNeededTimeEnd(oldDays, i),
                     startPoint: obj.name,
                     startPointCoordLat: obj.startPointCoordLat,
                     startPointCoordLong: obj.startPointCoordLong,
@@ -127,13 +131,8 @@ export class Presenter {
             }
             else {
                 let currentTimeStart = this.getCurrentTimeStart(oldDays, i, timeStart);
-                let currentTimeEnd = this.getCurrentTimeEnd(oldDays, i);
-                let hourEnd = this.getHourAndMinutes(currentTimeEnd).hour;
-                if (Number(hourEnd) >= 0 && Number(hourEnd) < 9) {
-                    hourEnd = 24;
-                }
-                const { hour } = this.getHourAndMinutes(currentTimeStart); // сколько часов на старте
-                timeBorder = (hourEnd - hour) * 60;
+                let currentNeededTimeEnd = this.getCurrentNeededTimeEnd(oldDays, i);
+                timeBorder = getTimeBorderDefault(currentTimeStart, currentNeededTimeEnd);
                 currentDayListPoints.push(obj);
                 currentMinutes = currentMinutes + obj.timeInWay + obj.time + obj.stopTime;
                 // превысили лимит по времени или конец маршрута
@@ -152,6 +151,7 @@ export class Presenter {
                                 dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
                                 dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
                                 timeStart: this.getCurrentTimeStart(oldDays, i + 1, timeStart),
+                                neededTimeEnd: currentNeededTimeEnd,
                                 startPoint: obj.name,
                                 startPointCoordLat: obj.startPointCoordLat,
                                 startPointCoordLong: obj.startPointCoordLong,
@@ -182,23 +182,8 @@ export class Presenter {
         return `${w} км`
     }
     // готово!
-    getHourAndMinutes(time) {
-        if (!time) {
-            return {
-                hour: '00',
-                minutes: '00'
-            };
-        }
-        const hour = time[0] + time[1];
-        const minutes = time[3] + time[4];
-        return {
-            hour,
-            minutes
-        }
-    }
-    // готово!
     getTimeEnd(timeStart, countMinute) {
-        const {hour, minutes} = this.getHourAndMinutes(timeStart);
+        const {hour, minutes} = getHourAndMinutes(timeStart);
         const allMinutes = Number(minutes) + countMinute;
         let hours = Number(hour);
         let remainderMinutes = allMinutes;
@@ -239,7 +224,7 @@ export class Presenter {
     getDeclinedRemainder(number, declensions) {
         const stringNumber = String(number);
         const [one, two, other] = declensions;
-        let balance = stringNumber;
+        let balance = number;
         if (balance > 20) {
             let lastSimbol = stringNumber[stringNumber.length - 1];
             balance = Number(lastSimbol);

@@ -72,7 +72,6 @@ export default {
         }
       })
       if (this.needCount) {
-        console.log(this.currentPoints);
         // когда получили назад заполненные точки
         let days = [];
         if (this.isUpdate) {
@@ -96,8 +95,9 @@ export default {
         zoom: 15,
         controls: []
       });
-      this.setCurrentPoints(this.points[0])
+      this.setCounts++;
 
+      // у нас есть маршруты от каждой точки до следующей
       routes.forEach((item, index) => {
         multiRoutes[index] = new ymaps.multiRouter.MultiRoute({
           referencePoints: item.referencePoints,
@@ -116,16 +116,14 @@ export default {
           // Получение коллекции путей маршрута.
           var activeRoutePaths = activeRoute && activeRoute.getPaths();
           // Проход по коллекции путей.
-          console.log(activeRoutePaths);
-          if (!activeRoutePaths) {
+
+          if (!activeRoutePaths) {  // если не смогли проложить путь
             let point = item.point;
             let distance = getDistanceFromLatLonInMeters(item.referencePoints[0], item.referencePoints[1])
             point.timeInWay = getTimeInWay(distance);
             point.typeMovement = getTypeMovement(distance);
             point.way = distance;
             point.way_false = 1;
-            console.log('вручную', distance);
-            console.log('вручную', point.timeInWay);
             setCurrentPoints(point, item.start)
           } else {
             activeRoutePaths && activeRoutePaths.each(function (path) {
@@ -134,8 +132,6 @@ export default {
               let distance = path.properties.get("distance").value;
               point.timeInWay = Math.round(duration / 60);
               point.way = Math.round(distance);
-              console.log("Время прохождения пути: " + path.properties.get("duration").text);
-              console.log("Расстояние: " + path.properties.get("distance").text);
               point.way_false = 0;
               setCurrentPoints(point, item.start)
             });

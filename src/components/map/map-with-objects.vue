@@ -265,7 +265,6 @@ export default {
         this.map.geoObjects.add(this.currentPoints[index])
       })
 
-      this.setBounds();
     }
   },
   mounted() {

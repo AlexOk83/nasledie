@@ -103,7 +103,7 @@
                 this.activeDay.timeStart = e;
             },
             changeTimeEnd(e) {
-                this.activeDay.timeEnd = e;
+                this.activeDay.neededTimeEnd = e;
             },
             saveActiveDay() {
                 this.localData[this.indexActiveDay] = this.activeDay;
