@@ -633,8 +633,10 @@ export default {
         this.mapPoints.push(point)
       }
     },
-    removePoint(point) {
-
+    removePoint(removedPoint) {
+      const filter = point => !isEqual(point.position, removedPoint.position)
+      this.objects = this.objects.filter(filter)
+      this.mapPoints = this.mapPoints.filter(filter)
     }
   },
   watch: {

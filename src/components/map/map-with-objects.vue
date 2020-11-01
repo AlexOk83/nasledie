@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import {Presenter} from '../../presenter';
-import {getAdress} from "../../utils";
-import {MOSKOW} from "../../constants";
+import { Presenter } from '../../presenter';
+import { getAdress } from "../../utils";
+import { MOSKOW } from "../../constants";
 
 const presenter = new Presenter();
 
@@ -47,6 +47,14 @@ export default {
           })
         }
       });
+    },
+    removePoint(point) {
+      this.$store.dispatch('showModalConfirm', {
+        text: `Удалить выбранную точку: ${getAdress(point)}?`,
+        onConfirm: () => {
+          this.$emit('removePoint', point);
+        }
+      })
     },
     init() {
       const {from, to, points, addPoint} = this;
@@ -224,6 +232,7 @@ export default {
       }
     },
     points() {
+      const { removePoint } = this;
       if (this.currentPoints.length > 0) { // если точки отрисованы, их надо удалить
         this.currentPoints.forEach(point => {
           this.map.geoObjects.remove(point)
@@ -250,7 +259,7 @@ export default {
         });
 
         this.currentPoints[index].events.add('click', function () {
-          points.splice(index, 1);
+            removePoint(point);
         });
 
         this.map.geoObjects.add(this.currentPoints[index])
