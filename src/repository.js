@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const API = {
     BASE: () => 'https://api.zhivoe-nasledie.ga',
+    BASE_IMG: () => 'http://zhivoe-nasledie.ga:81/',
     GET_BRANDS: (category, region, query) => {
         let params = '?';
         let paramsJoin = '';

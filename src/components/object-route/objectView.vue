@@ -45,7 +45,7 @@
                 return null;
               }
 
-              return `${API.BASE()}${this.data.image}`
+              return `${API.BASE_IMG()}${this.data.image}`
             }
         }
     }
