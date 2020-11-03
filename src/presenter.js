@@ -16,6 +16,7 @@ export class Presenter {
 
         return timeStart;
     }
+
     getCurrentNeededTimeEnd(oldDays, i) {
         if (isEmpty(oldDays)) {
             return "21:00";
@@ -43,6 +44,7 @@ export class Presenter {
 
         return points;
     }
+
     // метод формирования точек маршрута - готово!
     getAllPoints(params) {
         const {
@@ -101,6 +103,7 @@ export class Presenter {
 
         return objectsInDays;
     }
+
     // вроде готово
     createDataDaysOld(pointList, dateStart, timeStart, oldDays = []) {
         let i = 0, // index создаваемого дня
@@ -128,8 +131,7 @@ export class Presenter {
                     startPointCoordLong: obj.startPointCoordLong,
                     objects: currentDayListPoints
                 })
-            }
-            else {
+            } else {
                 let currentTimeStart = this.getCurrentTimeStart(oldDays, i, timeStart);
                 let currentNeededTimeEnd = this.getCurrentNeededTimeEnd(oldDays, i);
                 timeBorder = getTimeBorderDefault(currentTimeStart, currentNeededTimeEnd);
@@ -137,29 +139,29 @@ export class Presenter {
                 currentMinutes = currentMinutes + obj.timeInWay + obj.time + obj.stopTime;
                 // превысили лимит по времени или конец маршрута
                 if (currentMinutes > timeBorder || index === pointList.length - 1) {
-                        days[i].timeEnd = this.getTimeEnd(days[i].timeStart, currentMinutes);
-                        days[i].endPoint = obj.name;
-                        days[i].endPointCoordLat = obj.startPointCoordLat;
-                        days[i].endPointCoordLong = obj.startPointCoordLong;
-                        days[i].objects = currentDayListPoints;
-                        currentMinutes = 0;
-                        currentDayListPoints = [obj]
-                        // если это не последний объект, то надо создать новый день
-                        if (index !== pointList.length - 1) {
-                            days.push({
-                                id: i + 2,
-                                dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
-                                dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
-                                timeStart: this.getCurrentTimeStart(oldDays, i + 1, timeStart),
-                                neededTimeEnd: currentNeededTimeEnd,
-                                startPoint: obj.name,
-                                startPointCoordLat: obj.startPointCoordLat,
-                                startPointCoordLong: obj.startPointCoordLong,
-                                objects: currentDayListPoints
-                            });
-                            i = days.length - 1;
-                        }
+                    days[i].timeEnd = this.getTimeEnd(days[i].timeStart, currentMinutes);
+                    days[i].endPoint = obj.name;
+                    days[i].endPointCoordLat = obj.startPointCoordLat;
+                    days[i].endPointCoordLong = obj.startPointCoordLong;
+                    days[i].objects = currentDayListPoints;
+                    currentMinutes = 0;
+                    currentDayListPoints = [obj]
+                    // если это не последний объект, то надо создать новый день
+                    if (index !== pointList.length - 1) {
+                        days.push({
+                            id: i + 2,
+                            dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
+                            dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
+                            timeStart: this.getCurrentTimeStart(oldDays, i + 1, timeStart),
+                            neededTimeEnd: currentNeededTimeEnd,
+                            startPoint: obj.name,
+                            startPointCoordLat: obj.startPointCoordLat,
+                            startPointCoordLong: obj.startPointCoordLong,
+                            objects: currentDayListPoints
+                        });
+                        i = days.length - 1;
                     }
+                }
             }
         });
         return {
@@ -196,8 +198,7 @@ export class Presenter {
                     startPointCoordLong: obj.startPointCoordLong,
                     objects: currentDayListPoints
                 })
-            }
-            else {
+            } else {
                 let currentTimeStart = this.getCurrentTimeStart(oldDays, i, timeStart);
                 let currentNeededTimeEnd = this.getCurrentNeededTimeEnd(oldDays, i);
                 timeBorder = getTimeBorderDefault(currentTimeStart, currentNeededTimeEnd);
@@ -226,8 +227,7 @@ export class Presenter {
                     });
                     i = days.length - 1;
                     // если это не последний объект, то надо создать новый день
-                }
-                else {
+                } else {
                     currentDayListPoints.push(obj);
                     currentMinutes = allMinutes;
                 }
@@ -247,6 +247,7 @@ export class Presenter {
             pointList
         }
     }
+
     // готово!
     getWay(way) {
         if (!way) {
@@ -259,6 +260,7 @@ export class Presenter {
 
         return `${w} км`
     }
+
     // готово!
     getTimeEnd(timeStart, countMinute) {
         const {hour, minutes} = getHourAndMinutes(timeStart);
@@ -267,7 +269,7 @@ export class Presenter {
         let remainderMinutes = allMinutes;
         if (allMinutes > 60) {
             remainderMinutes = allMinutes % 60;
-            hours = Number(hour) + (allMinutes - remainderMinutes) / 60 ;
+            hours = Number(hour) + (allMinutes - remainderMinutes) / 60;
         }
         if (remainderMinutes < 10) {
             remainderMinutes = `0${remainderMinutes}`
@@ -283,6 +285,7 @@ export class Presenter {
         }
         return `${hours}:${remainderMinutes}`;
     }
+
     // готово!
     getTime(time) {
         if (!time) {
@@ -298,6 +301,7 @@ export class Presenter {
 
         return `${h} ${m}`
     }
+
     // готово!
     getDeclinedRemainder(number, declensions) {
         const stringNumber = String(number);
@@ -316,6 +320,7 @@ export class Presenter {
         }
         return `${number} ${other}`
     }
+
     // готово!
     getNameMovement(movement) {
         switch (movement) {
@@ -329,6 +334,7 @@ export class Presenter {
                 return "";
         }
     }
+
     // готово!
     getRoutingMode(movement) {
         switch (movement) {
@@ -342,6 +348,7 @@ export class Presenter {
                 return "auto";
         }
     }
+
     // готово!
     moveItemUp(mass, index) {
         let localMass = [...mass];
@@ -350,6 +357,7 @@ export class Presenter {
         localMass[index] = temp;
         return localMass
     }
+
     // готово!
     moveItemDown(mass, index) {
         let localMass = [...mass];
@@ -358,6 +366,7 @@ export class Presenter {
         localMass[index] = temp;
         return localMass
     }
+
     changeFormat(days) {
         return days.map(day => {
             return {

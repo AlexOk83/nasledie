@@ -136,7 +136,7 @@ export default {
       this.activeDay = this.localData[this.indexActiveDay];
       setTimeout(() => {
         this.refresh = false;
-      },100);
+      }, 100);
 
     },
     indexActiveDay() {
