@@ -33,7 +33,7 @@
                 let currentRoutingMode = '';
                 let currentPointList = [];
                 let routes = [];
-                console.log(this.days);
+
                 this.days.forEach((day, indexDay) => {
                     routes[indexDay] = [];
                     currentRoutingMode = '';
@@ -99,7 +99,7 @@
                         }
                     })
                 });
-                console.log(routes);
+
                 return routes;
             },
             removePoint(point, i, l) {
@@ -221,7 +221,6 @@
 
                     this.map.events.add('click', function (e) {
                         var coords = e.get('coords');
-                        console.log(coords);
                         const geocoder = ymaps.geocode(coords);
                         let pointList = [];
 
@@ -349,8 +348,8 @@
             }
           },
           deleteObject() {
+
             if (this.deleteObject) {
-              console.log('удалили');
               this.currentPoints.forEach(day => {
                 day.forEach(point => {
                   this.map.geoObjects.remove(point);
@@ -359,6 +358,7 @@
               this.currentPoints = [];
               this.createMarkers();
             }
+
           },
         },
         mounted() {

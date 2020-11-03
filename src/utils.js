@@ -39,14 +39,14 @@ export function getDistanceFromLatLonInMeters(point1, point2) {
     const [lat1, lon1] = point1;
     const [lat2, lon2] = point2;
     const R = 6371; // Radius of the earth in km
-    const dLat = deg2rad(lat2-lat1);  // deg2rad below
-    const dLon = deg2rad(lon2-lon1);
+    const dLat = deg2rad(lat2 - lat1);  // deg2rad below
+    const dLon = deg2rad(lon2 - lon1);
     const a =
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon/2) * Math.sin(dLon/2)
+        Math.sin(dLon / 2) * Math.sin(dLon / 2)
     ;
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const d = R * c * 1000; // Distance in meters
     return Math.ceil(d);
 }
@@ -54,11 +54,11 @@ export function getDistanceFromLatLonInMeters(point1, point2) {
 export function getTimeInWay(distance) {
     const distanceInKm = distance / 1000;
     if (distanceInKm < 100) {
-        return Math.round( distanceInKm / 25 * 60 );
+        return Math.round(distanceInKm / 25 * 60);
     } else if (distanceInKm < 400) {
-        return Math.round( distanceInKm / 90 * 60 );
+        return Math.round(distanceInKm / 90 * 60);
     }
-    return Math.round( distanceInKm / 900 * 60 );
+    return Math.round(distanceInKm / 900 * 60);
 }
 
 export function getTypeMovement(distance) {
@@ -72,7 +72,7 @@ export function getTypeMovement(distance) {
 }
 
 function deg2rad(deg) {
-    return deg * (Math.PI/180)
+    return deg * (Math.PI / 180)
 };
 
 export function isEqual(p1, p2) {
@@ -101,7 +101,7 @@ const sort = (start) => (a, b) => {
     if (getDistanceFromLatLonInMeters(start, a.position) === getDistanceFromLatLonInMeters(start, b.position)) return 0;
 }
 
-export function sortGeo(start,pointList) {
+export function sortGeo(start, pointList) {
     let newPointList = [];
     let oldPointList = [...pointList];
 
@@ -136,6 +136,7 @@ export function getHourAndMinutes(time, asNumber) {
         minutes
     }
 }
+
 export function getMinutesToTime(time) {
     const {hour, minutes} = getHourAndMinutes(time, true);
     return minutes + (hour * 60);
@@ -147,4 +148,8 @@ export function getTimeBorderDefault(startTime, endTime) {
     const endMinutes = getMinutesToTime(endTime || '21:00');
     console.log('21:00', endMinutes, endMinutes - startMinutes);
     return endMinutes - startMinutes;
+}
+
+export function getLastElement(mas) {
+    return mas[mas.length - 1];
 }

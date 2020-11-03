@@ -71,7 +71,7 @@
             <Photos @change="changeValue('files', $event)" :photos="files" :max-count=1 />
             <Tabs
                 v-if="days && days.length > 0"
-                :data="days"
+                :days="days"
                 :start="startPoint"
                 :end="endPoint"
                 @change="changeValue('days', $event)"

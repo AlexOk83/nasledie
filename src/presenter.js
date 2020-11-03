@@ -1,5 +1,5 @@
 import moment from "moment";
-import {getAdress, getHourAndMinutes, getTimeBorderDefault, setCoordsToNumeric, sortGeo} from './utils';
+import {getAdress, getHourAndMinutes, getLastElement, getTimeBorderDefault, setCoordsToNumeric, sortGeo} from './utils';
 import {isEmpty} from 'lodash';
 
 export class Presenter {
@@ -80,7 +80,7 @@ export class Presenter {
                     startPointCoordLat: lat,
                     startPointCoordLong: long,
                     way: 0,
-                    time: 0,
+                    time: 60,
                     timeInWay: 0,
                     stopTime: 0,
                     typeMovement: [typeMovement]
@@ -92,7 +92,7 @@ export class Presenter {
                 startPointCoordLat: endPoint.position[0],
                 startPointCoordLong: endPoint.position[1],
                 way: 0,
-                time: 0,
+                time: 60,
                 timeInWay: 0,
                 stopTime: 0,
                 typeMovement: [typeMovement]
@@ -102,7 +102,7 @@ export class Presenter {
         return objectsInDays;
     }
     // вроде готово
-    createDataDays(pointList, dateStart, timeStart, oldDays = []) {
+    createDataDaysOld(pointList, dateStart, timeStart, oldDays = []) {
         let i = 0, // index создаваемого дня
             currentMinutes = 0, // всего минут
             currentDayListPoints = [];  // всего точек в текущем дне
@@ -160,6 +160,84 @@ export class Presenter {
                             i = days.length - 1;
                         }
                     }
+            }
+        });
+        return {
+            days,
+            totalTime,
+            totalWay,
+            pointList
+        }
+    } // старый метод, считает что точка вышла за пределы - попадает в текущий день
+
+    createDataDays(pointList, dateStart, timeStart, oldDays = []) {
+        let i = 0, // index создаваемого дня
+            currentMinutes = 0, // всего минут
+            currentDayListPoints = [];  // всего точек в текущем дне
+        let days = [];
+        let totalTime = 0;
+        let totalWay = 0;
+        let timeBorder = getTimeBorderDefault(timeStart);
+
+        pointList.forEach((obj, index) => {
+            totalTime = totalTime + obj.timeInWay + obj.time + obj.stopTime;
+            totalWay += obj.way;
+            // день первый - создаем день
+            if (index === 0) {
+                currentDayListPoints = [obj];
+                days.push({
+                    id: 1,
+                    dateStart: moment(dateStart).format('YYYY-MM-DD'),
+                    dateEnd: moment(dateStart).format('YYYY-MM-DD'),
+                    timeStart: this.getCurrentTimeStart(oldDays, 0, timeStart),
+                    neededTimeEnd: this.getCurrentNeededTimeEnd(oldDays, i),
+                    startPoint: obj.name,
+                    startPointCoordLat: obj.startPointCoordLat,
+                    startPointCoordLong: obj.startPointCoordLong,
+                    objects: currentDayListPoints
+                })
+            }
+            else {
+                let currentTimeStart = this.getCurrentTimeStart(oldDays, i, timeStart);
+                let currentNeededTimeEnd = this.getCurrentNeededTimeEnd(oldDays, i);
+                timeBorder = getTimeBorderDefault(currentTimeStart, currentNeededTimeEnd);
+
+                const allMinutes = currentMinutes + obj.timeInWay + obj.time + obj.stopTime;
+                // превысили лимит по времени или конец маршрута
+                if (allMinutes > timeBorder) {
+                    const lastObj = getLastElement(currentDayListPoints);
+                    days[i].timeEnd = this.getTimeEnd(days[i].timeStart, currentMinutes);
+                    days[i].endPoint = lastObj.name;
+                    days[i].endPointCoordLat = lastObj.startPointCoordLat;
+                    days[i].endPointCoordLong = lastObj.startPointCoordLong;
+                    days[i].objects = currentDayListPoints;
+                    currentMinutes = 0 + obj.timeInWay + obj.time + obj.stopTime;
+                    currentDayListPoints = [lastObj, obj];
+                    days.push({
+                        id: i + 2,
+                        dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
+                        dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
+                        timeStart: this.getCurrentTimeStart(oldDays, i + 1, timeStart),
+                        neededTimeEnd: this.getCurrentNeededTimeEnd(oldDays, i + 1),
+                        startPoint: lastObj.name,
+                        startPointCoordLat: lastObj.startPointCoordLat,
+                        startPointCoordLong: lastObj.startPointCoordLong,
+                        objects: currentDayListPoints
+                    });
+                    i = days.length - 1;
+                    // если это не последний объект, то надо создать новый день
+                }
+                else {
+                    currentDayListPoints.push(obj);
+                    currentMinutes = allMinutes;
+                }
+                if (index === pointList.length - 1) {
+                    days[i].timeEnd = this.getTimeEnd(days[i].timeStart, currentMinutes);
+                    days[i].endPoint = obj.name;
+                    days[i].endPointCoordLat = obj.startPointCoordLat;
+                    days[i].endPointCoordLong = obj.startPointCoordLong;
+                    days[i].objects = currentDayListPoints;
+                }
             }
         });
         return {

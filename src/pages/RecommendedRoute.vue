@@ -89,7 +89,7 @@
           <div v-if="!isNewRoute">
             <Tabs
                 v-if="days && days.length > 0"
-                :data="days"
+                :days="days"
                 :start="startPoint"
                 :end="endPoint"
                 @change="changeValue('days', $event)"
