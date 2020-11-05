@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div>
         <Preloader
             v-show="viewPreloader"
         />
@@ -28,13 +28,17 @@
         computed: {
             viewPreloader() {
                 return this.$store.getters.viewPreloader
+            },
+            getUserId() {
+              return document.body.getAttribute('data-user-id');
             }
         },
         created() {
             this.$store.dispatch('getDataRegions');
             this.$store.dispatch('getDataTags');
             this.$store.dispatch('getDataTypes');
-            this.$store.dispatch('aUserId', 1);
+            this.$store.dispatch('aUserId', this.getUserId);
+            console.log(this.getUserId);
         }
     }
 </script>
