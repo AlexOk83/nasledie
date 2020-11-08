@@ -195,7 +195,7 @@ import {Presenter} from "../presenter";
 import {radioButtonOptions, typesOfMovement} from '../constants';
 import BreadCrumbs from "../components/bread-сrumbs";
 import FilterItem from "../components/filter/filter-item";
-import {isEqual} from "../utils";
+import {getPosition, isEqual, setCoordsToString, uniq} from "../utils";
 
 const repository = new Repository();
 const presenter = new Presenter();
@@ -337,6 +337,9 @@ export default {
       }
     },
     coordinatesAllPoints() {
+      if (this.pointList.length !== 0) {
+        return this.pointList.map(p => ([p.startPointCoordLat, p.startPointCoordLong]))
+      }
       const start = this.startPoint.position;
       const end = this.endPoint.position;
       const points = this.mapPoints.map(p => (p.position));
@@ -469,12 +472,20 @@ export default {
     },
     addNewObject(object) {
       this.newObject = {};
+      this.objects.push(object);
+      this.updateRegions();
       setTimeout(() => {
         this.newObject = object;
       }, 100)
     },
-    removeObject() {
+    removeObject(object) {
+      console.log(object);
       this.deleteObject = true;
+      const filter = point => {
+        console.log(point.position, isEqual(point.position, getPosition(object)), getPosition(object))
+        return !isEqual(point.position, getPosition(object));
+      }
+      this.objects = this.objects.filter(filter)
       setTimeout(() => {
         this.deleteObject = false;
       }, 100)
@@ -493,10 +504,12 @@ export default {
 // ------------------------------------далее доделанные методы V
     addPointToActiveDay(point) {
       // мы знаем позиции активного дняи нам надо эту точку добавить в 1 месте
+      const position = setCoordsToString(point.position);
       let wellPoint = {
         ...point,
-        startPointCoordLat: point.position[0],
-        startPointCoordLong: point.position[1],
+        position,
+        startPointCoordLat: position[0],
+        startPointCoordLong: position[1],
         time: 0,
         object_id: null,
         timeInWay: 0,
@@ -597,12 +610,15 @@ export default {
       formData.append('sessionId', 1);
       return formData
     },
+    updateRegions() {
+      const regions = this.objects.map(obj => ({id: obj.region}));
+      this.regions = uniq(regions);
+    },
     changeValue(field, value) {
       if (field === 'mapPoints') {
-        this.regions = value.objects.map(obj => ({id: obj.region}));
         this.mapPoints = value.points;
         this.objects = value.objects;
-
+        this.updateRegions();
         return;
       }
       if (field === 'days') {
@@ -648,6 +664,7 @@ export default {
       this.description = data.content;
       this.shortDescription = data.description;
       this.days = presenter.changeFormat(data.days);
+      this.objects = data.objects;
       this.pointList = JSON.parse(data.map_points);
       this.tags = data.tags;
       this.files = data.files || [];
@@ -672,8 +689,9 @@ export default {
     },
     removePoint(removedPoint) {
       const filter = point => !isEqual(point.position, removedPoint.position)
-      this.objects = this.objects.filter(filter)
-      this.mapPoints = this.mapPoints.filter(filter)
+      this.objects = this.objects.filter(filter);
+      this.mapPoints = this.mapPoints.filter(filter);
+      this.updateRegions();
     }
   },
   watch: {

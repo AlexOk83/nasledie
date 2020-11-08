@@ -177,7 +177,7 @@ import Repository from '../repository';
 import {Presenter} from "../presenter";
 import {radioButtonOptions, typesOfMovement} from '../constants';
 import BreadCrumbs from "../components/bread-сrumbs";
-import {getPosition, isEqual, setCoordsToString, uniq, updateDaysForSave} from "../utils";
+import {getPosition, isEqual, setCoordsToString, uniq} from "../utils";
 
 const repository = new Repository();
 const presenter = new Presenter();
