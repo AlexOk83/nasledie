@@ -79,8 +79,8 @@ export function isEqual(p1, p2) {
     if (!p1 || !p2) {
         return false;
     }
-    const [lat1, long1] = p1;
-    const [lat2, long2] = p2;
+    const [lat1, long1] = setCoordsToNumeric(p1);
+    const [lat2, long2] = setCoordsToNumeric(p2);
 
     return Boolean(lat1 === lat2 && long1 === long2);
 }
@@ -152,4 +152,35 @@ export function getTimeBorderDefault(startTime, endTime) {
 
 export function getLastElement(mas) {
     return mas[mas.length - 1];
+}
+
+export function uniq(a){
+    let seen = {};
+    let result = [];
+    a.forEach(item => {
+        if (seen[item.id] !== 1) {
+            seen[item.id] = 1;
+            result.push(item);
+        }
+    })
+
+    return result;
+}
+
+export function getPosition(point) {
+
+    if (point.coordinates && Array.isArray(point.coordinates)) {
+        return point.coordinates
+    }
+
+    if (point.position && Array.isArray(point.position)) {
+        return point.position
+    }
+
+    return [point.startPointCoordLat, point.startPointCoordLong]
+
+}
+
+export function updateDaysForSave(days) {
+    return days.map(day => ({ ...day, objects: day.objects.map(obj => ({ ...obj, coordinates: obj.coordinates.map(c => String(c))})) }))
 }

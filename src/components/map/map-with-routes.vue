@@ -197,10 +197,6 @@
                       }
                   );
 
-                  this.currentPoints[indexDay][indexObj].events.add('click', function () {
-                    removePoint(obj, indexDay, indexObj);
-                  });
-
                   this.map.geoObjects.add(this.currentPoints[indexDay][indexObj])
                 })
               });

@@ -177,7 +177,7 @@ import Repository from '../repository';
 import {Presenter} from "../presenter";
 import {radioButtonOptions, typesOfMovement} from '../constants';
 import BreadCrumbs from "../components/bread-сrumbs";
-import {isEqual} from "../utils";
+import {getPosition, isEqual, uniq, updateDaysForSave} from "../utils";
 
 const repository = new Repository();
 const presenter = new Presenter();
@@ -313,6 +313,9 @@ export default {
       }
     },
     coordinatesAllPoints() {
+      if (this.pointList.length !== 0) {
+        return this.pointList.map(p => ([p.startPointCoordLat, p.startPointCoordLong]))
+      }
       const start = this.startPoint.position;
       const end = this.endPoint.position;
       const points = this.mapPoints.map(p => (p.position));
@@ -327,6 +330,7 @@ export default {
     }
   },
   methods: {
+    // расчет маршрута - done!
     calculatedRoute() {
       this.calcMapUpdate = false;
       this.showCalcMap = false;
@@ -335,14 +339,16 @@ export default {
         this.$store.dispatch('showModal', validation);
         return null;
       }
-      this.pointList = presenter.getAllPoints(this);
+      this.pointList = presenter.getAllPoints(this); // обновляем список всех точек, чтобы потом расчитать растояние
       setTimeout(() => {
         this.showMap = false;
-        this.showCalcMap = true;
+        this.showCalcMap = true; // говорим, что нужно показать карту для вычисления растояния и времени маршрута
       }, 200)
 
     },
+    // вызывается из карты, после обновления списка точек
     createRoute(result) {
+      // условие когда на карте есть очень длинные участки, которые карта смогла построить
       if (!result.days) {
         this.showCalcMap = false;
         this.showMap = true;
@@ -355,7 +361,8 @@ export default {
       this.totalWay = result.totalWay;
       this.totalTime = result.totalTime;
       this.pointList = result.pointList;
-
+      console.log(this.days);
+      console.log(this.objects);
       const infoForSave = this.getInfoForCreate();
       repository.createMyRoute(this.userId, infoForSave)
           .then(response => {
@@ -443,14 +450,23 @@ export default {
         this.$store.dispatch('hidePreloader');
       });
     },
+    // добавление нового объекта при редактировании
     addNewObject(object) {
       this.newObject = {};
+      this.objects.push(object);
+      this.updateRegions();
       setTimeout(() => {
         this.newObject = object;
       }, 100)
     },
-    removeObject() {
+    removeObject(object) {
+      console.log(object);
       this.deleteObject = true;
+      const filter = point => {
+        console.log(point.position, isEqual(point.position, getPosition(object)), getPosition(object))
+        return !isEqual(point.position, getPosition(object));
+      }
+      this.objects = this.objects.filter(filter)
       setTimeout(() => {
         this.deleteObject = false;
       }, 100)
@@ -518,6 +534,7 @@ export default {
       this.pointList = [];
       this.mapPoints = [];
     },
+    // формирует данные для сохранения на беке - done!
     getInfoForCreate() {
       const formData = new FormData();
       const values = {
@@ -535,7 +552,7 @@ export default {
         timeEnd: this.timeEnd,
         typeMovement: [this.typeMovement],
         objects: this.objects.map(o => ({...o, object_id: o.id})),
-        days: this.days,
+        days: updateDaysForSave(this.days),
         totalTime: this.totalTime,
         totalWay: this.totalWay,
         files: this.files,
@@ -543,10 +560,12 @@ export default {
         map_points: JSON.stringify(this.pointList),
         user_id: this.$store.getters.getUserId,
       }
+      console.log(values);
       formData.append('ZRouter', JSON.stringify(values));
       formData.append('sessionId', 1);
       return formData
     },
+    // формирует данные для обновления на беке - done!
     getInfoForUpdate() {
       const formData = new FormData();
       const values = {
@@ -555,22 +574,27 @@ export default {
         name: this.name,
         description: this.description,
         objects: this.otherData.objects.map(o => ({...o, object_id: o.id})),
-        days: this.days,
+        days: updateDaysForSave(this.days),
         files: this.files,
         regions: this.regions,
         map_points: JSON.stringify(this.pointList),
         user_id: this.$store.getters.getUserId,
       }
+      console.clear();
+      console.log(values);
       formData.append('ZRouter', JSON.stringify(values));
       formData.append('sessionId', 1);
       return formData
     },
+    updateRegions() {
+      const regions = this.objects.map(obj => ({id: obj.region}));
+      this.regions = uniq(regions);
+    },
     changeValue(field, value) {
       if (field === 'mapPoints') {
-        this.regions = value.objects.map(obj => ({id: obj.region}));
         this.mapPoints = value.points;
         this.objects = value.objects;
-
+        this.updateRegions();
         return;
       }
       if (field === 'days') {
@@ -589,6 +613,7 @@ export default {
       this.countObjectActiveDay = this.countObjectToDays[this.indexActiveDay];
 
     },
+    // обновляет данные с бека - done!
     getDataRoute() {
       this.$store.dispatch('showPreloader');
       repository.getMyRoute(this.userId, this.routeId)
@@ -603,6 +628,7 @@ export default {
       if (isNil(data)) {
         return;
       }
+      console.log('получено от бека', data)
       this.routeId = data.id;
       this.dateStart = data.dateStart;
       this.timeStart = data.timeStart;
@@ -618,10 +644,12 @@ export default {
       this.pointList = JSON.parse(data.map_points);
       this.files = data.files || [];
       this.regions = data.regions;
+      this.objects = data.objects;
       this.otherData = data; // для того, чтобы не потерять данные
       this.showMap = true;
       this.setActiveDay(0);
     },
+    // добавление точки с карты - done!
     addPoint({type, point}) {
       if (type === 'startPoint') {
         this.startPoint = point
@@ -633,10 +661,12 @@ export default {
         this.mapPoints.push(point)
       }
     },
+    // удаление точки, в том числе и объекта с карты!
     removePoint(removedPoint) {
       const filter = point => !isEqual(point.position, removedPoint.position)
-      this.objects = this.objects.filter(filter)
-      this.mapPoints = this.mapPoints.filter(filter)
+      this.objects = this.objects.filter(filter);
+      this.mapPoints = this.mapPoints.filter(filter);
+      this.updateRegions();
     }
   },
   watch: {

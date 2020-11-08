@@ -44,7 +44,7 @@
           :end="end"
           :data-is-change="dataIsChange"
           @change="changeObjectsFromActiveDay"
-          @remove="() => { this.$emit('remove') }"
+          @remove="(object) => { this.$emit('remove', object) }"
       />
       <Form-add
           :objects="activeDay.objects"
