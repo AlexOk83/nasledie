@@ -177,7 +177,7 @@ import Repository from '../repository';
 import {Presenter} from "../presenter";
 import {radioButtonOptions, typesOfMovement} from '../constants';
 import BreadCrumbs from "../components/bread-сrumbs";
-import {getPosition, isEqual, uniq, updateDaysForSave} from "../utils";
+import {getPosition, isEqual, setCoordsToString, uniq, updateDaysForSave} from "../utils";
 
 const repository = new Repository();
 const presenter = new Presenter();
@@ -485,10 +485,12 @@ export default {
 // ------------------------------------далее доделанные методы V
     addPointToActiveDay(point) {
       // мы знаем позиции активного дняи нам надо эту точку добавить в 1 месте
+      const position = setCoordsToString(point.position);
       let wellPoint = {
         ...point,
-        startPointCoordLat: point.position[0],
-        startPointCoordLong: point.position[1],
+        position,
+        startPointCoordLat: position[0],
+        startPointCoordLong: position[1],
         time: 0,
         object_id: null,
         timeInWay: 0,
@@ -552,7 +554,7 @@ export default {
         timeEnd: this.timeEnd,
         typeMovement: [this.typeMovement],
         objects: this.objects.map(o => ({...o, object_id: o.id})),
-        days: updateDaysForSave(this.days),
+        days: this.days,
         totalTime: this.totalTime,
         totalWay: this.totalWay,
         files: this.files,
@@ -574,7 +576,7 @@ export default {
         name: this.name,
         description: this.description,
         objects: this.otherData.objects.map(o => ({...o, object_id: o.id})),
-        days: updateDaysForSave(this.days),
+        days: this.days,
         files: this.files,
         regions: this.regions,
         map_points: JSON.stringify(this.pointList),

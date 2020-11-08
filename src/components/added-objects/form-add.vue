@@ -58,7 +58,7 @@ import SelectRecommendObjects from './select-recommend-objects';
 import Button from '../form-control/button/button';
 import SearchFromBaseField from "../form-control/search/SearchFromBaseField";
 import Repository from '../../repository';
-import {setCoordsToNumeric} from "../../utils";
+import {setCoordsToString} from "../../utils";
 
 const repository = new Repository();
 
@@ -99,11 +99,13 @@ export default {
   },
   methods: {
     selectRecommendObjects(event) {
+      const position = setCoordsToString(event.position);
       this.currentObject = {
         ...event,
-        coordinates: event.position,
-        startPointCoordLat: event.position[0],
-        startPointCoordLong: event.position[1],
+        coordinates: position,
+        startPointCoordLat: position[0],
+        startPointCoordLong: position[1],
+        position,
         time: 0,
         object_id: event.id,
         timeInWay: 0,
@@ -138,11 +140,13 @@ export default {
     },
     changeObject(event) {
       const currentObject = this.objectList.find(object => object.value === event);
+      const position = setCoordsToString(currentObject.position);
       this.currentObject = {
         ...currentObject,
-        coordinates: currentObject.position,
-        startPointCoordLat: currentObject.position[0],
-        startPointCoordLong: currentObject.position[1],
+        coordinates: position,
+        position,
+        startPointCoordLat: position[0],
+        startPointCoordLong: position[1],
         time: 0,
         object_id: null,
         timeInWay: 0,
@@ -156,7 +160,7 @@ export default {
       this.currentCategory = this.categories.find(category => category.value === event.type);
       this.currentRegion = this.regions.find(region => Number(region.value) === Number(event.region));
       this.objectList = event.objects.map(obj => {
-        const position = setCoordsToNumeric(obj.position);
+        const position = setCoordsToString(obj.position);
         return { ...obj, value: obj.id, position }
       });
     },

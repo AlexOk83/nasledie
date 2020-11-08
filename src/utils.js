@@ -13,6 +13,13 @@ export function setCoordsToNumeric(coord) {
     return c.map(point => (Number(point)))
 }
 
+export function setCoordsToString(coord) {
+    if (Array.isArray(coord)) {
+        return coord.map(point => (String(point)))
+    }
+    return coord.split(', ')
+}
+
 export function getAdress(point) {
     if (isEmpty(point)) {
         return '';
@@ -179,8 +186,4 @@ export function getPosition(point) {
 
     return [point.startPointCoordLat, point.startPointCoordLong]
 
-}
-
-export function updateDaysForSave(days) {
-    return days.map(day => ({ ...day, objects: day.objects.map(obj => ({ ...obj, coordinates: obj.coordinates.map(c => String(c))})) }))
 }

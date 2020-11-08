@@ -1,5 +1,13 @@
 import moment from "moment";
-import {getAdress, getHourAndMinutes, getLastElement, getTimeBorderDefault, setCoordsToNumeric, sortGeo} from './utils';
+import {
+    getAdress,
+    getHourAndMinutes,
+    getLastElement,
+    getTimeBorderDefault,
+    setCoordsToNumeric,
+    setCoordsToString,
+    sortGeo
+} from './utils';
 import {isEmpty} from 'lodash';
 
 export class Presenter {
@@ -67,6 +75,7 @@ export class Presenter {
                 name: getAdress(startPoint),
                 startPointCoordLat: startPoint.position[0],
                 startPointCoordLong: startPoint.position[1],
+                coordinates: setCoordsToString(startPoint.position),
                 way: 0,
                 stopTime: 0,
                 time: 0,
@@ -74,13 +83,14 @@ export class Presenter {
                 typeMovement: [typeMovement]
             },
             ...points.map(obj => {
-                const position = setCoordsToNumeric(obj.position);
+                const position = setCoordsToString(obj.position);
                 const [lat, long] = position;
                 return {
                     object_id: obj.id || null,
                     name: getAdress(obj),
                     startPointCoordLat: lat,
                     startPointCoordLong: long,
+                    coordinates: position,
                     way: 0,
                     time: 60,
                     timeInWay: 0,
@@ -93,6 +103,7 @@ export class Presenter {
                 name: getAdress(endPoint),
                 startPointCoordLat: endPoint.position[0],
                 startPointCoordLong: endPoint.position[1],
+                coordinates: setCoordsToString(endPoint.position),
                 way: 0,
                 time: 60,
                 timeInWay: 0,
