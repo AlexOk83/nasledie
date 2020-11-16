@@ -1,8 +1,6 @@
 <template>
   <div>
-    <Bread-crumbs
-        :list-link="listLink"
-    />
+
     <div class="detail" v-if="this.route.id">
       <div class="detail__title">{{ title }}</div>
       <div class="detail__header">
@@ -60,6 +58,7 @@ import {Presenter} from "../presenter";
 import Repository from "../repository";
 import BreadCrumbs from '../components/bread-сrumbs'
 import Icon from '../components/icon'
+import {BASE_PATH} from '../constants';
 
 const presenter = new Presenter();
 const repository = new Repository();
@@ -120,10 +119,10 @@ export default {
     },
     listLink() {
       const list = this.type === 'recomend' ? {
-        url: '/list-recommended-routes',
+        url: BASE_PATH + '/list-recommended-routes',
         name: 'Рекомендованные маршруты'
       } : {
-        url: '/list-my-routes',
+        url: BASE_PATH + '/list-my-routes',
         name: 'Мои маршруты'
       }
       return [list, {name: this.route.name}]
@@ -157,17 +156,17 @@ export default {
       repository.deleteRoute(this.$store.getters.getUserId, this.route.id)
           .then(() => {
             if (this.type === 'recomend') {
-              this.$router.push('/list-recommended-routes')
+              this.$router.push(BASE_PATH + '/list-recommended-routes')
             } else {
-              this.$router.push('/list-my-routes')
+              this.$router.push(BASE_PATH + '/list-my-routes')
             }
           })
     },
     edit() {
       if (this.type === 'recomend') {
-        this.$router.push(`/edit-recommended-route/${this.route.id}`)
+        this.$router.push(`${BASE_PATH}/edit-recommended-route/${this.route.id}`)
       } else {
-        this.$router.push(`/edit-my-route/${this.route.id}`)
+        this.$router.push(`${BASE_PATH}/edit-my-route/${this.route.id}`)
       }
     }
   },

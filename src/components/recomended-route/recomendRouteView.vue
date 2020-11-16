@@ -105,7 +105,7 @@
                 return presenter.getTime(this.data.totalTime)
             },
             link() {
-                return `/view-route/recomend/${this.data.id}`
+                return `/user/view-route/recomend/${this.data.id}`
             },
 
         }

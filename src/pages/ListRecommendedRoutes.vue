@@ -1,8 +1,6 @@
 <template>
     <div>
-        <Bread-crumbs
-                :list-link="listLink"
-        />
+
         <h1>Рекомендованные маршруты</h1>
         <RouteFilter
             @filter="getFilteredData"

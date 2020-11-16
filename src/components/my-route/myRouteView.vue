@@ -59,6 +59,7 @@
     import {Presenter} from "../../presenter";
     import Repository, { API } from "../../repository";
     import { isEmpty } from 'lodash';
+    import {BASE_PATH} from '../../constants';
 
     const presenter = new Presenter();
     const repository = new Repository();
@@ -80,7 +81,7 @@
         },
         methods: {
             moveToEdit() {
-                this.$router.push(`/edit-my-route/${this.data.id}`)
+                this.$router.push(`${BASE_PATH}/edit-my-route/${this.data.id}`)
             },
             deleteRoute() {
                 this.$store.dispatch('showModalConfirm', {
@@ -120,7 +121,7 @@
                 return presenter.getTime(this.data.totalTime)
             },
             link() {
-                return `/view-route/my/${this.data.id}`
+                return `${BASE_PATH}/view-route/my/${this.data.id}`
             }
         }
     }

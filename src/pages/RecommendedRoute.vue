@@ -1,8 +1,6 @@
 <template>
   <div>
-    <Bread-crumbs
-        :list-link="listLink"
-    />
+
     <h1>{{ headerTitle }}</h1>
 
     <div class="row" v-if="!reload">
@@ -196,6 +194,7 @@ import {radioButtonOptions, typesOfMovement} from '../constants';
 import BreadCrumbs from "../components/bread-сrumbs";
 import FilterItem from "../components/filter/filter-item";
 import {getPosition, isEqual, setCoordsToString, uniq} from "../utils";
+import {BASE_PATH} from '../constants';
 
 const repository = new Repository();
 const presenter = new Presenter();
@@ -393,7 +392,7 @@ export default {
                 onSuccess: () => {
                   this.showCalcMap = false;
                   this.showMap = false;
-                  this.$router.push(`/edit-recommended-route/${result.id}`);
+                  this.$router.push(`${BASE_PATH}/edit-recommended-route/${result.id}`);
                 }
               });
             }

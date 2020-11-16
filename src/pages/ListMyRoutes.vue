@@ -1,8 +1,6 @@
 <template>
     <div>
-        <Bread-crumbs
-                :list-link="listLink"
-        />
+
         <h1>Мои маршруты</h1>
         <List
                 :data="routesList"

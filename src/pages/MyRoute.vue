@@ -1,9 +1,7 @@
 <!-- создание и редактирование моего маршрута -->
 <template>
   <div>
-    <Bread-crumbs
-        :list-link="links"
-    />
+
     <h1>{{ headerTitle }}</h1>
 
     <div class="row" v-if="!reload">
@@ -178,6 +176,7 @@ import {Presenter} from "../presenter";
 import {radioButtonOptions, typesOfMovement} from '../constants';
 import BreadCrumbs from "../components/bread-сrumbs";
 import {getPosition, isEqual, setCoordsToString, uniq} from "../utils";
+import {BASE_PATH} from '../constants';
 
 const repository = new Repository();
 const presenter = new Presenter();
@@ -373,7 +372,7 @@ export default {
                 onSuccess: () => {
                   this.showCalcMap = false;
                   this.showMap = false;
-                  this.$router.push(`/edit-my-route/${result.id}`)
+                  this.$router.push(`${BASE_PATH}/edit-my-route/${result.id}`)
                 }
               });
             }
