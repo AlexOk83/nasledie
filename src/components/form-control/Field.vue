@@ -178,14 +178,14 @@
     .field {
         width: 100%;
         margin-bottom: 20px;
-        &__label {
+        .field__label {
             display: block;
             font-weight: 500;
             margin-bottom: 15px;
 
 
         }
-        &__control {
+        .field__control {
             .form-control-style();
             &--long-text {
                 resize: none;
@@ -193,7 +193,7 @@
                 padding: 10px 15px;
             }
         }
-        &__footer {
+        .field__footer {
             display: flex;
             justify-content: flex-start;
             flex-wrap: wrap;
