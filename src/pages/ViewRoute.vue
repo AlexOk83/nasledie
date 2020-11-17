@@ -255,7 +255,7 @@ export default {
     display: flex;
     justify-content: flex-end;
 
-    .button {
+    .bt {
       margin-left: 20px;
     }
   }

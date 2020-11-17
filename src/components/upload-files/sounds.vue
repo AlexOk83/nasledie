@@ -3,7 +3,7 @@
     <div class="photos">
         <div class="photos__label">Загрузить аудио к маршруту</div>
         <input class="file" type="file" id="audio" @change="load" :disabled="maxCount && files && maxCount === files.length">
-        <label for="audio" class="button button--color-white button--full button--with-icon button--shadow" :class="{'button--disabled': maxCount && files && maxCount === files.length}">
+        <label for="audio" class="bt bt--color-white bt--full bt--with-icon bt--shadow" :class="{'bt--disabled': maxCount && files && maxCount === files.length}">
             <Icon icon="load" />
             <span>Загрузить с компьютера</span>
         </label>
@@ -113,7 +113,7 @@
             position: absolute;
             z-index: -1;
         }
-        .button {
+        .bt {
             border: 1px solid @base;
             .icon {
                 background: @base;

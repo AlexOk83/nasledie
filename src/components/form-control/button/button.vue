@@ -1,6 +1,6 @@
 <!-- кнопки - готово! -->
 <template>
-    <div class="button" :class="buttonClasses" @click="handleClick">
+    <div class="bt" :class="buttonClasses" @click="handleClick">
         <div class="icon" :class="iconClasses"  v-if="icon" />
         <span>{{ text }}</span>
     </div>
@@ -23,22 +23,22 @@
             buttonClasses() {
                 const classes = [];
                 if (this.color) {
-                    classes.push(`button--color-${this.color}`)
+                    classes.push(`bt--color-${this.color}`)
                 }
                 if (this.isShadow) {
-                    classes.push('button--shadow');
+                    classes.push('bt--shadow');
                 }
                 if (this.isFull) {
-                    classes.push('button--full');
+                    classes.push('bt--full');
                 }
                 if (this.icon) {
-                    classes.push('button--with-icon');
+                    classes.push('bt--with-icon');
                 }
                 if (this.iconRight) {
-                    classes.push('button--right');
+                    classes.push('bt--right');
                 }
                 if (this.disabled) {
-                    classes.push('button--disabled');
+                    classes.push('bt--disabled');
                 }
                 return classes;
             },

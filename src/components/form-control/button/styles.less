@@ -3,7 +3,7 @@
 .buttonColor(@color, @colorText: white) {
   background-color: @color;
   color: @colorText;
-  &.button--shadow {
+  &.bt--shadow {
     .box-shadow(0, 0, 10px, 0px, rgba(@color, 0.7))
   }
   &:hover {
@@ -11,7 +11,7 @@
   }
 }
 
-.button {
+.bt {
   display: inline-block;
   text-transform: uppercase;
   position: relative;
@@ -62,7 +62,7 @@
     padding: 0;
   }
 }
-.button--with-icon {
+.bt--with-icon {
   padding-left: 70px;
   .icon {
     position: absolute;
@@ -86,7 +86,7 @@
     }
   }
 
-  &.button{
+  &.bt{
     &--right {
       padding-left: 50px;
       padding-right: 90px;
@@ -110,7 +110,7 @@
       span {
         display: inline-block;
       }
-      &.button--right {
+      &.bt--right {
         flex-direction: row-reverse;
         .icon {
           margin-left: 20px;
