@@ -175,17 +175,18 @@
 <style lang="less">
     @import "../../styles/mixins";
 
+    .left-form .field,
     .field {
         width: 100%;
         margin-bottom: 20px;
-        .field__label {
+        &__label {
             display: block;
             font-weight: 500;
             margin-bottom: 15px;
 
 
         }
-        .field__control {
+        &__control {
             .form-control-style();
             &--long-text {
                 resize: none;
@@ -193,7 +194,7 @@
                 padding: 10px 15px;
             }
         }
-        .field__footer {
+        &__footer {
             display: flex;
             justify-content: flex-start;
             flex-wrap: wrap;
