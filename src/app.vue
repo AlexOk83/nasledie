@@ -23,7 +23,7 @@
                 return this.$store.getters.viewPreloader
             },
             getUserId() {
-              return document.body.getAttribute('data-user-id');
+              return document.getElementById('app').getAttribute('data-user-id');
             }
         },
         created() {
@@ -36,6 +36,6 @@
     }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
     @import "./styles/layout.less";
 </style>
