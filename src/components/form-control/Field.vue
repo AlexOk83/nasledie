@@ -175,6 +175,7 @@
 <style lang="less">
     @import "../../styles/mixins";
 
+    .left-form .field,
     .field {
         width: 100%;
         margin-bottom: 20px;
