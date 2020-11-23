@@ -81,7 +81,8 @@
         },
         methods: {
             moveToEdit() {
-                this.$router.push(`${BASE_PATH}/edit-my-route/${this.data.id}`)
+                //this.$router.push(`${BASE_PATH}/edit-my-route/${this.data.id}`)
+              window.location.href = `http://zhivoe-nasledie.ga:81/route/edit#/edit-my-route/${this.data.id}`;
             },
             deleteRoute() {
                 this.$store.dispatch('showModalConfirm', {
