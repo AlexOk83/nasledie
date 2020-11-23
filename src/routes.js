@@ -15,32 +15,32 @@ export default new VueRouter({
         },
         {
             name: 'Редактирование маршрута пользователя',
-            path: BASE_PATH + '/edit-my-route/:id',
+            path: BASE_PATH + 'edit-my-route/:id',
             component: MyRoute,
         },
         {
             name: 'Составить рекомендованный маршрут',
-            path: BASE_PATH + '/create-recommended-route',
+            path: BASE_PATH + 'create-recommended-route',
             component: RecommendedRoute,
         },
         {
             name: 'Редактирование рекомендованного маршрута',
-            path: BASE_PATH + '/edit-recommended-route/:id',
+            path: BASE_PATH + 'edit-recommended-route/:id',
             component: RecommendedRoute,
         },
         {
             name: 'Рекомендованные маршруты',
-            path: BASE_PATH + '/list-recommended-routes',
+            path: BASE_PATH + 'list-recommended-routes',
             component: ListRecommendedRoutes,
         },
         {
             name: 'Мои маршруты',
-            path: BASE_PATH + '/list-my-routes',
+            path: BASE_PATH + 'list-my-routes',
             component: ListMyRoutes,
         },
         {
             name: 'Просмотр маршрута',
-            path: BASE_PATH + '/view-route/:type/:id',
+            path: BASE_PATH + 'view-route/:type/:id',
             component: ViewRoute,
         },
     ],

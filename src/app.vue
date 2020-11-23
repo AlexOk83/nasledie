@@ -36,6 +36,6 @@
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
     @import "./styles/layout.less";
 </style>
