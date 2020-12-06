@@ -13,7 +13,7 @@
         </div>
         <div class="options-list" :class="{'active': active }">
             <input type="text" class="search" v-model="searchText" ref="search" @blur="close"  tabindex="0" @input="filterList">
-            <vue-custom-scrollbar class="scroll-area"  :settings="settings">
+            <perfect-scrollbar class="scroll-area" :options="settings">
                 <div class="option"
                      :class="{'option--with-icon': option.icon, 'option--active': option.value === currentValue, 'option--disabled': option.disabled}"
                      v-for="option in filteredList"
@@ -22,7 +22,7 @@
                     <Icon :icon="option.icon" v-if="option.icon" />
                     {{ option.name }}
                 </div>
-            </vue-custom-scrollbar>
+            </perfect-scrollbar>
 
         </div>
     </div>
@@ -30,6 +30,7 @@
 
 <script>
     import vueCustomScrollbar from 'vue-custom-scrollbar'
+    import { PerfectScrollbar } from 'vue2-perfect-scrollbar';
     import Icon from '../../icon';
     import { settingsScroll } from '../../../constants';
     export default {
@@ -48,7 +49,8 @@
         },
         components: {
             Icon,
-            vueCustomScrollbar
+            vueCustomScrollbar,
+            PerfectScrollbar,
         },
         data() {
             return {
@@ -140,3 +142,4 @@
 <style lang="less">
     @import "./styles";
 </style>
+<style src="vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css"/>
