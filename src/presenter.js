@@ -203,58 +203,84 @@ export class Presenter {
                     dateStart: moment(dateStart).format('YYYY-MM-DD'),
                     dateEnd: moment(dateStart).format('YYYY-MM-DD'),
                     timeStart: this.getCurrentTimeStart(oldDays, 0, timeStart),
-                    neededTimeEnd: this.getCurrentNeededTimeEnd(oldDays, i),
+                    neededTimeEnd: this.getCurrentNeededTimeEnd(oldDays, 0),
                     startPoint: obj.name,
                     startPointCoordLat: obj.startPointCoordLat,
                     startPointCoordLong: obj.startPointCoordLong,
-                    objects: currentDayListPoints
                 })
-            } else {
+            }
+            else {
                 let currentTimeStart = this.getCurrentTimeStart(oldDays, i, timeStart);
                 let currentNeededTimeEnd = this.getCurrentNeededTimeEnd(oldDays, i);
                 timeBorder = getTimeBorderDefault(currentTimeStart, currentNeededTimeEnd);
-
                 const allMinutes = currentMinutes + obj.timeInWay + obj.time + obj.stopTime;
                 // превысили лимит по времени или конец маршрута
                 if (allMinutes > timeBorder) {
-                    let lastObj = getLastElement(currentDayListPoints);
-                    let newListPoints = [lastObj, obj];
+                    let prevObj = getLastElement(currentDayListPoints);
+                    // если текущий день превышен и там пока 1 объект, то текущий объект нужно добавить в этот день
                     if (currentDayListPoints.length === 1) {
-                        lastObj = obj;
-                        newListPoints = [obj];
                         currentDayListPoints.push(obj);
-                        currentMinutes = allMinutes;
+                        days[i].timeEnd = this.getTimeEnd(days[i].timeStart, allMinutes);
+                        days[i].endPoint = obj.name;
+                        days[i].endPointCoordLat = obj.startPointCoordLat;
+                        days[i].endPointCoordLong = obj.startPointCoordLong;
+                        days[i].objects = currentDayListPoints;
+                        // день закрыли, если это не последний объект- начинаем новый
+                        if (index !== pointList.length - 1) {
+                            i = i + 1;
+                            days.push({
+                                id: i + 1,
+                                dateStart: moment(dateStart).add(i, 'days').format('YYYY-MM-DD'),
+                                dateEnd: moment(dateStart).add(i, 'days').format('YYYY-MM-DD'),
+                                timeStart: this.getCurrentTimeStart(oldDays, i, timeStart),
+                                neededTimeEnd: this.getCurrentNeededTimeEnd(oldDays, i),
+                                startPoint: obj.name,
+                                startPointCoordLat: obj.startPointCoordLat,
+                                startPointCoordLong: obj.startPointCoordLong,
+                            });
+                            currentDayListPoints = [obj];
+                            currentMinutes = 0;
+                        }
                     }
-                    days[i].timeEnd = this.getTimeEnd(days[i].timeStart, currentMinutes);
-                    days[i].endPoint = lastObj.name;
-                    days[i].endPointCoordLat = lastObj.startPointCoordLat;
-                    days[i].endPointCoordLong = lastObj.startPointCoordLong;
-                    days[i].objects = currentDayListPoints;
-                    currentMinutes = 0 + obj.timeInWay + obj.time + obj.stopTime;
-                    currentDayListPoints = newListPoints;
-                    days.push({
-                        id: i + 2,
-                        dateStart: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
-                        dateEnd: moment(dateStart).add(i + 1, 'days').format('YYYY-MM-DD'),
-                        timeStart: this.getCurrentTimeStart(oldDays, i + 1, timeStart),
-                        neededTimeEnd: this.getCurrentNeededTimeEnd(oldDays, i + 1),
-                        startPoint: lastObj.name,
-                        startPointCoordLat: lastObj.startPointCoordLat,
-                        startPointCoordLong: lastObj.startPointCoordLong,
-                        objects: currentDayListPoints
-                    });
-                    i = days.length - 1;
-                    // если это не последний объект, то надо создать новый день
-                } else {
+                    else {
+                        days[i].timeEnd = this.getTimeEnd(days[i].timeStart, currentMinutes);
+                        days[i].endPoint = prevObj.name;
+                        days[i].endPointCoordLat = prevObj.startPointCoordLat;
+                        days[i].endPointCoordLong = prevObj.startPointCoordLong;
+                        days[i].objects = currentDayListPoints;
+                        currentDayListPoints = [prevObj, obj];
+                        currentMinutes = 0 + obj.timeInWay + obj.time + obj.stopTime;
+                        i = i + 1;
+                        days.push({
+                            id: i + 1,
+                            dateStart: moment(dateStart).add(i, 'days').format('YYYY-MM-DD'),
+                            dateEnd: moment(dateStart).add(i, 'days').format('YYYY-MM-DD'),
+                            timeStart: this.getCurrentTimeStart(oldDays, i, timeStart),
+                            neededTimeEnd: this.getCurrentNeededTimeEnd(oldDays, i),
+                            startPoint: prevObj.name,
+                            startPointCoordLat: prevObj.startPointCoordLat,
+                            startPointCoordLong: prevObj.startPointCoordLong,
+                        });
+                        if (index === pointList.length - 1) {
+                            days[i].timeEnd = this.getTimeEnd(days[i].timeStart, currentMinutes);
+                            days[i].endPoint = obj.name;
+                            days[i].endPointCoordLat = obj.startPointCoordLat;
+                            days[i].endPointCoordLong = obj.startPointCoordLong;
+                            days[i].objects = currentDayListPoints;
+                        }
+                    }
+                }
+                else {
                     currentDayListPoints.push(obj);
                     currentMinutes = allMinutes;
-                }
-                if (index === pointList.length - 1) {
-                    days[i].timeEnd = this.getTimeEnd(days[i].timeStart, currentMinutes);
-                    days[i].endPoint = obj.name;
-                    days[i].endPointCoordLat = obj.startPointCoordLat;
-                    days[i].endPointCoordLong = obj.startPointCoordLong;
-                    days[i].objects = currentDayListPoints;
+
+                    if (index === pointList.length - 1) {
+                        days[i].timeEnd = this.getTimeEnd(days[i].timeStart, currentMinutes);
+                        days[i].endPoint = obj.name;
+                        days[i].endPointCoordLat = obj.startPointCoordLat;
+                        days[i].endPointCoordLong = obj.startPointCoordLong;
+                        days[i].objects = currentDayListPoints;
+                    }
                 }
             }
         });

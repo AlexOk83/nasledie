@@ -361,8 +361,7 @@ export default {
       this.totalWay = result.totalWay;
       this.totalTime = result.totalTime;
       this.pointList = result.pointList;
-      console.log(this.days);
-      console.log(this.objects);
+
       const infoForSave = this.getInfoForCreate();
       repository.createMyRoute(this.userId, infoForSave)
           .then(response => {
@@ -582,8 +581,6 @@ export default {
         map_points: JSON.stringify(this.pointList),
         user_id: this.$store.getters.getUserId,
       }
-      console.clear();
-      console.log(values);
       formData.append('ZRouter', JSON.stringify(values));
       formData.append('sessionId', 1);
       return formData
@@ -630,7 +627,6 @@ export default {
       if (isNil(data)) {
         return;
       }
-      console.log('получено от бека', data)
       this.routeId = data.id;
       this.dateStart = data.dateStart;
       this.timeStart = data.timeStart;
