@@ -7,6 +7,7 @@
                class="field__control"
                :type="type"
                :name="name"
+               :maxlength="maxLength"
                :placeholder="placeholder"
                v-model="localValue"
                @input="changeLocalValue"
@@ -17,6 +18,7 @@
                   class="field__control field__control--long-text"
                   :name="name"
                   v-model="localValue"
+                  :maxlength="maxLength"
                   :rows="rows || 4"
                   :placeholder="placeholder"
                   @input="changeLocalValue"
@@ -93,6 +95,10 @@
         name: "Field",
         props: {
             name: String,
+            maxLength: {
+                type: Number,
+                default: 50,
+            },
             type: String,
             title: String,
             value: [String, Number, Object],

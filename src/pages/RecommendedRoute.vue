@@ -23,11 +23,13 @@
                  :value="shortDescription"
                  :save="!isNewRoute && configsForSave.description"
                  :rows="3"
+                 max-length="100"
                  @change="changeValue('shortDescription', $event)"
           />
           <Field name="description"
                  type="longtext"
                  title="Полное описание маршрута"
+                 max-length="500"
                  placeholder="Описание маршрута"
                  :value="description"
                  :save="!isNewRoute && configsForSave.description"

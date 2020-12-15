@@ -13,6 +13,7 @@
                 input-class="date-picker__input"
                 wrapper-class="date-picker__wrap"
                 @input="changeDate"
+                :disabled-dates="disabledDates"
         />
     </div>
 </template>
@@ -36,6 +37,10 @@
           return {
               ru,
               currentDate: this.value,
+              disabledDates: {
+                  to: new Date(Date.now()-86400000),
+                  from: new Date(2022, 12, 1), // Disable all dates after specific date
+              }
           }
         },
         methods:{

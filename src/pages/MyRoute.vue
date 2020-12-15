@@ -21,6 +21,7 @@
                  type="longtext"
                  title="Описание маршрута"
                  placeholder="Описание маршрута"
+                 :max-length="500"
                  :value="description"
                  :save="!isNewRoute && configsForSave.description"
                  @change="changeValue('description', $event)"
