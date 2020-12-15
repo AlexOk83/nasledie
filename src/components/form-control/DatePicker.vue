@@ -39,7 +39,6 @@
               currentDate: this.value,
               disabledDates: {
                   to: new Date(Date.now()-86400000),
-                  from: new Date(2022, 12, 1), // Disable all dates after specific date
               }
           }
         },
