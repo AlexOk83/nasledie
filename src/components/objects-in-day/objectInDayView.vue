@@ -81,10 +81,8 @@ export default {
       this.$emit('change', this.localList);
     },
     remove(index) {
-      console.log(this.localList, index, this.localList[index])
       this.$emit('remove', this.localList[index]);
       this.localList.splice(index, 1);
-      console.log(this.localList)
       this.$emit('change', this.localList);
     },
     changeItem(index, data) {

@@ -78,7 +78,6 @@ export default {
           days = this.days;
         }
         const result = presenter.createDataDays(this.currentPoints, this.dateStart, this.timeStart, days);
-        console.log(result);
         if (this.isUpdate) {
           this.$emit('update', result);
         } else {

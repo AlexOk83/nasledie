@@ -481,10 +481,8 @@ export default {
       }, 100)
     },
     removeObject(object) {
-      console.log(object);
       this.deleteObject = true;
       const filter = point => {
-        console.log(point.position, isEqual(point.position, getPosition(object)), getPosition(object))
         return !isEqual(point.position, getPosition(object));
       }
       this.objects = this.objects.filter(filter)
@@ -569,11 +567,11 @@ export default {
         content: this.description,
         tags: this.tags,
         startPoint: this.startPoint.name,
-        startPointCoordLat: this.startPoint.position[0],
-        startPointCoordLong: this.startPoint.position[1],
+        startPointCoordLat: String(this.startPoint.position[0]),
+        startPointCoordLong: String(this.startPoint.position[1]),
         endPoint: this.endPoint.name,
-        endPointCoordLat: this.endPoint.position[0],
-        endPointCoordLong: this.endPoint.position[1],
+        endPointCoordLat: String(this.endPoint.position[0]),
+        endPointCoordLong: String(this.endPoint.position[1]),
         dateStart: this.dateStart,
         timeStart: this.timeStart,
         timeEnd: this.timeEnd,

@@ -123,8 +123,14 @@ export class Presenter {
         let totalTime = 0;
         let totalWay = 0;
         let timeBorder = getTimeBorderDefault(timeStart);
+        const list = pointList.map(point => ({
+            ...point,
+            coordinates: setCoordsToString(point.coordinates),
+            startPointCoordLat: String(point.startPointCoordLat),
+            startPointCoordLong: String(point.startPointCoordLong),
+        }))
 
-        pointList.forEach((obj, index) => {
+        list.forEach((obj, index) => {
             totalTime = totalTime + obj.timeInWay + obj.time + obj.stopTime;
             totalWay += obj.way;
             // день первый - создаем день
@@ -223,7 +229,7 @@ export class Presenter {
             days,
             totalTime,
             totalWay,
-            pointList
+            pointList: list,
         }
     }
 

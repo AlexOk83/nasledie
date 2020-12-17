@@ -149,7 +149,6 @@
         methods: {
             changeValue(e) {
                 this.localValue = e;
-                console.log(this.localValue);
                 this.$emit('change', e);
             },
             changeLocalValue() {
@@ -166,7 +165,6 @@
         watch: {
             value() {
                 this.localValue = this.value;
-                console.log(this.localValue)
             },
             disabled() {
                 this.localDisabled = this.disabled || Boolean(this.save)

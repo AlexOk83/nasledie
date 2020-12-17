@@ -38,7 +38,6 @@
             this.$store.dispatch('getDataTags');
             this.$store.dispatch('getDataTypes');
             this.$store.dispatch('aUserId', this.getUserId);
-            console.log(this.getUserId);
         }
     }
 </script>

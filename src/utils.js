@@ -151,9 +151,7 @@ export function getMinutesToTime(time) {
 
 export function getTimeBorderDefault(startTime, endTime) {
     const startMinutes = getMinutesToTime(startTime);
-    console.log(startTime, startMinutes);
     const endMinutes = getMinutesToTime(endTime || '21:00');
-    console.log('21:00', endMinutes, endMinutes - startMinutes);
     return endMinutes - startMinutes;
 }
 
