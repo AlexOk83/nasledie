@@ -2,7 +2,7 @@
 <template>
     <div class="field">
         <label class="field__label">{{ title }}</label>
-
+        <div class="field__cleared-btn" v-if="clearedTypes.includes(type)" @click="clear"/>
         <input v-if="inputTypes.includes(type)"
                class="field__control"
                :type="type"
@@ -122,6 +122,7 @@
         data() {
             return {
                 inputTypes: ['text', 'password'],
+                clearedTypes: ['text', 'longtext'],
                 localValue: this.value,
                 localDisabled: this.disabled || Boolean(this.save)
             }
@@ -147,6 +148,9 @@
             }
         },
         methods: {
+            clear() {
+                this.$emit('change', '');
+            },
             changeValue(e) {
                 this.localValue = e;
                 this.$emit('change', e);
@@ -183,6 +187,7 @@
     .field {
         width: 100%;
         margin-bottom: 20px;
+        position: relative;
         &__label {
             display: block;
             font-weight: 500;
@@ -222,6 +227,19 @@
                     border-bottom: 1px dashed @base;
                 }
             }
+        }
+        &__cleared-btn {
+            position: absolute;
+            top: 46px;
+            right: 14px;
+            width: 12px;
+            height: 12px;
+            background-size: 12px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url(/assets/images/icons/close.svg);
+            z-index: 4;
+            cursor: pointer;
         }
     }
 

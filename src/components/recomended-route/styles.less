@@ -10,12 +10,13 @@
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
+  cursor: pointer;
   &:hover {
     .box-shadow(9px, 0, 37px, -15px, rgba(82,98,159,1));
   }
   &__image {
     .column(6,6,6);
-    .img_wrapper(100%);
+    .img_wrapper3();
     position: relative;
     .media_mobile({
       height: 100%;
@@ -37,6 +38,7 @@
   }
   &__body {
     .column(6,6,6);
+    .column_padding();
     overflow: hidden;
     &.without-scroll-area {
       padding-bottom: 20px;

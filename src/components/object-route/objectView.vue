@@ -1,18 +1,13 @@
 <!-- вывод объектов в просмотре - готово! -->
 <template>
-  <div class="route">
+  <a class="route" :href="data.site" :target="data.site ? '_blank' : null">
     <div class="route__image" v-if="image">
       <img :src="image">
     </div>
     <div class="route__body" :class="{'full': !image}">
-      <vue-custom-scrollbar class="scroll-area" :settings="settings">
-        <div class="title">{{ data.name }}</div>
-        <div class="text-description" v-html="data.short_description"/>
-      </vue-custom-scrollbar>
-
+      <div class="title">{{ data.name }}</div>
     </div>
-  </div>
-
+  </a>
 </template>
 
 <script>
@@ -30,6 +25,7 @@ export default {
       name: String,
       image: String,
       short_description: HTMLBaseElement,
+      site: String,
     }
   },
   computed: {

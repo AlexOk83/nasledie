@@ -142,6 +142,7 @@ export default {
       this.$store.dispatch('showPreloader');
       repository.getMyRoute(this.$store.getters.getUserId, this.id).then(response => {
         const data = JSON.parse(response.data);
+        console.log(data);
         this.route = data.router;
       }).finally(() => {
         this.$store.dispatch('hidePreloader');
@@ -232,6 +233,7 @@ export default {
       border-radius: 30px;
       float: left;
       margin-right: 20px;
+      margin-bottom: 15px;
       padding: 10px 20px;
       .text();
       color: @colorLink;
