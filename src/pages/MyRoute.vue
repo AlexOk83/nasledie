@@ -522,7 +522,7 @@ export default {
       this.startPoint = {};
       this.endPoint = {};
       this.dateStart = moment(new Date()).format();
-      this.timeStart = '09:00';
+      this.timeStart = '10:00';
       this.isGeoRoute = 'yes';
       this.typeMovement = 'car';
       this.objects = [];
