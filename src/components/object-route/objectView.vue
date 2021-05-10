@@ -1,6 +1,6 @@
 <!-- вывод объектов в просмотре - готово! -->
 <template>
-  <a class="route" :href="data.site" :target="data.site ? '_blank' : null">
+  <a class="route" :href="getUrl(data.id)" target="_blank">
     <div class="route__image" v-if="image">
       <img :src="image">
     </div>
@@ -14,6 +14,7 @@
 import vueCustomScrollbar from "vue-custom-scrollbar";
 import {isNil} from 'lodash';
 import {API} from '../../repository';
+import {urlToSize} from "../../constants";
 
 export default {
   name: "ObjectRoute",
@@ -42,6 +43,11 @@ export default {
       }
 
       return `${API.BASE_IMG()}${this.data.image}`
+    }
+  },
+  methods: {
+    getUrl(id) {
+      return `${urlToSize}/object/view/id/${id}`
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="select" tabindex="0" ref="select">
+    <div class="select select--with-search" tabindex="0" ref="select">
         <select :name="name" :id="name" v-model="currentValue" >
             <option value="" v-if="placeholder">{{ placeholder }}</option>
             <option :value="option.value" v-for="option in list" :disabled="option.disabled">{{ option.name }}</option>
@@ -11,6 +11,7 @@
             <Icon :icon="iconValue" v-if="iconValue" />
             {{ getValue }}
         </div>
+        <div class="clear-button" @click="clear"/>
         <div class="options-list" :class="{'active': active }">
             <input type="text" class="search" v-model="searchText" ref="search" @blur="close"  tabindex="0" @input="filterList">
             <perfect-scrollbar class="scroll-area" :options="settings">
@@ -67,6 +68,12 @@
                 this.active = false;
                 this.searchText = "";
                 this.filteredList = this.list;
+                this.$emit('change', this.currentValue);
+            },
+            clear() {
+                this.currentValue = "";
+                this.active = false;
+                this.searchText = "";
                 this.$emit('change', this.currentValue);
             },
             filterList(event) {

@@ -314,6 +314,8 @@ export default {
       }
     },
     coordinatesAllPoints() {
+      return; // TODO рекомендованные объекты пока не трогаем
+
       if (this.pointList.length !== 0) {
         return this.pointList.map(p => ([p.startPointCoordLat, p.startPointCoordLong]))
       }

@@ -19,13 +19,11 @@
       />
     </div>
     <div class="form__field">
-      <SearchFromBaseField
-          :value="currentBrand"
+      <SelectControl
+          :list="brands"
+          :value="currentBrand && currentBrand.value"
           placeholder="Бренд"
           @change="changeBrand"
-          @clear="clearAll"
-          :category="currentCategory"
-          :region="currentRegion"
       />
     </div>
     <div class="form__field">
@@ -83,6 +81,7 @@ export default {
       currentCategory: {},
       currentBrand: {},
       objectList: [],
+      brands: [],
       currentObject: {}
     }
   },
@@ -95,7 +94,8 @@ export default {
     },
     categories() {
       return this.$store.getters.getTypes;
-    }
+    },
+
   },
   methods: {
     selectRecommendObjects(event) {
@@ -132,13 +132,33 @@ export default {
       this.currentObject = {};
       this.objectList = [];
     },
+    autoComplete() {
+      this.currentCategory = this.categories.find(category => category.value === this.currentBrand.type);
+      this.currentRegion = this.regions.find(region => Number(region.value) === Number(this.currentBrand.region));
+    },
+    getFullObjects() {
+      const reducerBrand = (accumulator, currentValue) => {
+        return [...accumulator, ...currentValue.objects.map(obj => ({ ...obj, brandId: currentValue.id })) ];
+      }
+      const objects = this.brands.reduce(reducerBrand, [])
+      this.objectList = objects.map(obj => {
+        const position = setCoordsToString(obj.position);
+        return { ...obj, value: obj.id, position }
+      });
+    },
     changeRegion(event) {
       this.currentRegion = this.regions.find(region => region.value === event);
+      this.getBrands();
     },
     changeCategory(event) {
       this.currentCategory = this.categories.find(region => region.value === event);
+      this.getBrands();
     },
     changeObject(event) {
+      if (!event) {
+        this.currentObject = {};
+        return;
+      }
       const currentObject = this.objectList.find(object => object.value === event);
       const position = setCoordsToString(currentObject.position);
       this.currentObject = {
@@ -154,18 +174,39 @@ export default {
         way: 0,
         typeMovement: ['car']
       }
+      if (isEmpty(this.currentBrand)) {
+        this.currentBrand = this.brands.find(brand => brand.id === currentObject.brandId);
+      }
+      setTimeout(this.autoComplete, 0);
     },
     changeBrand(event) {
-      this.currentBrand = event;
-      this.currentCategory = this.categories.find(category => category.value === event.type);
-      this.currentRegion = this.regions.find(region => Number(region.value) === Number(event.region));
-      this.objectList = event.objects.map(obj => {
+      if (!event) {
+        this.currentBrand = {};
+        this.currentObject = {};
+        this.getFullObjects();
+        return;
+      }
+      this.currentBrand = this.brands.find(brand => brand.value === event);
+      this.autoComplete();
+      this.objectList = this.currentBrand.objects.map(obj => {
         const position = setCoordsToString(obj.position);
-        return { ...obj, value: obj.id, position }
+        return { ...obj, value: obj.id, position, brandId: this.currentBrand.id }
       });
     },
-  },
+    getBrands() {
+      const category = this.currentCategory && this.currentCategory.value;
+      const region = this.currentRegion && this.currentRegion.value;
 
+      repository.getBrands(category, region)
+              .then(response => {
+                this.brands = JSON.parse(response.data).map(brand => ({ ...brand, value: brand.id }));
+                setTimeout(this.getFullObjects, 0);
+                if (!this.brands.map(brand => brand.id).includes(this.currentBrand.id)) {
+                  this.changeBrand('')
+                }
+              })
+    }
+  },
 }
 </script>
 

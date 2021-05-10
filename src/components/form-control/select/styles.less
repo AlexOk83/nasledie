@@ -26,6 +26,7 @@
   &__field {
     position: relative;
     background-color: white;
+    .text_overflow();
     .form-control-style();
     height: 40px;
     cursor: pointer;
@@ -56,6 +57,10 @@
     &.list-empty {
       opacity: 0.5;
       cursor: default;
+      &:after,
+      &:before {
+        display: none;
+      }
     }
     &.empty {
       color: @emptyText;
@@ -147,6 +152,16 @@
             background-color: @greyButton;
           }
         }
+      }
+    }
+  }
+
+  &--with-search {
+    .select__field {
+      padding-right: 50px;
+      &:after,
+      &:before {
+        right: 35px;
       }
     }
   }

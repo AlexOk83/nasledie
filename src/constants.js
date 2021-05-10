@@ -17,3 +17,5 @@ export const settingsScroll = {
 }
 
 export const MOSKOW = [55.753215, 37.622504];
+
+export const urlToSize = 'http://zhivoe-nasledie.ga:81';
