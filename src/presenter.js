@@ -2,8 +2,8 @@ import moment from "moment";
 import {
     getAdress,
     getHourAndMinutes,
-    getLastElement,
-    getTimeBorderDefault,
+    getLastElement, getPosition,
+    getTimeBorderDefault, isEqual,
     setCoordsToNumeric,
     setCoordsToString,
     sortGeo
@@ -40,17 +40,32 @@ export class Presenter {
     updateAllPoints(params) {
         const {
             startPoint,
+            endPoint,
             pointList,
             isGeoRoute,
         } = params;
-        let points = [...pointList].map(p => ({...p, position: [p.startPointCoordLat, p.startPointCoordLong]}));
-        const startPosition = startPoint.position;
-
+        const updatedPointList = [...pointList].map(p => ({...p, position: getPosition(p) }));
+        let points = [];
+        let startPointFull = null;
+        let endPointFull = null;
+        updatedPointList.forEach(point => {
+            if (isEqual(point.position, startPoint.position)) {
+                startPointFull = point;
+            } else
+            if (isEqual(point.position, endPoint.position)) {
+                endPointFull = point;
+            } else {
+                points.push(point);
+            }
+        });
         if (isGeoRoute === 'yes') {
-            points = sortGeo(startPosition, points);
+            const startPosition = startPoint.position;
+            const sortedPoints = sortGeo(startPosition, points);
+            return [startPointFull, ...sortedPoints, endPointFull];
         }
 
-        return points;
+
+        return updatedPointList;
     }
 
     // метод формирования точек маршрута - готово!
@@ -62,6 +77,7 @@ export class Presenter {
             isGeoRoute,
             typeMovement,
         } = params;
+        console.log(params);
 
         let objectsInDays;
         let points = [...mapPoints];
@@ -111,6 +127,7 @@ export class Presenter {
                 typeMovement: [typeMovement]
             },
         ];
+        console.log(objectsInDays);
 
         return objectsInDays;
     }
@@ -125,7 +142,7 @@ export class Presenter {
         let timeBorder = getTimeBorderDefault(timeStart);
         const list = pointList.map(point => ({
             ...point,
-            coordinates: setCoordsToString(point.coordinates),
+            coordinates: setCoordsToString(getPosition(point)),
             startPointCoordLat: String(point.startPointCoordLat),
             startPointCoordLong: String(point.startPointCoordLong),
         }))
