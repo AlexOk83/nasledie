@@ -119,6 +119,15 @@
                     v-if="!isNewRoute"
                     :disabled="needUpdateDayData"
             />
+            <Button text="Сохранить как черновик"
+                    :on-click="() => saveRouteAsDraft()"
+                    color="white"
+                    icon="check"
+                    is-shadow
+                    is-full
+                    v-if="!isNewRoute"
+                    :disabled="needUpdateDayData"
+            />
           </div>
 
         </form>
@@ -206,8 +215,8 @@ export default {
       description: '',
       startPoint: {},
       endPoint: {},
-      dateStart: moment(new Date()).format(),
-      timeStart: '10:30',
+      dateStart: moment(new Date()).format(), // TODO прибавить 1 день
+      timeStart: '10:00',
       isGeoRoute: 'yes',
       typeMovement: 'car',
       objects: [],
@@ -451,6 +460,26 @@ export default {
           }).finally(() => {
         this.$store.dispatch('hidePreloader');
       });
+    },
+    saveRouteAsDraft() {
+      if (this.name.includes('черновик')) {
+        this.name = this.name + '1';
+      } else {
+        this.name = this.name + ' - черновик';
+      }
+
+      const infoForSave = this.getInfoForCreate();
+      this.$store.dispatch('showPreloader');
+      repository.createMyRoute(this.userId, infoForSave)
+              .then(response => {
+                const result = JSON.parse(response.data);
+                if (result && result.id) {
+                  this.$router.push(`/edit-my-route/${result.id}`);
+                }
+              })
+              .finally(() => {
+                this.$store.dispatch('hidePreloader');
+              });
     },
     // добавление нового объекта при редактировании
     addNewObject(object) {

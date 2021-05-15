@@ -1,7 +1,7 @@
 <!-- общий для всех полей компонент - готово! -->
 <template>
     <div class="field">
-        <label class="field__label">{{ title }}</label>
+        <label class="field__label" v-if="title">{{ title }}</label>
         <div class="field__cleared-btn" v-if="clearedTypes.includes(type)" @click="clear"/>
         <input v-if="inputTypes.includes(type)"
                class="field__control"

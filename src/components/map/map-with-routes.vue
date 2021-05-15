@@ -206,12 +206,17 @@
                 this.map = new ymaps.Map("map", {
                     center: from, // по умолчанию москва
                     zoom: 13,
-                    controls: [],
+                    controls: ['fullscreenControl'],
                 }, {
                     // searchControlProvider: 'yandex#search',
                     yandexMapDisablePoiInteractivity: true // отключил интерактивность маркеров
                 });
 
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+                    //... отключаем перетаскивание карты
+                    this.map.behaviors.disable('scrollZoom');
+                    this.map.behaviors.disable('drag');
+                }
                 if (!this.readOnly) {
                     this.map.cursors.push('crosshair');
 

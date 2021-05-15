@@ -62,12 +62,17 @@ export default {
         center: from.position || MOSKOW, // по умолчанию москва
         zoom: 13,
         maxZoom: 15,
-        controls: [],
+        controls: ['fullscreenControl'],
       }, {
         // searchControlProvider: 'yandex#search',
         yandexMapDisablePoiInteractivity: true // отключил интерактивность маркеров
       });
 
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        //... отключаем перетаскивание карты
+        this.map.behaviors.disable('scrollZoom');
+        this.map.behaviors.disable('drag');
+      }
       var cursor = this.map.cursors.push('crosshair');
 
       this.map.events.add('click', function (e) {

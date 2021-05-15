@@ -4,7 +4,8 @@
         <div class="body-object">
             <div class="title">
                 <Icon icon="object" />
-                <span>{{ name }}</span>
+                <a :href="getUrl(object_id)" target="_blank" v-if="object_id !== null">{{ name }}</a>
+                <span v-else>{{ name }}</span>
             </div>
             <div v-if="!this.isNotPoint">
                 <div class="gray-label">Время на объекте:</div>
@@ -13,13 +14,11 @@
                         @change="changeTime"
                 />
             </div>
-
-            <div class="btn-up" v-if="visibleUp" @click="up" />
-            <div class="btn-down" v-if="visibleDown" @click="down" />
             <div class="btn-remove" v-if="!this.isNotPoint" @click="remove" />
         </div>
         <div v-if="dataNextItem" class="body-object body-object--way">
-            <div class="title">
+            <div class="btn-swap" v-if="visibleDown" @click="down" />
+            <div class="icon-container">
                 <Icon icon="way" />
                 <span>Путь до "{{ dataNextItem.name }}"</span>
             </div>
@@ -54,7 +53,7 @@
     import { Presenter} from "../../presenter";
     import MinutePicker from "../form-control/MinutePicker";
     import Field from "../form-control/Field";
-    import {typesOfMovement} from "../../constants";
+    import {typesOfMovement, urlToSize} from "../../constants";
     import {getAdress} from "../../utils";
     const presenter = new Presenter();
 
@@ -63,7 +62,8 @@
         props: {
             data: {
                 name: String,
-                time: Number
+                time: Number,
+                object_id: Number,
             },
             dataNextItem: {
                 name: String,
@@ -87,6 +87,7 @@
         },
         data() {
             return {
+                object_id: this.data.object_id,
                 time: this.data.time,
                 listTypesMovement: typesOfMovement
             }
@@ -94,12 +95,6 @@
         computed: {
             name() {
                 return getAdress(this.data);
-            },
-            visibleUp() {
-                if (this.isFirst || this.isNotPoint) {
-                    return false;
-                }
-                return true;
             },
             visibleDown() {
                 if (this.isLast || this.isNotPoint) {
@@ -122,6 +117,9 @@
             }
         },
         methods: {
+            getUrl(id) {
+                return `${urlToSize}/object/view/id/${id}`
+            },
             changeTypeMovement(e) {
                 this.$emit('change', {
                     field: 'typeMovement',
@@ -164,7 +162,6 @@
         margin-bottom: 15px;
         padding: 15px;
         padding-right: 55px;
-        min-height: 140px;
         position: relative;
         &--way {
             background-color: #f9f9f9;
@@ -173,18 +170,18 @@
         .icon-container {
             position: relative;
             padding-left: 30px;
-            margin-bottom: 10px;
             .icon {
                 top: 5px;
                 background-color: @base;
             }
         }
         .title  {
-            margin-bottom: 25px;
-            span {
+            margin-bottom: 5px;
+            span, a {
                 font-size: 20px;
                 line-height: 30px;
                 font-weight: 500;
+                color: @base;
             }
         }
         .icon-container span {
@@ -192,6 +189,7 @@
         }
         .gray-label {
             font-size: 12px;
+            line-height: 15px;
             color: @greySubtitle;
         }
         .col {
@@ -216,16 +214,16 @@
             transform: rotate(180deg) scale(0.9);
         }
     }
-    .btn-down {
+    .btn-swap {
         width: 30px;
         height: 30px;
         border-radius: 50%;
         position: absolute;
         cursor: pointer;
-        background-image: url("/assets/images/icons/down.svg");
+        background-image: url("/assets/images/icons/swap.svg");
         background-position: center;
         background-size: contain;
-        bottom: 15px;
+        top: 15px;
         right: 15px;
         &:active {
             transform: scale(0.9);

@@ -96,6 +96,11 @@ export default {
       });
       this.setCounts++;
 
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        //... отключаем перетаскивание карты
+        this.map.behaviors.disable('scrollZoom');
+        this.map.behaviors.disable('drag');
+      }
       // у нас есть маршруты от каждой точки до следующей
       routes.forEach((item, index) => {
         multiRoutes[index] = new ymaps.multiRouter.MultiRoute({
