@@ -230,7 +230,7 @@ export default {
       files: [],
       tags: [],
       regions: [],
-      dateStart: moment(new Date()).format(), // TODO прибавить 1 день
+      dateStart: moment().add(1,'days').format(),
       timeStart: '10:00',
       isGeoRoute: 'yes',
       typeMovement: 'car',
