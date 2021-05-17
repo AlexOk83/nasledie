@@ -3,7 +3,8 @@
   <div class="object-list">
     <div class="label" v-if="list.length > 0">Выбранные объекты:</div>
     <li v-for="(item, index) in list">
-      <a :href="getUrl(item.id)" target="_blank">{{ getName(item) }}</a>
+      <a :href="getUrl(item.id)" v-if="item.id !== undefined && item.id !== null" target="_blank">{{ getName(item) }}</a>
+      <span v-else>{{ getName(item) }}</span>
       <span class="icon icon-delete" @click="removeObject(index)"/>
     </li>
   </div>

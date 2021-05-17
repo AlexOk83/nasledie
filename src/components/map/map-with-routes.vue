@@ -143,6 +143,7 @@
               });
 
               this.map.geoObjects.add(this.currentPoints[indexActiveDay][l]);
+              this.map.setBounds(this.map.geoObjects.getBounds(),{checkZoomRange:true, zoomMargin:35});
             },
             addPoint(point) {
                 this.$store.dispatch('showModalConfirm', {
@@ -346,6 +347,8 @@
           newObject() {
             if (this.newObject.position) {
               this.add(this.newObject);
+
+              this.map.setBounds(this.map.geoObjects.getBounds(),{checkZoomRange:true, zoomMargin:35});
             }
           },
           deleteObject() {

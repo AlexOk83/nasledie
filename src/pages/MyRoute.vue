@@ -550,7 +550,7 @@ export default {
       this.description = '';
       this.startPoint = {};
       this.endPoint = {};
-      this.dateStart = moment(new Date()).format();
+      this.dateStart = moment().add(1,'days').format();
       this.timeStart = '10:00';
       this.isGeoRoute = 'yes';
       this.typeMovement = 'car';

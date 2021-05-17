@@ -1,10 +1,10 @@
 <!-- вывод объектов в просмотре - готово! -->
 <template>
-  <a class="route" :href="getUrl(data.id)" target="_blank">
-    <div class="route__image" v-if="image">
+  <a class="object" :href="getUrl(data.id)" target="_blank">
+    <div class="object__image" v-if="image">
       <img :src="image">
     </div>
-    <div class="route__body" :class="{'full': !image}">
+    <div class="object__body">
       <div class="title">{{ data.name }}</div>
     </div>
   </a>

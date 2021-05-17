@@ -88,8 +88,8 @@ export default {
         'Посещение объекта'
       ],
       config: {
-        colDesktop: 2,
-        colTablet: 2,
+        colDesktop: 4,
+        colTablet: 3,
       },
       routesList: [],
       isObject: true,
