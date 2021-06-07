@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import {isEmpty} from 'lodash';
+  import {isEmpty, isNil} from 'lodash';
 import SearchField from "../form-control/search/SearchField";
 import SelectControl from '../form-control/select/select-with-search';
 import SelectRecommendObjects from './select-recommend-objects';
@@ -196,6 +196,11 @@ export default {
     getBrands() {
       const category = this.currentCategory && this.currentCategory.value;
       const region = this.currentRegion && this.currentRegion.value;
+      if (isNil(category) && isNil(region)) {
+         this.brands = [];
+         this.objectList = [];
+         return;
+      }
 
       repository.getBrands(category, region)
               .then(response => {

@@ -132,7 +132,8 @@ export default {
           } else {
             activeRoutePaths && activeRoutePaths.each(function (path) {
               let point = item.point;
-              let duration = path.properties.get("duration").value;
+              console.log(index, path);
+              let duration = path.properties.get("durationInTraffic").value;
               let distance = path.properties.get("distance").value;
               point.timeInWay = Math.round(duration / 60);
               point.way = Math.round(distance);

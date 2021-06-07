@@ -171,13 +171,10 @@ export class Presenter {
                 const allMinutes = currentMinutes + obj.timeInWay + obj.time + obj.stopTime;
                 // превысили лимит по времени или конец маршрута
                 if (allMinutes > timeBorder) {
-                    totalTime = totalTime - obj.time;
-                    let extremeObj = { ...obj, time: 0 };
                     let prevObj = getLastElement(currentDayListPoints);
-                    prevObj.time = 0;
                     // если текущий день превышен и там пока 1 объект, то текущий объект нужно добавить в этот день
                     if (currentDayListPoints.length === 1) {
-                        currentDayListPoints.push(extremeObj);
+                        currentDayListPoints.push(obj);
                         days[i].timeEnd = this.getTimeEnd(days[i].timeStart, allMinutes);
                         days[i].endPoint = obj.name;
                         days[i].endPointCoordLat = obj.startPointCoordLat;
@@ -206,7 +203,7 @@ export class Presenter {
                         days[i].endPointCoordLat = prevObj.startPointCoordLat;
                         days[i].endPointCoordLong = prevObj.startPointCoordLong;
                         days[i].objects = currentDayListPoints;
-                        currentDayListPoints = [prevObj, index === pointList.length - 1 ? extremeObj : obj];
+                        currentDayListPoints = [prevObj, obj];
                         currentMinutes = 0 + obj.timeInWay + obj.time + obj.stopTime;
                         i = i + 1;
                         days.push({

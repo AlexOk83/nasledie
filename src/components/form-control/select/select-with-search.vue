@@ -11,7 +11,7 @@
             <Icon :icon="iconValue" v-if="iconValue" />
             {{ getValue }}
         </div>
-        <div class="clear-button" @click="clear"/>
+        <div class="clear-button" :class="{'visible': active}" @click="clear"/>
         <div class="options-list" :class="{'active': active }">
             <input type="text" class="search" v-model="searchText" ref="search" @blur="close"  tabindex="0" @input="filterList">
             <perfect-scrollbar class="scroll-area" :options="settings">
@@ -71,10 +71,14 @@
                 this.$emit('change', this.currentValue);
             },
             clear() {
-                this.currentValue = "";
-                this.active = false;
-                this.searchText = "";
-                this.$emit('change', this.currentValue);
+                if (this.active) {
+                    this.active = false;
+                } else {
+                    this.currentValue = "";
+                    this.filteredList = this.list;
+                    this.$emit('change', this.currentValue);
+                    this.searchText = "";
+                }
             },
             filterList(event) {
                 if (event.target.value.length > 2) {
