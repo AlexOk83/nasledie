@@ -10,7 +10,7 @@
             <div v-if="!this.isNotPoint">
                 <div class="gray-label">Время на объекте:</div>
                 <MinutePicker
-                        :value="time"
+                        :value="data.time"
                         @change="changeTime"
                 />
             </div>

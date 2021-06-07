@@ -4,6 +4,7 @@
 
 <script>
 import {Presenter} from '../../presenter';
+import { isNil } from 'lodash';
 import {getDistanceFromLatLonInMeters, getTimeInWay, getTypeMovement, isEqual} from "../../utils";
 
 const presenter = new Presenter();
@@ -132,8 +133,13 @@ export default {
           } else {
             activeRoutePaths && activeRoutePaths.each(function (path) {
               let point = item.point;
-              console.log(index, path);
-              let duration = path.properties.get("durationInTraffic").value;
+              let duration = 0;
+              if (isNil(path.properties.get("durationInTraffic"))) {
+                duration = path.properties.get("duration").value;
+              } else {
+                duration = path.properties.get("durationInTraffic").value;
+              }
+
               let distance = path.properties.get("distance").value;
               point.timeInWay = Math.round(duration / 60);
               point.way = Math.round(distance);
