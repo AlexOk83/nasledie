@@ -328,7 +328,11 @@ export class Presenter {
             case('car'):
                 return "Автомобильный";
             case('ship'):
-                return "По воде";
+                return "Водный транспорт";
+            case('plane'):
+                return "Авиа";
+            case('train'):
+                return "ЖД транспорт";
             default:
                 return "";
         }
