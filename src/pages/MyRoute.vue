@@ -609,7 +609,11 @@ export default {
         regions: this.regions,
         map_points: JSON.stringify(this.pointList),
         user_id: this.$store.getters.getUserId,
+        totalTime: this.totalTime,
+        totalWay: this.totalWay,
       }
+      console.log('перед сохранением данные', values);
+
       formData.append('ZRouter', JSON.stringify(values));
       formData.append('sessionId', 1);
       return formData
@@ -648,6 +652,7 @@ export default {
           .then(response => {
             this.$store.dispatch('hidePreloader');
             const route = JSON.parse(response.data).router;
+            console.info('получили от бека - ', route);
             this.showMap = true;
             this.updateState(route);
           })
@@ -674,6 +679,8 @@ export default {
       this.objects = data.objects;
       this.otherData = data; // для того, чтобы не потерять данные
       this.showMap = true;
+      this.totalTime = data.totalTime;
+      this.totalWay = data.totalWay;
       this.setActiveDay(0);
     },
     // добавление точки с карты - done!

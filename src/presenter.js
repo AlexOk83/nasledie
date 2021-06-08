@@ -77,7 +77,6 @@ export class Presenter {
             isGeoRoute,
             typeMovement,
         } = params;
-        console.log(params);
 
         let objectsInDays;
         let points = [...mapPoints];
@@ -127,7 +126,6 @@ export class Presenter {
                 typeMovement: [typeMovement]
             },
         ];
-        console.log(objectsInDays);
 
         return objectsInDays;
     }
@@ -146,10 +144,12 @@ export class Presenter {
             startPointCoordLat: String(point.startPointCoordLat),
             startPointCoordLong: String(point.startPointCoordLong),
         }))
-
+        console.log('список точек после расчета растояния и времени', list);
         list.forEach((obj, index) => {
+            let a = totalTime;
             totalTime = totalTime + obj.timeInWay + obj.time + obj.stopTime;
-            totalWay += obj.way;
+            console.log(`${a} + ${obj.timeInWay}(${this.getTime(obj.timeInWay)}) + ${obj.time} + ${obj.stopTime} = ${totalTime} = ${this.getTime(totalTime)}`)
+            totalWay = totalWay + obj.way;
             // день первый - создаем день
             if (index === 0) {
                 currentDayListPoints = [obj];
