@@ -249,6 +249,10 @@ export class Presenter {
 
     // готово!
     getWay(way) {
+        if (way === 'не определено') {
+            return way;
+        }
+
         if (!way) {
             return 'Не указано'
         }
@@ -287,6 +291,10 @@ export class Presenter {
 
     // готово!
     getTime(time) {
+        if (time === 'не определено') {
+            return time;
+        }
+
         if (!time) {
             return 'Не указано'
         }
@@ -364,7 +372,17 @@ export class Presenter {
     // готово!
     moveItemDown(mass, index) {
         let localMass = [...mass];
+
+        localMass[index + 1].way = 'не определено';
+        localMass[index + 1].timeInWay = 'не определено';
+        localMass[index + 2].way = 'не определено';
+        localMass[index + 2].timeInWay = 'не определено';
+        localMass[index].way = 'не определено';
+        localMass[index].timeInWay = 'не определено';
+
         let temp = localMass[index + 1];
+        console.log(localMass[index + 1]);
+        console.log(localMass[index]);
         localMass[index + 1] = localMass[index];
         localMass[index] = temp;
         return localMass

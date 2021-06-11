@@ -1,4 +1,4 @@
-import {isEmpty} from "lodash";
+import {isEmpty, isNil} from "lodash";
 
 export function setFirstLetterToUppercase(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -158,6 +158,9 @@ export function uniq(a){
 }
 
 export function getPosition(point) {
+    if (isNil(point)) {
+        return [];
+    }
 
     if (point.coordinates && Array.isArray(point.coordinates)) {
         return point.coordinates

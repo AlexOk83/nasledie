@@ -34,11 +34,11 @@
           @change="changeObject"
       />
     </div>
-    <div class="form__field">
-      <SelectRecommendObjects
-          @change="selectRecommendObjects"
-      />
-    </div>
+<!--    <div class="form__field">-->
+<!--      <SelectRecommendObjects-->
+<!--          @change="selectRecommendObjects"-->
+<!--      />-->
+<!--    </div>-->
     <Button
         text="Добавить для посещения"
         is-full
