@@ -603,7 +603,7 @@ export default {
         id: this.routeId,
         name: this.name,
         description: this.description,
-        objects: this.otherData.objects.map(o => ({...o, object_id: o.id})),
+        objects: this.objects.map(o => ({...o, object_id: o.id})),
         days: this.days,
         files: this.files,
         regions: this.regions,

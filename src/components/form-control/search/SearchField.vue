@@ -1,7 +1,7 @@
 <!-- поиск через yandex API - готово! -->
 <template>
     <div class="search-field" :class="{'selected': findedPoints.length > 0 }">
-        <input type="text" class="field_control" v-model="searchText" :placeholder="placeholder" @input="search" @focus="search">
+        <input type="text" class="field_control" v-model="searchText" :placeholder="placeholder" @input="search" @focus="search" @blur="close">
         <div class="search-button" @click="search" />
         <div class="clear-button" @click="clear" />
         <div class="search-list" :class="{'show': findedPoints.length > 0 }" >

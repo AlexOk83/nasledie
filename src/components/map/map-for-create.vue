@@ -5,7 +5,7 @@
 <script>
 import {Presenter} from '../../presenter';
 import { isNil } from 'lodash';
-import {getDistanceFromLatLonInMeters, getTimeInWay, getTypeMovement, isEqual} from "../../utils";
+import {getDistanceFromLatLonInMeters, getPosition, getTimeInWay, getTypeMovement, isEqual} from "../../utils";
 
 const presenter = new Presenter();
 
@@ -38,7 +38,7 @@ export default {
         if (i !== 0) {
           const start = this.points[i - 1];
           return {
-            referencePoints: [[start.startPointCoordLat, start.startPointCoordLong], [end.startPointCoordLat, end.startPointCoordLong]],
+            referencePoints: [getPosition(start), getPosition(end)],
             routingMode: end.typeMovement[0],
             point: end,
             start,
