@@ -138,7 +138,26 @@
                     v-if="!isNewRoute"
                     :disabled="needUpdateDayData"
             />
+            <Button text="Сохранить как черновик"
+                    :on-click="() => saveRouteAsDraft()"
+                    color="white"
+                    icon="check"
+                    is-shadow
+                    is-full
+                    v-if="!isNewRoute"
+                    :disabled="needUpdateDayData"
+            />
+            <Button text="Перейти в просмотр"
+                    :on-click="() => moveToPreview()"
+                    color="white"
+                    icon="check"
+                    is-shadow
+                    is-full
+                    v-if="!isNewRoute"
+                    :disabled="needUpdateDayData"
+            />
           </div>
+
         </form>
       </div>
       <div class="right-container">
@@ -339,6 +358,8 @@ export default {
       }
     },
     coordinatesAllPoints() {
+      return; // TODO рекомендованные объекты пока не трогаем
+
       if (this.pointList.length !== 0) {
         return this.pointList.map(p => ([p.startPointCoordLat, p.startPointCoordLong]))
       }
@@ -472,6 +493,30 @@ export default {
         this.$store.dispatch('hidePreloader');
       });
     },
+    saveRouteAsDraft() {
+      if (this.name.includes('черновик')) {
+        this.name = this.name + '1';
+      } else {
+        this.name = this.name + ' - черновик';
+      }
+
+      const infoForSave = this.getInfoForCreate();
+      this.$store.dispatch('showPreloader');
+      repository.createMyRoute(this.userId, infoForSave)
+              .then(response => {
+                const result = JSON.parse(response.data);
+                if (result && result.id) {
+                  this.$router.push(`/edit-recommended-route/${result.id}`);
+                }
+              })
+              .finally(() => {
+                this.$store.dispatch('hidePreloader');
+              });
+    },
+    moveToPreview() {
+        this.$router.push(`/view-route/recomend/${this.routeId}`)
+    },
+    // добавление нового объекта при редактировании
     addNewObject(object) {
       this.newObject = {};
       this.objects.push(object);
@@ -605,6 +650,8 @@ export default {
         map_points: JSON.stringify(this.pointList),
         tags: this.tags,
         user_id: this.$store.getters.getUserId,
+        totalTime: this.totalTime,
+        totalWay: this.totalWay,
       }
       formData.append('ZRouter', JSON.stringify(values));
       formData.append('sessionId', 1);
@@ -643,6 +690,7 @@ export default {
           .then(response => {
             this.$store.dispatch('hidePreloader');
             const route = JSON.parse(response.data).router;
+            console.info('получили от бека - ', route);
             this.showMap = true;
             this.updateState(route);
           })
@@ -671,6 +719,8 @@ export default {
       this.regions = data.regions;
       this.otherData = data; // для того, чтобы не потерять данные
       this.showMap = true;
+      this.totalTime = data.totalTime;
+      this.totalWay = data.totalWay;
       this.setActiveDay(0);
     },
     changeListTags(list) {

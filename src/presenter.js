@@ -375,8 +375,6 @@ export class Presenter {
 
         localMass[index + 1].way = 'не определено';
         localMass[index + 1].timeInWay = 'не определено';
-        localMass[index + 2].way = 'не определено';
-        localMass[index + 2].timeInWay = 'не определено';
         localMass[index].way = 'не определено';
         localMass[index].timeInWay = 'не определено';
 

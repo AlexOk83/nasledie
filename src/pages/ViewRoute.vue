@@ -36,12 +36,12 @@
         <Map v-if="visibleMap" :from="route.pointStart.coordinates" :days="route.days"/>
       </div>
 
-      <Table :columns="columns" :days="route.days" v-if="route.days && route.days.length > 0"/>
+      <Table :columns="columns" :days="route.days" :routeForSave="route" v-if="route.days && route.days.length > 0"/>
 
-      <div class="buttons-container" v-if="type === 'recomend'">
+      <div class="buttons-container">
         <Button text="Редактировать маршрут" is-shadow color="white" :on-click="edit"/>
         <Button text="Удалить маршрут" is-shadow color="white" :on-click="remove"/>
-        <Button text="В мои маршруты" icon-right icon="arrow-right" is-shadow color="green" :on-click="addToMyRoute"/>
+        <Button text="В мои маршруты" icon-right icon="arrow-right" is-shadow color="green" v-if="type === 'recomend'" :on-click="addToMyRoute"/>
       </div>
 
     </div>
@@ -65,7 +65,7 @@ const presenter = new Presenter();
 const repository = new Repository();
 
 export default {
-  name: "ViewRecommendedRoute",
+  name: "ViewRoute",
   components: {
     Button,
     Map,
@@ -85,7 +85,8 @@ export default {
         'Путь до объекта',
         'Способ передвижения',
         'Остановка',
-        'Посещение объекта'
+        'Посещение объекта',
+        'Комментарий к маршруту'
       ],
       config: {
         colDesktop: 4,
@@ -256,10 +257,16 @@ export default {
   .buttons-container {
     display: flex;
     justify-content: flex-end;
-
     .bt {
       margin-left: 20px;
     }
+    .media_mobile({
+      flex-wrap: wrap;
+      .bt {
+        margin-left: 0;
+        width: 100%;
+      }
+    });
   }
 }
 </style>

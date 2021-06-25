@@ -128,6 +128,15 @@
                     v-if="!isNewRoute"
                     :disabled="needUpdateDayData"
             />
+            <Button text="Перейти в просмотр"
+                    :on-click="() => moveToPreview()"
+                    color="white"
+                    icon="check"
+                    is-shadow
+                    is-full
+                    v-if="!isNewRoute"
+                    :disabled="needUpdateDayData"
+            />
           </div>
 
         </form>
@@ -480,6 +489,9 @@ export default {
               .finally(() => {
                 this.$store.dispatch('hidePreloader');
               });
+    },
+    moveToPreview() {
+        this.$router.push(`/view-route/my/${this.routeId}`)
     },
     // добавление нового объекта при редактировании
     addNewObject(object) {
