@@ -81,12 +81,12 @@ export default {
       type: null,
       route: {},
       columns: [
-        'День/старт/финиш',
-        'Путь до объекта',
-        'Способ передвижения',
-        'Остановка',
-        'Посещение объекта',
-        'Комментарий к маршруту'
+        { title: 'День/старт/финиш', length: 'auto' },
+        { title: 'Путь до объекта', length: 'auto' },
+        { title: 'Способ передвижения', length: 'auto' },
+        { title: 'Остановка', length: 'auto' },
+        { title: 'Посещение объекта', length: 'auto' },
+        { title: 'Комментарий к маршруту', length: '300px' },
       ],
       config: {
         colDesktop: 4,

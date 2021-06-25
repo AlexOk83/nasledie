@@ -4,7 +4,7 @@
     <div class="tableDays__wrapper">
         <table class="tableDays">
             <thead>
-            <th v-for="item in columns">{{item}}</th>
+            <th v-for="item in columns" :style="{ width: item.length }">{{ item.title }}</th>
             </thead>
             <tbody>
             <template v-for="(day, index) in changedDays">
@@ -61,6 +61,8 @@
                         <Field name="description"
                                type="longtext"
                                placeholder="Комментарий"
+                               :rows="10"
+                               withoutClear
                                :max-length="500"
                                :value="day.objects[1].description"
                                :save="{ editTitle: 'Редактировать', viewSaveButton: false, method: (value) => changeComment(day.objects[1], value) }"
@@ -102,7 +104,9 @@
                         <Field name="description"
                                type="longtext"
                                placeholder="Комментарий"
+                               :rows="10"
                                :max-length="500"
+                               withoutClear
                                :value="object.description"
                                :save="{ editTitle: 'Редактировать', viewSaveButton: false, method: (value) => changeComment(object, value) }"
                         />
@@ -185,15 +189,31 @@
                 const formData = new FormData();
                 const value = {
                     ...this.routeForSave,
-                    days: this.changedDays.map((day) => {
-                        return { ...day, objects: day.objects.map((obj) => {
+                    days: this.days.map((day) => {
+                        return {
+                            ...day,
+                            dateStart: day.pointStart.date,
+                            timeStart: day.pointStart.time,
+                            startPoint: day.pointStart.name,
+                            startPointCoordLat: String(day.pointStart.coordinates[0]),
+                            startPointCoordLong: String(day.pointStart.coordinates[1]),
+
+                            dateEnd: day.pointEnd.date,
+                            timeEnd: day.pointEnd.time,
+                            endPoint: day.pointEnd.name,
+                            endPointCoordLat: String(day.pointEnd.coordinates[0]),
+                            endPointCoordLong: String(day.pointEnd.coordinates[1]),
+
+                            objects: day.objects.map((obj) => {
                                 return {
                                     ...obj,
                                     description: changedObject.id === obj.id ? event : obj.description,
                                 }
-                            }) }
+                            })
+                        }
                     })
                 }
+                console.log(value);
                 formData.append('ZRouter', JSON.stringify(value));
                 formData.append('sessionId', 1);
                 this.$store.dispatch('showPreloader');

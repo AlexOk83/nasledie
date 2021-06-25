@@ -2,7 +2,7 @@
 <template>
     <div class="field">
         <label class="field__label" v-if="title">{{ title }}</label>
-        <div class="field__cleared-btn" v-if="clearedTypes.includes(type)" @click="clear"/>
+        <div class="field__cleared-btn" v-if="clearedTypes.includes(type) && !withoutClear" @click="clear"/>
         <input v-if="inputTypes.includes(type)"
                class="field__control"
                :type="type"
@@ -95,6 +95,7 @@
         name: "Field",
         props: {
             name: String,
+            withoutClear: Boolean,
             maxLength: {
                 type: Number,
                 default: 50,
