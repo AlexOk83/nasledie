@@ -107,7 +107,7 @@ export class Presenter {
                     startPointCoordLong: long,
                     coordinates: position,
                     way: 0,
-                    time: 60,
+                    time: 0,
                     timeInWay: 0,
                     stopTime: 0,
                     typeMovement: [typeMovement]

@@ -20,7 +20,7 @@
 <script>
 import Item from './item';
 import {Presenter} from "../../presenter";
-import {isEqual} from "../../utils";
+import {getPosition, isEqual} from "../../utils";
 
 const presenter = new Presenter();
 
@@ -49,22 +49,22 @@ export default {
   computed: {},
   methods: {
     isLast(index) {
-      return this.isEnd(this.localList[index + 1]) || index === this.localList.length - 1;
+      return index === this.localList.length - 1;
     },
     isFirst(index) {
-      return this.isStart(this.localList[index - 1]) || index === 0;
+      return index === 0;
     },
     isStart(object) {
       if (!object) {
         return false;
       }
-      return isEqual(this.start.position, object.coordinates);
+      return isEqual(getPosition(this.start), getPosition(object));
     },
     isEnd(object) {
       if (!object) {
         return false;
       }
-      return isEqual(this.end.position, object.coordinates);
+      return isEqual(getPosition(this.end), getPosition(object));
     },
     nextItem(index) {
       if (index + 1 < this.localList.length) {

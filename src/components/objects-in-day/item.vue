@@ -7,7 +7,7 @@
                 <a :href="getUrl(object_id)" target="_blank" v-if="object_id !== null">{{ name }}</a>
                 <span v-else>{{ name }}</span>
             </div>
-            <div v-if="!this.isNotPoint">
+            <div v-if="!isLast && !isFirst">
                 <div class="gray-label">Время на объекте:</div>
                 <MinutePicker
                         :value="data.time"
