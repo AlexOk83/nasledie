@@ -184,8 +184,6 @@
                 return presenter.getWay(way);
             },
             changeComment(changedObject, event) {
-                console.log(changedObject);
-                console.log(event);
                 const formData = new FormData();
                 const value = {
                     ...this.routeForSave,
@@ -213,7 +211,6 @@
                         }
                     })
                 }
-                console.log(value);
                 formData.append('ZRouter', JSON.stringify(value));
                 formData.append('sessionId', 1);
                 this.$store.dispatch('showPreloader');

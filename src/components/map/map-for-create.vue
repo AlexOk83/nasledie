@@ -66,7 +66,7 @@ export default {
       this.setCounts++;
 
       this.currentPoints = this.currentPoints.map(p => {
-        if (isEqual(getPosition(point), getPosition(p))) {
+        if (isEqual(point, p)) {
           return point
         } else {
           return p

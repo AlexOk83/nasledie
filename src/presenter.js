@@ -49,22 +49,21 @@ export class Presenter {
         let startPointFull = null;
         let endPointFull = null;
         updatedPointList.forEach(point => {
-            if (isEqual(point.position, startPoint.position)) {
+            if (isEqual(point, startPoint)) {
                 startPointFull = point;
             } else
-            if (isEqual(point.position, endPoint.position)) {
+            if (isEqual(point, endPoint)) {
                 endPointFull = point;
             } else {
                 points.push(point);
             }
         });
+        console.log('updateAllPoints', startPointFull.name, endPointFull.name, points.map(p => p.name));
         if (isGeoRoute === 'yes') {
             const startPosition = startPoint.position;
             const sortedPoints = sortGeo(startPosition, points);
             return [startPointFull, ...sortedPoints, endPointFull];
         }
-
-
         return updatedPointList;
     }
 
@@ -138,17 +137,17 @@ export class Presenter {
         let totalTime = 0;
         let totalWay = 0;
         let timeBorder = getTimeBorderDefault(timeStart);
-        const list = pointList.map(point => ({
+        const list = pointList.map(point => {
+            return {
             ...point,
             coordinates: setCoordsToString(getPosition(point)),
             startPointCoordLat: String(point.startPointCoordLat),
             startPointCoordLong: String(point.startPointCoordLong),
-        }))
-        console.log('список точек после расчета растояния и времени', list);
+            }
+        })
         list.forEach((obj, index) => {
             let a = totalTime;
             totalTime = totalTime + obj.timeInWay + obj.time + obj.stopTime;
-            console.log(`${a} + ${obj.timeInWay}(${this.getTime(obj.timeInWay)}) + ${obj.time} + ${obj.stopTime} = ${totalTime} = ${this.getTime(totalTime)}`)
             totalWay = totalWay + obj.way;
             // день первый - создаем день
             if (index === 0) {
@@ -379,8 +378,6 @@ export class Presenter {
         localMass[index].timeInWay = 'не определено';
 
         let temp = localMass[index + 1];
-        console.log(localMass[index + 1]);
-        console.log(localMass[index]);
         localMass[index + 1] = localMass[index];
         localMass[index] = temp;
         return localMass

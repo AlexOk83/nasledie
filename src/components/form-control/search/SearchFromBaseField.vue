@@ -69,7 +69,6 @@
                     .then(response => {
                         let brands = JSON.parse(response.data);
                         this.brands = brands;
-                        console.log(this.brands);
                         this.menuVisible = true;
                     })
 

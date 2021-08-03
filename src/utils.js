@@ -68,11 +68,14 @@ function deg2rad(deg) {
 };
 
 export function isEqual(p1, p2) {
-    if (!p1 || !p2) {
+    if (isEmpty(p1) || isEmpty(p2)) {
         return false;
     }
-    const [lat1, long1] = setCoordsToNumeric(p1);
-    const [lat2, long2] = setCoordsToNumeric(p2);
+    const pos1 = getPosition(p1);
+    const pos2 = getPosition(p2);
+
+    const [lat1, long1] = setCoordsToNumeric(pos1);
+    const [lat2, long2] = setCoordsToNumeric(pos2);
 
     return Boolean(lat1 === lat2 && long1 === long2);
 }
@@ -160,6 +163,10 @@ export function uniq(a){
 export function getPosition(point) {
     if (isNil(point)) {
         return [];
+    }
+
+    if (Array.isArray(point)) {
+        return point
     }
 
     if (point.coordinates && Array.isArray(point.coordinates)) {

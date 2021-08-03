@@ -143,7 +143,6 @@ export default {
       this.$store.dispatch('showPreloader');
       repository.getMyRoute(this.$store.getters.getUserId, this.id).then(response => {
         const data = JSON.parse(response.data);
-        console.log(data);
         this.route = data.router;
       }).finally(() => {
         this.$store.dispatch('hidePreloader');

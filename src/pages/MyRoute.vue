@@ -624,7 +624,6 @@ export default {
         totalTime: this.totalTime,
         totalWay: this.totalWay,
       }
-      console.log('перед сохранением данные', values);
 
       formData.append('ZRouter', JSON.stringify(values));
       formData.append('sessionId', 1);

@@ -43,7 +43,6 @@ export default {
   watch: {
     list: function () {
       this.localList = this.list;
-      console.log(this.list);
     }
   },
   computed: {},
@@ -97,7 +96,6 @@ export default {
   },
   created() {
     this.localList = this.list;
-    console.log(this.list)
   }
 }
 </script>

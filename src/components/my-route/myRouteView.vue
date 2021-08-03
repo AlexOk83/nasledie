@@ -111,7 +111,6 @@
                 if (!this.data.totalWay) {
                     return null;
                 }
-                console.log(this.data.totalWay);
                 return presenter.getWay(this.data.totalWay);
             },
             getHour() {

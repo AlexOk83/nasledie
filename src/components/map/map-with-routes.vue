@@ -103,7 +103,7 @@
                 return routes;
             },
             removePoint(point, i, l) {
-              if (isEqual(point.coordinates, this.from) || isEqual(point.coordinates, this.to)) {
+              if (isEqual(point, this.from) || isEqual(point, this.to)) {
                 return;
               }
               if (i === this.indexActiveDay) {
@@ -169,8 +169,8 @@
                 let totalWay = 0;
                 day.objects.forEach((obj, indexObj) => {
                   totalWay += Math.round(obj.way / 1000);
-                  let image = isEqual(finalObject.coordinates, obj.coordinates) ? styles.imageFlag : styles.imagePoint;
-                  let size = isEqual(finalObject.coordinates, obj.coordinates) ? [60, 60] : [10, 10];
+                  let image = isEqual(finalObject, obj) ? styles.imageFlag : styles.imagePoint;
+                  let size = isEqual(finalObject, obj) ? [60, 60] : [10, 10];
                   let offset = isEqual(finalObject.coordinates, obj.coordinates) ? [-5, -50] : [-5, -5];
                   let iconContentLayout = isEqual(finalObject.coordinates, obj.coordinates) ? MyIconContentLayout : defaultContentLayout;
                   let time = isEqual(this.days[0].objects[0].coordinates, obj.coordinates) ? 'Начало маршрута' : presenter.getTime(obj.timeInWay)
