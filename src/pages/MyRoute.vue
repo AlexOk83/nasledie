@@ -236,7 +236,7 @@ export default {
       days: [],
       indexActiveDay: 0,          // индекс активного дня в this.days
       globalIndexActiveDay: 0,    // индекс активного дня в this.pointList
-      countObjectActiveDay: 0,
+      countObjectActiveDay: 0, // количество объектов в активном дне
       newObject: {},
       deleteObject: false,
       totalTime: 0,
@@ -269,6 +269,7 @@ export default {
           indexes.push(l)
         }
       });
+
       return indexes;
     },
     validation() {
@@ -382,6 +383,8 @@ export default {
       this.totalWay = result.totalWay;
       this.totalTime = result.totalTime;
       this.pointList = result.pointList;
+      this.globalIndexActiveDay = this.globalIndex[this.indexActiveDay];
+      this.countObjectActiveDay = this.countObjectToDays[this.indexActiveDay];
 
       const infoForSave = this.getInfoForCreate();
       repository.createMyRoute(this.userId, infoForSave)
@@ -405,7 +408,15 @@ export default {
     onCalcRoute() {
       this.calcMapUpdate = true;
       this.showCalcMap = false;
-      this.pointList = presenter.updateAllPoints(this);
+      const params = {
+        startPoint: this.startPoint,
+        endPoint: this.endPoint,
+        pointList: this.pointList,
+        isGeoRoute: this.isGeoRoute,
+      }
+      console.log(params);
+
+      this.pointList = presenter.updateAllPoints(params);
       this.showMap = true;
       setTimeout(() => {
         this.showCalcMap = true;
@@ -443,6 +454,8 @@ export default {
       this.totalWay = result.totalWay;
       this.totalTime = result.totalTime;
       this.pointList = result.pointList;
+      this.globalIndexActiveDay = this.globalIndex[this.indexActiveDay];
+      this.countObjectActiveDay = this.countObjectToDays[this.indexActiveDay];
       this.showCalcMap = false;
       this.showMap = true;
       this.needUpdateDayData = false;
@@ -539,17 +552,18 @@ export default {
         way: 0,
         typeMovement: ['car']
       }
-      this.days[this.indexActiveDay].objects.splice(this.countObjectActiveDay - 1, 0, wellPoint);
-      this.pointList.splice(this.globalIndexActiveDay + this.countObjectActiveDay - 1, 0, wellPoint)
+      this.days[this.indexActiveDay].objects.splice(this.countObjectActiveDay - 1, 0, wellPoint); // добавляем точку в конец активного дня
+      this.pointList.splice(this.globalIndexActiveDay + this.countObjectActiveDay - 1, 0, wellPoint) // добавляем объект в список всех точек
       this.needUpdateDayData = true;
     },
     setActiveDay(index) {
+      this.indexActiveDay = index;
       if (this.needUpdateDayData) {
         this.onCalcRoute();
+      } else {
+        this.globalIndexActiveDay = this.globalIndex[index];
+        this.countObjectActiveDay = this.countObjectToDays[index];
       }
-      this.indexActiveDay = index;
-      this.globalIndexActiveDay = this.globalIndex[index];
-      this.countObjectActiveDay = this.countObjectToDays[index];
     },
     onClear() {
       this.$store.dispatch('showModalConfirm', {

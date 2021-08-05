@@ -44,6 +44,7 @@ export class Presenter {
             pointList,
             isGeoRoute,
         } = params;
+        console.log(pointList);
         const updatedPointList = [...pointList].map(p => ({...p, position: getPosition(p) }));
         let points = [];
         let startPointFull = null;
@@ -130,6 +131,8 @@ export class Presenter {
     }
 
     createDataDays(pointList, dateStart, timeStart, oldDays = []) {
+        console.log(pointList.map(p => p.name));
+        console.table(oldDays)
         let i = 0, // index создаваемого дня
             currentMinutes = 0, // всего минут
             currentDayListPoints = [];  // всего точек в текущем дне
@@ -238,6 +241,8 @@ export class Presenter {
                 }
             }
         });
+        console.table(days);
+        console.log(list.map(p => p.name));
         return {
             days,
             totalTime,
