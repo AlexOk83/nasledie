@@ -228,6 +228,7 @@ export default {
       timeStart: '10:00',
       isGeoRoute: 'yes',
       typeMovement: 'car',
+      typesOfMovement: [],
       objects: [],
       mapPoints: [], // точки на карте, которые будут отображаться
       pointList: [], // список точек после составления маршрута
@@ -383,6 +384,7 @@ export default {
       this.totalWay = result.totalWay;
       this.totalTime = result.totalTime;
       this.pointList = result.pointList;
+      this.typesOfMovement = result.typesOfMovement;
       this.globalIndexActiveDay = this.globalIndex[this.indexActiveDay];
       this.countObjectActiveDay = this.countObjectToDays[this.indexActiveDay];
 
@@ -454,6 +456,7 @@ export default {
       this.totalWay = result.totalWay;
       this.totalTime = result.totalTime;
       this.pointList = result.pointList;
+      this.typesOfMovement = result.typesOfMovement;
       this.globalIndexActiveDay = this.globalIndex[this.indexActiveDay];
       this.countObjectActiveDay = this.countObjectToDays[this.indexActiveDay];
       this.showCalcMap = false;
@@ -607,7 +610,7 @@ export default {
         dateStart: this.dateStart,
         timeStart: this.timeStart,
         timeEnd: this.timeEnd,
-        typeMovement: [this.typeMovement],
+        typesOfMovement: Array.isArray(this.typesOfMovement) ? this.typesOfMovement : [this.typesOfMovement],
         objects: this.objects.map(o => ({...o, object_id: o.id})),
         days: this.days,
         totalTime: this.totalTime,
@@ -637,8 +640,9 @@ export default {
         user_id: this.$store.getters.getUserId,
         totalTime: this.totalTime,
         totalWay: this.totalWay,
+        typesOfMovement: this.typesOfMovement,
       }
-
+      console.log('сохраняем', values);
       formData.append('ZRouter', JSON.stringify(values));
       formData.append('sessionId', 1);
       return formData
@@ -691,9 +695,13 @@ export default {
       this.timeStart = data.timeStart;
       this.startPoint = {
         position: [data.startPointCoordLat, data.startPointCoordLong],
+        name: data.startPoint,
+        description: data.startPointDescription,
       }
       this.endPoint = {
         position: [data.endPointCoordLat, data.endPointCoordLong],
+        name: data.endPoint,
+        description: data.endPointDescription,
       }
       this.name = data.name;
       this.description = data.description;
@@ -706,6 +714,7 @@ export default {
       this.showMap = true;
       this.totalTime = data.totalTime;
       this.totalWay = data.totalWay;
+      this.typesOfMovement = data.typesOfMovement;
       this.setActiveDay(0);
     },
     // добавление точки с карты - done!

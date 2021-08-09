@@ -24,6 +24,14 @@ export class Presenter {
 
         return timeStart;
     }
+    getChangedDateStart(oldDays, dateStart) {
+        if (isEmpty(oldDays)) {
+            return dateStart;
+        }
+        if (oldDays && oldDays[0] && oldDays[0].date) {
+            return oldDays[0].date;
+        }
+    }
 
     getCurrentNeededTimeEnd(oldDays, i) {
         if (isEmpty(oldDays)) {
@@ -44,7 +52,6 @@ export class Presenter {
             pointList,
             isGeoRoute,
         } = params;
-        console.log(pointList);
         const updatedPointList = [...pointList].map(p => ({...p, position: getPosition(p) }));
         let points = [];
         let startPointFull = null;
@@ -59,7 +66,6 @@ export class Presenter {
                 points.push(point);
             }
         });
-        console.log('updateAllPoints', startPointFull.name, endPointFull.name, points.map(p => p.name));
         if (isGeoRoute === 'yes') {
             const startPosition = startPoint.position;
             const sortedPoints = sortGeo(startPosition, points);
@@ -137,8 +143,10 @@ export class Presenter {
             currentMinutes = 0, // всего минут
             currentDayListPoints = [];  // всего точек в текущем дне
         let days = [];
+        let typesOfMovement = [];
         let totalTime = 0;
         let totalWay = 0;
+        let currentDateStart = this.getChangedDateStart(oldDays, dateStart);
         let timeBorder = getTimeBorderDefault(timeStart);
         const list = pointList.map(point => {
             return {
@@ -149,16 +157,20 @@ export class Presenter {
             }
         })
         list.forEach((obj, index) => {
-            let a = totalTime;
+            console.log(obj);
+            if (!typesOfMovement.includes(obj.typeMovement[0])) {
+                typesOfMovement.push(obj.typeMovement[0])
+            }
             totalTime = totalTime + obj.timeInWay + obj.time + obj.stopTime;
+            console.log(`время в пути - до ${obj.name} - `, this.getTime(obj.timeInWay))
             totalWay = totalWay + obj.way;
             // день первый - создаем день
             if (index === 0) {
                 currentDayListPoints = [obj];
                 days.push({
                     id: 1,
-                    dateStart: moment(dateStart).format('YYYY-MM-DD'),
-                    dateEnd: moment(dateStart).format('YYYY-MM-DD'),
+                    dateStart: moment(currentDateStart).format('YYYY-MM-DD'),
+                    dateEnd: moment(currentDateStart).format('YYYY-MM-DD'),
                     timeStart: this.getCurrentTimeStart(oldDays, 0, timeStart),
                     neededTimeEnd: this.getCurrentNeededTimeEnd(oldDays, 0),
                     startPoint: obj.name,
@@ -187,8 +199,8 @@ export class Presenter {
                             i = i + 1;
                             days.push({
                                 id: i + 1,
-                                dateStart: moment(dateStart).add(i, 'days').format('YYYY-MM-DD'),
-                                dateEnd: moment(dateStart).add(i, 'days').format('YYYY-MM-DD'),
+                                dateStart: moment(currentDateStart).add(i, 'days').format('YYYY-MM-DD'),
+                                dateEnd: moment(currentDateStart).add(i, 'days').format('YYYY-MM-DD'),
                                 timeStart: this.getCurrentTimeStart(oldDays, i, timeStart),
                                 neededTimeEnd: this.getCurrentNeededTimeEnd(oldDays, i),
                                 startPoint: obj.name,
@@ -210,8 +222,8 @@ export class Presenter {
                         i = i + 1;
                         days.push({
                             id: i + 1,
-                            dateStart: moment(dateStart).add(i, 'days').format('YYYY-MM-DD'),
-                            dateEnd: moment(dateStart).add(i, 'days').format('YYYY-MM-DD'),
+                            dateStart: moment(currentDateStart).add(i, 'days').format('YYYY-MM-DD'),
+                            dateEnd: moment(currentDateStart).add(i, 'days').format('YYYY-MM-DD'),
                             timeStart: this.getCurrentTimeStart(oldDays, i, timeStart),
                             neededTimeEnd: this.getCurrentNeededTimeEnd(oldDays, i),
                             startPoint: prevObj.name,
@@ -242,12 +254,13 @@ export class Presenter {
             }
         });
         console.table(days);
-        console.log(list.map(p => p.name));
+        console.log(totalTime, this.getTime(totalTime));
         return {
             days,
             totalTime,
             totalWay,
             pointList: list,
+            typesOfMovement
         }
     }
 
