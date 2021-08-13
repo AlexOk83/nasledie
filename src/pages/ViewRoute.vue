@@ -6,12 +6,34 @@
     <div class="detail" v-if="this.route.id">
       <div class="detail__title">{{ title }}</div>
       <div class="detail__header">
-        <div class="detail__name">{{ route.name }}</div>
-        <Button text="В мои маршруты" icon-right icon="arrow-right" is-shadow color="green" :on-click="addToMyRoute"
-                v-if="type === 'recomend'"/>
+        <div class="detail__info">
+          <Option label="Название маршрута" :value="route.name" />
+          <Option label="Описание" :value="route.description" isLongText />
+          <Option label="Точка старта" :value="route.startPoint" />
+          <Option label="Точка назначения" :value="route.endPoint" />
+          <Option label="Общее время" :value="totalTime" />
+          <Option label="Общее расстояние" :value="totalWay" />
+          <Option label="Виды передвижения" />
+          <div class="detail__movement">
+            <div class="item" v-for="item in route.typesOfMovement">
+              <Icon :icon="item" />
+              <span>{{ getNameMovement(item) }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="detail__info">
+          <Button
+                  text="В мои маршруты"
+                  icon-right icon="arrow-right"
+                  is-shadow
+                  color="green"
+                  :on-click="addToMyRoute"
+                  v-if="type === 'recomend'"
+          />
+          <Slider :files="route.files" :like="isLike"/>
+        </div>
       </div>
 
-      <div class="detail__description">{{ route.description }}</div>
       <div class="detail__tags">
         <div class="item" v-for="item in route.tags">
           <span>#{{ item.name }}</span>
@@ -23,7 +45,7 @@
           <span>{{ item.name }}</span>
         </div>
       </div>
-      <Slider :files="route.files" :like="isLike"/>
+
 
       <div class="detail__description">{{ route.content }}</div>
       <div v-if="route.objects">
@@ -59,6 +81,7 @@ import Table from "../components/table/table";
 import {Presenter} from "../presenter";
 import Repository from "../repository";
 import BreadCrumbs from '../components/bread-сrumbs'
+import Option from '../components/options/Option'
 import Icon from '../components/icon'
 
 const presenter = new Presenter();
@@ -73,7 +96,8 @@ export default {
     List,
     Table,
     BreadCrumbs,
-    Icon
+    Icon,
+    Option
   },
   data() {
     return {
@@ -128,6 +152,12 @@ export default {
         name: 'Мои маршруты'
       }
       return [list, {name: this.route.name}]
+    },
+    totalTime() {
+      return presenter.getTime(this.route.totalTime)
+    },
+    totalWay() {
+      return presenter.getWay(this.route.totalWay)
     }
   },
   methods: {
@@ -136,6 +166,9 @@ export default {
       formData.append('id_user', this.$store.getters.getUserId)
       formData.append('id_router', this.route.id)
       repository.likeRoute(formData).then(this.getData);
+    },
+    getNameMovement(movement) {
+      return presenter.getNameMovement(movement);
     },
     getData() {
       this.id = this.$route.params.id;
@@ -197,11 +230,31 @@ export default {
   &__header {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     margin-bottom: 25px;
+  }
+
+  &__info {
+    width: 50%;
+    .media_device({
+      width: 100%;
+    })
+  }
+
+  &__movement {
+    margin-bottom: 35px;
+    .item {
+      padding-left: 35px;
+      position: relative;
+      .icon {
+        top: -2px;
+      }
+    }
   }
 
   &__name {
     font-size: 23px;
+    margin-bottom: 15px;
   }
 
   &--title {
@@ -214,6 +267,7 @@ export default {
   &__description {
     font-size: 14px;
     margin-bottom: 35px;
+    color: @placeholder;
   }
 
   &__map {

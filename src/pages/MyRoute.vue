@@ -289,10 +289,10 @@ export default {
       return null;
     },
     listParams() {
-      return radioButtonOptions
+      return radioButtonOptions;
     },
     listTypesMovement() {
-      return typesOfMovement
+      return typesOfMovement;
     },
     links() {
       if (this.isNewRoute) {
@@ -665,6 +665,8 @@ export default {
         } else {
           this.pointList.splice(this.globalIndexActiveDay, this.countObjectActiveDay, ...activeDayObjects);
         }
+        this.objects = presenter.getActualObjectList(this.pointList, this.objects);
+
         this.needUpdateDayData = true;
       }
       if (field === 'isGeoRoute') {

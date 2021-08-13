@@ -82,7 +82,7 @@
                    :list-value="listTypesMovement"
                    @change="changeValue('typeMovement', $event)"
             />
-            <Added-objects
+            <AddedObjects
                 :objects="objects"
                 :points="mapPoints"
                 @change="changeValue('mapPoints', $event)"
@@ -127,7 +127,7 @@
                     is-shadow
                     is-full
                     v-if="!isNewRoute"
-                    :disabled="!needUpdateDayData"
+                    :disabled="disabledUpdateButton"
             />
             <Button text="Сохранить в мои маршруты"
                     :on-click="() => updateRoute()"
@@ -246,32 +246,33 @@ export default {
       description: '',
       startPoint: {},
       endPoint: {},
-      files: [],
       tags: [],
-      regions: [],
       dateStart: moment().add(1,'days').format(),
       timeStart: '10:00',
       isGeoRoute: 'yes',
       typeMovement: 'car',
+      typesOfMovement: [],
       objects: [],
       mapPoints: [], // точки на карте, которые будут отображаться
       pointList: [], // список точек после составления маршрута
+      regions: [],
       // данные для редактирования
       days: [],
       indexActiveDay: 0,          // индекс активного дня в this.days
       globalIndexActiveDay: 0,    // индекс активного дня в this.pointList
-      countObjectActiveDay: 0,
+      countObjectActiveDay: 0, // количество объектов в активном дне
       newObject: {},
       deleteObject: false,
       totalTime: 0,
       totalWay: 0,
+      files: [],
       otherData: {},
       needUpdateDayData: false,
       canUpdateDayData: false,
       showMap: false,
       reload: false,
       showCalcMap: false,
-      calcMapUpdate: false,
+      calcMapUpdate: false, // флаг, который говорит что нужно не считать а пересчитывать маршрут
     }
   },
   computed: {
@@ -292,6 +293,7 @@ export default {
           indexes.push(l)
         }
       });
+
       return indexes;
     },
     validation() {
@@ -405,6 +407,9 @@ export default {
       this.totalWay = result.totalWay;
       this.totalTime = result.totalTime;
       this.pointList = result.pointList;
+      this.typesOfMovement = result.typesOfMovement;
+      this.globalIndexActiveDay = this.globalIndex[this.indexActiveDay];
+      this.countObjectActiveDay = this.countObjectToDays[this.indexActiveDay];
 
       const infoForSave = this.getInfoForCreate();
       repository.createMyRoute(this.userId, infoForSave)
@@ -428,7 +433,14 @@ export default {
     onCalcRoute() {
       this.calcMapUpdate = true;
       this.showCalcMap = false;
-      this.pointList = presenter.updateAllPoints(this);
+      const params = {
+        startPoint: this.startPoint,
+        endPoint: this.endPoint,
+        pointList: this.pointList,
+        isGeoRoute: this.isGeoRoute,
+      }
+
+      this.pointList = presenter.updateAllPoints(params);
       this.showMap = true;
       setTimeout(() => {
         this.showCalcMap = true;
@@ -466,6 +478,9 @@ export default {
       this.totalWay = result.totalWay;
       this.totalTime = result.totalTime;
       this.pointList = result.pointList;
+      this.typesOfMovement = result.typesOfMovement;
+      this.globalIndexActiveDay = this.globalIndex[this.indexActiveDay];
+      this.countObjectActiveDay = this.countObjectToDays[this.indexActiveDay];
       this.showCalcMap = false;
       this.showMap = true;
       this.needUpdateDayData = false;
@@ -567,12 +582,13 @@ export default {
       this.needUpdateDayData = true;
     },
     setActiveDay(index) {
+      this.indexActiveDay = index;
       if (this.needUpdateDayData) {
         this.onCalcRoute();
+      } else {
+        this.globalIndexActiveDay = this.globalIndex[index];
+        this.countObjectActiveDay = this.countObjectToDays[index];
       }
-      this.indexActiveDay = index;
-      this.globalIndexActiveDay = this.globalIndex[index];
-      this.countObjectActiveDay = this.countObjectToDays[index];
     },
     onClear() {
       this.$store.dispatch('showModalConfirm', {
@@ -595,11 +611,11 @@ export default {
       this.days = [];
       this.totalTime = 0;
       this.totalWay = 0;
-      this.mapPoints = [];
-      this.pointList = [];
       this.otherData = {};
       this.files = [];
       this.regions = [];
+      this.pointList = [];
+      this.mapPoints = [];
       this.tags = [];
     },
     getInfoForCreate() {
@@ -620,7 +636,7 @@ export default {
         dateStart: this.dateStart,
         timeStart: this.timeStart,
         timeEnd: this.timeEnd,
-        typeMovement: [this.typeMovement],
+        typesOfMovement: Array.isArray(this.typesOfMovement) ? this.typesOfMovement : [this.typesOfMovement],
         objects: this.objects.map(o => ({...o, object_id: o.id})),
         days: this.days,
         totalTime: this.totalTime,
@@ -643,7 +659,7 @@ export default {
         name: this.name,
         description: this.shortDescription,
         content: this.description,
-        objects: this.otherData.objects.map(o => ({...o, object_id: o.id})),
+        objects: this.objects.map(o => ({...o, object_id: o.id})),
         days: this.days,
         files: this.files,
         regions: this.regions,
@@ -652,7 +668,9 @@ export default {
         user_id: this.$store.getters.getUserId,
         totalTime: this.totalTime,
         totalWay: this.totalWay,
+        typesOfMovement: this.typesOfMovement,
       }
+      console.log('сохраняем', values);
       formData.append('ZRouter', JSON.stringify(values));
       formData.append('sessionId', 1);
       return formData
@@ -675,6 +693,8 @@ export default {
         } else {
           this.pointList.splice(this.globalIndexActiveDay, this.countObjectActiveDay, ...activeDayObjects);
         }
+        this.objects = presenter.getActualObjectList(this.pointList, this.objects);
+
         this.needUpdateDayData = true;
       }
       if (field === 'isGeoRoute') {
@@ -704,23 +724,28 @@ export default {
       this.timeStart = data.timeStart;
       this.startPoint = {
         position: [data.startPointCoordLat, data.startPointCoordLong],
+        name: data.startPoint,
+        description: data.startPointDescription,
       }
       this.endPoint = {
         position: [data.endPointCoordLat, data.endPointCoordLong],
+        name: data.endPoint,
+        description: data.endPointDescription,
       }
       this.name = data.name;
       this.description = data.content;
       this.shortDescription = data.description;
       this.days = presenter.changeFormat(data.days);
-      this.objects = data.objects;
       this.pointList = JSON.parse(data.map_points);
       this.tags = data.tags;
       this.files = data.files || [];
       this.regions = data.regions;
+      this.objects = data.objects;
       this.otherData = data; // для того, чтобы не потерять данные
       this.showMap = true;
       this.totalTime = data.totalTime;
       this.totalWay = data.totalWay;
+      this.typesOfMovement = data.typesOfMovement;
       this.setActiveDay(0);
     },
     changeListTags(list) {

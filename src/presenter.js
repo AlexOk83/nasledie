@@ -162,7 +162,9 @@ export class Presenter {
                 typesOfMovement.push(obj.typeMovement[0])
             }
             totalTime = totalTime + obj.timeInWay + obj.time + obj.stopTime;
-            console.log(`время в пути - до ${obj.name} - `, this.getTime(obj.timeInWay))
+            console.log(`время в пути - до ${obj.name} - ${obj.timeInWay} (${this.getTime(obj.timeInWay)})` )
+            console.log(`общее время после прибавления времени в пути, времени на объекте ${obj.time} минут и остановки (${obj.stopTime} минут) = ${totalTime} минут или ${this.getTime(totalTime)}`)
+
             totalWay = totalWay + obj.way;
             // день первый - создаем день
             if (index === 0) {
@@ -279,6 +281,13 @@ export class Presenter {
         }
 
         return `${w} км`
+    }
+
+    // done!
+    getActualObjectList(pointList, objects) {
+        const pList = pointList.map(p => p.object_id).filter(p => p);
+
+        return objects.filter(o => pList.includes(o.id));
     }
 
     // готово!
