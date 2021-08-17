@@ -13,7 +13,7 @@
     </div>
     <div class="filter__list-selected">
       <div class="filter__list-selected__item" v-for="(item, index) in selectedValues" :key="index">
-        <Icon :icon="item.icon || icon"/>
+        <Icon :icon="item ? item.icon : icon"/>
         {{ item.name }}
         <span class="icon  icon-delete" @click="deleteItem(index)"/>
       </div>

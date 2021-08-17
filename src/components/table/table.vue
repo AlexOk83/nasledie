@@ -203,14 +203,17 @@
                             endPointCoordLong: String(day.pointEnd.coordinates[1]),
 
                             objects: day.objects.map((obj) => {
+                                console.log(changedObject.id === obj.id ? event : obj.description);
                                 return {
                                     ...obj,
                                     description: changedObject.id === obj.id ? event : obj.description,
                                 }
                             })
                         }
-                    })
+                    }),
+                    objects: this.routeForSave.objects.map(o => ({ ...o, object_id: o.id }))
                 }
+                console.log(value)
                 formData.append('ZRouter', JSON.stringify(value));
                 formData.append('sessionId', 1);
                 this.$store.dispatch('showPreloader');
@@ -224,6 +227,7 @@
                             }, 600);
                         }
                     }).finally(() => {
+                    this.$emit('update');
                     this.$store.dispatch('hidePreloader');
                 });
             }

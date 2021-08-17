@@ -31,13 +31,17 @@
             @change="changeListTags"
         />
       </div>
+      <div class="filter__footer">
+        <Button
+            text="Выбрать маршруты"
+            is-shadow
+            :on-click="() => handleFilter()"
+        />
+      </div>
+
     </div>
 
-    <Button
-        text="Выбрать маршруты"
-        is-shadow
-        :on-click="() => handleFilter()"
-    />
+
   </div>
 </template>
 

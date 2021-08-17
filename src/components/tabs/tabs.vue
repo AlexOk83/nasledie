@@ -20,7 +20,6 @@
              title="Дата"
              :value="activeDay.pointStart && activeDay.pointStart.date"
              @change="changeDate"
-             :save="config"
       />
       <div class="times">
         <Field name="timeStart"
@@ -28,14 +27,12 @@
                title="Время старта"
                :value="activeDay.pointStart && activeDay.pointStart.time"
                @change="changeTimeStart"
-               :save="config"
         />
         <Field name="timeEnd"
                type="time"
                title="Время финиша"
                @change="changeTimeEnd"
                :value="timeEnd"
-               :save="config"
         />
       </div>
       <objects-in-day
@@ -156,12 +153,15 @@ export default {
     },
     changeDate(e) {
       this.activeDay.date = e;
+      this.saveActiveDay();
     },
     changeTimeStart(e) {
       this.activeDay.timeStart = e;
+      this.saveActiveDay();
     },
     changeTimeEnd(e) {
       this.activeDay.neededTimeEnd = e;
+      this.saveActiveDay();
     },
     saveActiveDay() {
       this.localData[this.indexActiveDay] = this.activeDay;

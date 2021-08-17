@@ -13,7 +13,6 @@
                  title="Название маршрута"
                  placeholder="Название маршрута"
                  :value="name"
-                 :save="!isNewRoute && configsForSave.name"
                  @change="changeValue('name', $event)"
           />
           <Field name="shortDescription"
@@ -21,7 +20,6 @@
                  title="Краткое описание маршрута"
                  placeholder="Описание маршрута"
                  :value="shortDescription"
-                 :save="!isNewRoute && configsForSave.description"
                  :rows="3"
                  max-length="100"
                  @change="changeValue('shortDescription', $event)"
@@ -32,7 +30,6 @@
                  max-length="500"
                  placeholder="Описание маршрута"
                  :value="description"
-                 :save="!isNewRoute && configsForSave.description"
                  :rows="15"
                  @change="changeValue('description', $event)"
           />

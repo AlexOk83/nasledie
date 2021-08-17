@@ -37,7 +37,7 @@
                    placeholder="Не выбран"
                    :value="dataNextItem.typeMovement && dataNextItem.typeMovement[0]"
                    :list-value="listTypesMovement"
-                   :save="config"
+                   @change="changeTypeMovement"
             />
             <div class="gray-label">Добавить остановку:</div>
             <MinutePicker

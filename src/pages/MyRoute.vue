@@ -14,7 +14,6 @@
                  title="Название маршрута"
                  placeholder="Название маршрута"
                  :value="name"
-                 :save="!isNewRoute && configsForSave.name"
                  @change="changeValue('name', $event)"
           />
           <Field name="description"
@@ -23,7 +22,6 @@
                  placeholder="Описание маршрута"
                  :max-length="500"
                  :value="description"
-                 :save="!isNewRoute && configsForSave.description"
                  @change="changeValue('description', $event)"
           />
           <div v-if="isNewRoute">

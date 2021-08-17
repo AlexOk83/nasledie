@@ -20,6 +20,21 @@
     .column(4, 4, 12, 12);
   }
 
+  &__footer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    .media_desktop({
+      padding: 0 38px;
+    });
+    .media_tablet({
+      padding: 0 25px;
+    });
+    .media_mobile({
+      padding: 0 15px;
+    });
+  }
+
   .filter__item {
     .media_desktop({
       padding: 38px;

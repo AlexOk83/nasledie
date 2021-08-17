@@ -20,16 +20,16 @@
               <span>{{ getNameMovement(item) }}</span>
             </div>
           </div>
-        </div>
-        <div class="detail__info">
           <Button
                   text="В мои маршруты"
-                  icon-right icon="arrow-right"
+                  icon="arrow-right"
                   is-shadow
                   color="green"
                   :on-click="addToMyRoute"
                   v-if="type === 'recomend'"
           />
+        </div>
+        <div class="detail__info">
           <Slider :files="route.files" :like="isLike"/>
         </div>
       </div>
@@ -58,7 +58,7 @@
         <Map v-if="visibleMap" :from="route.pointStart.coordinates" :days="route.days"/>
       </div>
 
-      <Table :columns="columns" :days="route.days" :routeForSave="route" v-if="route.days && route.days.length > 0"/>
+      <Table :columns="columns" :days="route.days" :routeForSave="route" @update="getData" v-if="route.days && route.days.length > 0"/>
 
       <div class="buttons-container">
         <Button text="Редактировать маршрут" is-shadow color="white" :on-click="edit"/>
@@ -177,6 +177,7 @@ export default {
       repository.getMyRoute(this.$store.getters.getUserId, this.id).then(response => {
         const data = JSON.parse(response.data);
         this.route = data.router;
+        console.log('получили от бека', this.route);
       }).finally(() => {
         this.$store.dispatch('hidePreloader');
       })
